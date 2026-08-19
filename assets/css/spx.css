@@ -233,7 +233,7 @@ a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}
 .hero h1 em{font-style:normal;color:var(--txt-3);display:block}
 .hero-acoes{display:flex;gap:12px;flex-wrap:wrap;margin-top:var(--e4)}
 .ficha{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:var(--e6);
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:var(--e6);
   background:var(--linha);border:1px solid var(--linha);border-radius:var(--raio);overflow:hidden;
 }
 .ficha div{background:var(--bg);padding:18px 20px;transition:background var(--transicao)}
@@ -483,7 +483,7 @@ a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}
 }
 @media(max-width:700px){
   .servicos,.passos,.faq-grid,.campos{grid-template-columns:1fr}
-  .ficha{grid-template-columns:1fr 1fr}
+  .ficha{grid-template-columns:1fr}
   .cover-in{padding:var(--e5) 20px var(--e4)}
   .nums{gap:14px 18px;font-size:13px}
   .nums s{display:none}

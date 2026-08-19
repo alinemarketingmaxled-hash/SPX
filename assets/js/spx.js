@@ -388,7 +388,7 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
       (d.get('mensagem') || '');
 
     var zap = $('#linkZap'), mail = $('#linkMail');
-    if(zap)  zap.href  = 'https://wa.me/5511000000000?text=' + encodeURIComponent(texto);
+    if(zap)  zap.href  = 'https://wa.me/5511952751874?text=' + encodeURIComponent(texto);
     if(mail) mail.href = 'mailto:obras@spxengenharia.com.br?subject=' +
       encodeURIComponent('Visita técnica — ' + (d.get('empresa') || d.get('nome'))) +
       '&body=' + encodeURIComponent(texto);

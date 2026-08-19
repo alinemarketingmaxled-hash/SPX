@@ -15,13 +15,12 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
   var raiz = document.documentElement;
   var salvo = null;
   try{ salvo = localStorage.getItem('spx-tema'); }catch(e){}
-  var prefereClaro = window.matchMedia('(prefers-color-scheme: light)').matches;
-  aplica(salvo || (prefereClaro ? 'claro' : 'escuro'));
+  aplica(salvo || 'escuro');   /* escuro é o padrão da marca */
 
   function aplica(t){
     raiz.setAttribute('data-tema', t);
     var meta = $('meta[name="theme-color"]');
-    if(meta) meta.setAttribute('content', t === 'claro' ? '#F4F3EF' : '#06080A');
+    if(meta) meta.setAttribute('content', t === 'claro' ? '#F4F3EF' : '#000000');
     $$('[data-acao="tema"]').forEach(function(b){
       b.setAttribute('aria-label', t === 'claro' ? 'Ativar tema escuro' : 'Ativar tema claro');
       b.setAttribute('aria-pressed', String(t === 'claro'));
@@ -125,14 +124,16 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
   var track = $('#track');
   if(!track) return;
   var obras = [
-    ['sala-reuniao-azul','Sala de reunião · corporativo'],
+    ['sala-reuniao-azul','Sala de reunião · parede azul'],
     ['recepcao-marmore','Recepção · balcão em mármore'],
-    ['copa-marcenaria','Copa · marcenaria sob medida'],
-    ['mesa-vista-sp','Reunião · vista São Paulo'],
-    ['escritorio-vinho','Sala privativa · estante'],
-    ['corredor-rosa','Circulação · painel em cor'],
-    ['lounge-recepcao','Lounge de espera'],
-    ['box-ripado','Área molhada · revestimento ripado']
+    ['estante-bordo','Sala privativa · estante em bordô'],
+    ['mesa-vista-sp','Sala de reunião · vista São Paulo'],
+    ['lounge-recepcao','Lounge de espera · cimento queimado'],
+    ['cozinha-marcenaria','Copa · marcenaria e bancada'],
+    ['lavabo-bordo','Lavabo · meia-parede em bordô'],
+    ['lavabo-azul','Lavabo · azulejo metrô e azul'],
+    ['lavabo-terracota','Lavabo · terracota e porcelanato'],
+    ['banheiro-marmore','Banheiro · marcenaria ripada']
   ];
   var html = '';
   for(var v = 0; v < 2; v++){
@@ -214,8 +215,8 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
   centro.className = 'node center';
   centro.style.left = '50%'; centro.style.top = '50%';
   centro.innerHTML = '<div class="box"><svg width="42" height="42" viewBox="0 0 48 48" aria-hidden="true">' +
-    '<polygon points="6,8 16,8 42,40 32,40" fill="#2E90B8"/>' +
-    '<polygon points="32,8 42,8 16,40 6,40" fill="#2E90B8"/></svg></div>' +
+    '<polygon points="6,8 16,8 42,40 32,40" fill="#6E90AE"/>' +
+    '<polygon points="32,8 42,8 16,40 6,40" fill="#6E90AE"/></svg></div>' +
     '<div class="lbl">Coordenação SPX</div>';
   caixa.appendChild(centro);
   document.head.insertAdjacentHTML('beforeend','<style>@keyframes pulso{to{stroke-dashoffset:-'+R+'}}</style>');
@@ -408,13 +409,13 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
   var caixa = $('#pecas');
   if(!caixa) return;
   var dados = [
-    ['#13181B','#F2F1EE','M4 20h16M6 20V9l6-4 6 4v11'],
-    ['#1B6480','#FFFFFF','M13 3 5 14h6l-1 7 8-11h-6z'],
-    ['#A9AAAC','#000000','M3 21h18M6 21V8h5v13M14 21V3h4v18'],
+    ['#10151A','#F2F1EE','M4 20h16M6 20V9l6-4 6 4v11'],
+    ['#3A5570','#FFFFFF','M13 3 5 14h6l-1 7 8-11h-6z'],
+    ['#9AA1A8','#000000','M3 21h18M6 21V8h5v13M14 21V3h4v18'],
     ['#D5D1C8','#000000','M12 3l8 3v6c0 5-3.4 8.3-8 9-4.6-.7-8-4-8-9V6z'],
-    ['#2E90B8','#00232F','M2 12h20M6 12V7h12v5M9 12v9M15 12v9'],
-    ['#4A4F52','#F2F1EE','M3 18h18M5 18l3-9h8l3 9M9 9V5h6v4'],
-    ['#0F3A4A','#2E90B8','M12 3s6 6.4 6 10.4A6 6 0 0 1 6 13.4C6 9.4 12 3 12 3z']
+    ['#6E90AE','#0A121A','M2 12h20M6 12V7h12v5M9 12v9M15 12v9'],
+    ['#454B52','#F2F1EE','M3 18h18M5 18l3-9h8l3 9M9 9V5h6v4'],
+    ['#1E2C3A','#6E90AE','M12 3s6 6.4 6 10.4A6 6 0 0 1 6 13.4C6 9.4 12 3 12 3z']
   ];
   var giros = [-6,4,-2,7,-4,3,-7];
   caixa.innerHTML = dados.map(function(p,i){

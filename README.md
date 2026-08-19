@@ -41,7 +41,7 @@ Trocar a marca inteira é mexer em um bloco só:
 
 O site tem tema escuro e tema claro ("modo planta"). A escolha:
 
-1. respeita `prefers-color-scheme` na primeira visita;
+1. abre sempre no escuro — fundo preto e acento azul grafite são o padrão da marca;
 2. pode ser trocada no botão da barra de navegação;
 3. fica salva em `localStorage` (`spx-tema`);
 4. é aplicada antes da pintura por um script inline no `<head>`, então não pisca.
@@ -62,14 +62,30 @@ aparece normalmente — a classe de animação só é adicionada pelo script.
 
 ## Imagens
 
-As fotos de obra ficam em `img/` como `.webp` — os nomes esperados são os
-listados em `assets/js/spx.js` (constante `obras`) e nos cards do hero em
-`index.html`. Enquanto o arquivo real não existir, o site carrega
-automaticamente o render de apoio equivalente em `img/ph/`, sem imagem
-quebrada: cada `<img>` traz `data-ph="img/ph/<nome>.svg"` e o fallback é
-aplicado no primeiro erro de carregamento.
+As fotos das obras ficam em `img/` no formato `.webp`. Enquanto o arquivo real
+não existir, o site carrega sozinho o render de apoio equivalente em `img/ph/`,
+sem imagem quebrada — cada `<img>` traz `data-ph="img/ph/<nome>.svg"` e o
+fallback entra no primeiro erro de carregamento.
 
-Para publicar as fotos reais, basta salvar os `.webp` com os mesmos nomes.
+Para publicar, basta salvar cada foto em `img/` com exatamente estes nomes:
+
+| Arquivo | Ambiente |
+| --- | --- |
+| `img/sala-reuniao-azul.webp` | Sala de reunião · parede azul |
+| `img/recepcao-marmore.webp` | Recepção · balcão em mármore |
+| `img/estante-bordo.webp` | Sala privativa · estante em bordô |
+| `img/mesa-vista-sp.webp` | Sala de reunião · vista São Paulo |
+| `img/lounge-recepcao.webp` | Lounge de espera · cimento queimado |
+| `img/cozinha-marcenaria.webp` | Copa · marcenaria e bancada |
+| `img/lavabo-bordo.webp` | Lavabo · meia-parede em bordô |
+| `img/lavabo-azul.webp` | Lavabo · azulejo metrô e azul |
+| `img/lavabo-terracota.webp` | Lavabo · terracota e porcelanato |
+| `img/banheiro-marmore.webp` | Banheiro · marcenaria ripada |
+
+As quatro primeiras aparecem também no leque do topo (`index.html`, `#leque`);
+a lista completa alimenta a esteira do acervo (`assets/js/spx.js`, constante
+`obras`). Formato recomendado: `.webp`, proporção aproximada 3:2, lado maior
+entre 1400 e 1800 px.
 
 ## Formulário de visita técnica
 

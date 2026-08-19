@@ -50,6 +50,18 @@ Nenhum componente tem cor fixa: todos usam os tokens semânticos, e o
 "bloco invertido" sempre contrasta com a página — claro sobre o site escuro,
 escuro sobre o site claro.
 
+### Faixas claras e fundo de canteiro
+
+Qualquer seção que receba a classe `.claro` reescreve os tokens semânticos e
+vira uma faixa cinza esbranquiçada, sangrando de ponta a ponta. Todo componente
+dentro dela acompanha sozinho, sem regra nova. Hoje são três: Serviços, Método
+e Dúvidas.
+
+O desenho de canteiro (`img/canteiro.svg` — guindastes, prédios em obra,
+andaimes e tapume) fica fixo no rodapé da janela, atrás de tudo, com opacidade
+entre 7% e 13%. Ele só aparece nas faixas escuras, porque as claras têm fundo
+próprio.
+
 ### Componentes reutilizáveis
 
 `.btn` (`.btn-ghost`, `.btn-acc`, `.btn-bloco`) · `.card` · `.eyebrow` · `.lead`

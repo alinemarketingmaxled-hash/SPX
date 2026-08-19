@@ -170,8 +170,8 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
   function anima(){
     if(visivel){
       if(!pausado && ciclo){
-        desloc -= 0.55;
-        if(Math.abs(desloc) >= ciclo) desloc += ciclo;
+        desloc += 0.55;              /* da esquerda para a direita: planta → obra pronta */
+        if(desloc >= 0) desloc -= ciclo;
       }
       track.style.transform = 'translateY(-50%) translateX(' + desloc + 'px)';
       var feixe = caixa.getBoundingClientRect().left + caixa.offsetWidth / 2;

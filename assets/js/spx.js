@@ -133,7 +133,10 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
     ['lavabo-bordo','Lavabo · meia-parede em bordô'],
     ['lavabo-azul','Lavabo · azulejo metrô e azul'],
     ['lavabo-terracota','Lavabo · terracota e porcelanato'],
-    ['banheiro-marmore','Banheiro · marcenaria ripada']
+    ['banheiro-marmore','Banheiro · marcenaria ripada'],
+    ['restaurante-salao','Restaurante · salão e marcenaria'],
+    ['restaurante-cozinha','Restaurante · cozinha à vista'],
+    ['restaurante-pratos','Restaurante · painel de pratos']
   ];
   var html = '';
   for(var v = 0; v < 2; v++){

@@ -81,6 +81,9 @@ Para publicar, basta salvar cada foto em `img/` com exatamente estes nomes:
 | `img/lavabo-azul.webp` | Lavabo · azulejo metrô e azul |
 | `img/lavabo-terracota.webp` | Lavabo · terracota e porcelanato |
 | `img/banheiro-marmore.webp` | Banheiro · marcenaria ripada |
+| `img/restaurante-salao.webp` | Restaurante · salão e marcenaria |
+| `img/restaurante-cozinha.webp` | Restaurante · cozinha à vista |
+| `img/restaurante-pratos.webp` | Restaurante · painel de pratos |
 
 As quatro primeiras aparecem também no leque do topo (`index.html`, `#leque`);
 a lista completa alimenta a esteira do acervo (`assets/js/spx.js`, constante

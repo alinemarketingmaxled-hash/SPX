@@ -228,7 +228,7 @@ a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}
 
 /* -------------------------------------------------- 5. SEÇÕES */
 /* HERO */
-.hero{padding-top:var(--e7);padding-bottom:0;overflow:clip}
+.hero{padding-top:var(--e7);padding-bottom:var(--e6);overflow:clip}
 .hero-top{display:grid;grid-template-columns:1.2fr .8fr;gap:var(--e6);align-items:end}
 .hero h1 em{font-style:normal;color:var(--txt-3);display:block}
 .hero-acoes{display:flex;gap:12px;flex-wrap:wrap;margin-top:var(--e4)}

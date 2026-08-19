@@ -62,33 +62,35 @@ aparece normalmente — a classe de animação só é adicionada pelo script.
 
 ## Imagens
 
-As fotos das obras ficam em `img/` no formato `.webp`. Enquanto o arquivo real
-não existir, o site carrega sozinho o render de apoio equivalente em `img/ph/`,
-sem imagem quebrada — cada `<img>` traz `data-ph="img/ph/<nome>.svg"` e o
-fallback entra no primeiro erro de carregamento.
-
-Para publicar, basta salvar cada foto em `img/` com exatamente estes nomes:
+As fotos das obras ficam em `img/`, em `.webp` com no máximo 1600 px no lado
+maior — 15 ambientes, cerca de 1,7 MB no total. Cada `<img>` traz também
+`data-ph="img/ph/<nome>.svg"`: se algum arquivo faltar, o site mostra um render
+de apoio em vez de imagem quebrada.
 
 | Arquivo | Ambiente |
 | --- | --- |
 | `img/sala-reuniao-azul.webp` | Sala de reunião · parede azul |
 | `img/recepcao-marmore.webp` | Recepção · balcão em mármore |
-| `img/estante-bordo.webp` | Sala privativa · estante em bordô |
+| `img/lounge-recepcao.webp` | Lounge de espera · balcão em pedra |
 | `img/mesa-vista-sp.webp` | Sala de reunião · vista São Paulo |
-| `img/lounge-recepcao.webp` | Lounge de espera · cimento queimado |
+| `img/estante-espinha-peixe.webp` | Escritório · estante e piso espinha de peixe |
 | `img/cozinha-marcenaria.webp` | Copa · marcenaria e bancada |
+| `img/banheiro-marmore.webp` | Banheiro · marcenaria ripada |
 | `img/lavabo-bordo.webp` | Lavabo · meia-parede em bordô |
 | `img/lavabo-azul.webp` | Lavabo · azulejo metrô e azul |
 | `img/lavabo-terracota.webp` | Lavabo · terracota e porcelanato |
-| `img/banheiro-marmore.webp` | Banheiro · marcenaria ripada |
-| `img/restaurante-salao.webp` | Restaurante · salão e marcenaria |
+| `img/restaurante-fachada.webp` | Restaurante · salão e fachada |
+| `img/restaurante-salao.webp` | Restaurante · salão |
 | `img/restaurante-cozinha.webp` | Restaurante · cozinha à vista |
 | `img/restaurante-pratos.webp` | Restaurante · painel de pratos |
+| `img/restaurante-bar.webp` | Restaurante · bar e mesas |
 
-As quatro primeiras aparecem também no leque do topo (`index.html`, `#leque`);
-a lista completa alimenta a esteira do acervo (`assets/js/spx.js`, constante
-`obras`). Formato recomendado: `.webp`, proporção aproximada 3:2, lado maior
-entre 1400 e 1800 px.
+As quatro primeiras aparecem no leque do topo (`index.html`, `#leque`); a lista
+completa alimenta a esteira do acervo (`assets/js/spx.js`, constante `obras`).
+
+Para trocar ou acrescentar uma foto: salve o `.webp` em `img/` e, se for um
+ambiente novo, adicione a linha correspondente na constante `obras`. Os
+originais em alta resolução não ficam no repositório — só as versões web.
 
 ## Formulário de visita técnica
 

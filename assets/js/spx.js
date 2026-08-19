@@ -126,17 +126,19 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
   var obras = [
     ['sala-reuniao-azul','Sala de reunião · parede azul'],
     ['recepcao-marmore','Recepção · balcão em mármore'],
-    ['estante-bordo','Sala privativa · estante em bordô'],
+    ['lounge-recepcao','Lounge de espera · balcão em pedra'],
     ['mesa-vista-sp','Sala de reunião · vista São Paulo'],
-    ['lounge-recepcao','Lounge de espera · cimento queimado'],
+    ['estante-espinha-peixe','Escritório · estante e piso espinha de peixe'],
     ['cozinha-marcenaria','Copa · marcenaria e bancada'],
+    ['banheiro-marmore','Banheiro · marcenaria ripada'],
     ['lavabo-bordo','Lavabo · meia-parede em bordô'],
     ['lavabo-azul','Lavabo · azulejo metrô e azul'],
     ['lavabo-terracota','Lavabo · terracota e porcelanato'],
-    ['banheiro-marmore','Banheiro · marcenaria ripada'],
-    ['restaurante-salao','Restaurante · salão e marcenaria'],
+    ['restaurante-fachada','Restaurante · salão e fachada'],
+    ['restaurante-salao','Restaurante · salão'],
     ['restaurante-cozinha','Restaurante · cozinha à vista'],
-    ['restaurante-pratos','Restaurante · painel de pratos']
+    ['restaurante-pratos','Restaurante · painel de pratos'],
+    ['restaurante-bar','Restaurante · bar e mesas']
   ];
   var html = '';
   for(var v = 0; v < 2; v++){

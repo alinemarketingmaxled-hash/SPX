@@ -247,32 +247,18 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
   });
 })();
 
-/* ---------------------------------------------- depoimentos */
-(function depoimentos(){
-  var caixa = $('#colunas');
+/* ---------------------------------------------- compromissos de contrato */
+(function compromissos(){
+  var caixa = $('#compromissos');
   if(!caixa) return;
-  var deps = [
-    ['Trocaram todo o piso da loja em quatro madrugadas. Abrimos no horário nos quatro dias.','Renata Alvim','Gerente de expansão · rede de varejo'],
-    ['Único fornecedor que entregou o cronograma físico-financeiro na proposta, sem eu pedir.','Marcos Tanaka','Facilities · sede corporativa'],
-    ['Reforma de dois andares com 300 pessoas trabalhando no prédio. Zero reclamação de ruído fora da janela combinada.','Cláudia Ferrer','Head de operações'],
-    ['O relatório semanal com foto e avanço por frente virou o padrão que exijo de todo mundo agora.','Eduardo Brandão','Gerente de projetos'],
-    ['Acharam interferência de elétrica que o projeto não previa e resolveram sem aditivo.','Patrícia Nunes','Coordenadora de obras'],
-    ['Entregaram o as-built e os manuais no dia da vistoria. Nunca tinha acontecido comigo.','Rogério Sampaio','Diretor predial'],
-    ['Flagship de 840 m² em quatro meses, com fachada aprovada pela prefeitura dentro do prazo.','Luciana Prado','Marketing · varejo de moda'],
-    ['Equipe uniformizada, crachá, ASO em dia. A auditoria do condomínio passou sem apontamento.','Henrique Dias','Síndico profissional'],
-    ['Pediram para adiantar a entrega em três semanas. Adiantaram duas e avisaram antes.','Fernanda Rocha','Incorporadora']
+  var itens = [
+    ['Na proposta','Cronograma físico-financeiro, memorial descritivo e composição de BDI aberta acompanham toda proposta, antes de qualquer assinatura.'],
+    ['Na execução','Engenheiro responsável com ART registrada no CREA-SP, nomeado na proposta e presente em obra do início ao fim.'],
+    ['Na entrega','Relatório semanal com registro fotográfico e avanço físico por disciplina, mais as-built e manuais no dia da vistoria.']
   ];
-  function cartao(d){
-    var ini = d[1].split(' ').map(function(p){ return p[0]; }).slice(0,2).join('');
-    return '<article class="dep"><p>“' + d[0] + '”</p><div class="quem">' +
-      '<span class="ini" aria-hidden="true">' + ini + '</span>' +
-      '<span><b>' + d[1] + '</b><span>' + d[2] + '</span></span></div></article>';
-  }
-  var cols = [[],[],[]];
-  deps.forEach(function(d,i){ cols[i%3].push(d); });
-  caixa.innerHTML = cols.map(function(c){
-    var bloco = c.map(cartao).join('');
-    return '<div class="coluna">' + bloco + bloco + '</div>';
+  caixa.innerHTML = itens.map(function(c,i){
+    return '<article class="dep compromisso"><span class="etapa">' +
+      String(i+1).padStart(2,'0') + ' · ' + c[0] + '</span><p>' + c[1] + '</p></article>';
   }).join('');
 })();
 
@@ -389,7 +375,7 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
 
     var zap = $('#linkZap'), mail = $('#linkMail');
     if(zap)  zap.href  = 'https://wa.me/5511952751874?text=' + encodeURIComponent(texto);
-    if(mail) mail.href = 'mailto:obras@spxengenharia.com.br?subject=' +
+    if(mail) mail.href = 'mailto:contato@spxengenharia.com.br?subject=' +
       encodeURIComponent('Visita técnica · ' + (d.get('empresa') || d.get('nome'))) +
       '&body=' + encodeURIComponent(texto);
 

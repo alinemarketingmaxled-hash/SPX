@@ -351,7 +351,12 @@ a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}
 .nums b{font-family:var(--display);font-weight:700;color:var(--bl-txt);font-size:20px}
 .nums s{color:var(--bl-txt-2);opacity:.35;text-decoration:none}
 
-/* depoimentos */
+/* compromissos de contrato (e as colunas roláveis, para quando os
+   depoimentos reais do cliente entrarem no lugar) */
+.compromissos{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:var(--e5)}
+.compromisso{display:flex;flex-direction:column;gap:12px}
+.compromisso .etapa{font-family:var(--display);font-weight:600;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--acc-2)}
+.compromisso p{color:var(--txt-2)}
 .colunas{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;height:600px;overflow:hidden;margin-top:var(--e5);
   -webkit-mask-image:linear-gradient(180deg,transparent,#000 13%,#000 87%,transparent);
   mask-image:linear-gradient(180deg,transparent,#000 13%,#000 87%,transparent)}
@@ -470,6 +475,7 @@ a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}
   .hero-top,.hub-grid,.contato-grid{grid-template-columns:1fr;gap:var(--e5)}
   .hero{padding-top:var(--e6)}
   .colunas{grid-template-columns:1fr;height:480px}
+  .compromissos{grid-template-columns:1fr}
   .colunas .coluna:nth-child(n+2){display:none}
   .rod-grid{grid-template-columns:1fr 1fr}
   .leque{height:340px}

@@ -54,6 +54,7 @@ escuro sobre o site claro.
 
 `.btn` (`.btn-ghost`, `.btn-acc`, `.btn-bloco`) · `.card` · `.eyebrow` · `.lead`
 `.selo` · `.pill` · `.pill-live` · `.cantos` (cantos de desenho técnico no hover)
+`.compromisso` (cartão de compromisso de contrato)
 `.cabeca` (título + apoio) · `.sec` / `.sec-linha` / `.wrap` · `.ficha` (faixa de números)
 
 Qualquer elemento com `data-reveal` entra animado ao rolar

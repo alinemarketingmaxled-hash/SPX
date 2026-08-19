@@ -288,7 +288,7 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
     ['Vocês fazem o projeto ou só executam?','Executamos projeto de terceiros e também desenvolvemos o executivo com nossos projetistas parceiros. Compatibilização de disciplinas está sempre incluída.'],
     ['Quem responde tecnicamente pela obra?','Engenheiro responsável com ART registrada no CREA-SP, presente em obra e nomeado na proposta. Você sabe o nome antes de assinar.'],
     ['Como é a garantia depois da entrega?','Cinco anos para estrutura e impermeabilização, um ano para acabamentos e instalações, conforme norma. Chamado de garantia é atendido em até 48 horas.'],
-    ['E se a obra atrasar?','Multa por dia de atraso prevista em contrato, com as hipóteses de suspensão de prazo listadas de forma fechada — nada de cláusula genérica de caso fortuito.']
+    ['E se a obra atrasar?','Multa por dia de atraso prevista em contrato, com as hipóteses de suspensão de prazo listadas de forma fechada, sem cláusula genérica de caso fortuito.']
   ];
   perguntas.forEach(function(q,i){
     var el = document.createElement('div');
@@ -390,7 +390,7 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
     var zap = $('#linkZap'), mail = $('#linkMail');
     if(zap)  zap.href  = 'https://wa.me/5511952751874?text=' + encodeURIComponent(texto);
     if(mail) mail.href = 'mailto:obras@spxengenharia.com.br?subject=' +
-      encodeURIComponent('Visita técnica — ' + (d.get('empresa') || d.get('nome'))) +
+      encodeURIComponent('Visita técnica · ' + (d.get('empresa') || d.get('nome'))) +
       '&body=' + encodeURIComponent(texto);
 
     var destino = form.dataset.endpoint;

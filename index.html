@@ -63,13 +63,14 @@
   <p class="eyebrow">SPX Engenharia</p>
   <nav aria-label="Navegação mobile">
     <a href="#obras">Obras <i>01</i></a>
-    <a href="#arquivo">Arquivo <i>02</i></a>
-    <a href="#servicos">Serviços <i>03</i></a>
-    <a href="#frentes">Frentes <i>04</i></a>
-    <a href="#metodo">Método <i>05</i></a>
-    <a href="#atuacao">Atuação <i>06</i></a>
-    <a href="#clientes">Clientes <i>07</i></a>
-    <a href="#duvidas">Dúvidas <i>08</i></a>
+    <a href="#segmentos">Segmentos <i>02</i></a>
+    <a href="#arquivo">Arquivo <i>03</i></a>
+    <a href="#servicos">Serviços <i>04</i></a>
+    <a href="#frentes">Frentes <i>05</i></a>
+    <a href="#metodo">Método <i>06</i></a>
+    <a href="#atuacao">Atuação <i>07</i></a>
+    <a href="#clientes">Compromissos <i>08</i></a>
+    <a href="#duvidas">Dúvidas <i>09</i></a>
   </nav>
   <div class="rodape-gaveta">
     <a class="btn" href="#contato">Agendar visita técnica</a>
@@ -113,10 +114,25 @@
   </div>
 </header>
 
-<div class="ticker" aria-hidden="true"><div class="ticker-in">
-  <span>Obra corporativa</span><span>Varejo e flagship</span><span>Retrofit ocupado</span><span>Manutenção predial</span><span>Data center e CPD</span><span>Clínicas e laboratórios</span>
-  <span>Obra corporativa</span><span>Varejo e flagship</span><span>Retrofit ocupado</span><span>Manutenção predial</span><span>Data center e CPD</span><span>Clínicas e laboratórios</span>
-</div></div>
+<section class="sec segmentos" id="segmentos">
+  <div class="wrap">
+    <div class="cabeca" data-reveal>
+      <div>
+        <p class="eyebrow">Onde a SPX executa</p>
+        <h2 style="margin-top:20px">Obra de alto padrão,<br>em qualquer segmento.</h2>
+      </div>
+      <div class="seg-setas">
+        <button type="button" data-seg="ant" aria-label="Segmentos anteriores">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+        </button>
+        <button type="button" data-seg="prox" aria-label="Próximos segmentos">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="seg-trilho" id="segTrilho" tabindex="0" role="region" aria-label="Segmentos atendidos"></div>
+</section>
 
 <section class="sec" id="arquivo">
   <div class="wrap centro" data-reveal>
@@ -194,41 +210,42 @@
       <h3>Visita técnica</h3>
       <p>Engenheiro em campo, levantamento de interferências e restrições do condomínio.</p>
       <span class="prazo">48h para agendar</span>
+      <span class="passo-fase">No cronograma · levantamento e restrições</span>
     </article>
     <article class="passo" data-reveal data-atraso="1">
       <h3>Proposta</h3>
       <p>Proposta técnica detalhada, com todos os serviços inclusos e composição de BDI aberta.</p>
       <span class="prazo">5 dias úteis</span>
+      <span class="passo-fase">No cronograma · emissão e aprovação</span>
     </article>
     <article class="passo" data-reveal data-atraso="2">
       <h3>Mobilização</h3>
       <p>Cronograma físico-financeiro, montagem de canteiro, documentação de acesso e compras de prazo longo.</p>
       <span class="prazo">Semana 1</span>
+      <span class="passo-fase">No cronograma · limpeza, proteção e demolição</span>
     </article>
     <article class="passo" data-reveal data-atraso="3">
       <h3>Execução</h3>
       <p>Seis frentes coordenadas, relatório semanal com foto e avanço por disciplina.</p>
       <span class="prazo">Toda sexta</span>
+      <span class="passo-fase">No cronograma · instalações, drywall e revestimentos</span>
     </article>
     <article class="passo" data-reveal data-atraso="3">
       <h3>Entrega</h3>
       <p>Vistoria com checklist, as-built, manuais e garantia contratual ativa.</p>
       <span class="prazo">Chamado em 48h</span>
+      <span class="passo-fase">No cronograma · pintura, vistoria e as-built</span>
     </article>
   </div>
 
   <div class="cronograma" data-reveal>
     <div class="cronograma-texto">
-      <p class="eyebrow">Documento de obra</p>
-      <h3>O cronograma que<br>você recebe.</h3>
-      <p>Toda obra sai da proposta com o cronograma aberto, tarefa por tarefa, com duração
-      e período de cada frente. É o mesmo documento que orienta a medição semanal e que
-      você usa para cobrar prazo.</p>
-      <ul class="cronograma-notas">
-        <li>Fases e subtarefas com duração individual</li>
-        <li>Predecessoras e caminho crítico definidos</li>
-        <li>Atualizado toda sexta com o avanço físico</li>
-      </ul>
+      <h3>Por que o cronograma<br>vem antes da obra.</h3>
+      <p>Obra sem cronograma é obra sem prazo. Cada frente entra com duração, predecessora e
+      janela definidas antes de a primeira equipe subir, e é isso que permite prever a entrega,
+      dimensionar equipe e cobrar avanço com número na mão.</p>
+      <p>O documento sai junto da proposta e é atualizado toda sexta com o avanço físico medido
+      em obra.</p>
     </div>
     <div class="folha" id="folhaCronograma"></div>
   </div>

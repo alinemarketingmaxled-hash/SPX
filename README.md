@@ -58,14 +58,22 @@ setas para avançar manualmente. As seis fotos em destaque estão listadas em
 números por cima é vidro fosco; o topo mantém a paleta clara nos dois temas,
 porque está sempre sobre imagem.
 
+### Segmentos atendidos
+
+A seção `#segmentos` é um carrossel horizontal com um cartão por segmento,
+ícone em traço e rolagem por setas. Os itens ficam na constante `SEGMENTOS`
+do módulo `segmentos`, em `assets/js/spx.js`: cada entrada é
+`[linha 1, linha 2, path do ícone]`. Para acrescentar um segmento, basta
+adicionar uma linha. O último cartão, com o sinal de mais, leva ao portfólio.
+
 ### Folha de cronograma
 
-O bloco `#folhaCronograma`, dentro do Método, monta uma folha de cronograma
-com fases, subtarefas, duração e barras de período. Os dados ficam na
-constante `LINHAS` do módulo `cronograma`, em `assets/js/spx.js` — nível 0 é
-fase, nível 1 é subtarefa. As barras são calculadas a partir das datas de
-início e término de cada fase. As cores da folha são fixas, de papel impresso,
-e não seguem os tokens.
+O bloco `#folhaCronograma`, dentro do Método, monta um resumo do cronograma
+com as dez frentes, duração e barra de período. Os dados ficam na constante
+`FRENTES` do módulo `cronograma`, em `assets/js/spx.js`, e as barras são
+calculadas a partir das datas de início e término. Cada etapa do método
+aponta, logo abaixo do prazo, quais frentes do cronograma ela cobre. As cores
+da folha são fixas, de papel impresso, e não seguem os tokens.
 
 ### Faixas claras e fundo de canteiro
 

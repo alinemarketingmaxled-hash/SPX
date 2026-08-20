@@ -156,6 +156,56 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
   });
 })();
 
+/* ---------------------------------------------- segmentos atendidos */
+(function segmentos(){
+  var trilho = $('#segTrilho');
+  if(!trilho) return;
+
+  var SEGMENTOS = [
+    ['Escritórios','corporativos',      'M3 21h18M6 21V4h9v17M15 9h4v12M9 8h2.5M9 12h2.5M9 16h2.5'],
+    ['Comercial','e varejo',            'M3 9h18l-1.6-4.5H4.6zM5 9v12h14V9M9 21v-6h6v6'],
+    ['Restaurantes','e cafés',          'M7 3v8a2 2 0 0 0 4 0V3M9 11v10M16.5 3c-1.6 1.6-2.2 3.2-2.2 5.2s.7 2.8 2.2 2.8V21'],
+    ['Clínicas e','laboratórios',       'M9 3h6M10 3v6l-5 10a2 2 0 0 0 1.8 3h10.4A2 2 0 0 0 19 19l-5-10V3M7.6 14h8.8'],
+    ['Data center','e CPD',             'M4 4h16v6H4zM4 14h16v6H4zM7.5 7h.01M7.5 17h.01M11 7h5M11 17h5'],
+    ['Hotelaria','e hospedagem',        'M3 18v-6h13a4 4 0 0 1 4 4v2M3 12V7M3 18h18v2M6.6 9.4h3.4'],
+    ['Educação','e treinamento',        'M12 4 2 9l10 5 10-5zM6 11.6V17c0 1.6 3 3 6 3s6-1.4 6-3v-5.4'],
+    ['Áreas comuns','de condomínio',    'M4 12V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4M2 12h20v6H2zM6 18v2M18 18v2'],
+    ['Retrofit em','ambiente ocupado',  'M4 21h16M7 21V6h10v15M10 10h4M10 14h4M12 2v3M9.5 4.5 12 2l2.5 2.5'],
+    ['Manutenção','predial',            'm14.7 6.3 3 3M3 21l3.5-1 11-11-2.5-2.5-11 11zM17 3.5 20.5 7']
+  ];
+
+  function icone(d){
+    return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + d + '"/></svg>';
+  }
+  trilho.innerHTML = SEGMENTOS.map(function(s){
+    return '<article class="seg"><span class="seg-ico">' + icone(s[2]) + '</span>' +
+      '<span class="seg-nome">' + s[0] + '<br>' + s[1] + '</span></article>';
+  }).join('') +
+  '<a class="seg seg-mais" href="#arquivo"><span class="seg-ico">' +
+    icone('M12 5v14M5 12h14') + '</span>' +
+    '<span class="seg-nome">Conheça mais<br>sobre nossos projetos</span></a>';
+
+  function passo(){
+    var card = $('.seg', trilho);
+    return card ? card.offsetWidth + 18 : 280;
+  }
+  $$('[data-seg]').forEach(function(b){
+    b.addEventListener('click', function(){
+      trilho.scrollBy({left: (b.dataset.seg === 'prox' ? 1 : -1) * passo() * 2,
+                       behavior: reduz ? 'auto' : 'smooth'});
+    });
+  });
+
+  function pinta(){
+    var fim = trilho.scrollWidth - trilho.clientWidth - 2;
+    trilho.classList.toggle('no-inicio', trilho.scrollLeft <= 2);
+    trilho.classList.toggle('no-fim', trilho.scrollLeft >= fim);
+  }
+  trilho.addEventListener('scroll', pinta, {passive:true});
+  window.addEventListener('resize', pinta);
+  pinta();
+})();
+
 /* ---------------------------------------------- acervo antes/depois */
 (function acervo(){
   var track = $('#track');
@@ -325,108 +375,52 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
   });
 })();
 
-/* ---------------------------------------------- folha de cronograma */
+/* ---------------------------------------------- folha de cronograma (resumo por frente) */
 (function cronograma(){
   var folha = $('#folhaCronograma');
   if(!folha) return;
 
-  /* [nível, id, tarefa, duração, início, término] — nível 0 é fase, 1 é subtarefa */
-  var LINHAS = [
-    [0,1,'Cronograma de obra','93,5 dias','16/06','24/10'],
-    [0,2,'Limpeza e proteção','25 dias','16/06','21/07'],
-    [1,3,'Ensacamento e remoção de entulhos','25 dias','',''],
-    [1,4,'Limpeza durante o período de obra','25 dias','',''],
-    [0,5,'Demolição e construção','25,5 dias','16/06','22/07'],
-    [1,6,'Demolição de paredes','3 dias','',''],
-    [1,7,'Demolição do contrapiso dos banheiros','2 dias','',''],
-    [1,8,'Desmontagem do piso elevado existente','2 dias','',''],
-    [1,9,'Retirada de caixilharia','2 dias','',''],
-    [1,10,'Demolição de forros e sancas existentes','2,5 dias','',''],
-    [1,11,'Execução de alvenaria baixa','4 dias','',''],
-    [1,12,'Execução de contrapiso','3 dias','',''],
-    [1,13,'Construção de base em alvenaria','2 dias','',''],
-    [1,14,'Construção de alvenaria completa','5 dias','',''],
-    [1,15,'Requadração de cortes na alvenaria para infra','4 dias','',''],
-    [0,16,'Piso elevado','8 dias','04/08','14/08'],
-    [1,17,'Montagem dos perímetros','3 dias','',''],
-    [1,18,'Montagem dos conjuntos','5 dias','',''],
-    [0,19,'Instalações hidráulicas','9,5 dias','22/07','04/08'],
-    [1,20,'Execução de pontos de água fria','4 dias','',''],
-    [1,21,'Execução de pontos de esgoto','2,5 dias','',''],
-    [1,22,'Mudança dos pontos de vaso sanitário','3 dias','',''],
-    [1,23,'Alteração de registros de gaveta','1,5 dias','',''],
-    [1,24,'Execução de novos pontos de drenos','2 dias','',''],
-    [0,25,'Instalações elétricas','22 dias','07/07','01/08'],
-    [1,26,'Infra e cabeamento de novos pontos 110','3 dias','',''],
-    [1,27,'Infra e cabeamento de novos pontos 220','3 dias','',''],
-    [1,28,'Infra para telefone, dados, áudio e câmera','3 dias','',''],
-    [1,29,'Distribuição de novos circuitos de iluminação','3 dias','',''],
-    [1,30,'Distribuição de novos pontos de interruptores','3 dias','',''],
-    [1,31,'Instalação de DR e DPS','3 dias','',''],
-    [1,32,'Adequação do QDL','3 dias','',''],
-    [1,33,'Preparação para infra de nobreak','3 dias','',''],
-    [0,34,'Sprinklers','10 dias','01/07','15/07'],
-    [1,35,'Despressurização da rede existente','2 dias','',''],
-    [1,36,'Adequação de pontos de sprinkler','3 dias','',''],
-    [1,37,'Criação de novos pontos de sprinkler','3 dias','',''],
-    [1,38,'Pressurização da rede','2 dias','',''],
-    [0,39,'Impermeabilização','5 dias','11/07','18/07'],
-    [1,40,'Impermeabilização dos banheiros com pré-ancoragem','5 dias','',''],
-    [0,41,'Drywall','26 dias','24/07','29/08'],
-    [1,42,'Forro em gesso acartonado com proteção acústica','10 dias','',''],
-    [1,43,'Fornecimento e instalação de tabica','3 dias','',''],
-    [1,44,'Reforço no forro para luminária de embutir','3 dias','',''],
-    [1,45,'Estrutura de forro reforçada para porta de correr','2 dias','',''],
-    [1,46,'Cortineiro e sanca iluminada','3 dias','',''],
-    [1,47,'Parede em drywall 7 cm com proteção acústica','3 dias','',''],
-    [1,48,'Parede em drywall 12 cm com proteção acústica','3 dias','',''],
-    [1,49,'Revestimento em placa de drywall nos banheiros','3 dias','',''],
-    [1,50,'Reforço em parede para bancadas','3 dias','',''],
-    [0,51,'Revestimentos','5,5 dias','18/07','31/07'],
-    [1,52,'Assentamento de piso 1,20 x 1,20','2 dias','',''],
-    [1,53,'Assentamento de rodapé','1,5 dias','',''],
-    [1,54,'Assentamento de perfil L','1 dia','',''],
-    [1,55,'Assentamento de revestimento de parede','2 dias','',''],
-    [0,56,'Pintura','40 dias','29/08','24/10'],
-    [1,57,'Emassamento e pintura de forro e laje','20 dias','',''],
-    [1,58,'Emassamento e pintura de paredes','20 dias','','']
+  /* [frente, duração, início, término] — só as fases, sem as subtarefas */
+  var FRENTES = [
+    ['Limpeza e proteção',      '25 dias',   '16/06','21/07'],
+    ['Demolição e construção',  '25,5 dias', '16/06','22/07'],
+    ['Sprinklers',              '10 dias',   '01/07','15/07'],
+    ['Impermeabilização',       '5 dias',    '11/07','18/07'],
+    ['Instalações elétricas',   '22 dias',   '07/07','01/08'],
+    ['Revestimentos',           '5,5 dias',  '18/07','31/07'],
+    ['Instalações hidráulicas', '9,5 dias',  '22/07','04/08'],
+    ['Drywall',                 '26 dias',   '24/07','29/08'],
+    ['Piso elevado',            '8 dias',    '04/08','14/08'],
+    ['Pintura',                 '40 dias',   '29/08','24/10']
   ];
 
-  /* a barra de cada fase é posicionada dentro da janela total da obra */
-  var INICIO = dia('16/06'), FIM = dia('24/10');
   function dia(d){
     var p = d.split('/');
     return Date.UTC(2026, parseInt(p[1],10) - 1, parseInt(p[0],10)) / 86400000;
   }
-  function barra(ini, fim){
-    if(!ini || !fim) return '<span class="vazio"></span>';
-    var total = FIM - INICIO;
-    var esq = (dia(ini) - INICIO) / total * 100;
-    var larg = Math.max((dia(fim) - dia(ini)) / total * 100, 2);
-    return '<span class="trilho"><i style="left:' + esq.toFixed(1) + '%;width:' +
-           larg.toFixed(1) + '%"></i></span>';
-  }
+  var INICIO = dia('16/06'), TOTAL = dia('24/10') - INICIO;
 
-  var corpo = LINHAS.map(function(l){
-    var fase = l[0] === 0;
-    return '<tr class="' + (fase ? 'fase' : 'sub') + '">' +
-      '<td class="id">' + l[1] + '</td>' +
-      '<td class="tarefa">' + l[2] + '</td>' +
-      '<td class="dur">' + l[3] + '</td>' +
-      '<td class="gantt">' + (fase ? barra(l[4], l[5]) : '<span class="vazio"></span>') + '</td>' +
+  var linhas = FRENTES.map(function(f){
+    var esq = (dia(f[2]) - INICIO) / TOTAL * 100;
+    var larg = Math.max((dia(f[3]) - dia(f[2])) / TOTAL * 100, 3);
+    return '<tr>' +
+      '<td class="tarefa">' + f[0] + '</td>' +
+      '<td class="dur">' + f[1] + '</td>' +
+      '<td class="gantt"><span class="trilho"><i style="left:' + esq.toFixed(1) +
+        '%;width:' + larg.toFixed(1) + '%"></i></span></td>' +
       '</tr>';
   }).join('');
 
   folha.innerHTML =
     '<div class="folha-cab">' +
-      '<div><b>Cronograma físico-financeiro</b><span>Obra corporativa · 640 m²</span></div>' +
+      '<div><b>Cronograma físico-financeiro</b><span>Obra corporativa · 10 frentes</span></div>' +
       '<div class="folha-selo">93,5 dias<span>jun a out</span></div>' +
     '</div>' +
-    '<div class="folha-rolo"><table class="folha-tabela">' +
-      '<thead><tr><th>ID</th><th>Tarefa</th><th>Duração</th><th>Período</th></tr></thead>' +
-      '<tbody>' + corpo + '</tbody>' +
-    '</table></div>' +
-    '<div class="folha-pe"><span>SPX Engenharia · revisão 03</span><span>Emitido com a proposta</span></div>';
+    '<table class="folha-tabela">' +
+      '<thead><tr><th>Frente</th><th>Duração</th><th>Período</th></tr></thead>' +
+      '<tbody>' + linhas + '</tbody>' +
+    '</table>' +
+    '<div class="folha-pe"><span>Emitido com a proposta</span><span>Medido toda sexta</span></div>';
 })();
 
 /* ---------------------------------------------- contadores */

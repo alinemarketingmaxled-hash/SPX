@@ -437,6 +437,35 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
   });
 })();
 
+/* ---------------------------------------------- a folha acompanha o cursor */
+(function folhaInclina(){
+  var folha = $('#folhaCronograma');
+  if(!folha || reduz) return;
+
+  var pendente = false, ex = 0, ey = 0;
+  function aplica(){
+    var r = folha.getBoundingClientRect();
+    var px = (ex - r.left) / r.width - 0.5;      /* -0,5 à esquerda · +0,5 à direita */
+    var py = (ey - r.top) / r.height - 0.5;
+    folha.style.setProperty('--rx', (-py * 6.5).toFixed(2) + 'deg');
+    folha.style.setProperty('--ry', (px * 8.5).toFixed(2) + 'deg');
+    folha.style.setProperty('--bx', ((px + 0.5) * 100).toFixed(1) + '%');
+    folha.style.setProperty('--by', ((py + 0.5) * 100).toFixed(1) + '%');
+    pendente = false;
+  }
+  folha.addEventListener('pointermove', function(e){
+    if(e.pointerType === 'touch') return;
+    ex = e.clientX; ey = e.clientY;
+    folha.classList.add('inclinada');
+    if(!pendente){ pendente = true; requestAnimationFrame(aplica); }
+  });
+  folha.addEventListener('pointerleave', function(){
+    folha.classList.remove('inclinada');
+    folha.style.removeProperty('--rx');
+    folha.style.removeProperty('--ry');
+  });
+})();
+
 /* ---------------------------------------------- contadores */
 (function contadores(){
   var alvos = $$('[data-conta]');

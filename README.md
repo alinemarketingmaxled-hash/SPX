@@ -99,6 +99,10 @@ acendem na folha e as demais escurecem. O vínculo é declarado no atributo
 `data-frentes` de cada `.passo`, separado por barra vertical. As cores
 da folha são fixas, de papel impresso, e não seguem os tokens.
 
+Com o cursor sobre a folha, ela inclina em três dimensões acompanhando o
+ponteiro, com um brilho que segue a mesma posição e a sombra abrindo. O
+efeito é desligado no toque e com `prefers-reduced-motion`.
+
 ### Faixas claras e fundo de canteiro
 
 Qualquer seção que receba a classe `.claro` reescreve os tokens semânticos e

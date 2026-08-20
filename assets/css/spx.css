@@ -401,7 +401,8 @@ a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}
 .passo p{font-size:14px;color:var(--txt-2)}
 /* folha de cronograma — papel de verdade, cores fixas nos dois temas */
 .cronograma{display:grid;grid-template-columns:1fr 1fr;gap:var(--e6);
-  align-items:center;margin-top:var(--e7);padding-top:var(--e6);border-top:1px solid var(--linha)}
+  align-items:center;margin-top:var(--e7);padding-top:var(--e6);border-top:1px solid var(--linha);
+  perspective:1100px}
 .cronograma-texto h3{font-size:clamp(19px,2vw,24px);margin:0 0 14px}
 .cronograma-texto p{color:var(--txt-2);font-size:14.5px}
 .cronograma-texto p + p{margin-top:12px}
@@ -420,7 +421,19 @@ a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}
 
 .folha{background:#FCFCFA;color:#15181B;border:1px solid #D6D6CE;border-radius:3px;
   box-shadow:0 26px 60px rgba(10,14,18,.32),0 2px 0 #EFEFE9;
-  transform:rotate(-.5deg);overflow:hidden;font-family:var(--corpo)}
+  transform:rotate(-.5deg);overflow:hidden;font-family:var(--corpo);
+  position:relative;transform-style:preserve-3d;will-change:transform;
+  transition:transform .55s cubic-bezier(.2,.7,.2,1),box-shadow .45s ease}
+/* o papel inclina seguindo o cursor, com um brilho acompanhando */
+.folha.inclinada{
+  transform:rotate(-.5deg) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateZ(16px);
+  transition:transform .1s linear,box-shadow .45s ease;
+  box-shadow:0 46px 100px rgba(10,14,18,.46),0 2px 0 #EFEFE9}
+.folha::after{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;
+  transition:opacity .35s ease;mix-blend-mode:overlay;
+  background:radial-gradient(circle 340px at var(--bx,50%) var(--by,50%),
+    rgba(255,255,255,.6),rgba(255,255,255,0) 62%)}
+.folha.inclinada::after{opacity:1}
 .folha-cab{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;
   padding:16px 18px 13px;border-bottom:2px solid #15181B}
 .folha-cab b{display:block;font-family:var(--display);font-weight:700;font-size:13px;

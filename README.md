@@ -58,6 +58,25 @@ setas para avançar manualmente. As seis fotos em destaque estão listadas em
 números por cima é vidro fosco; o topo mantém a paleta clara nos dois temas,
 porque está sempre sobre imagem.
 
+### Logo
+
+A marca vive em quatro arquivos derivados do original enviado pela empresa:
+
+| Arquivo | Onde entra |
+| --- | --- |
+| `img/logo.png` | assinatura do rodapé no tema claro |
+| `img/logo-negativa.png` | assinatura do rodapé no tema escuro |
+| `img/logo-spx.png` | marca do menu no tema escuro (pílula clara) |
+| `img/logo-spx-negativa.png` | marca do menu no tema claro (pílula escura) |
+| `img/favicon.png` | ícone da aba, recortado do X em treliça |
+
+O fundo foi removido preservando os traços internos da treliça. A versão
+negativa inverte só os tons escuros, então as letras ficam brancas e a
+treliça mantém o cinza e os traços claros do original — a arte não foi
+redesenhada.
+
+As classes `.so-escuro` e `.so-claro` fazem a troca conforme o tema.
+
 ### Segmentos atendidos
 
 A seção `#segmentos` é um carrossel horizontal com um cartão por segmento,

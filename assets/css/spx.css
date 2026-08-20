@@ -156,6 +156,12 @@ a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}
 .pular{position:absolute;left:-9999px;top:0;background:var(--inv-bg);color:var(--inv-txt);padding:12px 20px;z-index:200;font-family:var(--display);font-size:12px;letter-spacing:.12em;text-transform:uppercase}
 .pular:focus{left:12px;top:12px}
 .so-leitor{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* arte que só vale para um dos temas (logo positiva x negativa).
+   O !important é proposital: é um utilitário de visibilidade que precisa
+   vencer as regras de componente que definem display. */
+.so-claro{display:none!important}
+[data-tema="claro"] .so-escuro{display:none!important}
+[data-tema="claro"] .so-claro{display:block!important}
 
 .eyebrow{font-family:var(--display);font-weight:600;font-size:var(--t-micro);letter-spacing:.24em;text-transform:uppercase;color:var(--acc-2);display:flex;align-items:center;gap:10px}
 .eyebrow::before{content:"";width:24px;height:9px;flex:0 0 auto;background:repeating-linear-gradient(115deg,currentColor 0 1.6px,transparent 1.6px 5px)}
@@ -210,7 +216,7 @@ a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}
 }
 .navlogo{height:46px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;padding:0 14px 0 10px;color:var(--inv-txt);transition:opacity var(--transicao)}
 .navlogo:hover{opacity:.65}
-.navlogo .marca{height:24px;width:auto;display:block;fill:currentColor}
+.navlogo .marca{height:23px;width:auto;display:block}
 .navpill a.link,.navpill a.cta{
   text-decoration:none;background:var(--inv-txt);color:var(--inv-bg);border-radius:999px;
   padding:13px 22px;font-family:var(--display);font-weight:600;font-size:12px;
@@ -567,13 +573,13 @@ a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}
 .soc a{width:38px;height:38px;border:1px solid var(--linha);display:flex;align-items:center;justify-content:center;transition:.22s;border-radius:var(--raio)}
 .soc a svg{stroke:var(--txt);fill:none;stroke-width:1.7}
 .soc a:hover{border-color:var(--acc-2);background:var(--sup);transform:translateY(-2px)}
-.wordmark{position:relative;margin:var(--e6) 0 var(--e3);user-select:none}
-.wordmark svg{width:100%;height:auto;display:block}
-.wordmark .out{stroke:var(--linha)}
-.wordmark .fill .letras text{fill:var(--txt)}
-.wordmark .fill .trelica{stroke:var(--acc-2)}
-.wordmark .fill{-webkit-mask-image:radial-gradient(circle 200px at var(--mx,50%) var(--my,50%),#000 0%,transparent 70%);
-  mask-image:radial-gradient(circle 200px at var(--mx,50%) var(--my,50%),#000 0%,transparent 70%)}
+.wordmark{position:relative;margin:var(--e6) auto var(--e3);user-select:none;
+  width:min(100%,620px)}
+.wordmark .wm{width:100%;height:auto}
+.wordmark .wm.base{opacity:.17}
+.wordmark .wm.luz{position:absolute;left:0;top:0;
+  -webkit-mask-image:radial-gradient(circle 190px at var(--mx,50%) var(--my,50%),#000 0%,transparent 72%);
+  mask-image:radial-gradient(circle 190px at var(--mx,50%) var(--my,50%),#000 0%,transparent 72%)}
 .rod-fim{border-top:1px solid var(--linha);padding:22px 0 30px;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--txt-2)}
 .rod-fim a{text-decoration:none}
 .rod-fim a:hover{color:var(--acc-2)}

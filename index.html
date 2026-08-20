@@ -114,24 +114,8 @@
   </div>
 </header>
 
-<section class="sec segmentos" id="segmentos">
-  <div class="wrap">
-    <div class="cabeca" data-reveal>
-      <div>
-        <p class="eyebrow">Onde a SPX executa</p>
-        <h2 style="margin-top:20px">Obra de alto padrão,<br>em qualquer segmento.</h2>
-      </div>
-      <div class="seg-setas">
-        <button type="button" data-seg="ant" aria-label="Segmentos anteriores">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
-        </button>
-        <button type="button" data-seg="prox" aria-label="Próximos segmentos">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
-        </button>
-      </div>
-    </div>
-  </div>
-  <div class="seg-trilho" id="segTrilho" tabindex="0" role="region" aria-label="Segmentos atendidos"></div>
+<section class="segmentos" id="segmentos" aria-label="Segmentos atendidos">
+  <div class="seg-esteira"><div class="seg-track" id="segTrilho"></div></div>
 </section>
 
 <section class="sec" id="arquivo">
@@ -206,31 +190,36 @@
     <p class="lead" style="max-width:44ch">O mesmo procedimento em todas as obras, da visita técnica à garantia. O andamento é documentado e enviado periodicamente, sem necessidade de cobrança.</p>
   </div>
   <div class="passos">
-    <article class="passo" data-reveal>
+    <article class="passo" data-reveal tabindex="0" data-etapa="01 · Visita técnica"
+           data-frentes="" data-nota="Levantamento em campo, antes do cronograma existir.">
       <h3>Visita técnica</h3>
       <p>Engenheiro em campo, levantamento de interferências e restrições do condomínio.</p>
       <span class="prazo">48h para agendar</span>
       <span class="passo-fase">No cronograma · levantamento e restrições</span>
     </article>
-    <article class="passo" data-reveal data-atraso="1">
+    <article class="passo" data-reveal data-atraso="1" tabindex="0" data-etapa="02 · Proposta"
+           data-frentes="" data-nota="O cronograma inteiro é emitido junto da proposta.">
       <h3>Proposta</h3>
       <p>Proposta técnica detalhada, com todos os serviços inclusos e composição de BDI aberta.</p>
       <span class="prazo">5 dias úteis</span>
       <span class="passo-fase">No cronograma · emissão e aprovação</span>
     </article>
-    <article class="passo" data-reveal data-atraso="2">
+    <article class="passo" data-reveal data-atraso="2" tabindex="0" data-etapa="03 · Mobilização"
+           data-frentes="Limpeza e proteção|Demolição e construção">
       <h3>Mobilização</h3>
       <p>Cronograma físico-financeiro, montagem de canteiro, documentação de acesso e compras de prazo longo.</p>
       <span class="prazo">Semana 1</span>
       <span class="passo-fase">No cronograma · limpeza, proteção e demolição</span>
     </article>
-    <article class="passo" data-reveal data-atraso="3">
+    <article class="passo" data-reveal data-atraso="3" tabindex="0" data-etapa="04 · Execução"
+           data-frentes="Sprinklers|Impermeabilização|Instalações elétricas|Revestimentos|Instalações hidráulicas|Drywall|Piso elevado">
       <h3>Execução</h3>
       <p>Seis frentes coordenadas, relatório semanal com foto e avanço por disciplina.</p>
       <span class="prazo">Toda sexta</span>
       <span class="passo-fase">No cronograma · instalações, drywall e revestimentos</span>
     </article>
-    <article class="passo" data-reveal data-atraso="3">
+    <article class="passo" data-reveal data-atraso="3" tabindex="0" data-etapa="05 · Entrega"
+           data-frentes="Pintura">
       <h3>Entrega</h3>
       <p>Vistoria com checklist, as-built, manuais e garantia contratual ativa.</p>
       <span class="prazo">Chamado em 48h</span>
@@ -246,6 +235,8 @@
       dimensionar equipe e cobrar avanço com número na mão.</p>
       <p>O documento sai junto da proposta e é atualizado toda sexta com o avanço físico medido
       em obra.</p>
+      <p class="cronograma-dica">Passe o cursor por uma etapa acima para ver as frentes que ela
+      cobre no cronograma.</p>
     </div>
     <div class="folha" id="folhaCronograma"></div>
   </div>

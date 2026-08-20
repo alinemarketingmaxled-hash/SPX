@@ -158,8 +158,8 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
 
 /* ---------------------------------------------- segmentos atendidos */
 (function segmentos(){
-  var trilho = $('#segTrilho');
-  if(!trilho) return;
+  var track = $('#segTrilho');
+  if(!track) return;
 
   var SEGMENTOS = [
     ['Escritórios','corporativos',      'M3 21h18M6 21V4h9v17M15 9h4v12M9 8h2.5M9 12h2.5M9 16h2.5'],
@@ -174,36 +174,14 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
     ['Manutenção','predial',            'm14.7 6.3 3 3M3 21l3.5-1 11-11-2.5-2.5-11 11zM17 3.5 20.5 7']
   ];
 
-  function icone(d){
-    return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + d + '"/></svg>';
-  }
-  trilho.innerHTML = SEGMENTOS.map(function(s){
-    return '<article class="seg"><span class="seg-ico">' + icone(s[2]) + '</span>' +
+  function cartao(s){
+    return '<article class="seg"><span class="seg-ico">' +
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + s[2] + '"/></svg></span>' +
       '<span class="seg-nome">' + s[0] + '<br>' + s[1] + '</span></article>';
-  }).join('') +
-  '<a class="seg seg-mais" href="#arquivo"><span class="seg-ico">' +
-    icone('M12 5v14M5 12h14') + '</span>' +
-    '<span class="seg-nome">Conheça mais<br>sobre nossos projetos</span></a>';
-
-  function passo(){
-    var card = $('.seg', trilho);
-    return card ? card.offsetWidth + 18 : 280;
   }
-  $$('[data-seg]').forEach(function(b){
-    b.addEventListener('click', function(){
-      trilho.scrollBy({left: (b.dataset.seg === 'prox' ? 1 : -1) * passo() * 2,
-                       behavior: reduz ? 'auto' : 'smooth'});
-    });
-  });
-
-  function pinta(){
-    var fim = trilho.scrollWidth - trilho.clientWidth - 2;
-    trilho.classList.toggle('no-inicio', trilho.scrollLeft <= 2);
-    trilho.classList.toggle('no-fim', trilho.scrollLeft >= fim);
-  }
-  trilho.addEventListener('scroll', pinta, {passive:true});
-  window.addEventListener('resize', pinta);
-  pinta();
+  /* a lista entra duplicada para o laço não ter emenda */
+  var uma = SEGMENTOS.map(cartao).join('');
+  track.innerHTML = uma + uma;
 })();
 
 /* ---------------------------------------------- acervo antes/depois */
@@ -403,7 +381,7 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
   var linhas = FRENTES.map(function(f){
     var esq = (dia(f[2]) - INICIO) / TOTAL * 100;
     var larg = Math.max((dia(f[3]) - dia(f[2])) / TOTAL * 100, 3);
-    return '<tr>' +
+    return '<tr data-frente="' + f[0] + '">' +
       '<td class="tarefa">' + f[0] + '</td>' +
       '<td class="dur">' + f[1] + '</td>' +
       '<td class="gantt"><span class="trilho"><i style="left:' + esq.toFixed(1) +
@@ -413,7 +391,7 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
 
   folha.innerHTML =
     '<div class="folha-cab">' +
-      '<div><b>Cronograma físico-financeiro</b><span>Obra corporativa · 10 frentes</span></div>' +
+      '<div><b>Cronograma físico-financeiro</b><span id="folhaLegenda">Obra corporativa · 10 frentes</span></div>' +
       '<div class="folha-selo">93,5 dias<span>jun a out</span></div>' +
     '</div>' +
     '<table class="folha-tabela">' +
@@ -421,6 +399,42 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
       '<tbody>' + linhas + '</tbody>' +
     '</table>' +
     '<div class="folha-pe"><span>Emitido com a proposta</span><span>Medido toda sexta</span></div>';
+
+  /* passar o cursor (ou o dedo) numa etapa acende as frentes daquela etapa */
+  var legenda = $('#folhaLegenda');
+  var legendaPadrao = legenda ? legenda.textContent : '';
+  var linhasEl = $$('tbody tr', folha);
+  var passos = $$('.passo');
+
+  function limpa(){
+    folha.classList.remove('focada');
+    linhasEl.forEach(function(tr){ tr.classList.remove('acesa'); });
+    passos.forEach(function(p){ p.classList.remove('ativa'); });
+    if(legenda) legenda.textContent = legendaPadrao;
+  }
+  function acende(passo){
+    var alvos = (passo.dataset.frentes || '').split('|').filter(Boolean);
+    folha.classList.add('focada');
+    passos.forEach(function(p){ p.classList.toggle('ativa', p === passo); });
+    linhasEl.forEach(function(tr){
+      tr.classList.toggle('acesa', alvos.indexOf(tr.dataset.frente) >= 0);
+    });
+    if(legenda){
+      legenda.textContent = passo.dataset.nota ||
+        (passo.dataset.etapa + ' · ' + alvos.length + (alvos.length === 1 ? ' frente' : ' frentes'));
+    }
+  }
+  passos.forEach(function(p){
+    ['mouseenter','focus'].forEach(function(ev){
+      p.addEventListener(ev, function(){ acende(p); });
+    });
+    ['mouseleave','blur'].forEach(function(ev){
+      p.addEventListener(ev, limpa);
+    });
+    p.addEventListener('touchstart', function(){
+      if(p.classList.contains('ativa')) limpa(); else acende(p);
+    }, {passive:true});
+  });
 })();
 
 /* ---------------------------------------------- contadores */

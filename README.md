@@ -79,11 +79,13 @@ As classes `.so-escuro` e `.so-claro` fazem a troca conforme o tema.
 
 ### Segmentos atendidos
 
-A seção `#segmentos` é um carrossel horizontal com um cartão por segmento,
-ícone em traço e rolagem por setas. Os itens ficam na constante `SEGMENTOS`
-do módulo `segmentos`, em `assets/js/spx.js`: cada entrada é
+A seção `#segmentos` é uma esteira que anda sozinha para a esquerda, sem
+título, e pausa quando o cursor entra. A lista é renderizada duas vezes para
+o laço não ter emenda. Os itens ficam na constante `SEGMENTOS` do módulo
+`segmentos`, em `assets/js/spx.js`: cada entrada é
 `[linha 1, linha 2, path do ícone]`. Para acrescentar um segmento, basta
-adicionar uma linha. O último cartão, com o sinal de mais, leva ao portfólio.
+adicionar uma linha. Com `prefers-reduced-motion` a esteira para e vira
+rolagem manual.
 
 ### Folha de cronograma
 
@@ -91,7 +93,10 @@ O bloco `#folhaCronograma`, dentro do Método, monta um resumo do cronograma
 com as dez frentes, duração e barra de período. Os dados ficam na constante
 `FRENTES` do módulo `cronograma`, em `assets/js/spx.js`, e as barras são
 calculadas a partir das datas de início e término. Cada etapa do método
-aponta, logo abaixo do prazo, quais frentes do cronograma ela cobre. As cores
+aponta, logo abaixo do prazo, quais frentes do cronograma ela cobre — e ao
+passar o cursor, o dedo ou o foco do teclado sobre a etapa, essas frentes
+acendem na folha e as demais escurecem. O vínculo é declarado no atributo
+`data-frentes` de cada `.passo`, separado por barra vertical. As cores
 da folha são fixas, de papel impresso, e não seguem os tokens.
 
 ### Faixas claras e fundo de canteiro

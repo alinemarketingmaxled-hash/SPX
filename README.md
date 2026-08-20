@@ -50,6 +50,23 @@ Nenhum componente tem cor fixa: todos usam os tokens semânticos, e o
 "bloco invertido" sempre contrasta com a página — claro sobre o site escuro,
 escuro sobre o site claro.
 
+### Topo com as obras ao fundo
+
+O topo é uma foto em tela cheia que troca sozinha a cada 6,5 segundos, com
+setas para avançar manualmente. As seis fotos em destaque estão listadas em
+`assets/js/spx.js`, no módulo `heroFotos` (constante `destaque`). A faixa de
+números por cima é vidro fosco; o topo mantém a paleta clara nos dois temas,
+porque está sempre sobre imagem.
+
+### Folha de cronograma
+
+O bloco `#folhaCronograma`, dentro do Método, monta uma folha de cronograma
+com fases, subtarefas, duração e barras de período. Os dados ficam na
+constante `LINHAS` do módulo `cronograma`, em `assets/js/spx.js` — nível 0 é
+fase, nível 1 é subtarefa. As barras são calculadas a partir das datas de
+início e término de cada fase. As cores da folha são fixas, de papel impresso,
+e não seguem os tokens.
+
 ### Faixas claras e fundo de canteiro
 
 Qualquer seção que receba a classe `.claro` reescreve os tokens semânticos e

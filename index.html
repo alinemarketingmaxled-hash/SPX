@@ -41,10 +41,7 @@
 <nav class="nav" aria-label="Principal"><div class="wrap nav-in">
   <div class="navpill">
     <a href="#obras" class="navlogo" aria-label="SPX Engenharia · início">
-      <svg width="26" height="26" viewBox="0 0 48 48" aria-hidden="true">
-        <polygon class="lam" points="6,9 17,9 42,39 31,39"/>
-        <polygon class="lam" points="31,9 42,9 17,39 6,39"/>
-      </svg>
+      <svg class="marca" viewBox="0 0 300 110" aria-hidden="true"><text x="0" y="93" font-family="Chakra Petch, sans-serif" font-weight="700" font-size="106" letter-spacing="-3">SP</text><g fill="none" stroke="currentColor" stroke-width="4.6" stroke-linecap="round"><path d="M150 10 L246 96 M196 10 L292 96 M150 10 L196 10 M246 96 L292 96 M150.0 10.0 L212.0 24.3 M212.0 24.3 L182.0 38.7 M182.0 38.7 L244.0 53.0 M244.0 53.0 L214.0 67.3 M214.0 67.3 L276.0 81.7 M276.0 81.7 L246.0 96.0 M166.0 24.3 L212.0 24.3 M182.0 38.7 L228.0 38.7 M198.0 53.0 L244.0 53.0 M214.0 67.3 L260.0 67.3 M230.0 81.7 L276.0 81.7"/><path d="M246 10 L150 96 M292 10 L196 96 M246 10 L292 10 M150 96 L196 96 M246.0 10.0 L276.0 24.3 M276.0 24.3 L214.0 38.7 M214.0 38.7 L244.0 53.0 M244.0 53.0 L182.0 67.3 M182.0 67.3 L212.0 81.7 M212.0 81.7 L150.0 96.0 M230.0 24.3 L276.0 24.3 M214.0 38.7 L260.0 38.7 M198.0 53.0 L244.0 53.0 M182.0 67.3 L228.0 67.3 M166.0 81.7 L212.0 81.7"/></g></svg>
     </a>
     <a href="#obras" class="link ativo">Obras</a>
     <a href="#servicos" class="link">Serviços</a>
@@ -82,29 +79,37 @@
 
 <main id="conteudo">
 
-<header class="sec hero wrap" id="obras">
-  <div class="hero-top" data-reveal>
-    <h1>Do conceito à entrega:<em>excelência em cada detalhe.</em></h1>
-    <div>
-      <p class="lead">Faria Lima, Berrini, Alphaville, Guarulhos e outros polos estratégicos.<br>Cada obra é conduzida com precisão, qualidade e atenção a cada detalhe.</p>
-      <div class="hero-acoes">
-        <a class="btn" href="#arquivo">Ver portfólio de obras ↗</a>
-        <a class="btn btn-ghost" href="#contato">Agendar visita técnica</a>
+<header class="hero" id="obras">
+  <div class="hero-fundo" id="heroFundo" aria-hidden="true"></div>
+  <div class="hero-veu" aria-hidden="true"></div>
+
+  <div class="wrap hero-corpo">
+    <div class="hero-top" data-reveal>
+      <h1>Do conceito à entrega:<em>excelência em cada detalhe.</em></h1>
+      <div>
+        <p class="lead">Faria Lima, Berrini, Alphaville, Guarulhos e outros polos estratégicos.<br>Cada obra é conduzida com precisão, qualidade e atenção a cada detalhe.</p>
+        <div class="hero-acoes">
+          <a class="btn" href="#arquivo">Ver portfólio de obras ↗</a>
+          <a class="btn btn-ghost" href="#contato">Agendar visita técnica</a>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="ficha" data-reveal data-atraso="1">
-    <div><b data-conta="9" data-prefixo="+" data-sufixo=" anos">+9 anos</b><span>De operação</span></div>
-    <div><b data-conta="120" data-sufixo="+">120+</b><span>Obras entregues</span></div>
-    <div><b data-conta="42" data-sufixo=" mil m²">42 mil m²</b><span>Construídos</span></div>
-  </div>
-
-  <div class="leque" id="leque" data-reveal data-atraso="2">
-    <article class="obra-card cantos"><div class="plate"><img src="img/sala-reuniao-azul.webp" data-ph="img/ph/sala-reuniao-azul.svg" alt="Sala de reunião com parede azul e mesa corporativa" loading="lazy" decoding="async"></div><div class="meta"><span><b>Sala de reunião</b></span><span>04.18.26</span></div></article>
-    <article class="obra-card cantos"><div class="plate"><img src="img/recepcao-marmore.webp" data-ph="img/ph/recepcao-marmore.svg" alt="Recepção com balcão em mármore e poltronas de espera" loading="lazy" decoding="async"></div><div class="meta"><span><b>Recepção</b></span><span>05.02.26</span></div></article>
-    <article class="obra-card cantos"><div class="plate"><img src="img/lounge-recepcao.webp" data-ph="img/ph/lounge-recepcao.svg" alt="Lounge de espera com balcão em pedra e cimento queimado" loading="lazy" decoding="async"></div><div class="meta"><span><b>Lounge</b></span><span>05.29.26</span></div></article>
-    <article class="obra-card cantos"><div class="plate"><img src="img/mesa-vista-sp.webp" data-ph="img/ph/mesa-vista-sp.svg" alt="Sala de reunião com mesa em madeira e vista para São Paulo" loading="lazy" decoding="async"></div><div class="meta"><span><b>Reunião</b></span><span>06.11.26</span></div></article>
+  <div class="wrap hero-base">
+    <div class="ficha">
+      <div><b data-conta="9" data-prefixo="+" data-sufixo=" anos">+9 anos</b><span>De operação</span></div>
+      <div><b data-conta="40" data-prefixo="+">+40</b><span>Obras entregues</span></div>
+      <div><b data-conta="42" data-sufixo=" mil m²">42 mil m²</b><span>Construídos</span></div>
+    </div>
+    <div class="hero-setas">
+      <button type="button" data-hero="ant" aria-label="Foto anterior">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <button type="button" data-hero="prox" aria-label="Próxima foto">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -134,26 +139,22 @@
   </div>
   <div class="servicos">
     <article class="card serv cantos" data-reveal>
-      <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M5 21V8l7-5 7 5v13M10 21v-6h4v6"/></svg></span>
-      <h3>Obra corporativa</h3>
+      <div class="serv-cab"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M5 21V8l7-5 7 5v13M10 21v-6h4v6"/></svg></span><h3>Obra corporativa</h3></div>
       <p>Sedes, andares e escritórios completos, do fit-out ao mobiliário fixo.</p>
       <ul><li>Layout e compatibilização</li><li>Marcenaria sob medida</li><li>Elétrica, dados e climatização</li><li>As-built e manuais na entrega</li></ul>
     </article>
     <article class="card serv cantos" data-reveal data-atraso="1">
-      <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h18l-1.5-4.5h-15zM4.5 9v11h15V9M9 20v-6h6v6"/></svg></span>
-      <h3>Varejo e flagship</h3>
+      <div class="serv-cab"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h18l-1.5-4.5h-15zM4.5 9v11h15V9M9 20v-6h6v6"/></svg></span><h3>Varejo e flagship</h3></div>
       <p>Loja nova, reforma de rede e padrão de bandeira replicado em escala.</p>
       <ul><li>Obra em shopping e rua</li><li>Fachada e aprovação legal</li><li>Roll-out multi-loja</li><li>Entrega em janela de inauguração</li></ul>
     </article>
     <article class="card serv cantos" data-reveal data-atraso="2">
-      <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h16M6 20V6h8v14M14 11h4v9M9 9h2M9 13h2"/></svg></span>
-      <h3>Retrofit ocupado</h3>
+      <div class="serv-cab"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h16M6 20V6h8v14M14 11h4v9M9 9h2M9 13h2"/></svg></span><h3>Retrofit ocupado</h3></div>
       <p>Edifício em operação, equipes em atividade e obra executada na janela autorizada.</p>
       <ul><li>Trabalho noturno e fim de semana</li><li>Controle de poeira e ruído</li><li>Plano de risco com o condomínio</li><li>Área liberada limpa a cada turno</li></ul>
     </article>
     <article class="card serv cantos" data-reveal data-atraso="3">
-      <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.7 6.3 3 3M3 21l3.5-1 11-11-2.5-2.5-11 11zM17 3.5 20.5 7"/></svg></span>
-      <h3>Manutenção predial</h3>
+      <div class="serv-cab"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.7 6.3 3 3M3 21l3.5-1 11-11-2.5-2.5-11 11zM17 3.5 20.5 7"/></svg></span><h3>Manutenção predial</h3></div>
       <p>Contrato recorrente com equipe residente e chamado com prazo fechado.</p>
       <ul><li>Preventiva e corretiva</li><li>Laudos e adequação de norma</li><li>Atendimento em até 48h</li><li>Relatório mensal por ativo</li></ul>
     </article>
@@ -196,12 +197,12 @@
     </article>
     <article class="passo" data-reveal data-atraso="1">
       <h3>Proposta</h3>
-      <p>Cronograma físico-financeiro, memorial descritivo e BDI aberto na mesma entrega.</p>
+      <p>Proposta técnica detalhada, com todos os serviços inclusos e composição de BDI aberta.</p>
       <span class="prazo">5 dias úteis</span>
     </article>
     <article class="passo" data-reveal data-atraso="2">
       <h3>Mobilização</h3>
-      <p>Canteiro, documentação de acesso, ASO da equipe e compras de prazo longo.</p>
+      <p>Cronograma físico-financeiro, montagem de canteiro, documentação de acesso e compras de prazo longo.</p>
       <span class="prazo">Semana 1</span>
     </article>
     <article class="passo" data-reveal data-atraso="3">
@@ -214,6 +215,22 @@
       <p>Vistoria com checklist, as-built, manuais e garantia contratual ativa.</p>
       <span class="prazo">Chamado em 48h</span>
     </article>
+  </div>
+
+  <div class="cronograma" data-reveal>
+    <div class="cronograma-texto">
+      <p class="eyebrow">Documento de obra</p>
+      <h3>O cronograma que<br>você recebe.</h3>
+      <p>Toda obra sai da proposta com o cronograma aberto, tarefa por tarefa, com duração
+      e período de cada frente. É o mesmo documento que orienta a medição semanal e que
+      você usa para cobrar prazo.</p>
+      <ul class="cronograma-notas">
+        <li>Fases e subtarefas com duração individual</li>
+        <li>Predecessoras e caminho crítico definidos</li>
+        <li>Atualizado toda sexta com o avanço físico</li>
+      </ul>
+    </div>
+    <div class="folha" id="folhaCronograma"></div>
   </div>
 </section>
 
@@ -241,7 +258,7 @@
       <button class="pill mais" id="maisPill" type="button" aria-expanded="false">+31 cidades</button>
     </div>
     <div class="nums">
-      <span><b data-conta="120" data-sufixo="+">120+</b> obras entregues</span><s aria-hidden="true">/</s>
+      <span><b data-conta="40" data-prefixo="+">+40</b> obras entregues</span><s aria-hidden="true">/</s>
       <span><b data-conta="42" data-sufixo=" mil">42 mil</b> m² construídos</span><s aria-hidden="true">/</s>
       <span><b data-conta="9" data-prefixo="+">+9</b> anos de operação</span><s aria-hidden="true">/</s>
       <span><b data-conta="0">0</b> acidentes com afastamento</span>

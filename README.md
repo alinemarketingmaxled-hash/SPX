@@ -174,6 +174,26 @@ Telefone, WhatsApp e e-mail de contato estão em `index.html` (seção
 `#contato`, rodapé e menu) e no fallback de `assets/js/spx.js` — troque os
 números de exemplo pelos reais antes de publicar.
 
+## Telas
+
+O site foi conferido em celular (320 a 430 px), celular deitado, tablet em
+pé e deitado, notebook e monitor grande, nas duas páginas. Os cortes:
+
+| Largura | O que muda |
+| --- | --- |
+| até 560 px | pílula do menu compacta, rodapé em uma coluna, botões cheios |
+| até 620 px | a folha de cronograma vira lista: nome em cima, barra embaixo |
+| até 700 px | tudo em uma coluna; os três números do topo ficam lado a lado |
+| até 900 px | topo em uma coluna, método em duas, rodapé em duas |
+| até 980 px | menu vira gaveta |
+| até 1080 px | serviços em duas colunas, dúvidas em duas |
+| até 1280 px | método em três etapas por linha |
+| acima | layout cheio, cinco etapas em linha |
+
+Em telas de toque (`pointer: coarse`), os links do rodapé e o acordeão
+ganham altura de alvo, independente da largura. Em celular deitado o topo
+encolhe para caber na tela.
+
 ## Acessibilidade e desempenho
 
 - Link "pular para o conteúdo", foco visível e navegação por teclado no menu,

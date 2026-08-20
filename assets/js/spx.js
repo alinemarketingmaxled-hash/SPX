@@ -424,16 +424,27 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
         (passo.dataset.etapa + ' · ' + alvos.length + (alvos.length === 1 ? ' frente' : ' frentes'));
     }
   }
+  /* no toque o navegador ainda simula mouseenter e mouseleave logo em seguida;
+     a janela abaixo faz o toque mandar e os eventos de mouse serem ignorados */
+  var toqueAte = 0;
+  function noToque(){ return Date.now() < toqueAte; }
+
   passos.forEach(function(p){
+    p.addEventListener('pointerdown', function(e){
+      if(e.pointerType !== 'touch') return;
+      toqueAte = Date.now() + 900;
+      if(p.classList.contains('ativa')) limpa(); else acende(p);
+    });
     ['mouseenter','focus'].forEach(function(ev){
-      p.addEventListener(ev, function(){ acende(p); });
+      p.addEventListener(ev, function(){ if(!noToque()) acende(p); });
     });
     ['mouseleave','blur'].forEach(function(ev){
-      p.addEventListener(ev, limpa);
+      p.addEventListener(ev, function(){ if(!noToque()) limpa(); });
     });
-    p.addEventListener('touchstart', function(){
-      if(p.classList.contains('ativa')) limpa(); else acende(p);
-    }, {passive:true});
+  });
+  /* tocar fora das etapas apaga o destaque */
+  document.addEventListener('pointerdown', function(e){
+    if(e.pointerType === 'touch' && !e.target.closest('.passo')) limpa();
   });
 })();
 

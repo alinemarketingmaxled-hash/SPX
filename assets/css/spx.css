@@ -45,8 +45,8 @@
   /* tipografia */
   --display:'Chakra Petch',ui-sans-serif,system-ui,sans-serif;
   --corpo:'Barlow',ui-sans-serif,system-ui,-apple-system,sans-serif;
-  --t-hero:clamp(34px,5.4vw,68px);
-  --t-h2:clamp(27px,3.8vw,46px);
+  --t-hero:clamp(29px,6.4vw,68px);
+  --t-h2:clamp(24px,4.2vw,46px);
   --t-h3:clamp(17px,1.5vw,20px);
   --t-lead:clamp(15.5px,1.25vw,17.5px);
   --t-micro:11px;
@@ -59,6 +59,7 @@
   --maxw:1200px;
   --gutter:clamp(18px,4vw,28px);
   --transicao:.28s cubic-bezier(.2,.7,.2,1);
+  --nav-altura:74px;   /* pílula + respiro, para o topo subir por baixo dela */
 }
 
 /* tema claro — "modo planta" */
@@ -269,7 +270,7 @@ a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}
   --inv-bg:#F2F1EE; --inv-txt:#0B0E10; --acc-2:#A6C3DC;
   position:relative;display:flex;flex-direction:column;justify-content:flex-end;
   min-height:min(94vh,880px);padding:calc(var(--e7) + 40px) 0 var(--e5);
-  margin-top:calc(-46px - 28px);           /* o menu flutua sobre a foto */
+  margin-top:calc(var(--nav-altura) * -1);  /* o menu flutua sobre a foto */
   overflow:hidden;color:var(--txt);isolation:isolate;
 }
 .hero-fundo{position:absolute;inset:0;z-index:0}
@@ -353,7 +354,7 @@ a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}
 .beam{position:absolute;left:50%;top:0;bottom:0;width:26px;transform:translateX(-50%);z-index:3;
   background:repeating-linear-gradient(115deg,var(--acc-2) 0 2px,transparent 2px 8px);
   box-shadow:0 0 34px 6px rgba(110,144,174,.32)}
-.beam .rot{position:absolute;bottom:14px;font-family:var(--display);font-weight:600;font-size:9px;
+.beam .rot{position:absolute;bottom:14px;font-family:var(--display);font-weight:600;font-size:10px;
   letter-spacing:.18em;text-transform:uppercase;white-space:nowrap;background:var(--bg);
   padding:4px 9px;border-radius:var(--raio);color:var(--txt-2)}
 .beam .rot.esq{right:calc(100% + 12px)}
@@ -461,7 +462,7 @@ a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}
   padding:11px 18px 12px;border-top:1px solid #DEDED7;font-size:10px;color:#767C82;
   font-family:var(--display);letter-spacing:.1em;text-transform:uppercase}
 
-.passo .prazo{display:inline-block;margin-top:12px;font-family:var(--display);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--txt-3);border:1px solid var(--linha);padding:4px 9px}
+.passo .prazo{display:inline-block;margin-top:12px;font-family:var(--display);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--txt-3);border:1px solid var(--linha);padding:4px 9px}
 
 /* bloco invertido (atuação) */
 .cover{background:var(--bl-bg);color:var(--bl-txt);position:relative;overflow:hidden;transition:background .4s ease,color .4s ease}
@@ -610,23 +611,31 @@ a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}
 .corpo-erro{min-height:100vh;display:flex;flex-direction:column}
 
 /* -------------------------------------------------- 6. RESPONSIVO */
+/* notebook menor e tablet deitado: cinco etapas em linha ficam apertadas */
+@media(max-width:1280px){
+  .passos{grid-template-columns:repeat(3,1fr);gap:0 24px;row-gap:var(--e6)}
+}
 @media(max-width:1080px){
   .servicos{grid-template-columns:repeat(2,1fr)}
-  .passos{grid-template-columns:repeat(3,1fr);gap:0 24px;row-gap:var(--e5)}
   .faq-grid{grid-template-columns:1fr 1fr;gap:20px}
   .faq-side{grid-column:1/-1}
+  .cronograma{gap:var(--e5)}
 }
 @media(max-width:980px){
   .navpill a.link{display:none}
   .nav-menu{display:flex}
   .nav{top:10px;margin-top:10px}
+  :root{--nav-altura:70px}
 }
 @media(max-width:900px){
   .hero-top,.hub-grid,.contato-grid{grid-template-columns:1fr;gap:var(--e5)}
-  .hero{min-height:auto;padding-top:calc(var(--e7) + 34px);padding-bottom:var(--e4)}
+  .hero{min-height:auto;padding-top:calc(var(--nav-altura) + var(--e5));padding-bottom:var(--e4)}
+  .hero-corpo{padding-top:var(--e4);padding-bottom:var(--e5)}
   .hero-base{flex-direction:column;align-items:stretch}
+  .ficha{flex:0 0 auto}   /* em coluna, o flex-basis viraria altura */
   .hero-setas{justify-content:flex-end}
   .cronograma{grid-template-columns:1fr;gap:var(--e5)}
+  .passos{grid-template-columns:repeat(2,1fr)}
   .colunas{grid-template-columns:1fr;height:480px}
   .compromissos{grid-template-columns:1fr}
   .colunas .coluna:nth-child(n+2){display:none}
@@ -637,22 +646,67 @@ a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}
   .frame{flex:0 0 250px;height:166px}
   .rodape{margin-top:var(--e6)}
 }
+/* dedo precisa de alvo, em qualquer tamanho de tela */
+@media(pointer:coarse){
+  .rod-grid ul{gap:1px}
+  .rod-grid a{display:inline-block;padding:10px 0}
+  .rod-fim a,.atalhos a{display:inline-block;padding:8px 0}
+  .q button{padding-top:21px;padding-bottom:21px}
+}
+
+/* a folha de cronograma vira lista: nome em cima, barra embaixo */
+@media(max-width:620px){
+  .folha-tabela thead{display:none}
+  .folha-tabela tbody tr{display:grid;grid-template-columns:1fr auto;gap:0 12px;
+    padding:11px 15px;border-bottom:1px solid #EDEDE7}
+  .folha-tabela td{padding:0;border:0}
+  .folha-tabela .dur{text-align:right}
+  .folha-tabela .gantt{grid-column:1/-1;width:auto;margin-top:8px}
+  .folha.focada tbody tr.acesa{background:#EAEFF4}
+}
 @media(max-width:700px){
   .servicos,.passos,.faq-grid,.campos,.cronograma{grid-template-columns:1fr}
   .folha{transform:none}
-  .ficha{grid-template-columns:1fr}
+  /* três números lado a lado ocupam bem menos altura que empilhados */
+  .ficha{grid-template-columns:repeat(3,1fr)}
+  .ficha div{padding:14px 12px}
+  .ficha b{font-size:17px}
+  .ficha span{font-size:10px;letter-spacing:.06em;margin-top:6px}
   .cover-in{padding:var(--e5) 20px var(--e4)}
   .nums{gap:14px 18px;font-size:13px}
   .nums s{display:none}
   .cabeca{align-items:flex-start}
   .faq-stats{gap:16px}
+  .seg{width:clamp(200px,64vw,240px);min-height:96px;padding:18px 16px}
+  .seg-ico svg{width:30px;height:30px}
+  .seg-nome{font-size:14px}
 }
+/* celular deitado: pouca altura, o topo precisa caber na tela */
+@media(orientation:landscape) and (max-height:540px){
+  .hero{padding-top:calc(var(--nav-altura) + var(--e2));padding-bottom:var(--e3)}
+  .hero-corpo{padding-top:var(--e2);padding-bottom:var(--e3)}
+  .hero-top{grid-template-columns:1.05fr .95fr;gap:var(--e4);align-items:center}
+  .hero h1{font-size:clamp(25px,4.4vw,40px)}
+  .hero .lead{font-size:14.5px}
+  .ficha div{padding:11px 12px}
+  .hero-acoes .btn{padding:11px 16px;font-size:11.5px}
+}
+
 @media(max-width:560px){
+  /* a pílula tem de caber inteira, com folga nas laterais */
+  .navpill{padding:6px;gap:4px}
+  .navlogo{padding:0 7px 0 5px}
+  .navlogo .marca{height:19px}
+  .navpill a.cta{padding:11px 14px;font-size:11px;letter-spacing:.1em}
+  .nav-btn{width:40px;height:40px}
+  .nav-btn svg{width:17px;height:17px}
+
   .rod-grid{grid-template-columns:1fr;gap:var(--e3)}
-  .rod-fim{flex-direction:column;gap:10px}
+  .rod-fim{flex-direction:column;gap:4px}
   .btn{width:100%}
   .hero-acoes .btn,.acoes .btn{width:auto;flex:1 1 auto}
   .form-rodape .btn{width:100%}
+  .hero-setas{display:none}
 }
 
 /* -------------------------------------------------- 7. PREFERÊNCIAS */

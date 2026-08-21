@@ -9,11 +9,11 @@ O único passo de build minifica os dois assets; servir a pasta já funciona.
 ├── 404.html                   página de erro
 ├── servicos-e-regioes.html    diretório de serviços por região (SEO)
 ├── build.mjs                  minifica o CSS e o JS
-├── fontes.mjs                 baixa as fontes do Google para dentro do repo
+├── fontes.py                  baixa e corta as fontes do Google
 ├── assets/
 │   ├── css/spx.css            sistema de design + componentes + seções (fonte)
 │   ├── css/spx.min.css        o que as páginas carregam (gerado)
-│   ├── css/fontes/*.woff2     fontes servidas do próprio domínio
+│   ├── css/fontes/*.woff2     fontes servidas do próprio domínio, já cortadas
 │   ├── js/spx.js              comportamento compartilhado (fonte)
 │   └── js/spx.min.js          o que as páginas carregam (gerado)
 └── img/
@@ -50,8 +50,34 @@ As fontes (Chakra Petch e Barlow) são servidas do próprio domínio, em
 `assets/css/fontes/`, e os `@font-face` ficam no começo de `spx.css`. Isso
 evita abrir duas conexões novas (`fonts.googleapis.com` e `fonts.gstatic.com`)
 no primeiro acesso — em rede móvel esse era, de longe, o maior custo da
-página. Para atualizar a lista de pesos, edite e rode `node fontes.mjs` e
-depois `node build.mjs`.
+página.
+
+São só cinco arquivos, 52 KB no total, cortados para o alfabeto que o site
+escreve (português inteiro, mais a pontuação e as setas em uso):
+
+| Fonte | Onde entra |
+| --- | --- |
+| Barlow 400 | texto corrido |
+| Barlow 600 | destaque dentro do texto, `<b>` e `<strong>` |
+| Chakra Petch 500 | rótulos e legendas |
+| Chakra Petch 600 | menu, botões e subtítulos |
+| Chakra Petch 700 | títulos |
+
+```bash
+pip install fonttools brotli
+python3 fontes.py   # baixa do Google, corta os glifos e reescreve os @font-face
+node build.mjs
+```
+
+A lista `PESOS` dentro de `fontes.py` é a fonte da verdade. **Se você usar um
+peso que não está lá**, o navegador engorda ou afina a letra sozinho e a forma
+sai diferente do desenho original. Por isso o CSS normaliza `b`/`strong` para
+600 e alguns rótulos para 500 — assim nenhum peso fora da lista é pedido.
+
+As fontes não são pré-carregadas de propósito: testado, o `preload` de fonte
+rouba banda da foto do topo e o LCP piora de 2,4 s para 4,5 s. Com
+`font-display: swap` o texto aparece na hora na fonte do sistema e troca
+depois.
 
 ## Sistema de design
 
@@ -311,5 +337,14 @@ Palavras-chave do Google Ads antes de investir em conteúdo.
   mudam de nome, são `immutable` por um ano.
 
 Medido com o Lighthouse em celular e rede lenta, a página principal fica em
-95 de desempenho (LCP 2,7 s). Para conferir o número real, rode o PageSpeed
+97 de desempenho (LCP 2,4 s). Para conferir o número real, rode o PageSpeed
 Insights na URL publicada, não em localhost.
+
+Duas coisas foram testadas e **pioraram**, não repita:
+
+- **Embutir o CSS na página.** Com a folha inteira dentro do HTML o documento
+  cresce e atrasa a descoberta da foto do topo. Só a parte crítica também não
+  resolve: o que fica de fora chega depois e o layout pula (CLS foi de 0,04
+  para 1,04, nota de 97 para 51).
+- **`preload` das fontes.** Tira banda da foto do topo; o CLS melhora um
+  pouco e o LCP piora bem mais.

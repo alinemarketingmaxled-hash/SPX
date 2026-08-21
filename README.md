@@ -207,6 +207,36 @@ contato perdem a linha de apoio e o bloco lateral das dúvidas fica só com o
 título, os números e o botão. O conteúdo completo continua no tablet e no
 computador.
 
+## SEO
+
+O que está no site:
+
+- **Dados estruturados** em JSON-LD no `<head>` do `index.html`, tipo
+  `GeneralContractor`: nome, descrição, telefone, e-mail, cidades atendidas,
+  catálogo de serviços e horário. É o formato que o Google lê para montar o
+  painel de empresa.
+- **Bloco de serviços e regiões** no fim do rodapé (`.seo`), com 48 termos
+  organizados em serviços, regiões e buscas frequentes. É um acordeão de
+  verdade, aberto por quem quiser: texto escondido de leitor humano é
+  penalizado pelo Google como spam.
+- **Meta descrição, Open Graph e Twitter Card**, com a imagem de
+  compartilhamento em `img/og.jpg` (1200x630, gerada de uma foto real com a
+  logo).
+- **robots.txt** liberando o site inteiro.
+
+**Falta fazer quando o domínio próprio entrar no ar** (hoje o endereço é o da
+Vercel, e URL absoluta errada atrapalha em vez de ajudar):
+
+1. Trocar `og:image` e `twitter:image` por URL absoluta.
+2. Acrescentar `<link rel="canonical">` e `og:url`.
+3. Criar `sitemap.xml` e apontá-lo no `robots.txt`.
+4. Cadastrar o site no Google Search Console e no Perfil da Empresa no Google.
+
+Os termos do bloco de SEO foram escolhidos por conhecimento do mercado, não
+medidos no Google Trends — o ambiente onde o site foi construído não tem
+acesso à internet aberta. Vale validar volume e concorrência no Planejador de
+Palavras-chave do Google Ads antes de investir em conteúdo.
+
 ## Acessibilidade e desempenho
 
 - Link "pular para o conteúdo", foco visível e navegação por teclado no menu,

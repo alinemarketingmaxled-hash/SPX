@@ -194,6 +194,14 @@ Em telas de toque (`pointer: coarse`), os links do rodapé e o acordeão
 ganham altura de alvo, independente da largura. Em celular deitado o topo
 encolhe para caber na tela.
 
+No celular a página é enxugada de propósito, para não virar uma rolagem sem
+fim: os itens dos cards de serviço somem, as cinco etapas do método viram
+uma lista de uma linha cada, a folha de cronograma perde a coluna de período
+para uma barra abaixo do nome, o formulário vai a duas colunas, os canais de
+contato perdem a linha de apoio e o bloco lateral das dúvidas fica só com o
+título, os números e o botão. O conteúdo completo continua no tablet e no
+computador.
+
 ## Acessibilidade e desempenho
 
 - Link "pular para o conteúdo", foco visível e navegação por teclado no menu,

@@ -651,24 +651,74 @@ a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}
   .rod-grid ul{gap:1px}
   .rod-grid a{display:inline-block;padding:10px 0}
   .rod-fim a,.atalhos a{display:inline-block;padding:8px 0}
-  .q button{padding-top:21px;padding-bottom:21px}
+  .q button{min-height:56px}
 }
 
 /* a folha de cronograma vira lista: nome em cima, barra embaixo */
 @media(max-width:620px){
   .folha-tabela thead{display:none}
   .folha-tabela tbody tr{display:grid;grid-template-columns:1fr auto;gap:0 12px;
-    padding:11px 15px;border-bottom:1px solid #EDEDE7}
+    padding:9px 15px;border-bottom:1px solid #EDEDE7}
+  .folha-tabela .tarefa{font-size:10.5px}
+  .folha-cab{padding:14px 15px 11px}
+  .folha-pe{padding:9px 15px 10px}
   .folha-tabela td{padding:0;border:0}
   .folha-tabela .dur{text-align:right}
-  .folha-tabela .gantt{grid-column:1/-1;width:auto;margin-top:8px}
+  .folha-tabela .gantt{grid-column:1/-1;width:auto;margin-top:6px}
+  .trilho{height:6px}
   .folha.focada tbody tr.acesa{background:#EAEFF4}
 }
 @media(max-width:700px){
-  .servicos,.passos,.faq-grid,.campos,.cronograma{grid-template-columns:1fr}
+  /* no celular a página precisa ser curta: menos respiro e menos texto */
+  :root{--e8:56px;--e7:52px;--e6:38px}
+  .servicos,.passos,.faq-grid,.cronograma{grid-template-columns:1fr}
+  .campos{grid-template-columns:1fr 1fr}
+  .campo input,.campo select,.campo textarea{padding:11px 12px;font-size:14.5px}
+  .campo label{font-size:10px;letter-spacing:.12em}
+  .campo textarea{min-height:96px}
+
+  /* serviços: fica o ícone, o nome e a frase; a lista de itens sai */
+  .serv{padding:20px 18px 22px;gap:12px}
+  .serv ul{display:none}
+  .serv p{font-size:14.5px}
+
+  /* método: as cinco etapas viram uma lista de uma linha cada */
+  .passos{gap:0;margin-top:var(--e5)}
+  .passo{display:grid;grid-template-columns:1fr auto;align-items:center;gap:2px 16px;
+    padding:15px 0;border-top:1px solid var(--linha)}
+  .passo::before{position:static;transform:none;padding:0;font-size:10px;
+    grid-row:1;grid-column:1}
+  .passo h3{grid-row:2;grid-column:1;font-size:15px;margin:0}
+  .passo p,.passo-fase{display:none}
+  .passo .prazo{grid-row:1 / span 2;grid-column:2;align-self:center;margin:0;
+    border:0;padding:0;font-size:11px;color:var(--txt-2)}
+  .passo.ativa .prazo{color:var(--acc-2)}
+  .cronograma{margin-top:var(--e6);padding-top:var(--e5)}
+  .cronograma-texto h3{font-size:20px}
+  .cronograma-dica{display:none}
+
+  .q button{padding:15px 17px;font-size:15px}
+  .q .resp p{padding:0 17px 17px;font-size:14px}
+
+  /* dúvidas: fica o título, os números e o botão */
+  .faq-side{padding:24px 20px}
+  .faq-side .lead,.faq-side > p:last-child{display:none}
+  .faq-stats{margin:22px 0}
+
+  /* contato: os canais perdem a linha de apoio */
+  .canal{padding:12px 14px;gap:12px}
+  .canal .ico{width:34px;height:34px}
+  .canal b + span{display:none}
+  .form{padding:20px 18px 22px}
+  .campos{gap:13px}
+
+  /* compromissos e rodapé mais justos */
+  .compromisso{gap:9px}
+  .dep{padding:18px}
+
+  .ficha{grid-template-columns:repeat(3,1fr)}
   .folha{transform:none}
   /* três números lado a lado ocupam bem menos altura que empilhados */
-  .ficha{grid-template-columns:repeat(3,1fr)}
   .ficha div{padding:14px 12px}
   .ficha b{font-size:17px}
   .ficha span{font-size:10px;letter-spacing:.06em;margin-top:6px}
@@ -692,6 +742,13 @@ a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}
   .hero-acoes .btn{padding:11px 16px;font-size:11.5px}
 }
 
+/* celular bem estreito: duas colunas de formulário não cabem */
+@media(max-width:380px){
+  .campos{grid-template-columns:1fr}
+  .ficha b{font-size:15.5px}
+  .ficha div{padding:12px 9px}
+}
+
 @media(max-width:560px){
   /* a pílula tem de caber inteira, com folga nas laterais */
   .navpill{padding:6px;gap:4px}
@@ -701,7 +758,8 @@ a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}
   .nav-btn{width:40px;height:40px}
   .nav-btn svg{width:17px;height:17px}
 
-  .rod-grid{grid-template-columns:1fr;gap:var(--e3)}
+  .rod-grid{grid-template-columns:1fr 1fr;gap:var(--e4) var(--e3)}
+  .rod-grid > div:first-child{grid-column:1 / -1}
   .rod-fim{flex-direction:column;gap:4px}
   .btn{width:100%}
   .hero-acoes .btn,.acoes .btn{width:auto;flex:1 1 auto}

@@ -133,6 +133,34 @@ body > *{position:relative;z-index:1}
   --brilho:0 0 0 1px rgba(46,68,89,.28),0 12px 34px rgba(46,68,89,.12);
   color:var(--txt);
 }
+/* faixa de vidro escuro: fundo profundo, brilho difuso e trama fina */
+.sec.vidro{
+  --bg:#070C11; --bg-2:#0A1016;
+  --sup:rgba(255,255,255,.055); --sup-2:rgba(255,255,255,.09);
+  --linha:rgba(255,255,255,.14); --linha-forte:rgba(255,255,255,.28);
+  --txt:#F4F4F1; --txt-2:#AEB6BD; --txt-3:#7C858D;
+  --acc:#3A5570; --acc-2:#8FB0CC; --acc-suave:rgba(143,176,204,.13);
+  --inv-bg:#F2F1EE; --inv-txt:#0B0E10;
+  --trama:rgba(255,255,255,.05);
+  /* sem overflow:hidden aqui — ele recortaria o fundo na largura do .wrap */
+  color:var(--txt);position:relative;isolation:isolate;
+}
+.sec.vidro::before{
+  content:"";position:absolute;top:0;bottom:0;left:calc(50% - 50vw);width:100vw;z-index:-2;
+  background:
+    radial-gradient(130% 95% at 16% -10%,rgba(58,85,112,.55),transparent 58%),
+    radial-gradient(95% 85% at 90% 108%,rgba(143,176,204,.2),transparent 60%),
+    var(--bg);
+}
+.sec.vidro::after{
+  content:"";position:absolute;top:0;bottom:0;left:calc(50% - 50vw);width:100vw;z-index:-1;
+  pointer-events:none;
+  background-image:repeating-linear-gradient(115deg,rgba(255,255,255,.04) 0 2px,transparent 2px 11px);
+}
+/* sobre o vidro escuro, o papel precisa de sombra mais funda */
+.sec.vidro .folha{box-shadow:0 34px 74px rgba(0,0,0,.55),0 2px 0 rgba(255,255,255,.1)}
+.sec.vidro .folha.inclinada{box-shadow:0 54px 110px rgba(0,0,0,.62),0 2px 0 rgba(255,255,255,.12)}
+
 /* a faixa clara sangra até as bordas, mesmo quando a seção é o próprio .wrap */
 .sec.claro::before{
   content:"";position:absolute;top:0;bottom:0;left:calc(50% - 50vw);width:100vw;

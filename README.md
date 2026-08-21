@@ -107,8 +107,13 @@ efeito é desligado no toque e com `prefers-reduced-motion`.
 
 Qualquer seção que receba a classe `.claro` reescreve os tokens semânticos e
 vira uma faixa cinza esbranquiçada, sangrando de ponta a ponta. Todo componente
-dentro dela acompanha sozinho, sem regra nova. Hoje são três: Serviços, Método
-e Dúvidas.
+dentro dela acompanha sozinho, sem regra nova. Hoje são duas: Serviços e
+Dúvidas.
+
+A classe `.vidro` faz o mesmo com uma faixa de vidro escuro: fundo profundo,
+brilho difuso em duas manchas e trama diagonal fina. É a do Método, onde a
+folha branca de cronograma precisa de contraste. Nenhuma das duas pode usar
+`overflow: hidden`, que recortaria o fundo na largura do conteúdo.
 
 O desenho de canteiro (`img/canteiro.svg` — guindastes, prédios em obra,
 andaimes e tapume) fica fixo no rodapé da janela, atrás de tudo, com opacidade

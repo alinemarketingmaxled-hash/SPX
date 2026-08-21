@@ -619,6 +619,30 @@ a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}
 .wordmark .wm.luz{position:absolute;left:0;top:0;
   -webkit-mask-image:radial-gradient(circle 190px at var(--mx,50%) var(--my,50%),#000 0%,transparent 72%);
   mask-image:radial-gradient(circle 190px at var(--mx,50%) var(--my,50%),#000 0%,transparent 72%)}
+/* página de diretório: serviços cruzados com as regiões atendidas */
+.diretorio{padding-top:calc(var(--nav-altura) + var(--e6))}
+.dir-indice{display:flex;flex-wrap:wrap;gap:7px;margin-top:var(--e4)}
+.dir-indice a{text-decoration:none;font-family:var(--display);font-weight:600;font-size:10.5px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--txt-3);border:1px solid var(--linha);
+  border-radius:999px;padding:7px 12px;transition:color .2s,border-color .2s,background .2s}
+.dir-indice a:hover{color:var(--txt);border-color:var(--acc-2);background:var(--acc-suave)}
+.dir-acoes{display:flex;gap:12px;flex-wrap:wrap;margin-top:var(--e5)}
+.dir-grupo{margin-top:var(--e7);padding-top:var(--e5);border-top:1px solid var(--linha)}
+.dir-grupo h2{font-size:clamp(21px,2.4vw,28px)}
+.dir-nota{color:var(--txt-2);font-size:14.5px;margin-top:12px;max-width:60ch}
+.dir-regiao{margin-top:var(--e5);scroll-margin-top:120px}
+.dir-regiao h3{font-size:13px;letter-spacing:.14em;color:var(--acc-2);
+  padding-bottom:9px;border-bottom:1px solid var(--linha)}
+.dir-regiao ul{list-style:none;margin:14px 0 0;padding:0;
+  columns:4;column-gap:var(--e4);font-size:12.5px;color:var(--txt-3);line-height:1.75}
+.dir-regiao li{break-inside:avoid}
+.dir-fecho{margin-top:var(--e7);padding-top:var(--e5);border-top:1px solid var(--linha);
+  color:var(--txt-2);font-size:14.5px}
+.dir-fecho a{color:var(--acc-2)}
+@media(max-width:1080px){.dir-regiao ul{columns:3}}
+@media(max-width:760px){.dir-regiao ul{columns:2;font-size:12px}}
+@media(max-width:460px){.dir-regiao ul{columns:1}}
+
 /* bloco de serviços e regiões: discreto, porém legível e indexável.
    Texto escondido de leitor humano é penalizado pelo Google, então ele é
    um acordeão de verdade, aberto por quem quiser. */
@@ -635,6 +659,8 @@ a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}
 .seo summary:hover{color:var(--txt-2)}
 .seo-corpo{padding-bottom:var(--e4)}
 .seo-corpo p{color:var(--txt-3);font-size:13px;max-width:74ch}
+.seo-corpo p a{color:var(--acc-2)}
+.seo-corpo p + p{margin-top:12px}
 .seo-colunas{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--e4);margin-top:var(--e4)}
 .seo-colunas h4{font-family:var(--display);font-size:10px;letter-spacing:.16em;
   text-transform:uppercase;color:var(--txt-2);margin:0 0 12px;font-weight:600}

@@ -219,6 +219,14 @@ O que está no site:
   organizados em serviços, regiões e buscas frequentes. É um acordeão de
   verdade, aberto por quem quiser: texto escondido de leitor humano é
   penalizado pelo Google como spam.
+- **Página de diretório** `servicos-e-regioes.html`, com 1.064 combinações de
+  serviço e região (28 serviços × 38 regiões), agrupadas por área, com índice
+  navegável no topo. Foi feita como página própria, e não empilhada no rodapé
+  da home, porque a política do Google trata "blocos de texto listando cidades
+  e regiões" dentro de uma página comum como excesso de palavras-chave. Como
+  página de cobertura, com título, introdução, hierarquia e navegação, é o
+  formato que o Google aceita. Para mexer na lista, edite as constantes
+  `GRUPOS` e `SERVICOS` no gerador e regere a página.
 - **Meta descrição, Open Graph e Twitter Card**, com a imagem de
   compartilhamento em `img/og.jpg` (1200x630, gerada de uma foto real com a
   logo).

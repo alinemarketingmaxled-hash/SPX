@@ -18,9 +18,13 @@
 <meta name="geo.placename" content="São Paulo">
 <meta property="og:locale" content="pt_BR">
 <link rel="icon" type="image/png" href="img/favicon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;0,600;0,700;1,700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="img/sala-reuniao-azul-960.webp"
+      imagesrcset="img/sala-reuniao-azul-480.webp 480w, img/sala-reuniao-azul-640.webp 640w, img/sala-reuniao-azul-960.webp 960w" imagesizes="100vw" fetchpriority="high">
+<link rel="stylesheet" href="assets/css/spx.min.css?v=5">
+<script>
+/* aplica o tema antes da pintura para não piscar */
+(function(){try{var t=localStorage.getItem('spx-tema')||'escuro';document.documentElement.setAttribute('data-tema',t);}catch(e){}})();
+</script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -141,11 +145,6 @@
   }
 }
 </script>
-<link rel="stylesheet" href="assets/css/spx.css">
-<script>
-/* aplica o tema antes da pintura para não piscar */
-(function(){try{var t=localStorage.getItem('spx-tema')||'escuro';document.documentElement.setAttribute('data-tema',t);}catch(e){}})();
-</script>
 </head>
 <body>
 
@@ -161,14 +160,14 @@
 </pattern>
 </defs></svg>
 
-<img class="canteiro" src="img/canteiro.svg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+<img class="canteiro" src="img/canteiro.svg" width="1600" height="900" alt="" aria-hidden="true" loading="lazy" decoding="async">
 
 <div class="hatch" aria-hidden="true"></div>
 
 <nav class="nav" aria-label="Principal"><div class="wrap nav-in">
   <div class="navpill">
     <a href="#obras" class="navlogo" aria-label="SPX Engenharia · início">
-      <img class="marca so-escuro" src="img/logo-spx.png" alt="" aria-hidden="true"><img class="marca so-claro" src="img/logo-spx-negativa.png" alt="" aria-hidden="true">
+      <img class="marca so-escuro" src="img/logo-spx.webp" width="300" height="72" alt="" aria-hidden="true"><img class="marca so-claro" src="img/logo-spx-negativa.webp" width="300" height="72" alt="" aria-hidden="true">
     </a>
     <a href="#obras" class="link ativo">Obras</a>
     <a href="#servicos" class="link">Serviços</a>
@@ -208,7 +207,12 @@
 <main id="conteudo">
 
 <header class="hero" id="obras">
-  <div class="hero-fundo" id="heroFundo" aria-hidden="true"></div>
+  <div class="hero-fundo" id="heroFundo" aria-hidden="true">
+    <img class="ativa" src="img/sala-reuniao-azul-640.webp"
+         srcset="img/sala-reuniao-azul-480.webp 480w, img/sala-reuniao-azul-640.webp 640w, img/sala-reuniao-azul-960.webp 960w"
+         sizes="100vw" width="960" height="1363"
+         alt="Sala de reunião com parede azul" fetchpriority="high" decoding="async">
+  </div>
   <div class="hero-veu" aria-hidden="true"></div>
 
   <div class="wrap hero-corpo">
@@ -531,10 +535,10 @@
   </div>
 
   <div class="wordmark" id="wordmark" aria-hidden="true">
-    <img class="wm base so-escuro" src="img/logo-negativa.png" alt="">
-    <img class="wm luz so-escuro" src="img/logo-negativa.png" alt="">
-    <img class="wm base so-claro" src="img/logo.png" alt="">
-    <img class="wm luz so-claro" src="img/logo.png" alt="">
+    <img class="wm base so-escuro" src="img/logo-negativa.webp" width="723" height="304" alt="" loading="lazy" decoding="async">
+    <img class="wm luz so-escuro" src="img/logo-negativa.webp" width="723" height="304" alt="" loading="lazy" decoding="async">
+    <img class="wm base so-claro" src="img/logo.webp" width="723" height="304" alt="" loading="lazy" decoding="async">
+    <img class="wm luz so-claro" src="img/logo.webp" width="723" height="304" alt="" loading="lazy" decoding="async">
   </div>
 
   <details class="seo">
@@ -558,6 +562,6 @@
   </div>
 </footer>
 
-<script src="assets/js/spx.js" defer></script>
+<script src="assets/js/spx.min.js?v=5" defer></script>
 </body>
 </html>

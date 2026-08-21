@@ -1,25 +1,57 @@
 # SPX Engenharia — site institucional
 
-Site estático (HTML + CSS + JS puro, sem build e sem dependência de framework)
-para a SPX Engenharia. Basta servir a pasta.
+Site estático (HTML + CSS + JS puro, sem framework) para a SPX Engenharia.
+O único passo de build minifica os dois assets; servir a pasta já funciona.
 
 ```
 .
-├── index.html            página principal
-├── 404.html              página de erro
+├── index.html                 página principal
+├── 404.html                   página de erro
+├── servicos-e-regioes.html    diretório de serviços por região (SEO)
+├── build.mjs                  minifica o CSS e o JS
+├── fontes.mjs                 baixa as fontes do Google para dentro do repo
 ├── assets/
-│   ├── css/spx.css       sistema de design + componentes + seções
-│   └── js/spx.js         comportamento compartilhado pelas duas páginas
+│   ├── css/spx.css            sistema de design + componentes + seções (fonte)
+│   ├── css/spx.min.css        o que as páginas carregam (gerado)
+│   ├── css/fontes/*.woff2     fontes servidas do próprio domínio
+│   ├── js/spx.js              comportamento compartilhado (fonte)
+│   └── js/spx.min.js          o que as páginas carregam (gerado)
 └── img/
-    ├── *.webp            fotos reais das obras (coloque as suas aqui)
-    └── ph/*.svg          renders de apoio, usados enquanto a foto não existe
+    ├── *.webp                 fotos reais das obras, com variantes de largura
+    └── ph/*.svg               renders de apoio, se alguma foto faltar
 ```
 
 Para rodar localmente:
 
 ```bash
-npx http-server -p 8080 .   # ou: python3 -m http.server 8080
+python3 -m http.server 8080   # ou: npx http-server -p 8080 .
 ```
+
+## Build
+
+Edite sempre `assets/css/spx.css` e `assets/js/spx.js`; os arquivos `.min`
+são gerados e não devem ser editados à mão.
+
+```bash
+npm install     # só na primeira vez (esbuild)
+node build.mjs  # depois de qualquer mudança no CSS ou no JS
+```
+
+Se mudar o CSS ou o JS, suba também o número de versão do `?v=` nas três
+páginas, para o navegador de quem já visitou pegar o arquivo novo.
+
+Embutir o CSS dentro do HTML foi testado e piorou: o documento cresce e o
+navegador demora mais para descobrir a foto do topo, que é o maior elemento
+pintado. Arquivo externo minificado com cache longo rende mais.
+
+### Fontes
+
+As fontes (Chakra Petch e Barlow) são servidas do próprio domínio, em
+`assets/css/fontes/`, e os `@font-face` ficam no começo de `spx.css`. Isso
+evita abrir duas conexões novas (`fonts.googleapis.com` e `fonts.gstatic.com`)
+no primeiro acesso — em rede móvel esse era, de longe, o maior custo da
+página. Para atualizar a lista de pesos, edite e rode `node fontes.mjs` e
+depois `node build.mjs`.
 
 ## Sistema de design
 
@@ -64,11 +96,16 @@ A marca vive em quatro arquivos derivados do original enviado pela empresa:
 
 | Arquivo | Onde entra |
 | --- | --- |
-| `img/logo.png` | assinatura do rodapé no tema claro |
-| `img/logo-negativa.png` | assinatura do rodapé no tema escuro |
-| `img/logo-spx.png` | marca do menu no tema escuro (pílula clara) |
-| `img/logo-spx-negativa.png` | marca do menu no tema claro (pílula escura) |
+| `img/logo.webp` | assinatura do rodapé no tema claro |
+| `img/logo-negativa.webp` | assinatura do rodapé no tema escuro |
+| `img/logo-spx.webp` | marca do menu no tema escuro (pílula clara) |
+| `img/logo-spx-negativa.webp` | marca do menu no tema claro (pílula escura) |
 | `img/favicon.png` | ícone da aba, recortado do X em treliça |
+
+Os `.png` de mesmo nome continuam no repositório como original de trabalho,
+mas as páginas carregam só os `.webp`: a marca do menu, que aparece com 23 px
+de altura, saiu de 69 KB para 8 KB, e a assinatura do rodapé de 79 KB para
+19 KB e agora carrega em modo preguiçoso.
 
 O fundo foi removido preservando os traços internos da treliça. A versão
 negativa inverte só os tons escuros, então as letras ficam brancas e a
@@ -134,9 +171,12 @@ aparece normalmente — a classe de animação só é adicionada pelo script.
 ## Imagens
 
 As fotos das obras ficam em `img/`, em `.webp` com no máximo 1600 px no lado
-maior — 15 ambientes, cerca de 1,7 MB no total. Cada `<img>` traz também
-`data-ph="img/ph/<nome>.svg"`: se algum arquivo faltar, o site mostra um render
-de apoio em vez de imagem quebrada.
+maior — 15 ambientes. Cada foto tem variantes de 480, 640 e 960 px de largura,
+oferecidas por `srcset`, para o celular não baixar a versão grande. A variante
+só existe quando é menor que o original, e o `srcset` montado pelo JS consulta
+o mapa `DIM` para não pedir um arquivo que não foi gerado. Cada `<img>` traz
+também `data-ph="img/ph/<nome>.svg"`: se algum arquivo faltar, o site mostra um
+render de apoio em vez de imagem quebrada.
 
 | Arquivo | Ambiente |
 | --- | --- |
@@ -256,3 +296,20 @@ Palavras-chave do Google Ads antes de investir em conteúdo.
 - A esteira do acervo só anima quando está visível na tela.
 - Sem framework, sem imagem pesada: os renders de apoio são SVG de ~4 KB.
 - Folha de estilo de impressão embutida.
+
+### O que segura o desempenho
+
+- A foto do topo vem no HTML com `fetchpriority="high"` e um `<link rel=preload>`
+  com o mesmo `srcset`, para o navegador começar a baixá-la antes de ler o CSS.
+- Fontes no próprio domínio, sem terceiros no caminho crítico.
+- Todo `<img>` declara `width` e `height`, então nada empurra o layout.
+- Acervo, dúvidas e cronograma só são montados quando chegam perto da tela
+  (`IntersectionObserver` com 600 px de folga).
+- As animações leem o layout uma vez e guardam o resultado, em vez de forçar
+  recálculo a cada quadro.
+- Cache longo em `/assets` e `/img` pelo `vercel.json`; as fontes, que nunca
+  mudam de nome, são `immutable` por um ano.
+
+Medido com o Lighthouse em celular e rede lenta, a página principal fica em
+95 de desempenho (LCP 2,7 s). Para conferir o número real, rode o PageSpeed
+Insights na URL publicada, não em localhost.

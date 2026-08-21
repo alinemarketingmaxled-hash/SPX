@@ -7,6 +7,19 @@
 'use strict';
 
 var reduz = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* monta a seção só quando ela chega perto da tela: no carregamento, o
+   navegador não gasta tempo com blocos que ainda estão longe */
+function aoAproximar(alvo, monta){
+  if(!alvo) return;
+  if(!('IntersectionObserver' in window)){ monta(); return; }
+  var io = new IntersectionObserver(function(es){
+    if(es[0].isIntersecting){ io.disconnect(); monta(); }
+  }, {rootMargin:'600px 0px'});
+  io.observe(alvo);
+}
+
+var DIM = {"banheiro-marmore":[1200,1600],"cozinha-marcenaria":[900,1600],"estante-espinha-peixe":[1200,1600],"lavabo-azul":[1067,1600],"lavabo-bordo":[1044,1600],"lavabo-terracota":[1200,1600],"lounge-recepcao":[1067,1600],"mesa-vista-sp":[960,1280],"recepcao-marmore":[1600,1066],"restaurante-bar":[720,1280],"restaurante-cozinha":[720,1280],"restaurante-fachada":[720,1280],"restaurante-pratos":[720,1280],"restaurante-salao":[720,1280],"sala-reuniao-azul":[1127,1600]};
+
 var OBRAS = [
   ['sala-reuniao-azul','Sala de reunião · parede azul'],
   ['recepcao-marmore','Recepção · balcão em mármore'],
@@ -57,12 +70,15 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
 (function progresso(){
   var barra = $('.progresso');
   if(!barra) return;
-  var pendente = false;
+  var pendente = false, curso = 0;
+  function mede(){ curso = document.documentElement.scrollHeight - window.innerHeight; }
   function pinta(){
-    var h = document.documentElement.scrollHeight - window.innerHeight;
-    barra.style.transform = 'scaleX(' + (h > 0 ? Math.min(window.scrollY / h, 1) : 0) + ')';
+    barra.style.transform = 'scaleX(' + (curso > 0 ? Math.min(window.scrollY / curso, 1) : 0) + ')';
     pendente = false;
   }
+  mede();
+  window.addEventListener('resize', mede);
+  if('ResizeObserver' in window) new ResizeObserver(mede).observe(document.body);
   window.addEventListener('scroll', function(){
     if(!pendente){ pendente = true; requestAnimationFrame(pinta); }
   }, {passive:true});
@@ -121,10 +137,21 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
   var legendas = {};
   OBRAS.forEach(function(o){ legendas[o[0]] = o[1]; });
 
-  caixa.innerHTML = destaque.map(function(arq, i){
-    return '<img src="img/' + arq + '.webp" data-ph="img/ph/' + arq + '.svg" alt="' +
-      (legendas[arq] || '') + '"' + (i ? ' loading="lazy"' : '') + ' decoding="async">';
-  }).join('');
+  /* só entram as larguras que existem em disco: a geração das variantes pula
+     qualquer largura maior ou igual à da foto original */
+  function conjunto(arq){
+    var largura = (DIM[arq] || [1200,1600])[0];
+    return [480, 640, 960].filter(function(w){ return w < largura; })
+      .map(function(w){ return 'img/' + arq + '-' + w + '.webp ' + w + 'w'; }).join(', ');
+  }
+  /* a primeira foto já veio no HTML com prioridade alta; as outras entram aqui */
+  caixa.insertAdjacentHTML('beforeend', destaque.slice(1).map(function(arq){
+    var d = DIM[arq] || [1200,1600];
+    return '<img src="img/' + arq + '-640.webp" srcset="' + conjunto(arq) + '" sizes="100vw"' +
+      ' width="' + d[0] + '" height="' + d[1] + '"' +
+      ' data-ph="img/ph/' + arq + '.svg" alt="' + (legendas[arq] || '') +
+      '" loading="lazy" decoding="async">';
+  }).join(''));
 
   var fotos = $$('img', caixa);
   if(!fotos.length) return;
@@ -188,11 +215,20 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
 (function acervo(){
   var track = $('#track');
   if(!track) return;
+  aoAproximar($('#beamwrap'), function(){ monta(track); });
+
+  function monta(track){
   var obras = OBRAS;
   var html = '';
   for(var v = 0; v < 2; v++){
     obras.forEach(function(o){
-      html += '<figure class="frame"><img src="img/' + o[0] + '.webp" data-ph="img/ph/' + o[0] + '.svg"' +
+      var d = DIM[o[0]] || [1200,1600];
+      var alt480 = Math.round(480 * d[1] / d[0]);
+      html += '<figure class="frame"><img src="img/' + o[0] + '-480.webp"' +
+              ' width="480" height="' + alt480 + '"' +
+              ' srcset="img/' + o[0] + '-480.webp 480w, img/' + o[0] + '-640.webp 640w"' +
+              ' sizes="(max-width:900px) 250px, 320px"' +
+              ' data-ph="img/ph/' + o[0] + '.svg"' +
               ' alt="' + o[1] + '" loading="lazy" decoding="async">' +
               '<span class="halftone"></span><figcaption class="tag">' + o[1] + '</figcaption></figure>';
     });
@@ -206,7 +242,14 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
   caixa.addEventListener('mouseleave', function(){ pausado = false; });
   caixa.addEventListener('touchstart', function(){ pausado = !pausado; }, {passive:true});
 
-  function medir(){ ciclo = track.scrollWidth / 2; }
+  /* as posições são medidas uma vez e recalculadas só no resize;
+     ler o layout a cada quadro forçava reflow em trinta elementos */
+  var meio = 0, centros = [];
+  function medir(){
+    ciclo = track.scrollWidth / 2;
+    meio = caixa.offsetWidth / 2;
+    centros = frames.map(function(f){ return f.offsetLeft + f.offsetWidth / 2; });
+  }
   window.addEventListener('resize', medir);
   window.addEventListener('load', medir);
   setTimeout(medir, 150);
@@ -223,16 +266,19 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
         if(desloc >= 0) desloc -= ciclo;
       }
       track.style.transform = 'translateY(-50%) translateX(' + desloc + 'px)';
-      var feixe = caixa.getBoundingClientRect().left + caixa.offsetWidth / 2;
-      frames.forEach(function(f){
-        var r = f.getBoundingClientRect();
-        f.classList.toggle('antes', (r.left + r.width / 2) - feixe < 0);
-      });
+      for(var i = 0; i < frames.length; i++){
+        var antes = (desloc + centros[i] - meio) < 0;
+        if(frames[i].__antes !== antes){
+          frames[i].__antes = antes;
+          frames[i].classList.toggle('antes', antes);
+        }
+      }
     }
     requestAnimationFrame(anima);
   }
   if(reduz){ track.style.transform = 'translateY(-50%)'; }
   else{ requestAnimationFrame(anima); }
+  }
 })();
 
 /* ---------------------------------------------- hub de frentes */
@@ -315,6 +361,9 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
 (function faq(){
   var A = $('#faqA'), B = $('#faqB');
   if(!A || !B) return;
+  aoAproximar(A.parentElement, monta);
+
+  function monta(){
   var perguntas = [
     ['Vocês executam com a loja ou o escritório funcionando?','Sim. É o nosso escopo principal. Trabalhamos em janela noturna ou de fim de semana, com isolamento acústico provisório, controle de poeira e liberação da área limpa antes da abertura.'],
     ['Como funciona a concorrência de preço?','Enviamos proposta com cronograma físico-financeiro, memorial e composição de BDI aberta. Se houver equalização com outros concorrentes, participamos da rodada técnica sem custo.'],
@@ -351,12 +400,16 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
       }
     });
   });
+  }
 })();
 
 /* ---------------------------------------------- folha de cronograma (resumo por frente) */
 (function cronograma(){
   var folha = $('#folhaCronograma');
   if(!folha) return;
+  aoAproximar(folha.closest('.cronograma') || folha, monta);
+
+  function monta(){
 
   /* [frente, duração, início, término] — só as fases, sem as subtarefas */
   var FRENTES = [
@@ -446,6 +499,7 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
   document.addEventListener('pointerdown', function(e){
     if(e.pointerType === 'touch' && !e.target.closest('.passo')) limpa();
   });
+  }
 })();
 
 /* ---------------------------------------------- a folha acompanha o cursor */
@@ -453,9 +507,9 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
   var folha = $('#folhaCronograma');
   if(!folha || reduz) return;
 
-  var pendente = false, ex = 0, ey = 0;
+  var pendente = false, ex = 0, ey = 0, area = null;
   function aplica(){
-    var r = folha.getBoundingClientRect();
+    var r = area || folha.getBoundingClientRect();
     var px = (ex - r.left) / r.width - 0.5;      /* -0,5 à esquerda · +0,5 à direita */
     var py = (ey - r.top) / r.height - 0.5;
     folha.style.setProperty('--rx', (-py * 6.5).toFixed(2) + 'deg');
@@ -464,6 +518,8 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
     folha.style.setProperty('--by', ((py + 0.5) * 100).toFixed(1) + '%');
     pendente = false;
   }
+  folha.addEventListener('pointerenter', function(){ area = folha.getBoundingClientRect(); });
+  window.addEventListener('scroll', function(){ area = null; }, {passive:true});
   folha.addEventListener('pointermove', function(e){
     if(e.pointerType === 'touch') return;
     ex = e.clientX; ey = e.clientY;
@@ -472,6 +528,7 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
   });
   folha.addEventListener('pointerleave', function(){
     folha.classList.remove('inclinada');
+    area = null;
     folha.style.removeProperty('--rx');
     folha.style.removeProperty('--ry');
   });

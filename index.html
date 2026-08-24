@@ -4,16 +4,21 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SPX Engenharia · obras corporativas e de varejo em São Paulo</title>
+<link rel="canonical" href="https://spxengenharia.com.br/">
+<meta property="og:url" content="https://spxengenharia.com.br/">
 <meta name="description" content="Empresa de obra corporativa, reforma comercial e retrofit em ambiente ocupado na Grande São Paulo. Cronograma físico-financeiro na proposta, engenheiro com ART nomeado antes da assinatura e relatório semanal de avanço.">
 <meta name="theme-color" content="#000000">
+<!-- Google Analytics: cole aqui o G-XXXXXXXXXX da sua propriedade.
+     Vazio = nenhum script de terceiro e nenhum cookie são carregados. -->
+<meta name="ga-id" content="">
 <meta property="og:type" content="website">
 <meta property="og:title" content="SPX Engenharia · obra corporativa e de varejo">
 <meta property="og:description" content="Obra corporativa, reforma comercial e retrofit executados com a operação do cliente funcionando. Grande São Paulo e interior paulista.">
-<meta property="og:image" content="img/og.jpg">
+<meta property="og:image" content="https://spxengenharia.com.br/img/og.jpg">
 <meta property="og:site_name" content="SPX Engenharia">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="SPX Engenharia · obra corporativa e de varejo">
-<meta name="twitter:image" content="img/og.jpg">
+<meta name="twitter:image" content="https://spxengenharia.com.br/img/og.jpg">
 <meta name="geo.region" content="BR-SP">
 <meta name="geo.placename" content="São Paulo">
 <meta property="og:locale" content="pt_BR">
@@ -455,7 +460,7 @@
       </div>
     </div>
 
-    <form class="form" id="formObra" novalidate data-reveal data-atraso="1">
+    <form class="form" id="formObra" novalidate data-reveal data-atraso="1" data-endpoint="/api/contato">
       <p class="eyebrow form-titulo">Solicitação de visita técnica</p>
       <div class="campos" style="margin-top:22px">
         <div class="campo">
@@ -498,14 +503,18 @@
           <textarea id="f-msg" name="mensagem" placeholder="Endereço, prazo desejado, se a operação continua funcionando, se já existe projeto executivo…"></textarea>
         </div>
       </div>
+      <div class="isca" aria-hidden="true">
+        <label for="f-site">Não preencha este campo</label>
+        <input id="f-site" name="site" type="text" tabindex="-1" autocomplete="off">
+      </div>
       <div class="form-rodape">
         <p class="form-nota">As informações são encaminhadas diretamente à coordenação de obras.</p>
         <button class="btn btn-acc" type="submit">Solicitar visita técnica ↗</button>
       </div>
       <div class="form-ok" role="status">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12.3 2.7 2.7L16 9.5"/></svg>
-        <h3>Solicitação registrada</h3>
-        <p class="lead" style="margin:12px auto 0;text-align:center">Escolha o canal de envio. A mensagem segue preenchida com as informações fornecidas.</p>
+        <h3 id="formTitulo">Solicitação enviada</h3>
+        <p class="lead" id="formTexto" style="margin:12px auto 0;text-align:center">A coordenação de obras recebeu as informações. O retorno é feito em até um dia útil.</p>
         <div class="acoes">
           <a class="btn" id="linkZap" href="#" rel="noopener">Enviar pelo WhatsApp</a>
           <a class="btn btn-ghost" id="linkMail" href="#">Enviar por e-mail</a>
@@ -528,9 +537,9 @@
         <a href="https://wa.me/5511952751874" aria-label="WhatsApp" rel="noopener"><svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 12a8.5 8.5 0 1 1-4.2-7.3L21 3.5l-1.2 4.6A8.4 8.4 0 0 1 20.5 12Z"/><path d="M9 9.4c.5 2.2 2.4 4.1 4.6 4.6l1.1-1.2 1.8.8-.5 1.6c-3.4.5-7.2-3.3-6.7-6.7l1.6-.5.8 1.8z"/></svg></a>
       </div>
     </div>
-    <div><h4>Serviços</h4><ul><li><a href="#servicos">Obra corporativa</a></li><li><a href="#servicos">Varejo e flagship</a></li><li><a href="#servicos">Retrofit ocupado</a></li><li><a href="#servicos">Manutenção predial</a></li></ul></div>
-    <div><h4>Conteúdo</h4><ul><li><a href="#arquivo">Arquivo de obras</a></li><li><a href="#metodo">Método SPX</a></li><li><a href="#frentes">Frentes técnicas</a></li><li><a href="#duvidas">Dúvidas frequentes</a></li></ul></div>
-    <div><h4>Empresa</h4><ul><li><a href="#atuacao">Raio de atuação</a></li>
+    <div><h3>Serviços</h3><ul><li><a href="#servicos">Obra corporativa</a></li><li><a href="#servicos">Varejo e flagship</a></li><li><a href="#servicos">Retrofit ocupado</a></li><li><a href="#servicos">Manutenção predial</a></li></ul></div>
+    <div><h3>Conteúdo</h3><ul><li><a href="#arquivo">Arquivo de obras</a></li><li><a href="#metodo">Método SPX</a></li><li><a href="#frentes">Frentes técnicas</a></li><li><a href="#duvidas">Dúvidas frequentes</a></li></ul></div>
+    <div><h3>Empresa</h3><ul><li><a href="#atuacao">Raio de atuação</a></li>
 <li><a href="servicos-e-regioes.html">Serviços por região</a></li><li><a href="#">Trabalhe conosco<span class="tag-vaga">CONTRATANDO</span></a></li><li><a href="#contato">Contato</a></li></ul></div>
   </div>
 
@@ -549,9 +558,9 @@
       que executamos e as regiões onde já montamos canteiro.</p>
       <p><a href="servicos-e-regioes.html">Ver a lista completa de serviços por região →</a></p>
       <div class="seo-colunas">
-        <div><h4>Serviços</h4><ul class="seo-lista"><li>obra corporativa</li><li>reforma de escritório</li><li>fit-out corporativo</li><li>retrofit de escritório</li><li>reforma comercial</li><li>reforma de loja</li><li>obra em shopping center</li><li>reforma de restaurante</li><li>obra em ambiente ocupado</li><li>manutenção predial</li><li>marcenaria corporativa sob medida</li><li>reforma de clínica e laboratório</li><li>obra de data center e CPD</li><li>adequação de norma e laudo técnico</li><li>gerenciamento de obras</li><li>projeto e execução de interiores</li><li>reforma de recepção corporativa</li><li>reforma de coworking</li><li>reforma de sala comercial</li><li>obra de flagship e varejo</li></ul></div>
-        <div><h4>Regiões</h4><ul class="seo-lista"><li>Faria Lima</li><li>Itaim Bibi</li><li>Berrini</li><li>Vila Olímpia</li><li>Pinheiros</li><li>Jardins</li><li>Avenida Paulista</li><li>Brooklin</li><li>Chácara Santo Antônio</li><li>Alphaville</li><li>Barueri</li><li>Osasco</li><li>Guarulhos</li><li>São Bernardo do Campo</li><li>Santo André</li><li>Campinas</li><li>Sorocaba</li><li>São José dos Campos</li><li>Ribeirão Preto</li><li>Grande São Paulo</li></ul></div>
-        <div><h4>Buscas frequentes</h4><ul class="seo-lista"><li>empresa de reforma comercial em São Paulo</li><li>construtora de obra corporativa em São Paulo</li><li>reforma de escritório na Faria Lima</li><li>fit-out corporativo na Berrini</li><li>retrofit de escritório em prédio ocupado</li><li>obra de loja em shopping em São Paulo</li><li>manutenção predial corporativa na Grande São Paulo</li><li>empresa de marcenaria corporativa sob medida em SP</li></ul></div>
+        <div><h3>Serviços</h3><ul class="seo-lista"><li>obra corporativa</li><li>reforma de escritório</li><li>fit-out corporativo</li><li>retrofit de escritório</li><li>reforma comercial</li><li>reforma de loja</li><li>obra em shopping center</li><li>reforma de restaurante</li><li>obra em ambiente ocupado</li><li>manutenção predial</li><li>marcenaria corporativa sob medida</li><li>reforma de clínica e laboratório</li><li>obra de data center e CPD</li><li>adequação de norma e laudo técnico</li><li>gerenciamento de obras</li><li>projeto e execução de interiores</li><li>reforma de recepção corporativa</li><li>reforma de coworking</li><li>reforma de sala comercial</li><li>obra de flagship e varejo</li></ul></div>
+        <div><h3>Regiões</h3><ul class="seo-lista"><li>Faria Lima</li><li>Itaim Bibi</li><li>Berrini</li><li>Vila Olímpia</li><li>Pinheiros</li><li>Jardins</li><li>Avenida Paulista</li><li>Brooklin</li><li>Chácara Santo Antônio</li><li>Alphaville</li><li>Barueri</li><li>Osasco</li><li>Guarulhos</li><li>São Bernardo do Campo</li><li>Santo André</li><li>Campinas</li><li>Sorocaba</li><li>São José dos Campos</li><li>Ribeirão Preto</li><li>Grande São Paulo</li></ul></div>
+        <div><h3>Buscas frequentes</h3><ul class="seo-lista"><li>empresa de reforma comercial em São Paulo</li><li>construtora de obra corporativa em São Paulo</li><li>reforma de escritório na Faria Lima</li><li>fit-out corporativo na Berrini</li><li>retrofit de escritório em prédio ocupado</li><li>obra de loja em shopping em São Paulo</li><li>manutenção predial corporativa na Grande São Paulo</li><li>empresa de marcenaria corporativa sob medida em SP</li></ul></div>
       </div>
     </div>
   </details>

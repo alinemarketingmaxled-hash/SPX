@@ -1,0 +1,37 @@
+# Backup automático.
+#
+# Toda segunda-feira empacota o site inteiro num .zip e guarda como artefato
+# do GitHub, com 90 dias de validade. Serve para voltar a uma versão antiga
+# sem depender de ninguém lembrar de baixar nada.
+#
+# O histórico do git já é um backup; isto aqui é a cópia pronta para usar,
+# que qualquer pessoa baixa e abre sem instalar ferramenta.
+name: Backup semanal
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  empacotar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Nomear pelo dia
+        id: nome
+        run: echo "data=$(date -u '+%Y-%m-%d')" >> "$GITHUB_OUTPUT"
+
+      - name: Guardar o site
+        uses: actions/upload-artifact@v4
+        with:
+          name: spx-site-${{ steps.nome.outputs.data }}
+          retention-days: 90
+          path: |
+            .
+            !.git
+            !node_modules

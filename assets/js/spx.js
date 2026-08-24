@@ -584,6 +584,32 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
     if(ctrl) ctrl.addEventListener('blur', function(){ valida(c); });
   });
 
+  var botao = $('button[type=submit]', form);
+  var rotuloBotao = botao ? botao.textContent : '';
+  var aviso = $('.form-nota', form);
+  var avisoPadrao = aviso ? aviso.textContent : '';
+
+  /* Dois desfechos possíveis: o servidor confirmou o envio, ou não deu — e aí
+     a página entrega os mesmos dados prontos no WhatsApp e no e-mail, para
+     ninguém perder o contato por causa de uma falha de rede. */
+  function conclui(enviouSozinho){
+    var titulo = $('#formTitulo'), texto = $('#formTexto');
+    if(titulo) titulo.textContent = enviouSozinho ? 'Solicitação enviada' : 'Solicitação registrada';
+    if(texto) texto.textContent = enviouSozinho
+      ? 'A coordenação de obras recebeu as informações. O retorno é feito em até um dia útil.'
+      : 'Falta só escolher o canal. A mensagem já vai preenchida com o que você respondeu.';
+    form.classList.toggle('so-links', !enviouSozinho);
+    form.classList.add('enviado');
+    var painel = $('.form-ok', form);
+    if(painel){ painel.setAttribute('tabindex','-1'); painel.focus(); }
+  }
+
+  function ocupado(sim){
+    if(!botao) return;
+    botao.disabled = sim;
+    botao.textContent = sim ? 'Enviando…' : rotuloBotao;
+  }
+
   form.addEventListener('submit', function(e){
     e.preventDefault();
     var ok = campos.map(valida).every(Boolean);
@@ -610,18 +636,45 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
       '&body=' + encodeURIComponent(texto);
 
     var destino = form.dataset.endpoint;
-    if(destino){
-      var corpo = {};
-      d.forEach(function(v,k){ corpo[k] = v; });
-      fetch(destino, {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify(corpo)
-      }).catch(function(){ /* fallback: os links abaixo continuam valendo */ });
+    if(!destino || !window.fetch){ conclui(false); return; }
+
+    var corpo = {};
+    d.forEach(function(v,k){ corpo[k] = v; });
+    ocupado(true);
+    /* se o servidor demorar demais, não deixa a pessoa esperando */
+    var desiste = setTimeout(function(){ ocupado(false); conclui(false); }, 12000);
+    var resolvido = false;
+    function encerra(enviou){
+      if(resolvido) return;
+      resolvido = true;
+      clearTimeout(desiste);
+      ocupado(false);
+      conclui(enviou);
     }
-    form.classList.add('enviado');
-    var ok2 = $('.form-ok', form);
-    if(ok2){ ok2.setAttribute('tabindex','-1'); ok2.focus(); }
+
+    fetch(destino, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(corpo)
+    }).then(function(r){
+      if(r.ok) return encerra(true);
+      if(r.status === 400 || r.status === 429){
+        /* problema com o que foi digitado: melhor corrigir do que mandar torto */
+        return r.json().catch(function(){ return {}; }).then(function(j){
+          clearTimeout(desiste); resolvido = true; ocupado(false);
+          if(aviso){ aviso.textContent = j.erro || 'Confira os campos e tente de novo.'; }
+          form.classList.add('recusado');
+        });
+      }
+      encerra(false);
+    }).catch(function(){ encerra(false); });
+  });
+
+  /* qualquer digitação depois de um erro devolve o aviso normal */
+  form.addEventListener('input', function(){
+    if(!form.classList.contains('recusado')) return;
+    form.classList.remove('recusado');
+    if(aviso) aviso.textContent = avisoPadrao;
   });
 })();
 
@@ -713,4 +766,66 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
 /* ---------------------------------------------- ano corrente */
 $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear(); });
 
+})();
+
+/* ---------------------------------------------- avisa quando algo quebra */
+(function relatorErros(){
+  /* Manda para /api/erro, que só escreve no log da Vercel. Nada de serviço
+     de fora, nada de dado pessoal: só o necessário para reproduzir a falha.
+     Três por sessão bastam — depois disso é sempre a mesma coisa em looping. */
+  var restam = 3;
+  function conta(dados){
+    if(restam-- <= 0 || !window.fetch) return;
+    dados.pagina = location.pathname;
+    dados.tela = window.innerWidth + 'x' + window.innerHeight;
+    try {
+      var pacote = JSON.stringify(dados);
+      if(navigator.sendBeacon){
+        navigator.sendBeacon('/api/erro', new Blob([pacote], {type:'application/json'}));
+      } else {
+        fetch('/api/erro', {method:'POST', headers:{'Content-Type':'application/json'},
+                            body:pacote, keepalive:true}).catch(function(){});
+      }
+    } catch(e){ /* se nem isso der, não vale derrubar a página por causa do aviso */ }
+  }
+  window.addEventListener('error', function(e){
+    if(!e.message) return;                       /* erro de imagem entra em outro lugar */
+    conta({mensagem:e.message, origem:e.filename, linha:e.lineno, coluna:e.colno,
+           pilha:e.error && e.error.stack});
+  });
+  window.addEventListener('unhandledrejection', function(e){
+    var m = e.reason && (e.reason.message || e.reason);
+    conta({mensagem:'promessa rejeitada: ' + m, pilha:e.reason && e.reason.stack});
+  });
+})();
+
+/* ---------------------------------------------- medição de audiência */
+(function analise(){
+  /* O identificador fica numa <meta> nas páginas, vazio por padrão. Enquanto
+     estiver vazio nada é carregado — nenhum script de terceiro, nenhum cookie.
+     Para ligar, cole o G-XXXXXXXXXX da propriedade do Google Analytics. */
+  var meta = document.querySelector('meta[name="ga-id"]');
+  var id = meta && meta.content.trim();
+  if(!id || !/^G-[A-Z0-9]+$/i.test(id)) return;
+  var s = document.createElement('script');
+  s.async = true;
+  s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(id);
+  document.head.appendChild(s);
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ window.dataLayer.push(arguments); }
+  window.gtag = gtag;
+  gtag('js', new Date());
+  gtag('config', id, {anonymize_ip: true});
+
+  /* o que interessa medir num site de obra: quem pede visita técnica */
+  var form = document.querySelector('#formObra');
+  if(form) form.addEventListener('submit', function(){
+    gtag('event', 'solicitar_visita', {tipo_obra: (new FormData(form)).get('tipo') || ''});
+  });
+  document.querySelectorAll('a[href^="https://wa.me/"]').forEach(function(a){
+    a.addEventListener('click', function(){ gtag('event', 'clique_whatsapp'); });
+  });
+  document.querySelectorAll('a[href^="tel:"]').forEach(function(a){
+    a.addEventListener('click', function(){ gtag('event', 'clique_telefone'); });
+  });
 })();

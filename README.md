@@ -10,6 +10,14 @@ O único passo de build minifica os dois assets; servir a pasta já funciona.
 ├── servicos-e-regioes.html    diretório de serviços por região (SEO)
 ├── build.mjs                  minifica o CSS e o JS
 ├── fontes.py                  baixa e corta as fontes do Google
+├── site.mjs                   carimba o endereço do site e gera o sitemap
+├── sitemap.xml                gerado por site.mjs
+├── api/
+│   ├── contato.js             recebe o formulário e manda o e-mail
+│   ├── erro.js                registra erro de JavaScript no log da Vercel
+│   └── status.js              endereço leve para o monitor bater
+├── .github/workflows/         monitor de disponibilidade e backup semanal
+├── .env.example               nomes das variáveis, sem nenhum valor
 ├── assets/
 │   ├── css/spx.css            sistema de design + componentes + seções (fonte)
 │   ├── css/spx.min.css        o que as páginas carregam (gerado)
@@ -231,19 +239,117 @@ originais em alta resolução não ficam no repositório — só as versões web
 
 ## Formulário de visita técnica
 
-O formulário valida em tempo real e, ao enviar, monta o briefing em texto e
-oferece dois caminhos prontos: WhatsApp e e-mail. Não depende de backend.
+O formulário valida enquanto se digita e, ao enviar, faz um `POST` em JSON
+para `/api/contato`, que manda o e-mail. Existem três desfechos, e nenhum
+deles perde o contato:
 
-Se você tiver um endpoint, adicione o atributo no formulário e ele passa a
-receber um `POST` com JSON dos campos:
+| Resposta do servidor | O que a pessoa vê |
+| --- | --- |
+| **200** | "Solicitação enviada." O e-mail já saiu. |
+| **400 / 429** | O formulário continua aberto, com o motivo escrito embaixo. |
+| **503, 502 ou rede caída** | "Solicitação registrada", com os botões de WhatsApp e e-mail **já preenchidos** com tudo que foi respondido. |
 
-```html
-<form id="formObra" data-endpoint="https://api.exemplo.com/leads" novalidate>
-```
+O terceiro caso é de propósito. Enquanto o envio por e-mail não estiver
+configurado — ou se ele falhar num dia ruim — a pessoa não fica na mão: é um
+clique para o WhatsApp com o briefing pronto. E há um limite de 12 segundos:
+se o servidor travar, a página desiste e mostra os botões em vez de deixar
+alguém olhando para "Enviando…".
+
+### Ligar o envio por e-mail
+
+Sem isso o site funciona, mas cada contato exige o clique no WhatsApp.
+
+1. Crie conta em **resend.com** (o plano gratuito cobre 3.000 e-mails/mês) e
+   gere uma API key.
+2. Na Vercel, no projeto → **Settings → Environment Variables**, crie:
+
+   | Nome | Valor |
+   | --- | --- |
+   | `RESEND_API_KEY` | a chave gerada (`re_...`) |
+   | `CONTATO_PARA` | `contato@spxengenharia.com.br` |
+   | `CONTATO_DE` | só depois de verificar o domínio no Resend |
+
+3. Faça um novo deploy (variável nova só vale a partir do próximo).
+4. Confira em `/api/status`: o campo `email` tem que estar `true`.
+
+Os nomes estão em `.env.example`, **sem valores**. A chave nunca entra no
+repositório: o `.gitignore` bloqueia `.env` e derivados.
+
+### O que protege o formulário
+
+- **Campo isca** (`.isca`), invisível na tela e fora da ordem de tabulação.
+  Só robô preenche; quando vem preenchido, a função responde "deu certo" sem
+  mandar nada, para o robô não aprender.
+- **Limite de 5 envios por hora** por IP.
+- **Validação no servidor** além da do navegador: tamanho máximo por campo,
+  formato de e-mail, campos obrigatórios.
+- Erro do provedor de e-mail vai para o log, **nunca para a resposta** — a
+  mensagem de erro de uma API às vezes carrega detalhe da conta.
 
 Telefone, WhatsApp e e-mail de contato estão em `index.html` (seção
-`#contato`, rodapé e menu) e no fallback de `assets/js/spx.js` — troque os
-números de exemplo pelos reais antes de publicar.
+`#contato`, rodapé e menu) e no plano B de `assets/js/spx.js`.
+
+## Credenciais
+
+Não existe nenhuma senha, chave ou token no repositório — pode abrir para
+quem quiser. O que é secreto mora em um lugar só: **Vercel → Settings →
+Environment Variables**, que só o dono do projeto lê.
+
+Se algum dia uma chave vazar num commit, trocar o arquivo não resolve: o
+histórico do git guarda tudo. O certo é **revogar a chave no provedor** e
+gerar outra.
+
+## Medição, erros e monitoramento
+
+### Google Analytics
+
+Está pronto, desligado. Em cada página existe:
+
+```html
+<meta name="ga-id" content="">
+```
+
+Cole ali o `G-XXXXXXXXXX` da sua propriedade do GA4 e pronto — o script sobe
+sozinho. **Enquanto estiver vazio, nada de terceiro é carregado e nenhum
+cookie é criado**, o que mantém o site limpo para quem não quer medir.
+
+Três eventos já vão configurados, que é o que importa num site de obra:
+
+| Evento | Quando dispara |
+| --- | --- |
+| `solicitar_visita` | envio do formulário (com o tipo de obra) |
+| `clique_whatsapp` | qualquer link de WhatsApp |
+| `clique_telefone` | qualquer link de telefone |
+
+Para pegar o ID: analytics.google.com → Administrador → Fluxos de dados →
+criar fluxo da Web com o endereço do site → copiar o "ID da métrica".
+
+### Rastreamento de erro
+
+`assets/js/spx.js` escuta `error` e `unhandledrejection` e manda para
+`/api/erro`, que só escreve no **log da Vercel** (Deployments → Runtime
+Logs). Sem serviço de fora, sem custo, sem cadastro.
+
+Registra o necessário para reproduzir — mensagem, arquivo, linha, pilha,
+navegador, tamanho da tela — e **nada do que foi digitado**, nem IP. Para no
+terceiro erro da sessão, porque a partir daí é sempre o mesmo em looping.
+
+### Monitor de disponibilidade
+
+`.github/workflows/uptime.yml` bate no site a cada 15 minutos. Três falhas
+seguidas e ele **abre uma issue** aqui no repositório — o GitHub te manda
+e-mail. Quando volta, fecha sozinho.
+
+Antes de valer: troque `SITE` no topo do arquivo pelo endereço real e
+confirme em **Settings → Actions → General** que *Workflow permissions* está
+em *Read and write permissions*.
+
+### Backup automático
+
+`.github/workflows/backup.yml` empacota o site todo num `.zip` toda
+segunda-feira e guarda por 90 dias em **Actions → Backup semanal →
+Artifacts**. O histórico do git já é um backup; este é a cópia pronta para
+baixar e abrir sem instalar nada.
 
 ## Telas
 
@@ -296,20 +402,57 @@ O que está no site:
 - **Meta descrição, Open Graph e Twitter Card**, com a imagem de
   compartilhamento em `img/og.jpg` (1200x630, gerada de uma foto real com a
   logo).
-- **robots.txt** liberando o site inteiro.
+- **`sitemap.xml`**, com as duas páginas indexáveis, e **robots.txt**
+  apontando para ele e bloqueando a página de erro.
+- **`<link rel="canonical">` e `og:url`** em endereço absoluto nas duas
+  páginas, e a imagem de compartilhamento também em endereço absoluto.
 
-**Falta fazer quando o domínio próprio entrar no ar** (hoje o endereço é o da
-Vercel, e URL absoluta errada atrapalha em vez de ajudar):
+### Trocar o endereço do site
 
-1. Trocar `og:image` e `twitter:image` por URL absoluta.
-2. Acrescentar `<link rel="canonical">` e `og:url`.
-3. Criar `sitemap.xml` e apontá-lo no `robots.txt`.
-4. Cadastrar o site no Google Search Console e no Perfil da Empresa no Google.
+Canonical, `og:url`, imagem de compartilhamento e sitemap precisam do
+endereço absoluto, e ele está em um só lugar:
 
-Os termos do bloco de SEO foram escolhidos por conhecimento do mercado, não
-medidos no Google Trends — o ambiente onde o site foi construído não tem
-acesso à internet aberta. Vale validar volume e concorrência no Planejador de
-Palavras-chave do Google Ads antes de investir em conteúdo.
+```bash
+node site.mjs                                   # usa spxengenharia.com.br
+node site.mjs https://spx-engenharia.vercel.app # ou o endereço que for
+```
+
+Roda quantas vezes quiser, não duplica nada. **Rode de novo no dia em que o
+domínio próprio entrar no ar** — endereço canônico errado atrapalha mais do
+que ajudar.
+
+### Search Console
+
+1. **search.google.com/search-console** → Adicionar propriedade → *Prefixo do
+   URL* com o endereço do site.
+2. Verificar. O caminho mais simples é o registro **TXT no DNS** do domínio;
+   se estiver no endereço da Vercel, use a tag HTML e cole no `<head>` do
+   `index.html`.
+3. **Sitemaps** → enviar `sitemap.xml`.
+4. **Inspeção de URL** → colar o endereço da home → *Solicitar indexação*.
+
+**Erros de cobertura** aparecem em *Páginas*. Os três que mais aparecem e o
+que significam:
+
+| O que o relatório diz | O que é | O que fazer |
+| --- | --- | --- |
+| "Página com redirecionamento" | você enviou `/pagina` e o site responde em `/pagina/`, ou vice-versa | conferir se o `sitemap.xml` usa a mesma forma que o site serve (aqui, `cleanUrls` no `vercel.json`, sem barra no fim) |
+| "Excluída pela tag noindex" | esperado no `404.html` | ignorar; só é problema se aparecer numa página de conteúdo |
+| "Rastreada, no momento sem indexação" | o Google viu mas não achou que valia | conteúdo próprio e links internos apontando para ela resolvem; a página de diretório existe justamente para isso |
+
+Vale cadastrar também o **Perfil da Empresa no Google** — para busca local,
+"empresa de reforma comercial em São Paulo" costuma render mais que qualquer
+ajuste de página.
+
+### Palavras-chave
+
+Os termos foram escolhidos por conhecimento do mercado, **não medidos**: o
+ambiente onde o site foi construído não tem acesso à internet aberta. Antes
+de investir em conteúdo, confira volume e concorrência no **Planejador de
+Palavras-chave do Google Ads** (gratuito, exige conta) e, depois de algumas
+semanas no ar, no relatório **Desempenho** do Search Console — que mostra os
+termos pelos quais as pessoas realmente chegaram, que é dado de verdade, não
+estimativa.
 
 ## Acessibilidade e desempenho
 
@@ -336,8 +479,19 @@ Palavras-chave do Google Ads antes de investir em conteúdo.
 - Cache longo em `/assets` e `/img` pelo `vercel.json`; as fontes, que nunca
   mudam de nome, são `immutable` por um ano.
 
-Medido com o Lighthouse em celular e rede lenta, a página principal fica em
-97 de desempenho (LCP 2,4 s). Para conferir o número real, rode o PageSpeed
+Medido com o Lighthouse em celular e rede lenta:
+
+| | index | 404 | serviços e regiões |
+| --- | --- | --- | --- |
+| Desempenho | **97** | — | — |
+| Acessibilidade | **100** | **100** | **100** |
+| Boas práticas | **100** | **100** | **100** |
+| SEO | **100** | 63 ¹ | **100** |
+
+¹ A página de erro é `noindex` de propósito; é o único ponto que o Lighthouse
+tira, e tirar seria errado.
+
+LCP 2,4 s, TBT 0 ms, CLS 0,05. Para conferir o número real, rode o PageSpeed
 Insights na URL publicada, não em localhost.
 
 Duas coisas foram testadas e **pioraram**, não repita:

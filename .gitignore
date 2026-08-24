@@ -1,1 +1,9 @@
 node_modules/
+
+# nunca versionar credencial: os valores vivem nas variáveis de ambiente da
+# Vercel. O .env.example, sem valores, é o único que sobe.
+.env
+.env.*
+!.env.example
+*.pem
+*.key

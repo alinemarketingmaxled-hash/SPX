@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
 
-# Quando o domínio próprio entrar no ar, acrescente aqui:
-# Sitemap: https://SEU-DOMINIO.com.br/sitemap.xml
+# a página de erro não deve entrar no índice
+Disallow: /404
+
+Sitemap: https://spxengenharia.com.br/sitemap.xml

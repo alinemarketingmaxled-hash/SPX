@@ -1,0 +1,73 @@
+# Monitor de disponibilidade.
+#
+# A cada 15 minutos bate no site. Se cair, abre uma issue aqui no repositório
+# (e o GitHub te manda e-mail). Quando voltar, fecha a issue sozinho.
+#
+# Não usa serviço de fora e não precisa de senha nenhuma: o GITHUB_TOKEN é
+# gerado pelo próprio GitHub a cada execução e morre no fim dela.
+#
+# Antes de valer: troque SITE abaixo pelo endereço real e confira em
+# Settings -> Actions -> General que "Workflow permissions" está em
+# "Read and write permissions".
+name: Monitor do site
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+env:
+  SITE: https://spxengenharia.com.br
+  TITULO: 'Site fora do ar'
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Bater no site
+        id: bater
+        run: |
+          # três tentativas antes de gritar: uma falha isolada costuma ser da rede
+          for tentativa in 1 2 3; do
+            codigo=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 "$SITE/" || echo 000)
+            if [ "$codigo" = "200" ]; then
+              echo "estado=no-ar" >> "$GITHUB_OUTPUT"
+              echo "Respondeu 200 na tentativa $tentativa."
+              exit 0
+            fi
+            echo "Tentativa $tentativa devolveu $codigo."
+            sleep 10
+          done
+          echo "estado=fora" >> "$GITHUB_OUTPUT"
+          echo "codigo=$codigo" >> "$GITHUB_OUTPUT"
+
+      - name: Avisar que caiu
+        if: steps.bater.outputs.estado == 'fora'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CODIGO: ${{ steps.bater.outputs.codigo }}
+        run: |
+          aberta=$(gh issue list --state open --search "$TITULO in:title" --json number --jq '.[0].number')
+          if [ -n "$aberta" ]; then
+            gh issue comment "$aberta" --body "Ainda fora às $(date -u '+%d/%m %H:%M UTC'). Código: \`$CODIGO\`."
+          else
+            gh issue create --title "$TITULO" \
+              --body "O monitor não conseguiu resposta de \`$SITE\` em três tentativas.
+          Código HTTP recebido: \`$CODIGO\`.
+          Detectado em $(date -u '+%d/%m/%Y %H:%M UTC').
+
+          Esta issue fecha sozinha quando o site voltar."
+          fi
+
+      - name: Fechar o aviso quando voltar
+        if: steps.bater.outputs.estado == 'no-ar'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          aberta=$(gh issue list --state open --search "$TITULO in:title" --json number --jq '.[0].number')
+          if [ -n "$aberta" ]; then
+            gh issue close "$aberta" --comment "Voltou ao ar em $(date -u '+%d/%m %H:%M UTC')."
+          fi

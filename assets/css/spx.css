@@ -30,7 +30,7 @@
   --linha-forte:#33414D;
   --txt:#F2F1EE;
   --txt-2:#A5AAAF;
-  --txt-3:#68717A;
+  --txt-3:#6D7780;
   --acc:#3A5570;
   --acc-2:#6E90AE;
   --acc-suave:rgba(110,144,174,.13);
@@ -80,7 +80,7 @@
   --linha-forte:#B9B4A7;
   --txt:#0B0E10;
   --txt-2:#565D61;
-  --txt-3:#858B8E;
+  --txt-3:#696E71;
   --acc:#2E4459;
   --acc-2:#3F5D79;
   --acc-suave:rgba(58,85,112,.11);
@@ -133,7 +133,7 @@ body > *{position:relative;z-index:1}
 .sec.claro{
   --bg:#D8D8D3; --bg-2:#CFCFC9; --sup:#E6E6E2; --sup-2:#DEDED9;
   --linha:#B7B7AF; --linha-forte:#94948C;
-  --txt:#0B0E10; --txt-2:#4F5559; --txt-3:#7B8185;
+  --txt:#0B0E10; --txt-2:#4F5559; --txt-3:#595D60;
   --acc:#2E4459; --acc-2:#3E5B79; --acc-suave:rgba(46,68,89,.10);
   --inv-bg:#0B0E10; --inv-txt:#F2F1EE;
   --trama:rgba(0,0,0,.055); --trama-forte:#A8A8A0;
@@ -613,11 +613,17 @@ b,strong{font-weight:600}
 .form-ok svg{width:52px;height:52px;stroke:var(--acc-2);fill:none;stroke-width:1.5;margin-bottom:var(--e3)}
 .form.enviado .campos,.form.enviado .form-rodape,.form.enviado .form-titulo{display:none}
 .form.enviado .form-ok{display:block}
+/* campo isca: some da tela sem sumir do DOM, senão o robô percebe */
+.isca{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+/* quando o servidor confirma o envio, os botões manuais não fazem falta */
+.form.enviado:not(.so-links) .form-ok .acoes{display:none}
+.form.recusado .form-nota{color:var(--erro,#D06A5A)}
+.form button[type=submit][disabled]{opacity:.6;cursor:progress}
 
 /* rodapé */
 .rodape{border-top:1px solid var(--linha);padding-top:var(--e7);margin-top:var(--e8)}
 .rod-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:34px}
-.rod-grid h4{font-family:var(--display);font-size:12px;letter-spacing:.16em;text-transform:uppercase;margin:0 0 15px;font-weight:600;border-top:1px solid var(--linha);padding-top:16px;color:var(--txt)}
+.rod-grid h3{font-family:var(--display);font-size:12px;letter-spacing:.16em;text-transform:uppercase;margin:0 0 15px;font-weight:600;border-top:1px solid var(--linha);padding-top:16px;color:var(--txt)}
 .rod-grid ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px;font-size:14px;color:var(--txt-2)}
 .rod-grid a{text-decoration:none;transition:color .2s}
 .rod-grid a:hover{color:var(--acc-2)}
@@ -676,7 +682,7 @@ b,strong{font-weight:600}
 .seo-corpo p a{color:var(--acc-2)}
 .seo-corpo p + p{margin-top:12px}
 .seo-colunas{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--e4);margin-top:var(--e4)}
-.seo-colunas h4{font-family:var(--display);font-size:10px;letter-spacing:.16em;
+.seo-colunas h3{font-family:var(--display);font-size:10px;letter-spacing:.16em;
   text-transform:uppercase;color:var(--txt-2);margin:0 0 12px;font-weight:600}
 .seo-lista{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;
   font-size:12.5px;color:var(--txt-3);line-height:1.45}

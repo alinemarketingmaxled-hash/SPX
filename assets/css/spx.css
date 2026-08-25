@@ -840,6 +840,126 @@ main > .topo-interno:first-child{padding-top:calc(var(--nav-altura) + var(--e6))
 .canais a b{font-family:var(--display);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--txt)}
 .canais a:hover,.canais a:focus-visible{color:var(--acc-2)}
 
+/* -------------------------------------------- botão flutuante do WhatsApp */
+/* Nada do verde padrão do WhatsApp: azul-cimento da marca, canto vivo de um
+   lado como a logo, e a trama de planta por cima. Fechado é um quadrado com o
+   ícone; ao aproximar o cursor abre e mostra o texto. */
+.zap{
+  position:fixed;right:clamp(14px,2.2vw,26px);z-index:120;
+  bottom:calc(clamp(14px,2.2vw,26px) + env(safe-area-inset-bottom,0px));
+  display:flex;align-items:center;gap:0;overflow:hidden;
+  width:56px;height:56px;padding:0 16px;box-sizing:border-box;
+  background:var(--acc);color:#F4F4F1;text-decoration:none;
+  border:1px solid rgba(255,255,255,.22);border-radius:3px 3px 3px 16px;
+  box-shadow:0 14px 34px rgba(4,7,10,.46);
+  transition:width .38s cubic-bezier(.2,.7,.2,1),gap .38s cubic-bezier(.2,.7,.2,1),
+             background .25s ease,box-shadow .3s ease}
+.zap::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background:repeating-linear-gradient(115deg,rgba(255,255,255,.14) 0 1px,transparent 1px 7px)}
+.zap svg{width:24px;height:24px;flex:0 0 auto;fill:none;stroke:currentColor;
+  stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;position:relative;z-index:1;
+  margin-left:-1px}
+.zap span{position:relative;z-index:1;white-space:nowrap;font-family:var(--display);
+  font-weight:600;font-size:12px;letter-spacing:.13em;text-transform:uppercase;
+  opacity:0;transition:opacity .26s ease .06s}
+.zap:hover,.zap:focus-visible{width:236px;gap:12px;background:var(--acc-2);
+  box-shadow:0 18px 44px rgba(4,7,10,.56)}
+.zap:hover span,.zap:focus-visible span{opacity:1}
+.zap:focus-visible{outline:2px solid var(--txt);outline-offset:3px}
+/* no toque não existe passar o cursor: o botão já nasce aberto, mas compacto */
+@media (pointer:coarse){
+  .zap{width:auto;gap:10px;height:52px;border-radius:3px 3px 3px 14px}
+  .zap span{opacity:1;font-size:11px;letter-spacing:.1em}
+  .zap:hover,.zap:focus-visible{width:auto}
+}
+@media (max-width:420px){
+  .zap span{display:none}
+  .zap{width:52px;padding:0 14px;gap:0}
+}
+/* enquanto o formulário está na tela o botão sai da frente: já há um caminho ali */
+.zap.recolhido{transform:translateY(140%);opacity:0;pointer-events:none;
+  transition:transform .4s ease,opacity .3s ease}
+@media (prefers-reduced-motion:reduce){
+  .zap,.zap span,.zap.recolhido{transition:none}
+}
+
+/* ------------------- cada página interna tem um tratamento próprio ------- */
+/* A identidade é a mesma: preto, cinza esbranquiçado, azul-cimento, trama de
+   planta ao fundo. O que muda de página para página é o ritmo — onde entra a
+   faixa clara, como o topo se comporta, que elemento abre a página. */
+
+/* SERVIÇOS · índice numerado grande, como sumário de caderno técnico */
+.indice-servicos{list-style:none;margin:var(--e4) 0 0;padding:0;
+  border-top:1px solid var(--linha)}
+.indice-servicos li{border-bottom:1px solid var(--linha)}
+.indice-servicos a{display:grid;grid-template-columns:auto 1fr auto;align-items:center;
+  gap:var(--e3);padding:var(--e3) 0;text-decoration:none;color:inherit;
+  transition:padding .3s cubic-bezier(.2,.7,.2,1)}
+/* o numeral é grande mas continua sendo texto: precisa de contraste de texto,
+   e o tom de borda (--linha-forte) dava só 2:1 no fundo preto */
+.indice-n{font-family:var(--display);font-weight:700;font-size:clamp(26px,3.4vw,40px);
+  line-height:1;color:var(--txt-3);letter-spacing:-.03em;
+  min-width:2.2ch;transition:color .3s ease}
+.indice-txt b{display:block;font-family:var(--display);font-size:clamp(16px,2vw,22px);
+  text-transform:uppercase;letter-spacing:-.01em;color:var(--txt);transition:color .3s ease}
+.indice-txt span{display:block;margin-top:5px;color:var(--txt-3);font-size:14px;
+  line-height:1.5;max-width:62ch}
+.indice-seta{font-family:var(--display);font-size:17px;color:var(--txt-3);
+  transition:color .3s ease,transform .3s ease}
+.indice-servicos a:hover,.indice-servicos a:focus-visible{padding-left:var(--e3)}
+.indice-servicos a:hover .indice-n,.indice-servicos a:focus-visible .indice-n,
+.indice-servicos a:hover .indice-seta,.indice-servicos a:focus-visible .indice-seta{color:var(--acc-2)}
+.indice-servicos a:hover .indice-txt b,.indice-servicos a:focus-visible .indice-txt b{color:var(--acc-2)}
+.indice-servicos a:hover .indice-seta,.indice-servicos a:focus-visible .indice-seta{transform:translate(3px,-3px)}
+/* a esteira de fotos precisa respirar sem a margem lateral do .wrap */
+.esteira-bloco{padding-top:var(--e6);padding-bottom:var(--e6)}
+
+/* OBRAS · a esteira abre a página, logo abaixo do título */
+.pag-obras .topo-interno{padding-bottom:0}
+.pag-obras .esteira-bloco{padding-top:var(--e4)}
+
+/* SOBRE · o posicionamento entra como faixa de vidro escura, não como
+   seção clara: dá peso de documento institucional */
+.pag-sobre .sec.claro:first-of-type{--bg:#070C11;--bg-2:#0A1016;
+  --sup:rgba(255,255,255,.055);--linha:rgba(255,255,255,.14);
+  --txt:#F4F4F1;--txt-2:#AEB6BD;--txt-3:#7C858D;--acc-2:#8FB0CC;color:var(--txt)}
+.pag-sobre .sec.claro:first-of-type::before{background:var(--bg)}
+
+/* ARQUITETOS · trama de planta mais forte no topo, como papel vegetal */
+.pag-arquitetos .topo-interno{position:relative;isolation:isolate}
+.pag-arquitetos .topo-interno::before{content:"";position:absolute;z-index:-1;
+  left:calc(50% - 50vw);width:100vw;top:calc(var(--nav-altura) * -1);bottom:calc(var(--e6) * -1);
+  background-image:linear-gradient(var(--trama) 1px,transparent 1px),
+    linear-gradient(90deg,var(--trama) 1px,transparent 1px);
+  background-size:52px 52px;
+  -webkit-mask-image:linear-gradient(#000 55%,transparent);mask-image:linear-gradient(#000 55%,transparent)}
+.pag-arquitetos .topo-interno h1{max-width:14ch}
+
+/* DÚVIDAS · o título acompanha a rolagem enquanto as perguntas passam */
+@media (min-width:981px){
+  .pag-duvidas .topo-interno{position:sticky;top:calc(var(--nav-altura) + var(--e3));z-index:1}
+  .pag-duvidas .faq-lista{max-width:70ch;margin-left:auto}
+}
+
+/* ATUAÇÃO · a faixa "clara" vira o bloco invertido do raio de atuação da home */
+.pag-atuacao .sec.claro{
+  --bg:#070C11; --bg-2:#0A1016; --sup:rgba(255,255,255,.06); --sup-2:rgba(255,255,255,.1);
+  --linha:rgba(255,255,255,.16); --linha-forte:rgba(255,255,255,.3);
+  --txt:#F4F4F1; --txt-2:#A7B0B8; --txt-3:#8B939A; --acc-2:#8FB0CC;
+  --trama:rgba(255,255,255,.06);
+  color:var(--txt)}
+.pag-atuacao .sec.claro::before{background:var(--bg)}
+
+/* PÁGINAS DE SERVIÇO · numeral de etapa e faixa de acento sob o título */
+.pag-servico .topo-interno h1{position:relative;padding-bottom:var(--e3)}
+.pag-servico .topo-interno h1::after{content:"";position:absolute;left:0;bottom:0;
+  width:74px;height:3px;background:var(--acc-2)}
+
+/* PRIVACIDADE · texto corrido, sem alternância de faixa, leitura contínua */
+.pag-privacidade .sec.claro{--bg:var(--bg-2);--sup:var(--sup-2)}
+.pag-privacidade .sec.claro::before{background:var(--bg-2)}
+.pag-privacidade .lead{max-width:64ch}
+
 /* -------------------------------------------------- 6. RESPONSIVO */
 /* notebook menor e tablet deitado: cinco etapas em linha ficam apertadas */
 @media(max-width:1280px){

@@ -142,14 +142,14 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
   function conjunto(arq){
     var largura = (DIM[arq] || [1200,1600])[0];
     return [480, 640, 960].filter(function(w){ return w < largura; })
-      .map(function(w){ return 'img/' + arq + '-' + w + '.webp ' + w + 'w'; }).join(', ');
+      .map(function(w){ return '/img/' + arq + '-' + w + '.webp ' + w + 'w'; }).join(', ');
   }
   /* a primeira foto já veio no HTML com prioridade alta; as outras entram aqui */
   caixa.insertAdjacentHTML('beforeend', destaque.slice(1).map(function(arq){
     var d = DIM[arq] || [1200,1600];
-    return '<img src="img/' + arq + '-640.webp" srcset="' + conjunto(arq) + '" sizes="100vw"' +
+    return '<img src="/img/' + arq + '-640.webp" srcset="' + conjunto(arq) + '" sizes="100vw"' +
       ' width="' + d[0] + '" height="' + d[1] + '"' +
-      ' data-ph="img/ph/' + arq + '.svg" alt="' + (legendas[arq] || '') +
+      ' data-ph="/img/ph/' + arq + '.svg" alt="' + (legendas[arq] || '') +
       '" loading="lazy" decoding="async">';
   }).join(''));
 
@@ -224,11 +224,11 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
     obras.forEach(function(o){
       var d = DIM[o[0]] || [1200,1600];
       var alt480 = Math.round(480 * d[1] / d[0]);
-      html += '<figure class="frame"><img src="img/' + o[0] + '-480.webp"' +
+      html += '<figure class="frame"><img src="/img/' + o[0] + '-480.webp"' +
               ' width="480" height="' + alt480 + '"' +
-              ' srcset="img/' + o[0] + '-480.webp 480w, img/' + o[0] + '-640.webp 640w"' +
+              ' srcset="/img/' + o[0] + '-480.webp 480w, /img/' + o[0] + '-640.webp 640w"' +
               ' sizes="(max-width:900px) 250px, 320px"' +
-              ' data-ph="img/ph/' + o[0] + '.svg"' +
+              ' data-ph="/img/ph/' + o[0] + '.svg"' +
               ' alt="' + o[1] + '" loading="lazy" decoding="async">' +
               '<span class="halftone"></span><figcaption class="tag">' + o[1] + '</figcaption></figure>';
     });
@@ -828,4 +828,15 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
   document.querySelectorAll('a[href^="tel:"]').forEach(function(a){
     a.addEventListener('click', function(){ gtag('event', 'clique_telefone'); });
   });
+})();
+
+/* ---------------------------------------------- botão flutuante do WhatsApp */
+(function zap(){
+  var botao = document.querySelector('[data-zap]');
+  var form = document.querySelector('#formObra');
+  if(!botao || !form || !('IntersectionObserver' in window)) return;
+  /* com o formulário na tela o botão vira ruído: já existe um caminho ali */
+  new IntersectionObserver(function(es){
+    botao.classList.toggle('recolhido', es[0].isIntersecting);
+  }, {threshold:0.12}).observe(form);
 })();

@@ -474,6 +474,46 @@ O que está no site:
 | `/privacidade` | política de privacidade e LGPD |
 | `/servicos-e-regioes` | diretório com 1.064 combinações de serviço e região |
 
+### Cada página tem um visual próprio
+
+A identidade não muda — preto, cinza esbranquiçado, azul-cimento, trama de
+planta ao fundo. O que muda é o ritmo. Cada página gerada recebe uma classe no
+`<body>` (`pag-servicos`, `pag-obras`, …) e o CSS trata cada uma:
+
+| Página | Tratamento |
+| --- | --- |
+| `/servicos` | Índice numerado grande, como sumário de caderno técnico, e a esteira de fotos |
+| `/obras` | A esteira abre a página, logo abaixo do título |
+| `/sobre` | O posicionamento entra como faixa de vidro escura, não clara |
+| `/para-arquitetos` | Trama de planta reforçada no topo, feito papel vegetal |
+| `/duvidas` | O título acompanha a rolagem enquanto as perguntas passam |
+| `/atuacao` | A faixa clara vira bloco invertido |
+| `/servicos/*` | Traço de acento sob o título |
+| `/privacidade` | Sem alternância de faixa: leitura contínua |
+
+### A esteira de fotos
+
+O carrossel de polaroides da home é reaproveitado por `esteira()` no gerador.
+O JavaScript procura `#beamwrap` e `#track`, então basta existir um por
+página. A foto da esquerda aparece como planta e vira obra pronta ao cruzar o
+meio da tela.
+
+Os caminhos das imagens montadas em JavaScript são **absolutos** (`/img/...`).
+Relativos apontariam para `/servicos/img/...` nas páginas dentro de pastas.
+
+### Botão do WhatsApp
+
+Flutua no canto inferior direito de todas as páginas. Nada do verde padrão:
+azul-cimento da marca, canto vivo como o da logo, trama por cima. Fechado é um
+quadrado com o ícone; ao aproximar o cursor abre e mostra o texto. No toque já
+nasce aberto, porque não existe passar o cursor.
+
+Some quando o formulário está na tela — ali já existe um caminho, e dois
+convites ao mesmo tempo viram ruído.
+
+Sai junto do `rodape()` no gerador, que é o que é costurado em toda página. O
+`404.html` não tem rodapé e carrega o botão no próprio arquivo.
+
 ### Dados estruturados
 
 Saem todos de `dados.mjs`, num único `@graph` por página:

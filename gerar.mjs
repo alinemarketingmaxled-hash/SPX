@@ -72,6 +72,17 @@ function menu(atual) {
 </div>`;
 }
 
+/* --------------------------------------------------------- botão flutuante */
+/* Sai junto do rodapé porque é o rodapé que é costurado em toda página — assim
+   o botão aparece em todas sem markup duplicado em vinte arquivos. */
+function botaoZap() {
+  return `<a class="zap" href="https://wa.me/${empresa.whatsapp}" rel="noopener"
+   aria-label="Falar com a ${esc(empresa.nome)} no WhatsApp" data-zap>
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 12a8.5 8.5 0 1 1-4.2-7.3L21 3.5l-1.2 4.6A8.4 8.4 0 0 1 20.5 12Z"/><path d="M9 9.4c.5 2.2 2.4 4.1 4.6 4.6l1.1-1.2 1.8.8-.5 1.6c-3.4.5-7.2-3.3-6.7-6.7l1.6-.5.8 1.8z"/></svg>
+  <span>Falar no WhatsApp</span>
+</a>`;
+}
+
 /* ---------------------------------------------------------------- rodapé */
 function rodape() {
   const social = [];
@@ -120,7 +131,8 @@ function rodape() {
     <span>${selo.join(' · ')}</span>
     <span style="display:flex;gap:20px;flex-wrap:wrap"><a href="/privacidade">Privacidade</a><a href="/duvidas">Dúvidas</a><a href="/contato">Contato</a></span>
   </div>
-</footer>`;
+</footer>
+${botaoZap()}`;
 }
 
 /* ------------------------------------------------------- dados estruturados */
@@ -198,7 +210,7 @@ const schemaTrilha = (trilha) => ({
 });
 
 /* --------------------------------------------------------------- moldura */
-function pagina({ url, arquivo, title, descricao, h1, trilha = [], corpo, schema = [] }) {
+function pagina({ url, arquivo, title, descricao, h1, trilha = [], corpo, schema = [], visual = '' }) {
   const grafo = [schemaOrganizacao(), ...schema].filter(Boolean);
   if (trilha.length > 1) grafo.push(schemaTrilha(trilha));
   const migalhas = trilha.length > 1
@@ -242,7 +254,7 @@ function pagina({ url, arquivo, title, descricao, h1, trilha = [], corpo, schema
 ${JSON.stringify({ '@context': 'https://schema.org', '@graph': grafo }, null, 1)}
 </script>
 </head>
-<body>
+<body class="${visual}">
 <a class="pular" href="#conteudo">Pular para o conteúdo</a>
 <div class="hatch" aria-hidden="true"></div>
 ${menu(trilha[1] ? trilha[1].url : url)}
@@ -274,6 +286,22 @@ const chamada = (texto, rotulo = 'Solicitar visita técnica') =>
   <a class="btn btn-acc" href="/contato">${esc(rotulo)} ↗</a>
 </section>`;
 
+/* A esteira de polaroides da home, reaproveitada. O JavaScript procura
+   #beamwrap e #track, então basta existir um por página. As fotos entram
+   sozinhas; a da esquerda aparece como planta e vira obra pronta ao cruzar
+   o meio da tela. */
+const esteira = (eyebrow, titulo) => `
+<section class="sec esteira-bloco">
+  <div class="wrap centro" data-reveal>
+    <p class="eyebrow centro">${esc(eyebrow)}</p>
+    <h2 style="margin-top:20px">${titulo}</h2>
+  </div>
+  <div class="beamwrap" id="beamwrap">
+    <div class="beam" aria-hidden="true"><span class="rot esq">Projeto</span><span class="rot dir">Entregue</span></div>
+    <div class="track" id="track"></div>
+  </div>
+</section>`;
+
 const perguntas = (pares) =>
   `<div class="faq-lista">${pares.map(([p, r]) =>
     `<details class="q-item"><summary>${esc(p)}</summary><p>${esc(r)}</p></details>`).join('')}</div>`;
@@ -292,6 +320,7 @@ for (const s of servicosPublicaveis) {
     url: '/servicos/' + s.slug,
     arquivo: `servicos/${s.slug}.html`,
     title: s.title, descricao: s.descricao, h1: s.h1, trilha,
+    visual: 'pag-servico servico-' + s.slug,
     schema: [schemaServico(s), schemaPerguntas(s.faq)],
     corpo: `
 <section class="sec wrap" data-reveal>
@@ -330,13 +359,28 @@ pagina({
   decide o que fazer, a gestão que mantém o prazo e a execução que entrega.</p>
 </section>
 
-${secao('O que a SPX faz', `<ul class="grade-servicos grande">${servicosPublicaveis.map((s) =>
-  `<li><a href="/servicos/${s.slug}"><b>${esc(s.nome)}</b><span>${esc(s.resumo)}</span></a></li>`).join('')}</ul>`)}
+${secao('O que a SPX faz', `<ol class="indice-servicos">${servicosPublicaveis.map((s, i) =>
+  `<li><a href="/servicos/${s.slug}">
+    <span class="indice-n">${String(i + 1).padStart(2, '0')}</span>
+    <span class="indice-txt"><b>${esc(s.nome)}</b><span>${esc(s.resumo)}</span></span>
+    <span class="indice-seta" aria-hidden="true">↗</span>
+  </a></li>`).join('')}</ol>`)}
+
+${esteira('Do executivo à inauguração', 'O que sai da planta<br>e vira obra entregue.')}
 
 ${secao('Como trabalhamos', `<ol class="etapas">${processo.map((e) =>
   `<li><span class="etapa-n">${e.n}</span><b>${esc(e.nome)}</b><p>${esc(e.texto)}</p></li>`).join('')}</ol>`, 'claro')}
 
+${secao('O que vem junto, em qualquer serviço', `<ul class="marcada">
+  <li><b>Visita técnica antes do orçamento</b> — nenhuma obra é orçada por telefone</li>
+  <li><b>Proposta discriminada</b> — serviço a serviço, com quantidade e critério de medição</li>
+  <li><b>Cronograma físico-financeiro</b> — entregue junto da proposta, não depois de assinar</li>
+  <li><b>Responsável técnico nomeado</b> — com ART emitida para a obra</li>
+  <li><b>Relatório semanal</b> — avanço medido contra o previsto, com registro fotográfico</li>
+  <li><b>As built e manuais na entrega</b> — para a próxima intervenção não começar às cegas</li></ul>`)}
+
 ${chamada(chamadas.orcamento)}`,
+  visual: 'pag-servicos',
 });
 
 /* --------------------------------------------------------------- projetos */
@@ -396,14 +440,39 @@ pagina({
   trilha: [{ nome: 'Início', url: '/' }, { nome: 'Projetos', url: '/obras' }],
   corpo: `
 <section class="sec wrap" data-reveal>
-  <p class="lead">Obras conduzidas pela SPX em São Paulo, com a atuação da engenharia
-  descrita em cada uma.</p>
+  <p class="lead">Obras conduzidas pela SPX em São Paulo. Cada uma começa numa planta e
+  termina num espaço em operação — e é essa travessia que a engenharia organiza.</p>
 </section>
+
+${esteira('Do executivo à inauguração', 'O projeto sai da planta<br>e vira realidade.')}
+
 ${projetosPublicaveis.length
   ? secao('Obras', `<ul class="grade-obras">${projetosPublicaveis.map((p) =>
-      `<li><a href="/obras/${p.slug}"><b>${esc(p.nome)}</b><span>${esc(p.regiao)} · ${esc(p.atuacao)}</span></a></li>`).join('')}</ul>`)
-  : secao('Obras', '<p class="lead">As páginas de projeto entram no ar assim que o escopo e as fotos de cada obra forem confirmados.</p>')}
+      `<li><a href="/obras/${p.slug}"><b>${esc(p.nome)}</b><span>${esc(p.regiao)} · ${esc(p.atuacao)}</span></a></li>`).join('')}</ul>`, 'claro')
+  : ''}
+
+${secao('O que a SPX documenta em toda obra', `
+  <p class="lead">Obra que não deixa registro não vira referência para a próxima. O que fica
+  arquivado ao fim de cada uma:</p>
+  <ul class="marcada">
+    <li><b>As built</b> — a planta do que foi realmente construído, com as alterações de campo</li>
+    <li><b>Memorial de acabamentos</b> — o que foi aplicado, onde, de qual fornecedor</li>
+    <li><b>Manuais e garantias</b> — de cada equipamento e sistema instalado</li>
+    <li><b>Registro fotográfico semanal</b> — o antes, o durante e o depois de cada frente</li>
+    <li><b>Cronograma medido</b> — o previsto contra o realizado, semana a semana</li>
+    <li><b>Lista de pendências fechada</b> — assinada na vistoria conjunta de entrega</li>
+  </ul>`, 'claro')}
+
+${secao('Tipos de obra no portfólio', `<ul class="grade-servicos">${servicos.slice(0, 6).map((s) =>
+  `<li><a href="/servicos/${s.slug}"><b>${esc(s.nome)}</b><span>${esc(s.resumo)}</span></a></li>`).join('')}</ul>`)}
+
+${secao('Onde essas obras acontecem', `
+  <p class="lead">A maior parte do portfólio está na capital, nos polos corporativos e nos
+  bairros de varejo de alto padrão. <a href="/atuacao">Veja todas as regiões atendidas</a>.</p>
+  <ul class="grade-regioes">${lista(regioes['São Paulo capital'].slice(0, 10))}</ul>`, 'claro')}
+
 ${chamada(chamadas.projeto)}`,
+  visual: 'pag-obras',
 });
 
 /* ------------------------------------------------------------------ sobre */
@@ -449,6 +518,7 @@ const numerosValidados = numeros.filter((n) => {
 
 pagina({
   url: '/sobre', arquivo: 'sobre.html',
+  visual: 'pag-sobre',
   title: `Sobre a ${empresa.nome} | Engenharia de obras corporativas em São Paulo`,
   descricao: `${empresa.definicao} Quem somos, como trabalhamos, área de atuação e responsabilidade técnica.`,
   h1: `Sobre a ${empresa.nome}`,
@@ -488,6 +558,7 @@ ${chamada(chamadas.obra)}`,
 /* -------------------------------------------------------- para arquitetos */
 pagina({
   url: '/para-arquitetos', arquivo: 'para-arquitetos.html',
+  visual: 'pag-arquitetos',
   title: 'Execução de projeto para arquitetos em São Paulo | SPX Engenharia',
   descricao: 'A SPX executa o projeto do arquiteto: leitura, compatibilização, orçamento ' +
     'discriminado, planejamento, execução e acompanhamento, em São Paulo e região.',
@@ -554,6 +625,7 @@ ${chamada(chamadas.arquiteto, 'Falar sobre um projeto')}`,
 /* ---------------------------------------------------------------- dúvidas */
 pagina({
   url: '/duvidas', arquivo: 'duvidas.html',
+  visual: 'pag-duvidas',
   title: 'Dúvidas frequentes sobre obras corporativas | SPX Engenharia',
   descricao: 'Respostas objetivas sobre o que a SPX Engenharia faz, como funciona a visita ' +
     'técnica, prazo, orçamento, obra em ambiente ocupado e responsabilidade técnica.',
@@ -572,6 +644,7 @@ ${chamada(chamadas.orcamento)}`,
 /* ---------------------------------------------------------------- atuação */
 pagina({
   url: '/atuacao', arquivo: 'atuacao.html',
+  visual: 'pag-atuacao',
   title: 'Onde a SPX Engenharia atua | São Paulo e região metropolitana',
   descricao: 'Regiões atendidas pela SPX Engenharia: capital paulista e Grande São Paulo, ' +
     'com obra corporativa, comercial, retrofit e manutenção predial.',
@@ -659,6 +732,7 @@ pagina({
     </aside>
   </div>
 </section>`,
+  visual: 'pag-contato',
 });
 
 /* ------------------------------------------------------------ privacidade */
@@ -724,6 +798,7 @@ ${secao('Segurança', `<p class="lead">O site trafega inteiramente em HTTPS. As 
 
 ${secao('Mudanças nesta política', `<p class="lead">Se ela mudar, a versão nova passa a valer
   a partir da publicação nesta mesma página.</p>`)}`,
+  visual: 'pag-privacidade',
 });
 
 /* ------------------------------------------------- sitemap, robots, llms */

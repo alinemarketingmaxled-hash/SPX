@@ -782,8 +782,6 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
 /* ---------------------------------------------- ano corrente */
 $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear(); });
 
-})();
-
 /* ---------------------------------------------- avisa quando algo quebra */
 (function relatorErros(){
   /* Manda para /api/erro, que só escreve no log da Vercel. Nada de serviço
@@ -855,4 +853,35 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
   new IntersectionObserver(function(es){
     botao.classList.toggle('recolhido', es[0].isIntersecting);
   }, {threshold:0.12}).observe(form);
+})();
+
+/* ---------------------------------------------- poeira de obra nas laterais */
+(function poeira(){
+  if(reduz || window.innerWidth < 561) return;
+  /* uma variável só, lida pelo CSS: as três camadas se deslocam em ritmos
+     diferentes a partir dela, e o navegador cuida do resto na GPU */
+  var raiz = document.documentElement;
+  var faixas = ['esq','dir'].map(function(lado){
+    var d = document.createElement('div');
+    d.className = 'poeira ' + lado;
+    d.setAttribute('aria-hidden','true');
+    d.innerHTML = '<i></i><i></i><i></i>';
+    document.body.appendChild(d);
+    return d;
+  });
+  if(!faixas.length) return;
+
+  var pendente = false;
+  function atualiza(){
+    pendente = false;
+    raiz.style.setProperty('--rolagem', String(Math.round(window.scrollY)));
+  }
+  window.addEventListener('scroll', function(){
+    if(pendente) return;
+    pendente = true;
+    requestAnimationFrame(atualiza);
+  }, {passive:true});
+  atualiza();
+})();
+
 })();

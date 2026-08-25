@@ -962,6 +962,51 @@ body{--bg-pagina:var(--bg)}
   .peca3d > span{animation:none;transform:rotateX(-22deg) rotateY(24deg)}
 }
 
+/* ------------------------------------ poeira de obra nas laterais da tela --- */
+/* Duas faixas estreitas nas bordas com partículas de 1 a 2 px, espalhadas em
+   ladrilhos grandes — o ponto é o raio do gradiente, não o tamanho do
+   ladrilho. Deslizam com a rolagem em três ritmos diferentes, e é a diferença
+   entre eles que dá profundidade. Sem evento de ponteiro, fora da impressão. */
+.poeira{position:fixed;top:0;bottom:0;width:clamp(70px,8vw,150px);
+  pointer-events:none;z-index:1;overflow:hidden;opacity:.42;
+  -webkit-mask-image:linear-gradient(90deg,#000 0%,rgba(0,0,0,.35) 55%,transparent);
+          mask-image:linear-gradient(90deg,#000 0%,rgba(0,0,0,.35) 55%,transparent)}
+.poeira.esq{left:0}
+.poeira.dir{right:0;
+  -webkit-mask-image:linear-gradient(270deg,#000 0%,rgba(0,0,0,.35) 55%,transparent);
+          mask-image:linear-gradient(270deg,#000 0%,rgba(0,0,0,.35) 55%,transparent)}
+.poeira i{position:absolute;left:0;right:0;top:-60vh;height:260vh;display:block;
+  background-repeat:repeat;will-change:transform;
+  transform:translate3d(0,calc(var(--poeira, 0) * 1px),0)}
+/* três camadas: grão fino atrás, partícula maior à frente */
+.poeira i:nth-child(1){
+  background-image:
+    radial-gradient(circle,rgba(255,255,255,.55) 0 1px,transparent 1.4px),
+    radial-gradient(circle,rgba(255,255,255,.32) 0 .8px,transparent 1.2px);
+  background-size:47px 71px,83px 59px;
+  background-position:9px 0,38px 27px;
+  --poeira:calc(var(--rolagem, 0) * -0.1)}
+.poeira i:nth-child(2){
+  background-image:radial-gradient(circle,rgba(255,255,255,.7) 0 1.4px,transparent 1.9px);
+  background-size:109px 137px;background-position:31px 61px;
+  --poeira:calc(var(--rolagem, 0) * -0.22)}
+.poeira i:nth-child(3){
+  background-image:radial-gradient(circle,var(--acc-2) 0 1.8px,transparent 2.4px);
+  background-size:151px 199px;background-position:57px 19px;opacity:.42;
+  --poeira:calc(var(--rolagem, 0) * -0.38)}
+/* no tema claro a poeira precisa ser escura para existir */
+[data-tema="claro"] .poeira{opacity:.3}
+[data-tema="claro"] .poeira i:nth-child(1){
+  background-image:radial-gradient(circle,rgba(0,0,0,.45) 0 1px,transparent 1.4px),
+                   radial-gradient(circle,rgba(0,0,0,.26) 0 .8px,transparent 1.2px)}
+[data-tema="claro"] .poeira i:nth-child(2){
+  background-image:radial-gradient(circle,rgba(0,0,0,.5) 0 1.4px,transparent 1.9px)}
+/* telas estreitas não têm margem sobrando: a poeira cairia sobre o texto */
+@media (max-width:900px){ .poeira{width:38px;opacity:.28} }
+@media (max-width:560px){ .poeira{display:none} }
+@media (prefers-reduced-motion:reduce){ .poeira i{transform:none} }
+@media print{ .poeira{display:none} }
+
 /* -------------------------------------------- botão flutuante do WhatsApp */
 /* Nada do verde padrão do WhatsApp: azul-cimento da marca, canto vivo de um
    lado como a logo, e a trama de planta por cima. Fechado é um quadrado com o

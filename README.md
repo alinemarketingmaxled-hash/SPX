@@ -494,10 +494,13 @@ planta ao fundo. O que muda é o ritmo. Cada página gerada recebe uma classe no
 
 ### Cabeçalho com foto, e as capas recortadas
 
-Cada página interna abre com um cabeçalho igual ao topo da home: as obras se
-revezam ao fundo e um véu escuro garante a leitura do título. Reaproveita
-`.hero-fundo` e `.hero-veu`, então o mesmo módulo de JavaScript faz as fotos
-passarem aqui também — a lista de cada página vem no `data-fotos`.
+**Só a página de projetos** abre com o cabeçalho fotográfico, igual ao topo da
+home: as obras se revezam ao fundo e um véu escuro garante a leitura do
+título. As demais páginas abrem com o topo limpo — foto em toda página deixa o
+site pesado de olhar e apaga a diferença entre elas.
+
+Reaproveita `.hero-fundo` e `.hero-veu`, então o mesmo módulo de JavaScript faz
+as fotos passarem aqui também — a lista da página vem no `data-fotos`.
 
 **As fotos das obras são verticais e o cabeçalho é uma faixa larga e baixa.**
 Usar a foto inteira ali faz o navegador baixar uma imagem grande e jogar fora
@@ -546,6 +549,20 @@ meio da tela.
 
 Os caminhos das imagens montadas em JavaScript são **absolutos** (`/img/...`).
 Relativos apontariam para `/servicos/img/...` nas páginas dentro de pastas.
+
+### Poeira de obra nas laterais
+
+Duas faixas estreitas presas nas bordas da tela, com partículas de 1 a 2 px
+espalhadas em ladrilhos grandes. O ponto é o **raio do gradiente**, não o
+tamanho do ladrilho — errar isso transforma poeira em bolhas gigantes.
+
+Deslizam com a rolagem em três ritmos diferentes (10%, 22% e 38% da rolagem), e
+é a diferença entre eles que dá profundidade. O JavaScript escreve **uma
+variável só** (`--rolagem`) num quadro de animação; o CSS deriva as três
+camadas dela e o navegador resolve na GPU, sem recálculo de layout.
+
+Some abaixo de 560 px, onde não há margem sobrando, e com
+`prefers-reduced-motion` para de deslizar.
 
 ### Botão do WhatsApp
 

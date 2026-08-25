@@ -38,6 +38,20 @@ Para rodar localmente:
 python3 -m http.server 8080   # ou: npx http-server -p 8080 .
 ```
 
+## Publicar
+
+O `vercel.json` desliga a etapa de build no servidor: os arquivos `.min` já
+estão versionados, então não há o que construir lá. O deploy é só servir o que
+está no repositório — um passo a menos para falhar.
+
+Isso importa porque o `package.json` tem um script `build`. Sem o
+`buildCommand: ""`, a Vercel enxerga esse script, tenta rodar
+`npm install && npm run build`, e uma falha de instalação derruba um deploy
+que nem precisava existir.
+
+Rode `node gerar.mjs && node build.mjs` **antes de commitar**, não durante o
+deploy.
+
 ## Como o site é montado
 
 O site tem duas metades. A home, o 404 e a página de diretório são escritas à

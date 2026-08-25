@@ -29,7 +29,14 @@ const DIMENSOES = {
   'banheiro-marmore':[1200,1600], 'lavabo-azul':[1067,1600], 'cozinha-marcenaria':[900,1600],
   'restaurante-salao':[720,1280], 'lavabo-terracota':[1200,1600],
 };
-const VERSAO = 'v=7';
+/* as versões vêm do resumo do conteúdo dos arquivos, escrito por build.mjs */
+let VERSAO_CSS, VERSAO_JS;
+try {
+  ({ css: VERSAO_CSS, js: VERSAO_JS } = JSON.parse(readFileSync('assets/versao.json', 'utf8')));
+} catch {
+  console.error('assets/versao.json não existe. Rode `node build.mjs` antes, ou `npm run site`.');
+  process.exit(1);
+}
 /* uma foto e uma peça diferentes por serviço, para as oito páginas não
    parecerem a mesma coisa repetida */
 const FUNDOS_SERVICO = ['sala-reuniao-azul', 'restaurante-salao', 'estante-espinha-peixe', 'cozinha-marcenaria', 'mesa-vista-sp', 'lavabo-terracota', 'recepcao-marmore', 'lounge-recepcao'];
@@ -296,7 +303,7 @@ function pagina({ url, arquivo, title, descricao, h1, trilha = [], corpo, schema
 <meta name="geo.placename" content="São Paulo">
 <link rel="icon" type="image/png" href="/img/favicon.png">
 ${fundo ? `<link rel="preload" as="image" href="/img/capa-${fundo}-1280.webp"
-      imagesrcset="${capas(fundo)}" imagesizes="100vw" fetchpriority="high">\n` : ''}<link rel="stylesheet" href="/assets/css/spx.min.css?${VERSAO}">
+      imagesrcset="${capas(fundo)}" imagesizes="100vw" fetchpriority="high">\n` : ''}<link rel="stylesheet" href="/assets/css/spx.min.css?v=${VERSAO_CSS}">
 <script>
 /* aplica o tema antes da pintura para não piscar */
 (function(){try{var t=localStorage.getItem('spx-tema')||'escuro';document.documentElement.setAttribute('data-tema',t);}catch(e){}})();
@@ -327,7 +334,7 @@ ${peca ? `  <div class="peca3d" aria-hidden="true"><span class="${peca}"><i></i>
 ${corpo}
 </main>
 ${rodape()}
-<script src="/assets/js/spx.min.js?${VERSAO}" defer></script>
+<script src="/assets/js/spx.min.js?v=${VERSAO_JS}" defer></script>
 </body>
 </html>
 `;
@@ -797,6 +804,10 @@ for (const arquivo of ['index.html', '404.html', 'servicos-e-regioes.html']) {
                       '<!--MENU-->\n' + menu(atual) + '\n<!--/MENU-->');
   html = html.replace(/<!--RODAPE-->[\s\S]*?<!--\/RODAPE-->/,
                       '<!--RODAPE-->\n' + rodape() + '\n<!--/RODAPE-->');
+  /* carimba a versão dos assets também aqui, senão a home continua pedindo a
+     folha antiga e o navegador de quem já visitou serve a que está em cache */
+  html = html.replace(/spx\.min\.css\?v=[a-z0-9]+/g, 'spx.min.css?v=' + VERSAO_CSS)
+             .replace(/spx\.min\.js\?v=[a-z0-9]+/g, 'spx.min.js?v=' + VERSAO_JS);
   /* A home leva Organization, Person e WebSite. Não leva FAQPage: as perguntas
      dela são montadas pelo JavaScript, e o Google exige que o que está no
      schema esteja visível na página. As perguntas em /duvidas são estáticas e

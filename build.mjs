@@ -33,6 +33,17 @@ const js = readFileSync('assets/js/spx.js', 'utf8');
 const jsMin = (await transform(js, { loader: 'js', minify: true, target: 'es2019' })).code;
 writeFileSync('assets/js/spx.min.js', jsMin);
 
+/* A versão no ?v= sai do conteúdo do arquivo, não de um número escrito à mão.
+   Esquecer de subir esse número entrega HTML novo com CSS velho no navegador
+   de quem já visitou — e o resultado é uma página que parece quebrada sem que
+   nada esteja errado no código. Com o resumo do conteúdo, isso não acontece:
+   mudou um byte, muda a URL. */
+import { createHash } from 'node:crypto';
+const resumo = (t) => createHash('sha256').update(t).digest('hex').slice(0, 8);
+writeFileSync('assets/versao.json', JSON.stringify({
+  css: resumo(cssMin), js: resumo(jsMin),
+}, null, 2) + '\n');
+
 const kb = n => Math.round(n / 1024) + ' KB';
-console.log(`CSS ${kb(css.length)} → ${kb(cssMin.length)}`);
-console.log(`JS  ${kb(js.length)} → ${kb(jsMin.length)}`);
+console.log(`CSS ${kb(css.length)} → ${kb(cssMin.length)}  v=${resumo(cssMin)}`);
+console.log(`JS  ${kb(js.length)} → ${kb(jsMin.length)}  v=${resumo(jsMin)}`);

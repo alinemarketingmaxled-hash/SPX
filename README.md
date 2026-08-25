@@ -60,9 +60,22 @@ mão. Todo o resto — serviços, projetos, sobre, arquitetos, dúvidas, atuaç�
 contato, privacidade — é **gerado** a partir de um arquivo só.
 
 ```bash
-node gerar.mjs   # monta as páginas internas, o sitemap e o llms.txt
-node build.mjs   # minifica o CSS e o JS que as páginas carregam
+npm run site     # node build.mjs && node gerar.mjs, na ordem certa
 ```
+
+**A ordem importa.** `build.mjs` minifica o CSS e o JS e grava
+`assets/versao.json` com o resumo do conteúdo de cada um; `gerar.mjs` lê esse
+arquivo e carimba o `?v=` nas páginas.
+
+### Por que o ?v= sai do conteúdo
+
+Esse número já foi escrito à mão, e isso quebrou o site em produção. Mudei o
+CSS várias vezes sem lembrar de subir o número: quem já tinha visitado recebeu
+**o HTML novo com a folha de estilo velha em cache**, e a página apareceu com
+imagem gigante e texto apagado — sem que houvesse nada errado no código.
+
+Agora a versão é o resumo (SHA-256, 8 caracteres) do arquivo minificado. Mudou
+um byte, muda a URL, o navegador busca de novo. Não tem como esquecer.
 
 ### conteudo/dados.mjs é a fonte da verdade
 

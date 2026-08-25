@@ -4,7 +4,8 @@
   "version": "1.0.0",
   "description": "Site institucional da SPX Engenharia. HTML, CSS e JavaScript puros; o build apenas minifica os assets.",
   "scripts": {
-    "build": "node build.mjs"
+    "build": "node build.mjs",
+    "site": "node build.mjs && node gerar.mjs"
   },
   "devDependencies": {
     "esbuild": "^0.25.0"

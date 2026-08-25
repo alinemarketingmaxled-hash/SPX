@@ -580,6 +580,18 @@ export const duvidas = [
    'Um engenheiro responsável nomeado antes da assinatura do contrato, com ART emitida para a obra.'],
 ];
 
+/** As perguntas agrupadas por assunto, para a página de dúvidas ter índice. */
+export const temas = [
+  ['A empresa', ['O que a SPX Engenharia faz?', 'A SPX atende empresas?', 'A SPX atende São Paulo?',
+                 'Quem responde tecnicamente pela obra?']],
+  ['O que executamos', ['A SPX executa obras corporativas?', 'A SPX trabalha com retrofit?',
+                        'A SPX executa reforma de escritório?', 'A SPX faz gerenciamento de obras?']],
+  ['Trabalhar com arquitetos', ['A SPX trabalha com arquitetos?',
+                                'A SPX executa projeto desenvolvido por outro arquiteto?']],
+  ['Orçamento e prazo', ['Como solicitar um orçamento?', 'Como funciona a visita técnica?',
+                         'Quanto tempo demora uma obra?', 'A obra pode ser feita com o imóvel ocupado?']],
+];
+
 /** CTAs por contexto — o mesmo botão em todo lugar converte menos. */
 export const chamadas = {
   obra:      'Fale com a SPX sobre a sua obra.',

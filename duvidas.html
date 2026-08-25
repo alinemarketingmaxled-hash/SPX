@@ -23,6 +23,8 @@
 <meta name="geo.region" content="BR-SP">
 <meta name="geo.placename" content="São Paulo">
 <link rel="icon" type="image/png" href="/img/favicon.png">
+<link rel="preload" as="image" href="/img/capa-lounge-recepcao-1280.webp"
+      imagesrcset="/img/capa-lounge-recepcao-768.webp 768w, /img/capa-lounge-recepcao-1280.webp 1280w" imagesizes="100vw" fetchpriority="high">
 <link rel="stylesheet" href="/assets/css/spx.min.css?v=7">
 <script>
 /* aplica o tema antes da pintura para não piscar */
@@ -358,8 +360,14 @@
   </div>
 </div>
 <main id="conteudo">
-<header class="topo-interno">
-
+<header class="topo-interno com-foto">
+  <div class="hero-fundo" id="heroFundo" data-capa="sim" data-fotos="lounge-recepcao,restaurante-fachada,cozinha-marcenaria,sala-reuniao-azul" aria-hidden="true">
+    <img class="ativa" src="/img/capa-lounge-recepcao-1280.webp"
+         srcset="/img/capa-lounge-recepcao-768.webp 768w, /img/capa-lounge-recepcao-1280.webp 1280w" sizes="100vw"
+         width="1280" height="496" alt=""
+         fetchpriority="high" decoding="async">
+  </div>
+  <div class="hero-veu" aria-hidden="true"></div>
   <div class="wrap topo-in">
 <nav class="migalhas" aria-label="Você está em"><a href="/">Início</a><i aria-hidden="true">/</i><span aria-current="page">Dúvidas</span></nav>
     <h1>Dúvidas frequentes</h1>
@@ -378,7 +386,32 @@
   <p class="lead">As perguntas que mais chegam, respondidas de forma direta. Para obra com
   prazo crítico, concorrência ou adequação de norma, envie o contexto completo.</p>
 </section>
-<section class="sec wrap "><h2>Perguntas e respostas</h2><div class="faq-lista"><details class="q-item"><summary>O que a SPX Engenharia faz?</summary><p>A SPX Engenharia planeja, gerencia e executa obras corporativas e comerciais em São Paulo e região. O trabalho vai do levantamento em campo à entrega, com engenharia própria em todas as etapas.</p></details><details class="q-item"><summary>A SPX executa obras corporativas?</summary><p>Sim. Obra corporativa é o principal segmento da SPX: escritórios, sedes e espaços administrativos, incluindo layout, instalações, climatização, marcenaria e acabamento.</p></details><details class="q-item"><summary>A SPX trabalha com retrofit?</summary><p>Sim. A SPX executa retrofit em ambiente ocupado, com a obra dividida em frentes, isolamento da área em serviço e os serviços mais invasivos programados para fora do horário comercial.</p></details><details class="q-item"><summary>A SPX executa reforma de escritório?</summary><p>Sim. Reformas de escopo delimitado — um andar, um setor — recebem o mesmo tratamento de uma obra completa: proposta discriminada, cronograma e medição.</p></details><details class="q-item"><summary>A SPX faz gerenciamento de obras?</summary><p>Sim, inclusive de obra executada por terceiros. O gerenciamento cobre cronograma, coordenação de fornecedores, conferência de medição e controle de desvio.</p></details><details class="q-item"><summary>A SPX trabalha com arquitetos?</summary><p>Sim. A SPX executa projeto desenvolvido por outro arquiteto, fazendo a compatibilização entre as disciplinas antes do início da obra e devolvendo as divergências ao autor do projeto antes que virem retrabalho.</p></details><details class="q-item"><summary>A SPX executa projeto desenvolvido por outro arquiteto?</summary><p>Sim. É uma das formas mais comuns de contratação: o arquiteto entrega o projeto e a SPX responde pela engenharia e pela execução.</p></details><details class="q-item"><summary>A SPX atende empresas?</summary><p>Sim. O trabalho da SPX é B2B: empresas, escritórios, redes de varejo, administradoras de imóvel e escritórios de arquitetura.</p></details><details class="q-item"><summary>A SPX atende São Paulo?</summary><p>Sim. A base é São Paulo capital, e o atendimento cobre a cidade e a região metropolitana.</p></details><details class="q-item"><summary>Como solicitar um orçamento?</summary><p>Pelo formulário do site, por WhatsApp ou por telefone. O orçamento preliminar sai em até cinco dias úteis depois da visita técnica ao local.</p></details><details class="q-item"><summary>Como funciona a visita técnica?</summary><p>Um engenheiro vai ao local, mede, registra as condições existentes e levanta as restrições do condomínio ou da administração. Nenhuma obra é orçada sem essa visita.</p></details><details class="q-item"><summary>Quanto tempo demora uma obra?</summary><p>Depende do escopo e da área. O prazo sai do cronograma físico-financeiro montado na proposta, com as frentes amarradas entre si e o caminho crítico identificado — não de uma média por metro quadrado.</p></details><details class="q-item"><summary>A obra pode ser feita com o imóvel ocupado?</summary><p>Sim. É a situação mais comum nas obras da SPX. O trabalho é fatiado em frentes, com isolamento físico, controle de poeira e ruído e serviços críticos fora do horário comercial.</p></details><details class="q-item"><summary>Quem responde tecnicamente pela obra?</summary><p>Um engenheiro responsável nomeado antes da assinatura do contrato, com ART emitida para a obra.</p></details></div></section>
+<section class="sec wrap faq-central">
+  <div class="faq-topo">
+    <h2>Perguntas e respostas</h2>
+    <div class="faq-busca">
+      <label for="faqBusca" class="so-leitor">Buscar nas perguntas</label>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
+      <input id="faqBusca" type="search" placeholder="Buscar por palavra: prazo, ocupado, ART…"
+             autocomplete="off" data-faq-busca>
+    </div>
+    <p class="faq-vazio" data-faq-vazio hidden>Nenhuma pergunta com esse termo.
+    <a href="/contato">Pergunte diretamente à equipe</a>.</p>
+  </div>
+  <div class="faq-tema" data-faq-tema>
+    <h3><span class="faq-tema-n">01</span>A empresa</h3>
+    <div class="faq-lista"><details class="q-item" data-faq-item><summary>O que a SPX Engenharia faz?</summary><p>A SPX Engenharia planeja, gerencia e executa obras corporativas e comerciais em São Paulo e região. O trabalho vai do levantamento em campo à entrega, com engenharia própria em todas as etapas.</p></details><details class="q-item" data-faq-item><summary>A SPX atende empresas?</summary><p>Sim. O trabalho da SPX é B2B: empresas, escritórios, redes de varejo, administradoras de imóvel e escritórios de arquitetura.</p></details><details class="q-item" data-faq-item><summary>A SPX atende São Paulo?</summary><p>Sim. A base é São Paulo capital, e o atendimento cobre a cidade e a região metropolitana.</p></details><details class="q-item" data-faq-item><summary>Quem responde tecnicamente pela obra?</summary><p>Um engenheiro responsável nomeado antes da assinatura do contrato, com ART emitida para a obra.</p></details></div>
+  </div><div class="faq-tema" data-faq-tema>
+    <h3><span class="faq-tema-n">02</span>O que executamos</h3>
+    <div class="faq-lista"><details class="q-item" data-faq-item><summary>A SPX executa obras corporativas?</summary><p>Sim. Obra corporativa é o principal segmento da SPX: escritórios, sedes e espaços administrativos, incluindo layout, instalações, climatização, marcenaria e acabamento.</p></details><details class="q-item" data-faq-item><summary>A SPX trabalha com retrofit?</summary><p>Sim. A SPX executa retrofit em ambiente ocupado, com a obra dividida em frentes, isolamento da área em serviço e os serviços mais invasivos programados para fora do horário comercial.</p></details><details class="q-item" data-faq-item><summary>A SPX executa reforma de escritório?</summary><p>Sim. Reformas de escopo delimitado — um andar, um setor — recebem o mesmo tratamento de uma obra completa: proposta discriminada, cronograma e medição.</p></details><details class="q-item" data-faq-item><summary>A SPX faz gerenciamento de obras?</summary><p>Sim, inclusive de obra executada por terceiros. O gerenciamento cobre cronograma, coordenação de fornecedores, conferência de medição e controle de desvio.</p></details></div>
+  </div><div class="faq-tema" data-faq-tema>
+    <h3><span class="faq-tema-n">03</span>Trabalhar com arquitetos</h3>
+    <div class="faq-lista"><details class="q-item" data-faq-item><summary>A SPX trabalha com arquitetos?</summary><p>Sim. A SPX executa projeto desenvolvido por outro arquiteto, fazendo a compatibilização entre as disciplinas antes do início da obra e devolvendo as divergências ao autor do projeto antes que virem retrabalho.</p></details><details class="q-item" data-faq-item><summary>A SPX executa projeto desenvolvido por outro arquiteto?</summary><p>Sim. É uma das formas mais comuns de contratação: o arquiteto entrega o projeto e a SPX responde pela engenharia e pela execução.</p></details></div>
+  </div><div class="faq-tema" data-faq-tema>
+    <h3><span class="faq-tema-n">04</span>Orçamento e prazo</h3>
+    <div class="faq-lista"><details class="q-item" data-faq-item><summary>Como solicitar um orçamento?</summary><p>Pelo formulário do site, por WhatsApp ou por telefone. O orçamento preliminar sai em até cinco dias úteis depois da visita técnica ao local.</p></details><details class="q-item" data-faq-item><summary>Como funciona a visita técnica?</summary><p>Um engenheiro vai ao local, mede, registra as condições existentes e levanta as restrições do condomínio ou da administração. Nenhuma obra é orçada sem essa visita.</p></details><details class="q-item" data-faq-item><summary>Quanto tempo demora uma obra?</summary><p>Depende do escopo e da área. O prazo sai do cronograma físico-financeiro montado na proposta, com as frentes amarradas entre si e o caminho crítico identificado — não de uma média por metro quadrado.</p></details><details class="q-item" data-faq-item><summary>A obra pode ser feita com o imóvel ocupado?</summary><p>Sim. É a situação mais comum nas obras da SPX. O trabalho é fatiado em frentes, com isolamento físico, controle de poeira e ruído e serviços críticos fora do horário comercial.</p></details></div>
+  </div>
+</section>
 <section class="sec wrap cta-faixa" data-reveal>
   <p class="cta-frase">Solicite uma avaliação da sua obra.</p>
   <a class="btn btn-acc" href="/contato">Solicitar visita técnica ↗</a>

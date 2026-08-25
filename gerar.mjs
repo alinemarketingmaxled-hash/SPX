@@ -18,7 +18,7 @@
 import { mkdirSync, writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { empresa, responsavel, numeros, processo, servicos, projetos,
-         duvidas, chamadas, regioes, falta } from './conteudo/dados.mjs';
+         duvidas, temas, chamadas, regioes, falta } from './conteudo/dados.mjs';
 
 const SITE = empresa.dominio.replace(/\/+$/, '');
 /* proporções das fotos usadas como fundo, para declarar width e height e o
@@ -392,6 +392,7 @@ for (const s of servicosPublicaveis) {
     arquivo: `servicos/${s.slug}.html`,
     title: s.title, descricao: s.descricao, h1: s.h1, trilha,
     visual: 'pag-servico servico-' + s.slug,
+    fundo: FUNDOS_SERVICO[servicos.indexOf(s) % FUNDOS_SERVICO.length],
     peca: PECAS_SERVICO[servicos.indexOf(s) % PECAS_SERVICO.length],
     schema: [schemaServico(s), schemaPerguntas([[s.pergunta, s.resposta], ...s.faq]),
              { '@type': 'WebPage', '@id': `${SITE}/servicos/${s.slug}#pagina`,
@@ -424,6 +425,7 @@ ${chamada(s.cta)}`,
 /* ------------------------------------------------------- índice de serviços */
 pagina({
   url: '/servicos', arquivo: 'servicos.html',
+  fundo: 'estante-espinha-peixe',
   peca: 'viga',
   title: 'Serviços de engenharia e execução de obras | SPX Engenharia',
   descricao: 'Obras corporativas e comerciais, retrofit, reformas, gerenciamento, manutenção, ' +
@@ -601,6 +603,7 @@ const numerosValidados = numeros.filter((n) => {
 
 pagina({
   url: '/sobre', arquivo: 'sobre.html',
+  fundo: 'sala-reuniao-azul',
   peca: 'cubo',
   visual: 'pag-sobre',
   title: `Sobre a ${empresa.nome} | Engenharia de obras corporativas em São Paulo`,
@@ -643,6 +646,7 @@ ${chamada(chamadas.obra)}`,
 /* -------------------------------------------------------- para arquitetos */
 pagina({
   url: '/para-arquitetos', arquivo: 'para-arquitetos.html',
+  fundo: 'mesa-vista-sp',
   peca: 'placas',
   visual: 'pag-arquitetos',
   title: 'Execução de projeto para arquitetos em São Paulo | SPX Engenharia',
@@ -711,6 +715,7 @@ ${chamada(chamadas.arquiteto, 'Falar sobre um projeto')}`,
 /* ---------------------------------------------------------------- dúvidas */
 pagina({
   url: '/duvidas', arquivo: 'duvidas.html',
+  fundo: 'lounge-recepcao',
   peca: 'porca',
   visual: 'pag-duvidas',
   title: 'Dúvidas frequentes sobre obras corporativas | SPX Engenharia',
@@ -730,13 +735,34 @@ ${respostaDireta('O que a SPX Engenharia faz?', empresa.definicao + ' ' + empres
   <p class="lead">As perguntas que mais chegam, respondidas de forma direta. Para obra com
   prazo crítico, concorrência ou adequação de norma, envie o contexto completo.</p>
 </section>
-${secao('Perguntas e respostas', perguntas(duvidas))}
+<section class="sec wrap faq-central">
+  <div class="faq-topo">
+    <h2>Perguntas e respostas</h2>
+    <div class="faq-busca">
+      <label for="faqBusca" class="so-leitor">Buscar nas perguntas</label>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
+      <input id="faqBusca" type="search" placeholder="Buscar por palavra: prazo, ocupado, ART…"
+             autocomplete="off" data-faq-busca>
+    </div>
+    <p class="faq-vazio" data-faq-vazio hidden>Nenhuma pergunta com esse termo.
+    <a href="/contato">Pergunte diretamente à equipe</a>.</p>
+  </div>
+  ${temas.map((t, i) => {
+    const pares = t[1].map((q) => duvidas.find((d) => d[0] === q)).filter(Boolean);
+    return `<div class="faq-tema" data-faq-tema>
+    <h3><span class="faq-tema-n">${String(i + 1).padStart(2, '0')}</span>${esc(t[0])}</h3>
+    <div class="faq-lista">${pares.map(([q, r]) =>
+      `<details class="q-item" data-faq-item><summary>${esc(q)}</summary><p>${esc(r)}</p></details>`).join('')}</div>
+  </div>`;
+  }).join('')}
+</section>
 ${chamada(chamadas.orcamento)}`,
 });
 
 /* ---------------------------------------------------------------- atuação */
 pagina({
   url: '/atuacao', arquivo: 'atuacao.html',
+  fundo: 'restaurante-fachada',
   peca: 'malha',
   visual: 'pag-atuacao',
   title: 'Onde a SPX Engenharia atua | São Paulo e região metropolitana',
@@ -797,6 +823,7 @@ if (!formulario) throw new Error('não achei o formulário em index.html');
 
 pagina({
   url: '/contato', arquivo: 'contato.html',
+  fundo: 'banheiro-marmore',
   title: `Contato e visita técnica | ${empresa.nome}`,
   descricao: 'Solicite a visita técnica da SPX Engenharia. Orçamento preliminar em até cinco ' +
     'dias úteis depois da visita ao local, em São Paulo e região.',
@@ -837,6 +864,7 @@ if (falta(empresa.razaoSocial) || falta(empresa.cnpj)) {
 }
 pagina({
   url: '/privacidade', arquivo: 'privacidade.html',
+  fundo: 'lavabo-azul',
   title: `Política de privacidade | ${empresa.nome}`,
   descricao: 'Como a SPX Engenharia trata os dados enviados pelo site, para que servem, ' +
     'por quanto tempo ficam e como exercer os direitos previstos na LGPD.',

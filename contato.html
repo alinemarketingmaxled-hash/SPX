@@ -23,6 +23,8 @@
 <meta name="geo.region" content="BR-SP">
 <meta name="geo.placename" content="São Paulo">
 <link rel="icon" type="image/png" href="/img/favicon.png">
+<link rel="preload" as="image" href="/img/capa-banheiro-marmore-1280.webp"
+      imagesrcset="/img/capa-banheiro-marmore-768.webp 768w, /img/capa-banheiro-marmore-1280.webp 1280w" imagesizes="100vw" fetchpriority="high">
 <link rel="stylesheet" href="/assets/css/spx.min.css?v=7">
 <script>
 /* aplica o tema antes da pintura para não piscar */
@@ -235,8 +237,14 @@
   </div>
 </div>
 <main id="conteudo">
-<header class="topo-interno">
-
+<header class="topo-interno com-foto">
+  <div class="hero-fundo" id="heroFundo" data-capa="sim" data-fotos="banheiro-marmore,restaurante-salao,recepcao-marmore,estante-espinha-peixe" aria-hidden="true">
+    <img class="ativa" src="/img/capa-banheiro-marmore-1280.webp"
+         srcset="/img/capa-banheiro-marmore-768.webp 768w, /img/capa-banheiro-marmore-1280.webp 1280w" sizes="100vw"
+         width="1280" height="496" alt=""
+         fetchpriority="high" decoding="async">
+  </div>
+  <div class="hero-veu" aria-hidden="true"></div>
   <div class="wrap topo-in">
 <nav class="migalhas" aria-label="Você está em"><a href="/">Início</a><i aria-hidden="true">/</i><span aria-current="page">Contato</span></nav>
     <h1>Envie o contexto da obra</h1>

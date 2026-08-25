@@ -862,10 +862,12 @@ b,strong{font-weight:600}
 /* a foto sangra até as bordas mesmo com o conteúdo dentro do .wrap */
 .topo-interno.com-foto .hero-fundo,
 .topo-interno.com-foto .hero-veu{left:calc(50% - 50vw);width:100vw;right:auto}
+/* o mesmo véu do topo da home: a foto aparece, o texto continua legível, e a
+   página não fica com cara de escurecida */
 .topo-interno.com-foto .hero-veu{
   background:
-    linear-gradient(90deg,rgba(0,0,0,.9) 0%,rgba(0,0,0,.62) 46%,rgba(0,0,0,.74) 100%),
-    linear-gradient(180deg,rgba(0,0,0,.86) 0%,rgba(0,0,0,.3) 34%,rgba(0,0,0,.55) 76%,var(--bg-pagina,#000) 100%)}
+    linear-gradient(90deg,rgba(0,0,0,.86) 0%,rgba(0,0,0,.5) 48%,rgba(0,0,0,.68) 100%),
+    linear-gradient(180deg,rgba(0,0,0,.7) 0%,rgba(0,0,0,.14) 30%,rgba(0,0,0,.34) 66%,var(--bg-pagina,#000) 100%)}
 /* a última parada do véu é a cor da própria página, para emendar sem costura */
 body{--bg-pagina:var(--bg)}
 .topo-interno.com-foto + .sec,
@@ -961,6 +963,32 @@ body{--bg-pagina:var(--bg)}
 @media (prefers-reduced-motion:reduce){
   .peca3d > span{animation:none;transform:rotateX(-22deg) rotateY(24deg)}
 }
+
+/* ------------------------------- central de dúvidas: busca e temas -------- */
+.faq-topo{display:grid;gap:var(--e3);margin-bottom:var(--e5)}
+.faq-busca{position:relative;max-width:440px}
+.faq-busca svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  width:17px;height:17px;fill:none;stroke:var(--txt-3);stroke-width:1.6;
+  stroke-linecap:round;pointer-events:none}
+.faq-busca input{width:100%;padding:14px 16px 14px 42px;background:var(--sup);
+  border:1px solid var(--linha);border-radius:3px;color:var(--txt);
+  font-family:var(--corpo);font-size:14.5px;transition:border-color .2s,background .2s}
+.faq-busca input::placeholder{color:var(--txt-3)}
+.faq-busca input:focus{outline:none;border-color:var(--acc-2);background:var(--sup-2)}
+.faq-busca input::-webkit-search-cancel-button{filter:invert(.6)}
+.faq-vazio{margin:0;color:var(--txt-3);font-size:14.5px}
+.faq-vazio a{color:var(--acc-2)}
+/* cada tema é um bloco numerado, e some inteiro quando a busca não casa */
+.faq-tema{margin-top:var(--e5)}
+.faq-tema[hidden]{display:none}
+.faq-tema h3{display:flex;align-items:baseline;gap:12px;font-size:15px;
+  letter-spacing:.1em;color:var(--txt-2)}
+.faq-tema-n{font-family:var(--display);font-weight:700;font-size:13px;
+  color:var(--acc-2);letter-spacing:0}
+.faq-tema .faq-lista{margin-top:var(--e3)}
+.q-item[hidden]{display:none}
+/* o termo encontrado fica marcado na pergunta */
+.q-item mark{background:var(--acc-suave);color:var(--acc-2);padding:0 2px;border-radius:2px}
 
 /* ------------------------------------ poeira de obra nas laterais da tela --- */
 /* Duas faixas estreitas nas bordas com partículas de 1 a 2 px, espalhadas em

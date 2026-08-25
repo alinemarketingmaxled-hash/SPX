@@ -884,4 +884,52 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
   atualiza();
 })();
 
+/* ---------------------------------------------- busca na central de dúvidas */
+(function buscaDuvidas(){
+  var campo = $('[data-faq-busca]');
+  if(!campo) return;
+  var itens = $$('[data-faq-item]');
+  var temas = $$('[data-faq-tema]');
+  var vazio = $('[data-faq-vazio]');
+  /* guarda o texto original: marcar e desmarcar direto no HTML corromperia
+     a pergunta depois de algumas buscas */
+  itens.forEach(function(it){
+    var t = it.querySelector('summary');
+    it.__pergunta = t.textContent;
+    it.__resposta = (it.querySelector('p') || {}).textContent || '';
+  });
+
+  function semAcento(t){
+    return t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  }
+  function filtra(){
+    var termo = semAcento(campo.value.trim());
+    var achou = 0;
+    itens.forEach(function(it){
+      var alvo = semAcento(it.__pergunta + ' ' + it.__resposta);
+      var casa = !termo || alvo.indexOf(termo) >= 0;
+      it.hidden = !casa;
+      if(casa) achou++;
+      var titulo = it.querySelector('summary');
+      if(!termo){ titulo.textContent = it.__pergunta; return; }
+      /* destaca o trecho na pergunta, quando estiver nela */
+      var pos = semAcento(it.__pergunta).indexOf(termo);
+      if(pos < 0){ titulo.textContent = it.__pergunta; return; }
+      titulo.textContent = '';
+      titulo.appendChild(document.createTextNode(it.__pergunta.slice(0, pos)));
+      var marca = document.createElement('mark');
+      marca.textContent = it.__pergunta.slice(pos, pos + termo.length);
+      titulo.appendChild(marca);
+      titulo.appendChild(document.createTextNode(it.__pergunta.slice(pos + termo.length)));
+    });
+    /* tema sem nenhuma pergunta visível some junto com o título */
+    temas.forEach(function(t){
+      t.hidden = !$$('[data-faq-item]', t).some(function(i){ return !i.hidden; });
+    });
+    if(vazio) vazio.hidden = achou > 0;
+  }
+  campo.addEventListener('input', filtra);
+  campo.addEventListener('search', filtra);
+})();
+
 })();

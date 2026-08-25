@@ -494,10 +494,10 @@ planta ao fundo. O que muda é o ritmo. Cada página gerada recebe uma classe no
 
 ### Cabeçalho com foto, e as capas recortadas
 
-**Só a página de projetos** abre com o cabeçalho fotográfico, igual ao topo da
-home: as obras se revezam ao fundo e um véu escuro garante a leitura do
-título. As demais páginas abrem com o topo limpo — foto em toda página deixa o
-site pesado de olhar e apaga a diferença entre elas.
+Toda página abre com o cabeçalho fotográfico, igual ao topo da home: as obras
+se revezam ao fundo e um véu garante a leitura do título. O véu é **o mesmo da
+home** — mais escuro que isso e a página inteira parece apagada, que foi
+exatamente o erro da primeira tentativa.
 
 Reaproveita `.hero-fundo` e `.hero-veu`, então o mesmo módulo de JavaScript faz
 as fotos passarem aqui também — a lista da página vem no `data-fotos`.
@@ -549,6 +549,16 @@ meio da tela.
 
 Os caminhos das imagens montadas em JavaScript são **absolutos** (`/img/...`).
 Relativos apontariam para `/servicos/img/...` nas páginas dentro de pastas.
+
+### Central de dúvidas
+
+A página de dúvidas não é uma lista corrida: as perguntas estão agrupadas em
+quatro temas numerados, com **busca ao vivo** no topo. Digitar filtra perguntas
+e respostas, ignora acento e marca o trecho encontrado no título; tema que fica
+sem nenhuma pergunta some junto com o seu título.
+
+O texto original de cada pergunta é guardado antes de qualquer marcação —
+mexer direto no HTML corromperia a pergunta depois de algumas buscas.
 
 ### Poeira de obra nas laterais
 

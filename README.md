@@ -211,6 +211,21 @@ Com o cursor sobre a folha, ela inclina em três dimensões acompanhando o
 ponteiro, com um brilho que segue a mesma posição e a sombra abrindo. O
 efeito é desligado no toque e com `prefers-reduced-motion`.
 
+### A folha do cronograma
+
+A folha não é papel branco: é vidro fosco. Fundo em
+`rgba(228,231,233,.82)` com `backdrop-filter`, deixando a seção escura
+aparecer por trás em vez de brigar com ela.
+
+Isso obriga a recalcular os tons de dentro. A transparência sobre o fundo da
+seção (`#070C11`) resulta em `#BCC0C2`, e é **contra essa cor** que o
+contraste precisa fechar, não contra branco — o cinza secundário original
+tinha 3,27 ali e sumia. Os tons vivem em variáveis no topo do `.folha`
+(`--papel-fraco`, `--papel-rotulo`, `--papel-azul`), todos acima de 4,5.
+
+Navegador sem `backdrop-filter` recebe `#BCC0C2` opaco por um `@supports not`:
+a mesma cor, sem o desfoque.
+
 ### Faixas claras e fundo de canteiro
 
 Qualquer seção que receba a classe `.claro` reescreve os tokens semânticos e

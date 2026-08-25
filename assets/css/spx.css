@@ -457,14 +457,25 @@ b,strong{font-weight:600}
 .passo.ativa .passo-fase{color:var(--txt-2)}
 .cronograma-dica{margin-top:var(--e3)!important;font-size:12.5px;color:var(--txt-3)}
 .folha-tabela tbody tr{transition:opacity .22s ease,background .22s ease}
-.folha.focada tbody tr{opacity:.3}
-.folha.focada tbody tr.acesa{opacity:1;background:#EAEFF4}
-.folha.focada tbody tr.acesa .trilho i{background:#1D3A52}
+.folha.focada tbody tr{opacity:.34}
+.folha.focada tbody tr.acesa{opacity:1;background:rgba(255,255,255,.4)}
+.folha.focada tbody tr.acesa .trilho i{background:#16304A}
 #folhaLegenda{transition:color .2s ease}
-.folha.focada #folhaLegenda{color:#2E4459;font-weight:600}
+.folha.focada #folhaLegenda{color:var(--papel-azul);font-weight:600}
 
-.folha{background:#FCFCFA;color:#15181B;border:1px solid #D6D6CE;border-radius:3px;
-  box-shadow:0 26px 60px rgba(10,14,18,.32),0 2px 0 #EFEFE9;
+/* A folha é um vidro fosco, não um papel branco: deixa a seção escura
+   aparecer por trás e para de brigar com o resto da seção. Os tons de dentro
+   foram recalculados sobre a cor resultante da transparência (#BCC0C2), não
+   sobre branco — senão o cinza secundário sumiria. */
+.folha{
+  --papel:#E4E7E9; --papel-tinta:#15181B; --papel-tarefa:#20242A;
+  --papel-fraco:#484C51; --papel-rotulo:#494C50; --papel-azul:#2E4459;
+  --papel-linha:rgba(21,24,27,.13); --papel-linha-forte:rgba(21,24,27,.22);
+  background:rgba(228,231,233,.82);
+  -webkit-backdrop-filter:blur(14px) saturate(1.05);
+  backdrop-filter:blur(14px) saturate(1.05);
+  color:var(--papel-tinta);border:1px solid rgba(255,255,255,.22);border-radius:3px;
+  box-shadow:0 26px 60px rgba(4,7,10,.5),inset 0 1px 0 rgba(255,255,255,.3);
   transform:rotate(-.5deg);overflow:hidden;font-family:var(--corpo);
   position:relative;transform-style:preserve-3d;will-change:transform;
   transition:transform .55s cubic-bezier(.2,.7,.2,1),box-shadow .45s ease}
@@ -472,37 +483,41 @@ b,strong{font-weight:600}
 .folha.inclinada{
   transform:rotate(-.5deg) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateZ(16px);
   transition:transform .1s linear,box-shadow .45s ease;
-  box-shadow:0 46px 100px rgba(10,14,18,.46),0 2px 0 #EFEFE9}
+  box-shadow:0 46px 100px rgba(4,7,10,.62),inset 0 1px 0 rgba(255,255,255,.34)}
 .folha::after{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;
   transition:opacity .35s ease;mix-blend-mode:overlay;
   background:radial-gradient(circle 340px at var(--bx,50%) var(--by,50%),
     rgba(255,255,255,.6),rgba(255,255,255,0) 62%)}
 .folha.inclinada::after{opacity:1}
+/* sem desfoque de fundo, o vidro vira o cinza que a transparência daria */
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .folha{background:#BCC0C2}
+}
 .folha-cab{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;
-  padding:16px 18px 13px;border-bottom:2px solid #15181B}
+  padding:16px 18px 13px;border-bottom:2px solid var(--papel-tinta)}
 .folha-cab b{display:block;font-family:var(--display);font-weight:700;font-size:13px;
   text-transform:uppercase;letter-spacing:.02em}
-.folha-cab span{display:block;font-size:11.5px;color:#5E646A;margin-top:3px}
+.folha-cab span{display:block;font-size:11.5px;color:var(--papel-fraco);margin-top:3px}
 .folha-selo{text-align:right;font-family:var(--display);font-weight:700;font-size:17px;
-  line-height:1;color:#2E4459;flex:0 0 auto}
-.folha-selo span{font-family:var(--corpo);font-weight:400;font-size:10.5px;color:#5E646A;
+  line-height:1;color:var(--papel-azul);flex:0 0 auto}
+.folha-selo span{font-family:var(--corpo);font-weight:400;font-size:10.5px;color:var(--papel-fraco);
   margin-top:4px;letter-spacing:.06em;text-transform:uppercase}
 .folha-tabela{width:100%;border-collapse:collapse;font-size:12px;
   font-variant-numeric:tabular-nums}
 .folha-tabela th{text-align:left;font-family:var(--display);font-weight:600;font-size:9px;
-  letter-spacing:.14em;text-transform:uppercase;color:#767C82;padding:9px 14px 7px;
-  border-bottom:1px solid #DEDED7}
-.folha-tabela td{padding:7px 14px;border-bottom:1px solid #EDEDE7;vertical-align:middle}
+  letter-spacing:.14em;text-transform:uppercase;color:var(--papel-rotulo);padding:9px 14px 7px;
+  border-bottom:1px solid var(--papel-linha-forte)}
+.folha-tabela td{padding:7px 14px;border-bottom:1px solid var(--papel-linha);vertical-align:middle}
 .folha-tabela .tarefa{font-family:var(--display);font-weight:600;font-size:11.5px;
-  letter-spacing:.06em;text-transform:uppercase;color:#20242A}
-.folha-tabela .dur{width:76px;color:#5E646A;white-space:nowrap;text-align:right}
+  letter-spacing:.06em;text-transform:uppercase;color:var(--papel-tarefa)}
+.folha-tabela .dur{width:76px;color:var(--papel-fraco);white-space:nowrap;text-align:right}
 .folha-tabela .gantt{width:44%}
-.folha-tabela tbody tr:hover td{background:#F4F4EE}
-.trilho{display:block;position:relative;height:7px;background:#E6E6DF;border-radius:1px}
-.trilho i{position:absolute;top:0;bottom:0;background:#2E4459;border-radius:1px}
+.folha-tabela tbody tr:hover td{background:rgba(255,255,255,.28)}
+.trilho{display:block;position:relative;height:7px;background:rgba(21,24,27,.14);border-radius:1px}
+.trilho i{position:absolute;top:0;bottom:0;background:var(--papel-azul);border-radius:1px}
 .vazio{display:block;height:8px}
 .folha-pe{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
-  padding:11px 18px 12px;border-top:1px solid #DEDED7;font-size:10px;color:#767C82;
+  padding:11px 18px 12px;border-top:1px solid var(--papel-linha-forte);font-size:10px;color:var(--papel-rotulo);
   font-family:var(--display);letter-spacing:.1em;text-transform:uppercase}
 
 .passo .prazo{display:inline-block;margin-top:12px;font-family:var(--display);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--txt-3);border:1px solid var(--linha);padding:4px 9px}

@@ -9,6 +9,7 @@ O único passo de build minifica os dois assets; servir a pasta já funciona.
 ├── 404.html                   página de erro
 ├── servicos-e-regioes.html    diretório de serviços por região (SEO)
 ├── conteudo/dados.mjs         TODO fato do site mora aqui
+├── capas.py                   recorta as fotos para a faixa do cabeçalho
 ├── gerar.mjs                  monta as páginas internas a partir dos dados
 ├── build.mjs                  minifica o CSS e o JS
 ├── fontes.py                  baixa e corta as fontes do Google
@@ -491,11 +492,29 @@ planta ao fundo. O que muda é o ritmo. Cada página gerada recebe uma classe no
 | `/servicos/*` | Traço de acento sob o título |
 | `/privacidade` | Sem alternância de faixa: leitura contínua |
 
-### Fundo fotográfico e peças de engenharia
+### Cabeçalho com foto, e as capas recortadas
 
-Cada página interna abre com **uma foto de obra diferente** atrás do título,
-escurecida a ponto de virar textura (22% de opacidade, dessaturada) e apagada
-para baixo por uma máscara. O que precisa ser lido é o título.
+Cada página interna abre com um cabeçalho igual ao topo da home: as obras se
+revezam ao fundo e um véu escuro garante a leitura do título. Reaproveita
+`.hero-fundo` e `.hero-veu`, então o mesmo módulo de JavaScript faz as fotos
+passarem aqui também — a lista de cada página vem no `data-fotos`.
+
+**As fotos das obras são verticais e o cabeçalho é uma faixa larga e baixa.**
+Usar a foto inteira ali faz o navegador baixar uma imagem grande e jogar fora
+quase todos os pixels no recorte: medido, custava 1,3 s de LCP e derrubava a
+nota de 96 para 87.
+
+Por isso existem os `img/capa-*.webp`, recortados na proporção da faixa por
+`capas.py`. Metade do peso, mesma imagem na tela. O `data-capa="sim"` avisa o
+JavaScript para usar essa família em vez das variantes verticais.
+
+```bash
+python3 capas.py   # depois de trocar ou acrescentar foto de obra
+```
+
+Duas larguras por foto, 768 e 1280. Fotos de origem estreita são ampliadas até
+1280 — sob o véu escuro isso não aparece, e evita um buraco no `srcset`, que
+foi exatamente o defeito que apareceu na primeira tentativa.
 
 E cada uma tem uma **peça de engenharia desenhada em 3D**, girando devagar:
 

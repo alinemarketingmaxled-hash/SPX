@@ -132,25 +132,41 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
 (function heroFotos(){
   var caixa = $('#heroFundo');
   if(!caixa) return;
-  var destaque = ['sala-reuniao-azul','recepcao-marmore','mesa-vista-sp',
-                  'lounge-recepcao','estante-espinha-peixe','restaurante-fachada'];
+  /* as páginas internas trazem a própria lista no data-fotos; a home usa a
+     lista padrão. Assim o mesmo módulo faz as fotos passarem em qualquer topo. */
+  var destaque = (caixa.dataset.fotos || '').split(',').filter(Boolean);
+  if(!destaque.length){
+    destaque = ['sala-reuniao-azul','recepcao-marmore','mesa-vista-sp',
+                'lounge-recepcao','estante-espinha-peixe','restaurante-fachada'];
+  }
   var legendas = {};
   OBRAS.forEach(function(o){ legendas[o[0]] = o[1]; });
 
-  /* só entram as larguras que existem em disco: a geração das variantes pula
-     qualquer largura maior ou igual à da foto original */
+  /* O topo da home usa a foto inteira, em pé. Os cabeçalhos internos são uma
+     faixa larga e baixa, e para eles existem recortes próprios (capa-*), bem
+     mais leves — a foto vertical ali jogaria fora quase todos os pixels. */
+  var capa = caixa.dataset.capa === 'sim';
+  var LARGURAS = capa ? [768, 1280] : [480, 640, 960];
+  var PROP = 1600 / 620;
+
+  function medidas(arq){
+    return capa ? [1280, Math.round(1280 / PROP)] : (DIM[arq] || [1200,1600]);
+  }
+  /* só entram as larguras que existem em disco */
   function conjunto(arq){
-    var largura = (DIM[arq] || [1200,1600])[0];
-    return [480, 640, 960].filter(function(w){ return w < largura; })
-      .map(function(w){ return '/img/' + arq + '-' + w + '.webp ' + w + 'w'; }).join(', ');
+    var limite = capa ? 1e4 : (DIM[arq] || [1200,1600])[0];
+    return LARGURAS.filter(function(w){ return w < limite; })
+      .map(function(w){ return '/img/' + (capa ? 'capa-' : '') + arq + '-' + w + '.webp ' + w + 'w'; })
+      .join(', ');
   }
   /* a primeira foto já veio no HTML com prioridade alta; as outras entram aqui */
   caixa.insertAdjacentHTML('beforeend', destaque.slice(1).map(function(arq){
-    var d = DIM[arq] || [1200,1600];
-    return '<img src="/img/' + arq + '-640.webp" srcset="' + conjunto(arq) + '" sizes="100vw"' +
+    var d = medidas(arq);
+    var padrao = '/img/' + (capa ? 'capa-' : '') + arq + '-' + (capa ? 768 : 640) + '.webp';
+    return '<img src="' + padrao + '" srcset="' + conjunto(arq) + '" sizes="100vw"' +
       ' width="' + d[0] + '" height="' + d[1] + '"' +
-      ' data-ph="/img/ph/' + arq + '.svg" alt="' + (legendas[arq] || '') +
-      '" loading="lazy" decoding="async">';
+      (capa ? '' : ' data-ph="/img/ph/' + arq + '.svg"') +
+      ' alt="' + (capa ? '' : (legendas[arq] || '')) + '" loading="lazy" decoding="async">';
   }).join(''));
 
   var fotos = $$('img', caixa);

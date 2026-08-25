@@ -39,6 +39,21 @@ const pendencias = new Set();   /* o mesmo bloco repete em toda página; conta u
 const paginas = [];
 
 const anota = (onde, oque) => pendencias.add(`${onde}: ${oque}`);
+const dim = (arq) => DIMENSOES[arq] || [1200, 1600];
+/* só as larguras que existem em disco: a geração pula largura >= a original */
+const larguras = (arq) => [480, 640, 960].filter((w) => w < dim(arq)[0])
+  .map((w) => `/img/${arq}-${w}.webp ${w}w`).join(', ');
+/* recortes horizontais feitos para a faixa do cabeçalho: a foto em pé inteira
+   desperdiça quase todos os pixels num banner largo e baixo */
+const CAPA_ALTURA = Math.round(1280 / (1600 / 620));
+const capas = (arq) => [768, 1280].map((w) => `/img/capa-${arq}-${w}.webp ${w}w`).join(', ');
+/* a foto da página abre o rodízio, seguida de outras três da mesma família */
+const fotos = (arq) => {
+  const todas = Object.keys(DIMENSOES);
+  const i = todas.indexOf(arq);
+  return [arq, ...[1, 2, 3].map((n) => todas[(i + n * 3) % todas.length])]
+    .filter((v, k, a) => a.indexOf(v) === k);
+};
 const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]));
 const lista = (itens) => itens.map((i) => `<li>${esc(i)}</li>`).join('');
 
@@ -248,8 +263,8 @@ function pagina({ url, arquivo, title, descricao, h1, trilha = [], corpo, schema
                  visual = '', fundo = null, peca = '' }) {
   const grafo = [schemaOrganizacao(), ...schema].filter(Boolean);
   if (trilha.length > 1) grafo.push(schemaTrilha(trilha));
-  const migalhas = trilha.length > 1
-    ? `<nav class="migalhas wrap" aria-label="Você está em">${trilha.map((t, i) =>
+  const migalhasHTML = trilha.length > 1
+    ? `<nav class="migalhas" aria-label="Você está em">${trilha.map((t, i) =>
         i === trilha.length - 1
           ? `<span aria-current="page">${esc(t.nome)}</span>`
           : `<a href="${t.url}">${esc(t.nome)}</a>`).join('<i aria-hidden="true">/</i>')}</nav>`
@@ -280,7 +295,8 @@ function pagina({ url, arquivo, title, descricao, h1, trilha = [], corpo, schema
 <meta name="geo.region" content="BR-SP">
 <meta name="geo.placename" content="São Paulo">
 <link rel="icon" type="image/png" href="/img/favicon.png">
-<link rel="stylesheet" href="/assets/css/spx.min.css?${VERSAO}">
+${fundo ? `<link rel="preload" as="image" href="/img/capa-${fundo}-1280.webp"
+      imagesrcset="${capas(fundo)}" imagesizes="100vw" fetchpriority="high">\n` : ''}<link rel="stylesheet" href="/assets/css/spx.min.css?${VERSAO}">
 <script>
 /* aplica o tema antes da pintura para não piscar */
 (function(){try{var t=localStorage.getItem('spx-tema')||'escuro';document.documentElement.setAttribute('data-tema',t);}catch(e){}})();
@@ -294,14 +310,18 @@ ${JSON.stringify({ '@context': 'https://schema.org', '@graph': grafo }, null, 1)
 <div class="hatch" aria-hidden="true"></div>
 ${menu(trilha[1] ? trilha[1].url : url)}
 <main id="conteudo">
-${migalhas}
-<header class="sec wrap topo-interno">
-${fundo ? `  <div class="topo-fundo" aria-hidden="true">
-    <img src="/img/${fundo}-640.webp" srcset="/img/${fundo}-480.webp 480w, /img/${fundo}-640.webp 640w"
-         sizes="100vw" alt="" width="640" height="${Math.round(640 * (DIMENSOES[fundo] || [1200,1600])[1] / (DIMENSOES[fundo] || [1200,1600])[0])}" decoding="async">
-    <span class="topo-veu"></span>
-  </div>` : ''}
-  <h1>${esc(h1)}</h1>
+<header class="topo-interno${fundo ? ' com-foto' : ''}">
+${fundo ? `  <div class="hero-fundo" id="heroFundo" data-capa="sim" data-fotos="${fotos(fundo).join(',')}" aria-hidden="true">
+    <img class="ativa" src="/img/capa-${fundo}-1280.webp"
+         srcset="${capas(fundo)}" sizes="100vw"
+         width="1280" height="${CAPA_ALTURA}" alt=""
+         fetchpriority="high" decoding="async">
+  </div>
+  <div class="hero-veu" aria-hidden="true"></div>` : ''}
+  <div class="wrap topo-in">
+${migalhasHTML}
+    <h1>${esc(h1)}</h1>
+  </div>
 ${peca ? `  <div class="peca3d" aria-hidden="true"><span class="${peca}"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>` : ''}
 </header>
 ${corpo}

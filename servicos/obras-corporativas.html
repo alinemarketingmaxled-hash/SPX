@@ -23,6 +23,8 @@
 <meta name="geo.region" content="BR-SP">
 <meta name="geo.placename" content="São Paulo">
 <link rel="icon" type="image/png" href="/img/favicon.png">
+<link rel="preload" as="image" href="/img/capa-sala-reuniao-azul-1280.webp"
+      imagesrcset="/img/capa-sala-reuniao-azul-768.webp 768w, /img/capa-sala-reuniao-azul-1280.webp 1280w" imagesizes="100vw" fetchpriority="high">
 <link rel="stylesheet" href="/assets/css/spx.min.css?v=7">
 <script>
 /* aplica o tema antes da pintura para não piscar */
@@ -369,14 +371,18 @@
   </div>
 </div>
 <main id="conteudo">
-<nav class="migalhas wrap" aria-label="Você está em"><a href="/">Início</a><i aria-hidden="true">/</i><a href="/servicos">Serviços</a><i aria-hidden="true">/</i><span aria-current="page">Obras corporativas</span></nav>
-<header class="sec wrap topo-interno">
-  <div class="topo-fundo" aria-hidden="true">
-    <img src="/img/sala-reuniao-azul-640.webp" srcset="/img/sala-reuniao-azul-480.webp 480w, /img/sala-reuniao-azul-640.webp 640w"
-         sizes="100vw" alt="" width="640" height="909" decoding="async">
-    <span class="topo-veu"></span>
+<header class="topo-interno com-foto">
+  <div class="hero-fundo" id="heroFundo" data-capa="sim" data-fotos="sala-reuniao-azul,mesa-vista-sp,banheiro-marmore,restaurante-salao" aria-hidden="true">
+    <img class="ativa" src="/img/capa-sala-reuniao-azul-1280.webp"
+         srcset="/img/capa-sala-reuniao-azul-768.webp 768w, /img/capa-sala-reuniao-azul-1280.webp 1280w" sizes="100vw"
+         width="1280" height="496" alt=""
+         fetchpriority="high" decoding="async">
   </div>
-  <h1>Obras corporativas em São Paulo</h1>
+  <div class="hero-veu" aria-hidden="true"></div>
+  <div class="wrap topo-in">
+<nav class="migalhas" aria-label="Você está em"><a href="/">Início</a><i aria-hidden="true">/</i><a href="/servicos">Serviços</a><i aria-hidden="true">/</i><span aria-current="page">Obras corporativas</span></nav>
+    <h1>Obras corporativas em São Paulo</h1>
+  </div>
   <div class="peca3d" aria-hidden="true"><span class="viga"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
 </header>
 

@@ -23,6 +23,8 @@
 <meta name="geo.region" content="BR-SP">
 <meta name="geo.placename" content="São Paulo">
 <link rel="icon" type="image/png" href="/img/favicon.png">
+<link rel="preload" as="image" href="/img/capa-recepcao-marmore-1280.webp"
+      imagesrcset="/img/capa-recepcao-marmore-768.webp 768w, /img/capa-recepcao-marmore-1280.webp 1280w" imagesizes="100vw" fetchpriority="high">
 <link rel="stylesheet" href="/assets/css/spx.min.css?v=7">
 <script>
 /* aplica o tema antes da pintura para não piscar */
@@ -228,14 +230,18 @@
   </div>
 </div>
 <main id="conteudo">
-<nav class="migalhas wrap" aria-label="Você está em"><a href="/">Início</a><i aria-hidden="true">/</i><span aria-current="page">Projetos</span></nav>
-<header class="sec wrap topo-interno">
-  <div class="topo-fundo" aria-hidden="true">
-    <img src="/img/recepcao-marmore-640.webp" srcset="/img/recepcao-marmore-480.webp 480w, /img/recepcao-marmore-640.webp 640w"
-         sizes="100vw" alt="" width="640" height="426" decoding="async">
-    <span class="topo-veu"></span>
+<header class="topo-interno com-foto">
+  <div class="hero-fundo" id="heroFundo" data-capa="sim" data-fotos="recepcao-marmore,estante-espinha-peixe,lavabo-azul,lavabo-terracota" aria-hidden="true">
+    <img class="ativa" src="/img/capa-recepcao-marmore-1280.webp"
+         srcset="/img/capa-recepcao-marmore-768.webp 768w, /img/capa-recepcao-marmore-1280.webp 1280w" sizes="100vw"
+         width="1280" height="496" alt=""
+         fetchpriority="high" decoding="async">
   </div>
-  <h1>Projetos realizados</h1>
+  <div class="hero-veu" aria-hidden="true"></div>
+  <div class="wrap topo-in">
+<nav class="migalhas" aria-label="Você está em"><a href="/">Início</a><i aria-hidden="true">/</i><span aria-current="page">Projetos</span></nav>
+    <h1>Projetos realizados</h1>
+  </div>
   <div class="peca3d" aria-hidden="true"><span class="trelica"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
 </header>
 

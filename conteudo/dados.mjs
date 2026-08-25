@@ -116,6 +116,13 @@ export const processo = [
 export const servicos = [
   {
     slug: 'obras-corporativas',
+    pergunta: 'O que é uma obra corporativa?',
+    resposta: 'Obra corporativa é a construção ou reforma completa de um espaço de trabalho — layout, divisórias, forro, piso, instalações elétricas e de dados, climatização, iluminação, marcenaria e acabamento. A SPX Engenharia executa obras corporativas em São Paulo e região metropolitana, com engenharia própria do levantamento à entrega.',
+    fatos: [
+      'O prazo sai do cronograma físico-financeiro entregue junto com a proposta.',
+      'A obra pode ser executada com o escritório em funcionamento, dividida em frentes por setor.',
+      'Um engenheiro responsável é nomeado, com ART emitida para a obra, antes da assinatura.',
+    ],
     nome: 'Obras corporativas',
     h1: 'Obras corporativas em São Paulo',
     title: 'Obra corporativa em São Paulo | SPX Engenharia',
@@ -158,6 +165,13 @@ export const servicos = [
   },
   {
     slug: 'obras-comerciais',
+    pergunta: 'A SPX executa obra de loja em shopping?',
+    resposta: 'Sim. A SPX Engenharia executa obras de varejo em rua e em shopping center em São Paulo, dentro da janela de horário liberada pela administração e com o projeto aprovado antes da mobilização.',
+    fatos: [
+      'O cronograma nasce amarrado à data de inauguração, com a folga identificada.',
+      'A documentação e o projeto são submetidos à administração antes de qualquer serviço começar.',
+      'Cozinha industrial, exaustão, gás e os pontos que a vigilância sanitária exige entram no escopo.',
+    ],
     nome: 'Obras comerciais e varejo',
     h1: 'Obras comerciais e de varejo em São Paulo',
     title: 'Obra comercial e de varejo em São Paulo | SPX Engenharia',
@@ -194,6 +208,13 @@ export const servicos = [
   },
   {
     slug: 'retrofit',
+    pergunta: 'O que é retrofit e dá para fazer com o prédio ocupado?',
+    resposta: 'Retrofit é modernizar um imóvel existente — trocar instalações no fim da vida útil, adequar o prédio a normas que mudaram e atualizar o acabamento — sem demolir. A SPX executa retrofit em ambiente ocupado em São Paulo, com a obra dividida em frentes e a área em serviço isolada.',
+    fatos: [
+      'A diferença para uma reforma é a profundidade: retrofit chega até a instalação.',
+      'Serviços mais invasivos são programados para fora do horário comercial e para o fim de semana.',
+      'As condições reais são levantadas antes do orçamento, porque prédio antigo raramente bate com a planta.',
+    ],
     nome: 'Retrofit',
     h1: 'Retrofit de edifícios e escritórios em São Paulo',
     title: 'Retrofit em ambiente ocupado em São Paulo | SPX Engenharia',
@@ -233,6 +254,13 @@ export const servicos = [
   },
   {
     slug: 'reformas',
+    pergunta: 'Quanto tempo leva para receber um orçamento de reforma?',
+    resposta: 'O orçamento preliminar da SPX Engenharia sai em até cinco dias úteis depois da visita técnica ao local. Nenhuma reforma é orçada sem essa visita.',
+    fatos: [
+      'A proposta vem discriminada por serviço, com quantidade e critério de medição.',
+      'Reforma de escopo curto recebe cronograma, não estimativa.',
+      'Havendo alteração de instalação ou de rota de fuga, a SPX nomeia responsável técnico com ART.',
+    ],
     nome: 'Reformas',
     h1: 'Reforma de escritório e espaço comercial em São Paulo',
     title: 'Reforma comercial e de escritório em São Paulo | SPX Engenharia',
@@ -269,6 +297,13 @@ export const servicos = [
   },
   {
     slug: 'gerenciamento-de-obras',
+    pergunta: 'Dá para contratar só o gerenciamento da obra?',
+    resposta: 'Sim. A SPX Engenharia gerencia obras executadas por terceiros em São Paulo, cobrindo cronograma, coordenação de fornecedores, conferência de medição em campo e controle de desvio, com responsável técnico nomeado.',
+    fatos: [
+      'A medição é conferida em obra, não aceita no papel.',
+      'O desvio é reportado enquanto ainda dá para corrigir, não no fechamento.',
+      'Na concorrência, o mesmo escopo vai para todos os concorrentes — comparar escopos diferentes é comparar coisas diferentes.',
+    ],
     nome: 'Gerenciamento de obras',
     h1: 'Gerenciamento de obras em São Paulo',
     title: 'Gerenciamento de obras em São Paulo | SPX Engenharia',
@@ -309,6 +344,13 @@ export const servicos = [
   },
   {
     slug: 'manutencao-predial',
+    pergunta: 'A SPX faz manutenção predial para empresas?',
+    resposta: 'Sim. A SPX Engenharia presta manutenção predial preventiva e corretiva para empresas em São Paulo, com plano por sistema, registro de cada intervenção e prazo de atendimento acordado em contrato.',
+    fatos: [
+      'Não é necessário ter feito a obra com a SPX: a manutenção começa por um levantamento das condições atuais.',
+      'Preventiva evita a falha; corretiva conserta depois — sempre mais cara e na hora errada.',
+      'Cada intervenção é registrada, formando o histórico do imóvel.',
+    ],
     nome: 'Manutenção predial',
     h1: 'Manutenção predial corporativa em São Paulo',
     title: 'Manutenção predial corporativa em São Paulo | SPX Engenharia',
@@ -342,6 +384,13 @@ export const servicos = [
   },
   {
     slug: 'projetos',
+    pergunta: 'A SPX faz projeto sem executar a obra?',
+    resposta: 'Sim. A SPX Engenharia desenvolve projetos de engenharia, levantamento técnico, as built e compatibilização entre disciplinas em São Paulo, contratáveis separadamente da execução.',
+    fatos: [
+      'A compatibilização acontece antes da mobilização: conflito no papel custa uma linha, na parede custa uma semana.',
+      'Imóvel sem planta confiável começa por levantamento técnico em campo.',
+      'O as built é entregue junto com a obra, não meses depois.',
+    ],
     nome: 'Projetos de engenharia',
     h1: 'Projetos de engenharia e compatibilização em São Paulo',
     title: 'Projetos de engenharia em São Paulo | SPX Engenharia',
@@ -380,6 +429,13 @@ export const servicos = [
   },
   {
     slug: 'consultoria-em-engenharia',
+    pergunta: 'Preciso de laudo antes de alugar uma sala comercial?',
+    resposta: 'É a hora mais barata de descobrir problema. A SPX Engenharia emite laudo técnico e vistoria de imóvel comercial em São Paulo, com registro fotográfico, conclusão objetiva e ART.',
+    fatos: [
+      'A vistoria antes da assinatura evita herdar instalação no fim da vida útil e adequação de norma fora do combinado.',
+      'O parecer é técnico e independente de quem executou a obra.',
+      'Laudo emitido por engenheiro habilitado, acompanhado de ART, tem validade legal.',
+    ],
     nome: 'Consultoria e laudos',
     h1: 'Consultoria em engenharia, laudos e vistorias em São Paulo',
     title: 'Consultoria em engenharia e laudos técnicos em São Paulo | SPX Engenharia',

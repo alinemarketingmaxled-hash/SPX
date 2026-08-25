@@ -14,14 +14,69 @@ Engenharia, gestão e execução conduzidas pela mesma equipe, do levantamento �
 - Site: https://spxengenharia.com.br/
 
 ## Serviços
-- [Obras corporativas](https://spxengenharia.com.br/servicos/obras-corporativas): Escritórios, sedes e espaços administrativos executados com cronograma físico-financeiro e responsável técnico nomeado antes da assinatura.
-- [Obras comerciais e varejo](https://spxengenharia.com.br/servicos/obras-comerciais): Lojas, flagships, restaurantes e quiosques, em rua e em shopping, com prazo de inauguração tratado como data de contrato.
-- [Retrofit](https://spxengenharia.com.br/servicos/retrofit): Atualizar um imóvel antigo — instalações, layout, acabamento e norma — sem esvaziar o prédio.
-- [Reformas](https://spxengenharia.com.br/servicos/reformas): Escopo delimitado, prazo curto e o mesmo rigor de uma obra completa: proposta discriminada, cronograma e medição.
-- [Gerenciamento de obras](https://spxengenharia.com.br/servicos/gerenciamento-de-obras): Planejar, coordenar e medir a obra — inclusive quando quem executa é outro.
-- [Manutenção predial](https://spxengenharia.com.br/servicos/manutencao-predial): Preventiva com plano e registro, corretiva com prazo de atendimento definido.
-- [Projetos de engenharia](https://spxengenharia.com.br/servicos/projetos): O desenho que a obra vai seguir, compatibilizado antes de a equipe subir.
-- [Consultoria e laudos](https://spxengenharia.com.br/servicos/consultoria-em-engenharia): Parecer de engenheiro para decidir antes de contratar obra.
+### Obras corporativas
+**O que é uma obra corporativa?** Obra corporativa é a construção ou reforma completa de um espaço de trabalho — layout, divisórias, forro, piso, instalações elétricas e de dados, climatização, iluminação, marcenaria e acabamento. A SPX Engenharia executa obras corporativas em São Paulo e região metropolitana, com engenharia própria do levantamento à entrega.
+- O prazo sai do cronograma físico-financeiro entregue junto com a proposta.
+- A obra pode ser executada com o escritório em funcionamento, dividida em frentes por setor.
+- Um engenheiro responsável é nomeado, com ART emitida para a obra, antes da assinatura.
+Página: https://spxengenharia.com.br/servicos/obras-corporativas
+Executa: Layout e divisórias (drywall, vidro, marcenaria); Forro e iluminação; Instalações elétricas, lógica e telefonia; Climatização e exaustão; Prevenção contra incêndio conforme exigência do prédio; Pisos elevados, vinílicos, porcelanato e carpete; Marcenaria corporativa sob medida; Pintura e acabamento; Recepção, copa, sala de reunião e áreas de convivência.
+
+### Obras comerciais e varejo
+**A SPX executa obra de loja em shopping?** Sim. A SPX Engenharia executa obras de varejo em rua e em shopping center em São Paulo, dentro da janela de horário liberada pela administração e com o projeto aprovado antes da mobilização.
+- O cronograma nasce amarrado à data de inauguração, com a folga identificada.
+- A documentação e o projeto são submetidos à administração antes de qualquer serviço começar.
+- Cozinha industrial, exaustão, gás e os pontos que a vigilância sanitária exige entram no escopo.
+Página: https://spxengenharia.com.br/servicos/obras-comerciais
+Executa: Fachada, vitrine e comunicação visual; Layout de loja e área de vendas; Cozinha industrial e área de produção; Instalações elétricas, hidráulicas e de gás; Exaustão e climatização; Prevenção contra incêndio e rota de fuga; Marcenaria de expositor e balcão; Piso, forro, iluminação cênica e acabamento.
+
+### Retrofit
+**O que é retrofit e dá para fazer com o prédio ocupado?** Retrofit é modernizar um imóvel existente — trocar instalações no fim da vida útil, adequar o prédio a normas que mudaram e atualizar o acabamento — sem demolir. A SPX executa retrofit em ambiente ocupado em São Paulo, com a obra dividida em frentes e a área em serviço isolada.
+- A diferença para uma reforma é a profundidade: retrofit chega até a instalação.
+- Serviços mais invasivos são programados para fora do horário comercial e para o fim de semana.
+- As condições reais são levantadas antes do orçamento, porque prédio antigo raramente bate com a planta.
+Página: https://spxengenharia.com.br/servicos/retrofit
+Executa: Substituição de instalações elétricas e hidráulicas; Atualização de climatização; Adequação de prevenção contra incêndio; Acessibilidade conforme NBR 9050; Recuperação de fachada e esquadria; Renovação de forro, piso e iluminação; Modernização de áreas comuns e sanitários; Reforço e recuperação estrutural pontual.
+
+### Reformas
+**Quanto tempo leva para receber um orçamento de reforma?** O orçamento preliminar da SPX Engenharia sai em até cinco dias úteis depois da visita técnica ao local. Nenhuma reforma é orçada sem essa visita.
+- A proposta vem discriminada por serviço, com quantidade e critério de medição.
+- Reforma de escopo curto recebe cronograma, não estimativa.
+- Havendo alteração de instalação ou de rota de fuga, a SPX nomeia responsável técnico com ART.
+Página: https://spxengenharia.com.br/servicos/reformas
+Executa: Mudança de layout e divisórias; Troca de piso, forro e iluminação; Revisão de pontos elétricos e de dados; Pintura e acabamento; Marcenaria sob medida; Reforma de copa, recepção e sanitário; Impermeabilização pontual.
+
+### Gerenciamento de obras
+**Dá para contratar só o gerenciamento da obra?** Sim. A SPX Engenharia gerencia obras executadas por terceiros em São Paulo, cobrindo cronograma, coordenação de fornecedores, conferência de medição em campo e controle de desvio, com responsável técnico nomeado.
+- A medição é conferida em obra, não aceita no papel.
+- O desvio é reportado enquanto ainda dá para corrigir, não no fechamento.
+- Na concorrência, o mesmo escopo vai para todos os concorrentes — comparar escopos diferentes é comparar coisas diferentes.
+Página: https://spxengenharia.com.br/servicos/gerenciamento-de-obras
+Executa: Cronograma físico-financeiro e caminho crítico; Compatibilização entre as disciplinas de projeto; Concorrência e análise técnica de propostas; Coordenação de fornecedores e equipes em campo; Conferência de medição e boletim de avanço; Controle de desvio de prazo e de custo; Relatório periódico com registro fotográfico; Recebimento e conferência de entrega.
+
+### Manutenção predial
+**A SPX faz manutenção predial para empresas?** Sim. A SPX Engenharia presta manutenção predial preventiva e corretiva para empresas em São Paulo, com plano por sistema, registro de cada intervenção e prazo de atendimento acordado em contrato.
+- Não é necessário ter feito a obra com a SPX: a manutenção começa por um levantamento das condições atuais.
+- Preventiva evita a falha; corretiva conserta depois — sempre mais cara e na hora errada.
+- Cada intervenção é registrada, formando o histórico do imóvel.
+Página: https://spxengenharia.com.br/servicos/manutencao-predial
+Executa: Plano de manutenção preventiva por sistema; Elétrica, hidráulica e climatização; Reparo de acabamento, forro e pintura; Marcenaria e serralheria; Impermeabilização e combate a infiltração; Pequenas adequações de layout; Atendimento a chamado corretivo.
+
+### Projetos de engenharia
+**A SPX faz projeto sem executar a obra?** Sim. A SPX Engenharia desenvolve projetos de engenharia, levantamento técnico, as built e compatibilização entre disciplinas em São Paulo, contratáveis separadamente da execução.
+- A compatibilização acontece antes da mobilização: conflito no papel custa uma linha, na parede custa uma semana.
+- Imóvel sem planta confiável começa por levantamento técnico em campo.
+- O as built é entregue junto com a obra, não meses depois.
+Página: https://spxengenharia.com.br/servicos/projetos
+Executa: Levantamento técnico e cadastro do existente; Projeto de interiores e detalhamento executivo; Projeto elétrico e de dados; Projeto hidrossanitário; Projeto de climatização e exaustão; Projeto luminotécnico; Projeto de prevenção contra incêndio; Compatibilização entre as disciplinas; As built ao fim da obra.
+
+### Consultoria e laudos
+**Preciso de laudo antes de alugar uma sala comercial?** É a hora mais barata de descobrir problema. A SPX Engenharia emite laudo técnico e vistoria de imóvel comercial em São Paulo, com registro fotográfico, conclusão objetiva e ART.
+- A vistoria antes da assinatura evita herdar instalação no fim da vida útil e adequação de norma fora do combinado.
+- O parecer é técnico e independente de quem executou a obra.
+- Laudo emitido por engenheiro habilitado, acompanhado de ART, tem validade legal.
+Página: https://spxengenharia.com.br/servicos/consultoria-em-engenharia
+Executa: Vistoria técnica de imóvel antes da locação; Laudo de patologia construtiva; Laudo de infiltração e umidade; Adequação a norma e regularização; Parecer técnico sobre obra de terceiros; Avaliação de viabilidade de layout em imóvel existente; Vistoria de entrega e de devolução de imóvel.
 
 ## Como a SPX conduz uma obra
 1. Levantamento — Visita ao local, medição, registro das condições existentes e das restrições do condomínio ou do shopping. Nada é orçado sem ver a obra de perto.

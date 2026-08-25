@@ -491,6 +491,33 @@ planta ao fundo. O que muda é o ritmo. Cada página gerada recebe uma classe no
 | `/servicos/*` | Traço de acento sob o título |
 | `/privacidade` | Sem alternância de faixa: leitura contínua |
 
+### Fundo fotográfico e peças de engenharia
+
+Cada página interna abre com **uma foto de obra diferente** atrás do título,
+escurecida a ponto de virar textura (22% de opacidade, dessaturada) e apagada
+para baixo por uma máscara. O que precisa ser lido é o título.
+
+E cada uma tem uma **peça de engenharia desenhada em 3D**, girando devagar:
+
+| Peça | Onde |
+| --- | --- |
+| Cubo estrutural | `/sobre` |
+| Viga I | `/servicos` |
+| Treliça (o X da marca) | `/obras` |
+| Lajes empilhadas | `/para-arquitetos` |
+| Sextavado | `/duvidas` |
+| Malha de implantação | `/atuacao` |
+
+São **CSS puro** — `transform` 3D e bordas, sem biblioteca nenhuma. Continuam
+sendo desenho de engenharia: arestas, sem preenchimento, na cor do acento.
+Pesam zero e o desempenho não caiu.
+
+Detalhe que custou caro descobrir: `perspective` e `transform-style:
+preserve-3d` **não podem ficar na mesma caixa** — o 3D achata e o cubo vira um
+quadrado. A perspectiva fica no pai, o giro no filho.
+
+Com `prefers-reduced-motion` as peças param numa posição fixa em vez de girar.
+
 ### A esteira de fotos
 
 O carrossel de polaroides da home é reaproveitado por `esteira()` no gerador.
@@ -531,6 +558,31 @@ Saem todos de `dados.mjs`, num único `@graph` por página:
 A home **não** leva `FAQPage`: as perguntas dela são montadas por JavaScript, e
 o Google exige que o conteúdo do schema esteja visível na página. Em `/duvidas`
 as perguntas são estáticas, e lá o `FAQPage` vale.
+
+### AEO — otimização para motores de resposta
+
+Cada página de serviço abre com um bloco de **resposta direta**: a pergunta
+que as pessoas realmente digitam como título, e a resposta **na primeira
+frase**, sem rodeio antes. É o formato que o Google transforma em trecho em
+destaque.
+
+Embaixo vêm três **fatos verificáveis** por serviço — frases curtas e
+autônomas, do tipo que se cita sem precisar do contexto ao redor.
+
+Marcação `speakable` indica ao assistente de voz qual trecho ler em voz alta.
+
+### GEO — otimização para IA generativa
+
+O que faz uma IA citar a empresa é conseguir extrair afirmações factuais sem
+ambiguidade. Por isso:
+
+- `empresa.definicao` em `dados.mjs` é uma frase única, factual, sem adjetivo
+  de venda — é ela que aparece como resposta em `/duvidas` e no `llms.txt`
+- a mesma entidade (`@id`) amarra todas as páginas ao mesmo
+  `GeneralContractor`, em vez de cada página declarar uma empresa solta
+- `HowTo` descreve o processo de sete etapas como procedimento, não como texto
+- o `llms.txt` traz, por serviço, a pergunta, a resposta, os fatos e a lista do
+  que é executado
 
 ### llms.txt
 

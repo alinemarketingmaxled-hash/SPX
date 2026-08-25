@@ -21,7 +21,20 @@ import { empresa, responsavel, numeros, processo, servicos, projetos,
          duvidas, chamadas, regioes, falta } from './conteudo/dados.mjs';
 
 const SITE = empresa.dominio.replace(/\/+$/, '');
+/* proporções das fotos usadas como fundo, para declarar width e height e o
+   layout não pular enquanto a imagem carrega */
+const DIMENSOES = {
+  'sala-reuniao-azul':[1127,1600], 'recepcao-marmore':[1600,1066], 'lounge-recepcao':[1067,1600],
+  'mesa-vista-sp':[960,1280], 'estante-espinha-peixe':[1200,1600], 'restaurante-fachada':[720,1280],
+  'banheiro-marmore':[1200,1600], 'lavabo-azul':[1067,1600], 'cozinha-marcenaria':[900,1600],
+  'restaurante-salao':[720,1280], 'lavabo-terracota':[1200,1600],
+};
 const VERSAO = 'v=7';
+/* uma foto e uma peça diferentes por serviço, para as oito páginas não
+   parecerem a mesma coisa repetida */
+const FUNDOS_SERVICO = ['sala-reuniao-azul', 'restaurante-salao', 'estante-espinha-peixe', 'cozinha-marcenaria', 'mesa-vista-sp', 'lavabo-terracota', 'recepcao-marmore', 'lounge-recepcao'];
+const PECAS_SERVICO = ['viga','trelica','cubo','placas','porca','malha','viga','cubo'];
+
 const pendencias = new Set();   /* o mesmo bloco repete em toda página; conta uma vez */
 const paginas = [];
 
@@ -203,6 +216,27 @@ const schemaPerguntas = (pares) => ({
     acceptedAnswer: { '@type': 'Answer', text: r } })),
 });
 
+/* HowTo: o Google e as IAs entendem "como a SPX conduz uma obra" como um
+   procedimento de sete passos, e não como um texto solto sobre processo. */
+const schemaProcesso = () => ({
+  '@type': 'HowTo',
+  name: 'Como a SPX Engenharia conduz uma obra, do levantamento à entrega',
+  description: 'Procedimento em sete etapas aplicado a toda obra corporativa ou ' +
+    'comercial executada pela SPX Engenharia em São Paulo.',
+  totalTime: 'P1D',
+  step: processo.map((e, i) => ({
+    '@type': 'HowToStep', position: i + 1, name: e.nome, text: e.texto,
+    url: `${SITE}/servicos#${e.nome.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')}`,
+  })),
+});
+
+/* speakable marca o trecho que um assistente de voz deve ler em voz alta
+   quando alguém pergunta o que a empresa faz */
+const FALADO = {
+  '@type': 'SpeakableSpecification',
+  cssSelector: ['h1', '.resposta-direta p'],
+};
+
 const schemaTrilha = (trilha) => ({
   '@type': 'BreadcrumbList',
   itemListElement: trilha.map((t, i) => ({ '@type': 'ListItem', position: i + 1,
@@ -210,7 +244,8 @@ const schemaTrilha = (trilha) => ({
 });
 
 /* --------------------------------------------------------------- moldura */
-function pagina({ url, arquivo, title, descricao, h1, trilha = [], corpo, schema = [], visual = '' }) {
+function pagina({ url, arquivo, title, descricao, h1, trilha = [], corpo, schema = [],
+                 visual = '', fundo = null, peca = '' }) {
   const grafo = [schemaOrganizacao(), ...schema].filter(Boolean);
   if (trilha.length > 1) grafo.push(schemaTrilha(trilha));
   const migalhas = trilha.length > 1
@@ -261,7 +296,13 @@ ${menu(trilha[1] ? trilha[1].url : url)}
 <main id="conteudo">
 ${migalhas}
 <header class="sec wrap topo-interno">
+${fundo ? `  <div class="topo-fundo" aria-hidden="true">
+    <img src="/img/${fundo}-640.webp" srcset="/img/${fundo}-480.webp 480w, /img/${fundo}-640.webp 640w"
+         sizes="100vw" alt="" width="640" height="${Math.round(640 * (DIMENSOES[fundo] || [1200,1600])[1] / (DIMENSOES[fundo] || [1200,1600])[0])}" decoding="async">
+    <span class="topo-veu"></span>
+  </div>` : ''}
   <h1>${esc(h1)}</h1>
+${peca ? `  <div class="peca3d" aria-hidden="true"><span class="${peca}"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>` : ''}
 </header>
 ${corpo}
 </main>
@@ -277,6 +318,16 @@ ${rodape()}
 }
 
 /* blocos reaproveitados nas páginas */
+/* Resposta direta: pergunta como título, resposta na primeira frase. É o
+   formato que vira trecho em destaque no Google e é o que uma IA copia
+   quando alguém pergunta. Sem rodeio antes da resposta. */
+const respostaDireta = (pergunta, resposta, fatos = []) => `
+<section class="sec wrap resposta-direta" data-reveal>
+  <h2>${esc(pergunta)}</h2>
+  <p>${esc(resposta)}</p>
+  ${fatos.length ? `<ul class="fatos">${fatos.map((f) => `<li>${esc(f)}</li>`).join('')}</ul>` : ''}
+</section>`;
+
 const secao = (titulo, dentro, classe = '') =>
   `<section class="sec wrap ${classe}"><h2>${esc(titulo)}</h2>${dentro}</section>`;
 
@@ -321,8 +372,14 @@ for (const s of servicosPublicaveis) {
     arquivo: `servicos/${s.slug}.html`,
     title: s.title, descricao: s.descricao, h1: s.h1, trilha,
     visual: 'pag-servico servico-' + s.slug,
-    schema: [schemaServico(s), schemaPerguntas(s.faq)],
+    fundo: FUNDOS_SERVICO[servicos.indexOf(s) % FUNDOS_SERVICO.length],
+    peca: PECAS_SERVICO[servicos.indexOf(s) % PECAS_SERVICO.length],
+    schema: [schemaServico(s), schemaPerguntas([[s.pergunta, s.resposta], ...s.faq]),
+             { '@type': 'WebPage', '@id': `${SITE}/servicos/${s.slug}#pagina`,
+               name: s.h1, speakable: FALADO, about: { '@id': idEmpresa } }],
     corpo: `
+${respostaDireta(s.pergunta, s.resposta, s.fatos)}
+
 <section class="sec wrap" data-reveal>
   <p class="lead">${esc(s.oQueE)}</p>
 </section>
@@ -348,11 +405,17 @@ ${chamada(s.cta)}`,
 /* ------------------------------------------------------- índice de serviços */
 pagina({
   url: '/servicos', arquivo: 'servicos.html',
+  fundo: 'estante-espinha-peixe',
+  peca: 'viga',
   title: 'Serviços de engenharia e execução de obras | SPX Engenharia',
   descricao: 'Obras corporativas e comerciais, retrofit, reformas, gerenciamento, manutenção, ' +
     'projetos e laudos. Engenharia, gestão e execução pela mesma equipe, em São Paulo e região.',
   h1: 'Serviços de engenharia, gestão e execução',
   trilha: [{ nome: 'Início', url: '/' }, { nome: 'Serviços', url: '/servicos' }],
+  schema: [schemaProcesso(), { '@type': 'CollectionPage', name: 'Serviços da SPX Engenharia',
+    speakable: FALADO, about: { '@id': idEmpresa },
+    hasPart: servicos.map((s) => ({ '@type': 'Service', name: s.nome,
+      url: `${SITE}/servicos/${s.slug}` })) }],
   corpo: `
 <section class="sec wrap" data-reveal>
   <p class="lead">${esc(empresa.proposta)} A SPX não vende mão de obra: vende a engenharia que
@@ -433,6 +496,8 @@ ${chamada(chamadas.projeto)}`,
 /* --------------------------------------------------------- índice de obras */
 pagina({
   url: '/obras', arquivo: 'obras.html',
+  fundo: 'recepcao-marmore',
+  peca: 'trelica',
   title: 'Projetos realizados | SPX Engenharia',
   descricao: 'Obras corporativas e comerciais executadas pela SPX Engenharia em São Paulo: ' +
     'Avenida Paulista, Jardins e Brooklin.',
@@ -518,13 +583,16 @@ const numerosValidados = numeros.filter((n) => {
 
 pagina({
   url: '/sobre', arquivo: 'sobre.html',
+  fundo: 'sala-reuniao-azul',
+  peca: 'cubo',
   visual: 'pag-sobre',
   title: `Sobre a ${empresa.nome} | Engenharia de obras corporativas em São Paulo`,
   descricao: `${empresa.definicao} Quem somos, como trabalhamos, área de atuação e responsabilidade técnica.`,
   h1: `Sobre a ${empresa.nome}`,
   trilha: [{ nome: 'Início', url: '/' }, { nome: 'Sobre', url: '/sobre' }],
-  schema: [schemaPessoa(), { '@type': 'AboutPage', name: `Sobre a ${empresa.nome}`,
-                             mainEntity: { '@id': idEmpresa } }].filter(Boolean),
+  schema: [schemaPessoa(), schemaProcesso(),
+           { '@type': 'AboutPage', name: `Sobre a ${empresa.nome}`, speakable: FALADO,
+             mainEntity: { '@id': idEmpresa } }].filter(Boolean),
   corpo: `
 <section class="sec wrap" data-reveal>
   <p class="lead">${esc(empresa.definicao)} ${esc(empresa.proposta)}</p>
@@ -536,7 +604,7 @@ ${secao('Posicionamento', `
   é quem orça, quem orça é quem planeja, quem planeja é quem executa e responde.</p>
   <ul class="marcada"><li><b>Engenharia</b> — o que fazer, como fazer e o que a norma exige</li>
   <li><b>Gestão</b> — cronograma, coordenação, medição e controle de desvio</li>
-  <li><b>Execução</b> — equipe em campo, com responsável técnico nomeado</li></ul>`, 'claro')}
+  <li><b>Execução</b> — equipe em campo, com responsável técnico nomeado</li></ul>`, 'vidro faixa-vidro')}
 
 ${numerosValidados.length ? secao('A SPX em números',
   `<div class="numeros-grade">${numerosValidados.map((n) =>
@@ -558,6 +626,8 @@ ${chamada(chamadas.obra)}`,
 /* -------------------------------------------------------- para arquitetos */
 pagina({
   url: '/para-arquitetos', arquivo: 'para-arquitetos.html',
+  fundo: 'mesa-vista-sp',
+  peca: 'placas',
   visual: 'pag-arquitetos',
   title: 'Execução de projeto para arquitetos em São Paulo | SPX Engenharia',
   descricao: 'A SPX executa o projeto do arquiteto: leitura, compatibilização, orçamento ' +
@@ -625,14 +695,22 @@ ${chamada(chamadas.arquiteto, 'Falar sobre um projeto')}`,
 /* ---------------------------------------------------------------- dúvidas */
 pagina({
   url: '/duvidas', arquivo: 'duvidas.html',
+  fundo: 'lounge-recepcao',
+  peca: 'porca',
   visual: 'pag-duvidas',
   title: 'Dúvidas frequentes sobre obras corporativas | SPX Engenharia',
   descricao: 'Respostas objetivas sobre o que a SPX Engenharia faz, como funciona a visita ' +
     'técnica, prazo, orçamento, obra em ambiente ocupado e responsabilidade técnica.',
   h1: 'Dúvidas frequentes',
   trilha: [{ nome: 'Início', url: '/' }, { nome: 'Dúvidas', url: '/duvidas' }],
-  schema: [schemaPerguntas(duvidas)],
+  schema: [schemaPerguntas(duvidas), { '@type': 'QAPage', speakable: FALADO,
+           about: { '@id': idEmpresa } }],
   corpo: `
+${respostaDireta('O que a SPX Engenharia faz?', empresa.definicao + ' ' + empresa.proposta,
+  ['Atua em São Paulo capital e na região metropolitana.',
+   'Executa obra corporativa, comercial, retrofit, reforma, gerenciamento, manutenção, projeto e laudo.',
+   'Cada obra tem engenheiro responsável nomeado, com ART, antes da assinatura do contrato.'])}
+
 <section class="sec wrap" data-reveal>
   <p class="lead">As perguntas que mais chegam, respondidas de forma direta. Para obra com
   prazo crítico, concorrência ou adequação de norma, envie o contexto completo.</p>
@@ -644,6 +722,8 @@ ${chamada(chamadas.orcamento)}`,
 /* ---------------------------------------------------------------- atuação */
 pagina({
   url: '/atuacao', arquivo: 'atuacao.html',
+  fundo: 'restaurante-fachada',
+  peca: 'malha',
   visual: 'pag-atuacao',
   title: 'Onde a SPX Engenharia atua | São Paulo e região metropolitana',
   descricao: 'Regiões atendidas pela SPX Engenharia: capital paulista e Grande São Paulo, ' +
@@ -703,6 +783,7 @@ if (!formulario) throw new Error('não achei o formulário em index.html');
 
 pagina({
   url: '/contato', arquivo: 'contato.html',
+  fundo: 'banheiro-marmore',
   title: `Contato e visita técnica | ${empresa.nome}`,
   descricao: 'Solicite a visita técnica da SPX Engenharia. Orçamento preliminar em até cinco ' +
     'dias úteis depois da visita ao local, em São Paulo e região.',
@@ -743,6 +824,7 @@ if (falta(empresa.razaoSocial) || falta(empresa.cnpj)) {
 }
 pagina({
   url: '/privacidade', arquivo: 'privacidade.html',
+  fundo: 'lavabo-azul',
   title: `Política de privacidade | ${empresa.nome}`,
   descricao: 'Como a SPX Engenharia trata os dados enviados pelo site, para que servem, ' +
     'por quanto tempo ficam e como exercer os direitos previstos na LGPD.',
@@ -840,7 +922,11 @@ ${empresa.proposta}
 - Site: ${SITE}/
 ${falta(responsavel.nome) ? '' : `- Responsável técnico: ${responsavel.nome}${falta(responsavel.crea) ? '' : ` (${responsavel.crea})`}\n`}
 ## Serviços
-${servicos.map((s) => `- [${s.nome}](${SITE}/servicos/${s.slug}): ${s.resumo}`).join('\n')}
+${servicos.map((s) => `### ${s.nome}
+${s.pergunta ? `**${s.pergunta}** ${s.resposta}` : s.resumo}
+${(s.fatos || []).map((f) => `- ${f}`).join('\n')}
+Página: ${SITE}/servicos/${s.slug}
+Executa: ${s.executa.join('; ')}.`).join('\n\n')}
 
 ## Como a SPX conduz uma obra
 ${processo.map((e) => `${Number(e.n)}. ${e.nome} — ${e.texto}`).join('\n')}

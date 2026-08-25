@@ -8,10 +8,13 @@ O único passo de build minifica os dois assets; servir a pasta já funciona.
 ├── index.html                 página principal
 ├── 404.html                   página de erro
 ├── servicos-e-regioes.html    diretório de serviços por região (SEO)
+├── conteudo/dados.mjs         TODO fato do site mora aqui
+├── gerar.mjs                  monta as páginas internas a partir dos dados
 ├── build.mjs                  minifica o CSS e o JS
 ├── fontes.py                  baixa e corta as fontes do Google
-├── site.mjs                   carimba o endereço do site e gera o sitemap
-├── sitemap.xml                gerado por site.mjs
+├── sitemap.xml, llms.txt      gerados por gerar.mjs
+├── servicos/*.html            uma página por serviço (gerado)
+├── obras/*.html               uma página por projeto (gerado)
 ├── api/
 │   ├── contato.js             recebe o formulário e manda o e-mail
 │   ├── erro.js                registra erro de JavaScript no log da Vercel
@@ -35,14 +38,34 @@ Para rodar localmente:
 python3 -m http.server 8080   # ou: npx http-server -p 8080 .
 ```
 
-## Build
+## Como o site é montado
 
-Edite sempre `assets/css/spx.css` e `assets/js/spx.js`; os arquivos `.min`
-são gerados e não devem ser editados à mão.
+O site tem duas metades. A home, o 404 e a página de diretório são escritas à
+mão. Todo o resto — serviços, projetos, sobre, arquitetos, dúvidas, atuação,
+contato, privacidade — é **gerado** a partir de um arquivo só.
+
+```bash
+node gerar.mjs   # monta as páginas internas, o sitemap e o llms.txt
+node build.mjs   # minifica o CSS e o JS que as páginas carregam
+```
+
+### conteudo/dados.mjs é a fonte da verdade
+
+Nome da empresa, CNPJ, CREA, serviços, projetos, números, regiões, perguntas
+frequentes: tudo mora nesse arquivo. Mudou lá, mudou no site inteiro — página,
+menu, rodapé, dados estruturados e sitemap.
+
+**Campo marcado como `FALTA` não vira texto.** O gerador omite e lista a
+pendência no fim do build. Nunca inventa. Isso é proposital: número de CREA,
+CNPJ ou metragem de obra errados numa página pública custam mais caro que a
+ausência deles. Um projeto sem tipo, atuação e foto nem chega a virar página.
+
+O menu e o rodapé também saem de lá e são costurados nas páginas escritas à
+mão pelos marcadores `<!--MENU-->`, `<!--RODAPE-->` e `<!--SCHEMA-->` —
+assim as duas metades nunca divergem.
 
 ```bash
 npm install     # só na primeira vez (esbuild)
-node build.mjs  # depois de qualquer mudança no CSS ou no JS
 ```
 
 Se mudar o CSS ou o JS, suba também o número de versão do `?v=` nas três
@@ -407,19 +430,51 @@ O que está no site:
 - **`<link rel="canonical">` e `og:url`** em endereço absoluto nas duas
   páginas, e a imagem de compartilhamento também em endereço absoluto.
 
+### Arquitetura de páginas
+
+| URL | O que é |
+| --- | --- |
+| `/` | home |
+| `/servicos` + 8 páginas | uma por serviço, com o que é, para quem, o que executa, etapas, diferenciais e FAQ |
+| `/obras` + páginas de projeto | cases; cada projeto só é publicado com tipo, atuação e fotos confirmados |
+| `/sobre` | posicionamento, números validados, responsável técnico e dados institucionais |
+| `/para-arquitetos` | página comercial para escritórios de arquitetura |
+| `/duvidas` | central de perguntas, com resposta objetiva na primeira frase |
+| `/atuacao` | regiões atendidas |
+| `/contato` | formulário e canais diretos |
+| `/privacidade` | política de privacidade e LGPD |
+| `/servicos-e-regioes` | diretório com 1.064 combinações de serviço e região |
+
+### Dados estruturados
+
+Saem todos de `dados.mjs`, num único `@graph` por página:
+
+| Tipo | Onde |
+| --- | --- |
+| `GeneralContractor` | todas as páginas |
+| `WebSite` | home |
+| `Person` | home e `/sobre` (só existe quando o responsável estiver preenchido) |
+| `Service` | cada página de serviço |
+| `FAQPage` | `/duvidas`, `/para-arquitetos` e cada serviço |
+| `BreadcrumbList` | toda página interna |
+| `AboutPage`, `ContactPage` | `/sobre` e `/contato` |
+
+A home **não** leva `FAQPage`: as perguntas dela são montadas por JavaScript, e
+o Google exige que o conteúdo do schema esteja visível na página. Em `/duvidas`
+as perguntas são estáticas, e lá o `FAQPage` vale.
+
+### llms.txt
+
+`llms.txt` é um resumo do site em texto puro, para os robôs de IA lerem sem
+interpretar HTML: identificação da empresa, serviços, processo, regiões e as
+perguntas frequentes com resposta. Gerado junto com as páginas.
+
 ### Trocar o endereço do site
 
-Canonical, `og:url`, imagem de compartilhamento e sitemap precisam do
-endereço absoluto, e ele está em um só lugar:
-
-```bash
-node site.mjs                                   # usa spxengenharia.com.br
-node site.mjs https://spx-engenharia.vercel.app # ou o endereço que for
-```
-
-Roda quantas vezes quiser, não duplica nada. **Rode de novo no dia em que o
-domínio próprio entrar no ar** — endereço canônico errado atrapalha mais do
-que ajudar.
+O endereço absoluto está em `dados.mjs`, no campo `empresa.dominio`. Mude lá e
+rode `node gerar.mjs`: canonical, `og:url`, imagem de compartilhamento,
+sitemap e llms.txt acompanham. **Rode de novo no dia em que o domínio próprio
+entrar no ar** — endereço canônico errado atrapalha mais do que ajuda.
 
 ### Search Console
 

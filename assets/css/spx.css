@@ -54,6 +54,7 @@
   --display:'Chakra Petch',ui-sans-serif,system-ui,sans-serif;
   --corpo:'Barlow',ui-sans-serif,system-ui,-apple-system,sans-serif;
   --t-hero:clamp(29px,6.4vw,68px);
+  --t-h1:clamp(30px,5.4vw,62px);   /* título das páginas internas */
   --t-h2:clamp(24px,4.2vw,46px);
   --t-h3:clamp(17px,1.5vw,20px);
   --t-lead:clamp(15.5px,1.25vw,17.5px);
@@ -609,6 +610,9 @@ b,strong{font-weight:600}
 .campo.invalido .erro-msg{display:block}
 .form-rodape{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:var(--e4)}
 .form-nota{font-size:12.5px;color:var(--txt-3);max-width:38ch}
+/* o formulário tem fundo próprio, um pouco mais claro que o da página:
+   o cinza do terciário perde contraste ali e precisa de um tom acima */
+.form .form-nota{color:#727D86}
 .form-ok{display:none;text-align:center;padding:var(--e5) 10px}
 .form-ok svg{width:52px;height:52px;stroke:var(--acc-2);fill:none;stroke-width:1.5;margin-bottom:var(--e3)}
 .form.enviado .campos,.form.enviado .form-rodape,.form.enviado .form-titulo{display:none}
@@ -709,6 +713,118 @@ b,strong{font-weight:600}
 @keyframes cai{to{transform:translateY(280px) rotate(52deg);opacity:0}}
 .corpo-erro{min-height:100vh;display:flex;flex-direction:column}
 
+/* --------------------------------- páginas internas (geradas por gerar.mjs) */
+.migalhas{display:flex;flex-wrap:wrap;align-items:center;gap:9px;
+  padding-top:calc(var(--nav-altura) + var(--e4));font-family:var(--display);
+  font-size:var(--t-micro);letter-spacing:.14em;text-transform:uppercase;color:var(--txt-3)}
+.migalhas a{color:var(--txt-3);text-decoration:none;transition:color .2s}
+.migalhas a:hover,.migalhas a:focus-visible{color:var(--acc-2)}
+.migalhas i{font-style:normal;color:var(--linha-forte)}
+.migalhas [aria-current]{color:var(--txt)}
+/* sem migalhas o topo precisa da folga do menu por conta própria */
+.topo-interno{padding-top:var(--e5);padding-bottom:0}
+.migalhas + .topo-interno{padding-top:var(--e4)}
+.topo-interno + .sec{padding-top:var(--e5)}
+/* nas páginas geradas o h2 é filho direto da seção e precisa do respiro;
+   na home ele vem dentro de .cabeca, que já cuida disso */
+.sec > h2{margin-bottom:var(--e3)}
+main > .topo-interno:first-child{padding-top:calc(var(--nav-altura) + var(--e6))}
+.topo-interno h1{font-size:var(--t-h1);max-width:17ch}
+
+/* lista com marcador de traço, no lugar do ponto redondo */
+.marcada{list-style:none;margin:var(--e3) 0 0;padding:0;display:grid;gap:11px;max-width:60ch}
+.marcada li{position:relative;padding-left:26px;color:var(--txt-2);font-size:15px;line-height:1.55}
+.marcada li::before{content:"";position:absolute;left:0;top:.62em;width:13px;height:1px;background:var(--acc-2)}
+.marcada b{color:var(--txt);font-weight:600}
+
+/* grade de cartões de serviço; quando o li tem link, o cartão inteiro é clicável */
+.grade-servicos{list-style:none;margin:var(--e4) 0 0;padding:0;display:grid;gap:1px;
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));background:var(--linha)}
+.grade-servicos li{background:var(--bg);padding:var(--e3) var(--e3) var(--e4);
+  font-size:14.5px;color:var(--txt-2);line-height:1.5}
+.grade-servicos a{display:flex;flex-direction:column;gap:8px;height:100%;
+  text-decoration:none;color:inherit;transition:color .2s}
+.grade-servicos a b{font-family:var(--display);font-size:15px;letter-spacing:-.01em;
+  text-transform:uppercase;color:var(--txt);transition:color .2s}
+.grade-servicos a:hover b,.grade-servicos a:focus-visible b{color:var(--acc-2)}
+.grade-servicos a span{color:var(--txt-3);font-size:13.5px;line-height:1.5}
+.grade-servicos.grande li{padding:var(--e4) var(--e3) var(--e5)}
+
+/* processo numerado */
+.etapas{list-style:none;margin:var(--e4) 0 0;padding:0;display:grid;gap:1px;background:var(--linha)}
+.etapas li{background:var(--bg);padding:var(--e3) var(--e3) var(--e4);
+  display:grid;grid-template-columns:56px 1fr;gap:4px var(--e3);align-items:baseline}
+.etapa-n{grid-row:1 / span 2;font-family:var(--display);font-weight:700;font-size:22px;
+  color:var(--acc-2);letter-spacing:-.02em}
+.etapas b{font-family:var(--display);font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--txt)}
+.etapas p{margin:0;color:var(--txt-2);font-size:14.5px;line-height:1.6;max-width:62ch}
+
+/* perguntas em acordeão nas páginas internas */
+.faq-lista{margin-top:var(--e4);border-top:1px solid var(--linha)}
+.q-item{border-bottom:1px solid var(--linha)}
+.q-item summary{cursor:pointer;list-style:none;padding:var(--e3) 34px var(--e3) 0;position:relative;
+  font-family:var(--display);font-size:15px;letter-spacing:-.01em;text-transform:uppercase;
+  color:var(--txt);transition:color .2s}
+.q-item summary::-webkit-details-marker{display:none}
+.q-item summary::after{content:"+";position:absolute;right:4px;top:50%;transform:translateY(-50%);
+  font-family:var(--display);font-size:19px;color:var(--acc-2);transition:transform .25s}
+.q-item[open] summary::after{transform:translateY(-50%) rotate(45deg)}
+.q-item summary:hover,.q-item summary:focus-visible{color:var(--acc-2)}
+.q-item p{margin:0 0 var(--e3);color:var(--txt-2);font-size:15px;line-height:1.65;max-width:66ch}
+
+/* chamada para ação no fim de cada página */
+.cta-faixa{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;
+  gap:var(--e3);border-top:1px solid var(--linha-forte);border-bottom:1px solid var(--linha-forte)}
+.cta-frase{margin:0;font-family:var(--display);font-size:clamp(19px,2.6vw,29px);
+  line-height:1.15;letter-spacing:-.02em;text-transform:uppercase;color:var(--txt);max-width:22ch}
+
+/* ficha de dados: rótulo em cima, valor embaixo */
+.ficha-obra{margin:var(--e4) 0 0;display:grid;gap:1px;
+  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));background:var(--linha)}
+.ficha-obra > div{background:var(--bg);padding:var(--e3)}
+.ficha-obra dt{font-family:var(--display);font-size:var(--t-micro);letter-spacing:.16em;
+  text-transform:uppercase;color:var(--txt-3);margin-bottom:7px}
+.ficha-obra dd{margin:0;color:var(--txt);font-size:15px;line-height:1.45}
+.ficha-larga{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+
+/* galeria e índice de obras */
+.galeria-obra{margin-top:var(--e4);display:grid;gap:2px;
+  grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+.galeria-obra img{width:100%;height:300px;object-fit:cover;display:block;filter:saturate(.92)}
+.grade-obras{list-style:none;margin:var(--e4) 0 0;padding:0;display:grid;gap:1px;
+  grid-template-columns:repeat(auto-fill,minmax(250px,1fr));background:var(--linha)}
+.grade-obras li{background:var(--bg)}
+.grade-obras a{display:flex;flex-direction:column;gap:8px;padding:var(--e4) var(--e3);
+  text-decoration:none;color:inherit}
+.grade-obras a b{font-family:var(--display);font-size:17px;text-transform:uppercase;color:var(--txt);transition:color .2s}
+.grade-obras a:hover b,.grade-obras a:focus-visible b{color:var(--acc-2)}
+.grade-obras a span{color:var(--txt-3);font-size:13px;letter-spacing:.08em;text-transform:uppercase;font-family:var(--display)}
+
+/* responsável técnico */
+.perfil{margin-top:var(--e4);display:grid;grid-template-columns:minmax(200px,300px) 1fr;
+  gap:var(--e5);align-items:start}
+.perfil-foto{width:100%;height:auto;display:block;border:1px solid var(--linha)}
+.perfil h3{font-size:var(--t-h3);margin-bottom:10px}
+.perfil .eyebrow{margin-bottom:var(--e3)}
+
+/* números validados */
+.numeros-grade{margin-top:var(--e4);display:grid;gap:1px;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));background:var(--linha)}
+.numeros-grade > div{background:var(--bg);padding:var(--e4) var(--e3)}
+.numeros-grade b{display:block;font-family:var(--display);font-weight:700;
+  font-size:clamp(30px,4.4vw,46px);letter-spacing:-.03em;color:var(--txt);line-height:1}
+.numeros-grade span{display:block;margin-top:10px;color:var(--txt-3);font-size:13px;line-height:1.45;max-width:24ch}
+
+/* regiões e canais de contato */
+.grade-regioes{list-style:none;margin:var(--e4) 0 0;padding:0;display:flex;flex-wrap:wrap;gap:7px}
+.grade-regioes li{font-family:var(--display);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--txt-2);border:1px solid var(--linha);border-radius:999px;padding:8px 14px}
+.canais{list-style:none;margin:var(--e3) 0 var(--e4);padding:0;display:grid;gap:1px;background:var(--linha)}
+.canais a{display:flex;justify-content:space-between;align-items:baseline;gap:var(--e2);
+  background:var(--bg);padding:var(--e3);text-decoration:none;color:var(--txt-2);transition:color .2s}
+.canais a b{font-family:var(--display);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--txt)}
+.canais a:hover,.canais a:focus-visible{color:var(--acc-2)}
+
 /* -------------------------------------------------- 6. RESPONSIVO */
 /* notebook menor e tablet deitado: cinco etapas em linha ficam apertadas */
 @media(max-width:1280px){
@@ -768,6 +884,15 @@ b,strong{font-weight:600}
   .folha.focada tbody tr.acesa{background:#EAEFF4}
 }
 @media(max-width:700px){
+  /* nas telas estreitas o processo vira lista corrida e a foto do perfil sobe */
+  .etapas li{grid-template-columns:38px 1fr;padding:var(--e3) 0 var(--e4)}
+  .etapa-n{font-size:17px}
+  .perfil{grid-template-columns:1fr;gap:var(--e4)}
+  .perfil-foto{max-width:230px}
+  .galeria-obra img{height:230px}
+  .cta-faixa{flex-direction:column;align-items:flex-start}
+  .topo-interno h1{max-width:none}
+  .migalhas{font-size:10px;gap:6px}
   /* no celular a página precisa ser curta: menos respiro e menos texto */
   :root{--e8:56px;--e7:52px;--e6:38px}
   .servicos,.passos,.faq-grid,.cronograma{grid-template-columns:1fr}

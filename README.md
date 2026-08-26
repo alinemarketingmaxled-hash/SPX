@@ -9,7 +9,7 @@ O único passo de build minifica os dois assets; servir a pasta já funciona.
 ├── 404.html                   página de erro
 ├── servicos-e-regioes.html    diretório de serviços por região (SEO)
 ├── conteudo/dados.mjs         TODO fato do site mora aqui
-├── capas.py                   recorta as fotos para a faixa do cabeçalho
+├── variantes.py               gera as larguras das fotos de obra
 ├── gerar.mjs                  monta as páginas internas a partir dos dados
 ├── build.mjs                  minifica o CSS e o JS
 ├── fontes.py                  baixa e corta as fontes do Google
@@ -505,57 +505,58 @@ planta ao fundo. O que muda é o ritmo. Cada página gerada recebe uma classe no
 | `/servicos/*` | Traço de acento sob o título |
 | `/privacidade` | Sem alternância de faixa: leitura contínua |
 
-### Cabeçalho com foto, e as capas recortadas
+### Cabeçalho com foto, no painel da direita
 
-Toda página abre com o cabeçalho fotográfico, igual ao topo da home: as obras
-se revezam ao fundo e um véu garante a leitura do título.
+Toda página abre com o título à esquerda e a obra num painel encostado na
+borda direita, sumindo para a esquerda num degradê. O menu flutua por cima: a
+foto sobe por baixo dele até o topo da tela.
 
-O véu **não é uniforme**. Um véu cobrindo tudo por igual apaga a foto, que foi
-o erro das duas primeiras tentativas. Aqui a sombra é concentrada onde o texto
-está: uma mancha embaixo à esquerda, uma faixa fina sob o menu, e o resto da
-imagem quase limpo. O título ainda carrega uma sombra própria, para não
-depender só disso.
+**A foto aparece inteira.** Antes o cabeçalho era uma faixa larga e baixa com a
+foto atrás do texto, e para caber ali a obra era recortada a ponto de sobrar um
+pedaço: uma prateleira, um canto de parede. Como as fotos das obras são
+verticais e a faixa era 2,6:1, sobravam menos de 30% da altura da imagem.
 
-Reaproveita `.hero-fundo` e `.hero-veu`, então o mesmo módulo de JavaScript faz
-as fotos passarem aqui também — a lista da página vem no `data-fotos`.
+Agora o painel usa `object-fit:contain` — nenhuma foto é cortada, seja ela em pé
+(a maioria) ou deitada (a recepção em mármore). E cada `<img>` define a própria
+largura (`height:100%; width:auto`, encostada à direita), o que faz a máscara
+funcionar: presa ao painel, ela apagava sempre a mesma faixa, e numa foto
+estreita a fatia apagada caía fora da imagem, deixando a borda esquerda em corte
+seco. Presa à foto, o degradê sempre começa na borda dela.
 
-**As fotos das obras são verticais e o cabeçalho é uma faixa larga e baixa.**
-Usar a foto inteira ali faz o navegador baixar uma imagem grande e jogar fora
-quase todos os pixels no recorte: medido, custava 1,3 s de LCP e derrubava a
-nota de 96 para 87.
+**O texto não fica mais sobre a foto**, então o cabeçalho deixou de forçar a
+paleta clara nos dois temas. É o que faz o tema claro funcionar ali: título
+escuro sobre fundo claro, com a foto ao lado em vez de atrás.
 
-Por isso existem os `img/capa-*.webp`, recortados na proporção da faixa por
-`capas.py`. Metade do peso, mesma imagem na tela. O `data-capa="sim"` avisa o
-JavaScript para usar essa família em vez das variantes verticais.
+Existiu antes uma família `img/capa-*.webp`, recortada na proporção da faixa por
+um `capas.py`. Saiu junto com a faixa. No lugar entrou `variantes.py`, que gera
+as larguras das fotos inteiras:
 
 ```bash
-python3 capas.py   # depois de trocar ou acrescentar foto de obra
+python3 variantes.py   # depois de trocar ou acrescentar foto de obra
 ```
 
-Duas larguras por foto, 768 e 1280. Fotos de origem estreita são ampliadas até
-1280 — sob o véu escuro isso não aparece, e evita um buraco no `srcset`, que
-foi exatamente o defeito que apareceu na primeira tentativa.
+Quatro larguras por foto: 480, 640, 768 e 960 — e nunca uma largura maior que a
+original, porque ampliar foto de obra não acrescenta detalhe nenhum, só peso. A
+de 768 entrou com este cabeçalho: no tamanho do painel, num aparelho de tela
+densa, 640 fica mole e 960 pesa o dobro à toa.
 
-E cada uma tem uma **peça de engenharia desenhada em 3D**, girando devagar:
+**O `sizes` de cada `<img>` bate com a largura do painel em cada faixa do CSS**,
+e os números não são estéticos: 290 no celular e 380 no tablet são os maiores
+valores que ainda fazem o navegador escolher a variante de 768 em vez da de 960.
 
-| Peça | Onde |
-| --- | --- |
-| Cubo estrutural | `/sobre` |
-| Viga I | `/servicos` |
-| Treliça (o X da marca) | `/obras` |
-| Lajes empilhadas | `/para-arquitetos` |
-| Sextavado | `/duvidas` |
-| Malha de implantação | `/atuacao` |
+**As outras fotos do rodízio só entram depois do `load`.** Elas ficam dentro da
+tela, então `loading="lazy"` não segura nada: o navegador baixava as quatro de
+uma vez e as três seguintes disputavam banda com a primeira, que é o maior
+elemento pintado. Medido, custava 0,6 s de LCP e a nota caía de 96 para 93 — e a
+primeira troca só acontece 6,5 s depois de a página abrir.
 
-São **CSS puro** — `transform` 3D e bordas, sem biblioteca nenhuma. Continuam
-sendo desenho de engenharia: arestas, sem preenchimento, na cor do acento.
-Pesam zero e o desempenho não caiu.
-
-Detalhe que custou caro descobrir: `perspective` e `transform-style:
-preserve-3d` **não podem ficar na mesma caixa** — o 3D achata e o cubo vira um
-quadrado. A perspectiva fica no pai, o giro no filho.
-
-Com `prefers-reduced-motion` as peças param numa posição fixa em vez de girar.
+**A peça de engenharia em 3D saiu daqui.** Eram seis desenhos em CSS puro —
+cubo, viga I, treliça, lajes, sextavado, malha — girando devagar no canto
+direito do cabeçalho, um por página. Aquele canto agora é da foto, e os dois
+disputando o mesmo espaço ficava sujo. O código foi removido inteiro em vez de
+ficar escondido por CSS: peça que não aparece em página nenhuma é peso morto no
+arquivo e armadilha para quem for mexer depois. Está no histórico do git se um
+dia voltar a fazer sentido.
 
 ### Tamanho do carrossel
 

@@ -40,7 +40,6 @@ try {
 /* uma foto e uma peça diferentes por serviço, para as oito páginas não
    parecerem a mesma coisa repetida */
 const FUNDOS_SERVICO = ['sala-reuniao-azul', 'restaurante-salao', 'estante-espinha-peixe', 'cozinha-marcenaria', 'mesa-vista-sp', 'lavabo-terracota', 'recepcao-marmore', 'lounge-recepcao'];
-const PECAS_SERVICO = ['viga','trelica','cubo','placas','porca','malha','viga','cubo'];
 
 const pendencias = new Set();   /* o mesmo bloco repete em toda página; conta uma vez */
 const paginas = [];
@@ -48,12 +47,16 @@ const paginas = [];
 const anota = (onde, oque) => pendencias.add(`${onde}: ${oque}`);
 const dim = (arq) => DIMENSOES[arq] || [1200, 1600];
 /* só as larguras que existem em disco: a geração pula largura >= a original */
-const larguras = (arq) => [480, 640, 960].filter((w) => w < dim(arq)[0])
+const larguras = (arq) => [480, 640, 768, 960].filter((w) => w < dim(arq)[0])
   .map((w) => `/img/${arq}-${w}.webp ${w}w`).join(', ');
-/* recortes horizontais feitos para a faixa do cabeçalho: a foto em pé inteira
-   desperdiça quase todos os pixels num banner largo e baixo */
-const CAPA_ALTURA = Math.round(1280 / (1600 / 620));
-const capas = (arq) => [768, 1280].map((w) => `/img/capa-${arq}-${w}.webp ${w}w`).join(', ');
+/* O cabeçalho interno mostra a foto inteira num painel à direita. Existiu
+   antes um recorte horizontal (capa-*) para uma faixa larga e baixa; saiu
+   junto com a faixa, porque cortava a obra a ponto de sobrar um fragmento.
+   As medidas abaixo batem com a largura do painel em cada faixa do CSS, e não
+   por acaso: 290 no celular e 380 no tablet são os maiores valores que ainda
+   fazem o navegador escolher a variante de 768 em vez da de 960 nas telas
+   densas daquele tamanho. A de 960 pesa o dobro sem mostrar mais nitidez. */
+const TAM_TOPO = '(min-width:1000px) min(44vw, 500px), (min-width:700px) 380px, 290px';
 /* a foto da página abre o rodízio, seguida de outras três da mesma família */
 const fotos = (arq) => {
   const todas = Object.keys(DIMENSOES);
@@ -267,7 +270,7 @@ const schemaTrilha = (trilha) => ({
 
 /* --------------------------------------------------------------- moldura */
 function pagina({ url, arquivo, title, descricao, h1, trilha = [], corpo, schema = [],
-                 visual = '', fundo = null, peca = '' }) {
+                 visual = '', fundo = null }) {
   const grafo = [schemaOrganizacao(), ...schema].filter(Boolean);
   if (trilha.length > 1) grafo.push(schemaTrilha(trilha));
   const migalhasHTML = trilha.length > 1
@@ -302,8 +305,8 @@ function pagina({ url, arquivo, title, descricao, h1, trilha = [], corpo, schema
 <meta name="geo.region" content="BR-SP">
 <meta name="geo.placename" content="São Paulo">
 <link rel="icon" type="image/png" href="/img/favicon.png">
-${fundo ? `<link rel="preload" as="image" href="/img/capa-${fundo}-1280.webp"
-      imagesrcset="${capas(fundo)}" imagesizes="100vw" fetchpriority="high">\n` : ''}<link rel="stylesheet" href="/assets/css/spx.min.css?v=${VERSAO_CSS}">
+${fundo ? `<link rel="preload" as="image" href="/img/${fundo}-640.webp"
+      imagesrcset="${larguras(fundo)}" imagesizes="${TAM_TOPO}" fetchpriority="high">\n` : ''}<link rel="stylesheet" href="/assets/css/spx.min.css?v=${VERSAO_CSS}">
 <script>
 /* aplica o tema antes da pintura para não piscar */
 (function(){try{var t=localStorage.getItem('spx-tema')||'escuro';document.documentElement.setAttribute('data-tema',t);}catch(e){}})();
@@ -318,18 +321,19 @@ ${JSON.stringify({ '@context': 'https://schema.org', '@graph': grafo }, null, 1)
 ${menu(trilha[1] ? trilha[1].url : url)}
 <main id="conteudo">
 <header class="topo-interno${fundo ? ' com-foto' : ''}">
-${fundo ? `  <div class="hero-fundo" id="heroFundo" data-capa="sim" data-fotos="${fotos(fundo).join(',')}" aria-hidden="true">
-    <img class="ativa" src="/img/capa-${fundo}-1280.webp"
-         srcset="${capas(fundo)}" sizes="100vw"
-         width="1280" height="${CAPA_ALTURA}" alt=""
-         fetchpriority="high" decoding="async">
-  </div>
-  <div class="hero-veu" aria-hidden="true"></div>` : ''}
   <div class="wrap topo-in">
 ${migalhasHTML}
     <h1>${esc(h1)}</h1>
   </div>
-${peca ? `  <div class="peca3d" aria-hidden="true"><span class="${peca}"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>` : ''}
+${fundo ? `  <div class="topo-foto" aria-hidden="true">
+    <div class="hero-fundo" id="heroFundo" data-fotos="${fotos(fundo).join(',')}">
+      <img class="ativa" src="/img/${fundo}-640.webp"
+           srcset="${larguras(fundo)}" sizes="${TAM_TOPO}"
+           width="${dim(fundo)[0]}" height="${dim(fundo)[1]}" alt=""
+           fetchpriority="high" decoding="async">
+    </div>
+    <div class="hero-veu"></div>
+  </div>` : ''}
 </header>
 ${corpo}
 </main>
@@ -794,7 +798,6 @@ for (const s of servicosPublicaveis) {
     title: s.title, descricao: s.descricao, h1: s.h1, trilha,
     visual: 'pag-servico servico-' + s.slug,
     fundo: FUNDOS_SERVICO[servicos.indexOf(s) % FUNDOS_SERVICO.length],
-    peca: PECAS_SERVICO[servicos.indexOf(s) % PECAS_SERVICO.length],
     schema: [schemaServico(s), schemaPerguntas([[s.pergunta, s.resposta], ...s.faq]),
              { '@type': 'WebPage', '@id': `${SITE}/servicos/${s.slug}#pagina`,
                name: s.h1, speakable: FALADO, about: { '@id': idEmpresa } }],
@@ -826,7 +829,6 @@ ${chamada(s.cta)}`,
 pagina({
   url: '/servicos', arquivo: 'servicos.html',
   fundo: 'estante-espinha-peixe',
-  peca: 'viga',
   title: 'Serviços de engenharia e execução de obras | SPX Engenharia',
   descricao: 'Obras corporativas e comerciais, retrofit, reformas, gerenciamento, manutenção, ' +
     'projetos e laudos. Engenharia, gestão e execução pela mesma equipe, em São Paulo e região.',
@@ -924,7 +926,6 @@ ${chamada(chamadas.projeto)}`,
 pagina({
   url: '/obras', arquivo: 'obras.html',
   fundo: 'recepcao-marmore',
-  peca: 'trelica',
   title: 'Projetos realizados | SPX Engenharia',
   descricao: 'Obras corporativas e comerciais executadas pela SPX Engenharia em São Paulo: ' +
     'Avenida Paulista, Jardins e Brooklin.',
@@ -1026,7 +1027,6 @@ const numerosValidados = numeros.filter((n) => {
 pagina({
   url: '/sobre', arquivo: 'sobre.html',
   fundo: 'sala-reuniao-azul',
-  peca: 'cubo',
   visual: 'pag-sobre',
   title: `Sobre a ${empresa.nome} | Engenharia de obras corporativas em São Paulo`,
   descricao: `${empresa.definicao} Quem somos, como trabalhamos, área de atuação e responsabilidade técnica.`,
@@ -1070,7 +1070,6 @@ ${chamada(chamadas.obra)}`,
 pagina({
   url: '/para-arquitetos', arquivo: 'para-arquitetos.html',
   fundo: 'mesa-vista-sp',
-  peca: 'placas',
   visual: 'pag-arquitetos',
   title: 'Execução de projeto para arquitetos em São Paulo | SPX Engenharia',
   descricao: 'A SPX executa o projeto do arquiteto: leitura, compatibilização, orçamento ' +
@@ -1141,7 +1140,6 @@ ${chamada(chamadas.arquiteto, 'Falar sobre um projeto')}`,
 pagina({
   url: '/duvidas', arquivo: 'duvidas.html',
   fundo: 'lounge-recepcao',
-  peca: 'porca',
   visual: 'pag-duvidas',
   title: 'Dúvidas frequentes sobre obras corporativas | SPX Engenharia',
   descricao: 'Respostas objetivas sobre o que a SPX Engenharia faz, como funciona a visita ' +
@@ -1188,7 +1186,6 @@ ${chamada(chamadas.orcamento)}`,
 pagina({
   url: '/atuacao', arquivo: 'atuacao.html',
   fundo: 'restaurante-fachada',
-  peca: 'malha',
   visual: 'pag-atuacao',
   title: 'Onde a SPX Engenharia atua | São Paulo e região metropolitana',
   descricao: 'Regiões atendidas pela SPX Engenharia: capital paulista e Grande São Paulo, ' +

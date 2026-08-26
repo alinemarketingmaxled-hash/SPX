@@ -23,9 +23,9 @@
 <meta name="geo.region" content="BR-SP">
 <meta name="geo.placename" content="São Paulo">
 <link rel="icon" type="image/png" href="/img/favicon.png">
-<link rel="preload" as="image" href="/img/capa-restaurante-fachada-1280.webp"
-      imagesrcset="/img/capa-restaurante-fachada-768.webp 768w, /img/capa-restaurante-fachada-1280.webp 1280w" imagesizes="100vw" fetchpriority="high">
-<link rel="stylesheet" href="/assets/css/spx.min.css?v=f71657ed">
+<link rel="preload" as="image" href="/img/restaurante-fachada-640.webp"
+      imagesrcset="/img/restaurante-fachada-480.webp 480w, /img/restaurante-fachada-640.webp 640w" imagesizes="(min-width:1000px) min(44vw, 500px), (min-width:700px) 380px, 290px" fetchpriority="high">
+<link rel="stylesheet" href="/assets/css/spx.min.css?v=d5726e2f">
 <script>
 /* aplica o tema antes da pintura para não piscar */
 (function(){try{var t=localStorage.getItem('spx-tema')||'escuro';document.documentElement.setAttribute('data-tema',t);}catch(e){}})();
@@ -231,18 +231,19 @@
 </div>
 <main id="conteudo">
 <header class="topo-interno com-foto">
-  <div class="hero-fundo" id="heroFundo" data-capa="sim" data-fotos="restaurante-fachada,cozinha-marcenaria,sala-reuniao-azul,mesa-vista-sp" aria-hidden="true">
-    <img class="ativa" src="/img/capa-restaurante-fachada-1280.webp"
-         srcset="/img/capa-restaurante-fachada-768.webp 768w, /img/capa-restaurante-fachada-1280.webp 1280w" sizes="100vw"
-         width="1280" height="496" alt=""
-         fetchpriority="high" decoding="async">
-  </div>
-  <div class="hero-veu" aria-hidden="true"></div>
   <div class="wrap topo-in">
 <nav class="migalhas" aria-label="Você está em"><a href="/">Início</a><i aria-hidden="true">/</i><span aria-current="page">Onde atuamos</span></nav>
     <h1>Onde a SPX atua</h1>
   </div>
-  <div class="peca3d" aria-hidden="true"><span class="malha"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+  <div class="topo-foto" aria-hidden="true">
+    <div class="hero-fundo" id="heroFundo" data-fotos="restaurante-fachada,cozinha-marcenaria,sala-reuniao-azul,mesa-vista-sp">
+      <img class="ativa" src="/img/restaurante-fachada-640.webp"
+           srcset="/img/restaurante-fachada-480.webp 480w, /img/restaurante-fachada-640.webp 640w" sizes="(min-width:1000px) min(44vw, 500px), (min-width:700px) 380px, 290px"
+           width="720" height="1280" alt=""
+           fetchpriority="high" decoding="async">
+    </div>
+    <div class="hero-veu"></div>
+  </div>
 </header>
 
 <section class="sec wrap" data-reveal>
@@ -353,6 +354,6 @@ por região</a> ou fale com a equipe.</p></section>
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 12a8.5 8.5 0 1 1-4.2-7.3L21 3.5l-1.2 4.6A8.4 8.4 0 0 1 20.5 12Z"/><path d="M9 9.4c.5 2.2 2.4 4.1 4.6 4.6l1.1-1.2 1.8.8-.5 1.6c-3.4.5-7.2-3.3-6.7-6.7l1.6-.5.8 1.8z"/></svg>
   <span>Falar no WhatsApp</span>
 </a>
-<script src="/assets/js/spx.min.js?v=10ec3116" defer></script>
+<script src="/assets/js/spx.min.js?v=6059dba0" defer></script>
 </body>
 </html>

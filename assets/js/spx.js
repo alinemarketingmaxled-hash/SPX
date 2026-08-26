@@ -142,38 +142,46 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
   var legendas = {};
   OBRAS.forEach(function(o){ legendas[o[0]] = o[1]; });
 
-  /* O topo da home usa a foto inteira, em pé. Os cabeçalhos internos são uma
-     faixa larga e baixa, e para eles existem recortes próprios (capa-*), bem
-     mais leves — a foto vertical ali jogaria fora quase todos os pixels. */
-  var capa = caixa.dataset.capa === 'sim';
-  var LARGURAS = capa ? [768, 1280] : [480, 640, 960];
-  var PROP = 1600 / 620;
+  /* Home e páginas internas usam a mesma coisa: a foto inteira, em pé. Havia
+     um recorte horizontal só para o cabeçalho interno, que saiu junto com a
+     faixa larga — cortava tanto a obra que sobrava um fragmento dela. */
+  var LARGURAS = [480, 640, 768, 960];
 
-  function medidas(arq){
-    return capa ? [1280, Math.round(1280 / PROP)] : (DIM[arq] || [1200,1600]);
-  }
+  function medidas(arq){ return DIM[arq] || [1200,1600]; }
   /* só entram as larguras que existem em disco */
   function conjunto(arq){
-    var limite = capa ? 1e4 : (DIM[arq] || [1200,1600])[0];
+    var limite = (DIM[arq] || [1200,1600])[0];
     return LARGURAS.filter(function(w){ return w < limite; })
-      .map(function(w){ return '/img/' + (capa ? 'capa-' : '') + arq + '-' + w + '.webp ' + w + 'w'; })
+      .map(function(w){ return '/img/' + arq + '-' + w + '.webp ' + w + 'w'; })
       .join(', ');
   }
-  /* a primeira foto já veio no HTML com prioridade alta; as outras entram aqui */
-  caixa.insertAdjacentHTML('beforeend', destaque.slice(1).map(function(arq){
+  /* o `sizes` sai do próprio HTML: a home e o cabeçalho interno mostram a foto
+     em caixas de largura bem diferente, e chutar 100vw nos dois faz o
+     navegador baixar variante maior do que cabe */
+  var TAM = (caixa.querySelector('img') || {}).sizes || '100vw';
+  function marcacao(arq){
     var d = medidas(arq);
-    var padrao = '/img/' + (capa ? 'capa-' : '') + arq + '-' + (capa ? 768 : 640) + '.webp';
-    return '<img src="' + padrao + '" srcset="' + conjunto(arq) + '" sizes="100vw"' +
-      ' width="' + d[0] + '" height="' + d[1] + '"' +
-      (capa ? '' : ' data-ph="/img/ph/' + arq + '.svg"') +
-      ' alt="' + (capa ? '' : (legendas[arq] || '')) + '" loading="lazy" decoding="async">';
-  }).join(''));
+    return '<img src="/img/' + arq + '-640.webp" srcset="' + conjunto(arq) + '"' +
+      ' sizes="' + TAM + '" width="' + d[0] + '" height="' + d[1] + '"' +
+      ' data-ph="/img/ph/' + arq + '.svg"' +
+      ' alt="' + (legendas[arq] || '') + '" loading="lazy" decoding="async">';
+  }
 
   var fotos = $$('img', caixa);
   if(!fotos.length) return;
   var atual = 0;
   fotos[0].classList.add('ativa');
   if(reduz) return;
+
+  /* As outras fotos do rodízio só entram depois que a página carregou. Elas
+     ficam dentro da tela, então `loading="lazy"` não segura nada: o navegador
+     baixava as quatro de uma vez e as três seguintes disputavam banda com a
+     primeira, que é o maior elemento pintado. Medido, custava 0,6 s de LCP —
+     e a primeira troca só acontece 6,5 s depois de a página abrir. */
+  function depois(fn){
+    if(document.readyState === 'complete') setTimeout(fn, 400);
+    else window.addEventListener('load', function(){ setTimeout(fn, 400); });
+  }
 
   var relogio = null;
   function mostra(i){
@@ -189,13 +197,18 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
     clearInterval(relogio);
     relogio = setInterval(function(){ mostra(atual + 1); }, 6500);
   }
-  reinicia();
+
+  depois(function(){
+    caixa.insertAdjacentHTML('beforeend', destaque.slice(1).map(marcacao).join(''));
+    fotos = $$('img', caixa);
+    reinicia();
+  });
 
   $$('[data-hero]').forEach(function(b){
     b.addEventListener('click', function(){ anda(b.dataset.hero === 'prox' ? 1 : -1); });
   });
   document.addEventListener('visibilitychange', function(){
-    if(document.hidden) clearInterval(relogio); else reinicia();
+    if(document.hidden) clearInterval(relogio); else if(fotos.length > 1) reinicia();
   });
 })();
 

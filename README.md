@@ -739,6 +739,26 @@ novo — se mexer no número, ajuste o vão do `.faq-cols` junto.
 As respostas não inventam nada: cada uma repete um compromisso que já está no
 processo, nos serviços ou nas garantias descritas no resto do site.
 
+### O mapa da atuação
+
+O mapa **não é cartografia**. É um diagrama de malha urbana, sem nome de rua e
+sem contorno de município — desenhar um traçado inventado com cara de mapa
+oficial de São Paulo afirmaria uma coisa que o desenho não sabe. O que ele diz
+é o que é verdade: as obras se concentram num punhado de polos dentro de uma
+cidade densa.
+
+As linhas saem de um gerador com **semente fixa**, não de `Math.random`: a build
+tem que sair byte a byte igual toda vez que rodar. São duas famílias de ângulo
+(como bairro que cresceu em épocas diferentes), vias soltas costurando as duas,
+muito trecho curto por cima — é o traço curto que dá densidade de cidade, só via
+longa lê como teia de aranha — quatro artérias mais grossas e a curva larga do
+rio, que nenhuma malha respeita.
+
+**A malha inteira cabe em três `<path>`, não em cento e trinta.** Cada traço
+cai num de três baldes de opacidade e os baldes viram um `d` só. Mesmo desenho
+na tela, o SVG passou de 12 KB para 7 KB e a nota de desempenho de /obras voltou
+de 93 para 95 — muito menos nó para o navegador pintar.
+
 ### Central de dúvidas
 
 A página de dúvidas não é uma lista corrida: as perguntas estão agrupadas em

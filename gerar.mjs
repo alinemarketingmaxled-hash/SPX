@@ -678,20 +678,114 @@ const mosaicoFotos = (nomes) => `
        decoding="async" fetchpriority="low" style="--i:${i}">`).join('')}</div>`;
 
 /* mapa de alfinetes, usado na atuação e nos projetos */
-const mapaSVG = () => `
+/* Mapa da atuação. Não é cartografia: é um diagrama de malha urbana. Não leva
+   nome de rua nem contorno de município de propósito — desenhar um traçado
+   inventado com cara de mapa oficial de São Paulo afirmaria uma coisa que o
+   desenho não sabe. O que ele diz é o que é verdade: as obras se concentram
+   num punhado de polos dentro de uma cidade densa.
+
+   As linhas saem de um gerador com semente fixa, e não de Math.random: a build
+   precisa sair byte a byte igual toda vez que rodar. */
+const mapaSVG = () => {
+  /* mulberry32: pequeno, determinístico, e espalha traço bem o bastante */
+  let s = 0x9e3779b9;
+  const rnd = () => {
+    s |= 0; s = (s + 0x6D2B79F5) | 0;
+    let t = Math.imul(s ^ (s >>> 15), 1 | s);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+  const n = (a, b) => a + rnd() * (b - a);
+  const p2 = (v) => v.toFixed(1);
+
+  /* uma via: começa fora da tela, atravessa com leve curvatura */
+  const via = (ang, desvio, curva) => {
+    const r = (ang * Math.PI) / 180;
+    const cx = 210 + Math.cos(r + Math.PI / 2) * desvio;
+    const cy = 210 + Math.sin(r + Math.PI / 2) * desvio;
+    const dx = Math.cos(r) * 340, dy = Math.sin(r) * 340;
+    const mx = cx + Math.cos(r + Math.PI / 2) * curva;
+    const my = cy + Math.sin(r + Math.PI / 2) * curva;
+    return `M${p2(cx - dx)} ${p2(cy - dy)}Q${p2(mx)} ${p2(my)} ${p2(cx + dx)} ${p2(cy + dy)}`;
+  };
+
+  /* um trecho curto de rua, do tamanho de uma ou duas quadras */
+  const quadra = (ang) => {
+    const r = ((ang + n(-6, 6)) * Math.PI) / 180;
+    const x = n(10, 410), y = n(10, 410), c = n(26, 96);
+    return `M${p2(x)} ${p2(y)}l${p2(Math.cos(r) * c)} ${p2(Math.sin(r) * c)}`;
+  };
+
+  /* A malha tem duas famílias de ângulo, como bairro que cresceu em épocas
+     diferentes, mais vias soltas costurando as duas e um monte de trecho curto
+     por cima — é o traço curto que dá densidade de cidade; só via longa lê
+     como teia de aranha. */
+  /* Três faixas de opacidade, e não uma opacidade por traço: assim a malha
+     inteira cabe em três <path>, em vez de cento e trinta. Mesmo desenho na
+     tela, um terço do peso no HTML e muito menos nó para o navegador pintar. */
+  const FAIXAS = [.14, .24, .34];
+  const balde = [[], [], []];
+  const solta = (d) => balde[Math.floor(rnd() * 3)].push(d);
+  for (let k = 0; k < 17; k++) solta(via(22 + n(-3, 3), n(-200, 200), n(-26, 26)));
+  for (let k = 0; k < 15; k++) solta(via(114 + n(-4, 4), n(-190, 190), n(-22, 22)));
+  for (let k = 0; k < 9; k++) solta(via(n(0, 180), n(-170, 170), n(-60, 60)));
+  for (let k = 0; k < 64; k++) solta(quadra(k % 2 ? 22 : 114));
+  for (let k = 0; k < 26; k++) solta(quadra(n(0, 180)));
+
+  /* vias estruturais: mais grossas, é o que dá hierarquia à malha */
+  const arterias = [via(22, -70, 18), via(22, 96, -22), via(114, -40, 24), via(70, 120, -40)];
+
+  /* os polos onde as obras se concentram — posição livre, sem endereço */
+  const polos = [[168, 150], [236, 124], [204, 206], [280, 178], [140, 236], [248, 268], [186, 300]];
+
+  return `
 <svg viewBox="0 0 420 420" role="img">
-        <defs><pattern id="pontos" width="11" height="11" patternUnits="userSpaceOnUse">
-          <circle cx="2" cy="2" r="1.5" fill="currentColor" opacity=".28"/></pattern></defs>
-        <path d="M96 24h228l72 88-34 148-96 132H150L54 246 30 118Z" fill="url(#pontos)"/>
-        <path d="M96 24h228l72 88-34 148-96 132H150L54 246 30 118Z" fill="none"
-              stroke="currentColor" stroke-opacity=".2"/>
-        ${[[168,150],[236,124],[204,206],[280,178],[140,236],[248,268],[186,300]].map(([x, y], i) => `
-        <g class="mapa-pino" style="--atraso:${i * 0.36}s">
-          <circle cx="${x}" cy="${y}" r="16" class="mapa-onda"/>
-          <path d="M${x} ${y + 9}c0 0 8-7.6 8-13a8 8 0 1 0-16 0c0 5.4 8 13 8 13Z"/>
-          <circle cx="${x}" cy="${y - 4}" r="2.6" class="mapa-furo"/>
-        </g>`).join('')}
-      </svg>`;
+  <defs>
+    <radialGradient id="mp-fundo" cx="50%" cy="46%" r="62%">
+      <stop offset="0" stop-color="currentColor" stop-opacity=".14"/>
+      <stop offset="1" stop-color="currentColor" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="mp-fade" cx="50%" cy="50%" r="52%">
+      <stop offset="0" stop-color="#fff" stop-opacity="1"/>
+      <stop offset=".62" stop-color="#fff" stop-opacity=".85"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="mp-borda"><rect width="420" height="420" fill="url(#mp-fade)"/></mask>
+    <radialGradient id="mp-halo">
+      <stop offset="0" stop-color="currentColor" stop-opacity=".55"/>
+      <stop offset=".45" stop-color="currentColor" stop-opacity=".16"/>
+      <stop offset="1" stop-color="currentColor" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="mp-feixe" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="currentColor" stop-opacity=".5"/>
+      <stop offset="1" stop-color="currentColor" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <circle cx="210" cy="196" r="200" fill="url(#mp-fundo)"/>
+
+  <g mask="url(#mp-borda)" fill="none" stroke="currentColor" stroke-linecap="round">
+    <g stroke-width=".7">
+      ${balde.map((ds, i) => `<path opacity="${FAIXAS[i]}" d="${ds.join('')}"/>`).join('\n      ')}
+    </g>
+    <path stroke-width="1.7" opacity=".46" d="${arterias.join('')}"/>
+    <!-- o rio: a curva larga que nenhuma malha respeita -->
+    <path d="M-20 96C90 150 120 250 96 330 78 388 120 430 200 440" stroke-width="3"
+          opacity=".22"/>
+    <path d="M-20 96C90 150 120 250 96 330 78 388 120 430 200 440" stroke-width="8"
+          opacity=".07"/>
+  </g>
+
+  ${polos.map(([x, y], i) => `
+  <g class="mapa-pino" style="--atraso:${(i * 0.36).toFixed(2)}s">
+    <circle cx="${x}" cy="${y}" r="34" fill="url(#mp-halo)" stroke="none"/>
+    <rect x="${x - 1}" y="${y}" width="2" height="34" fill="url(#mp-feixe)" stroke="none"/>
+    <circle cx="${x}" cy="${y}" r="16" class="mapa-onda"/>
+    <path d="M${x} ${y + 9}c0 0 8-7.6 8-13a8 8 0 1 0-16 0c0 5.4 8 13 8 13Z"/>
+    <circle cx="${x}" cy="${y - 4}" r="2.6" class="mapa-furo"/>
+  </g>`).join('')}
+</svg>`;
+};
 
 const secao = (titulo, dentro, classe = '') =>
   `<section class="sec wrap ${classe}"><h2>${esc(titulo)}</h2>${dentro}</section>`;
@@ -726,12 +820,12 @@ const esteira = (eyebrow, titulo) => `
 const ICO_DUVIDA = ['empresa','corporativa','retrofit','reforma','gerencia','projeto','compat','art',
                     'local','proposta','visita','cronograma','execucao','laudo'];
 
-const carrossel = (eyebrow, titulo) => `
+const carrossel = () => `
 <section class="sec capa3d-bloco" aria-labelledby="acervoTitulo">
-  <div class="wrap centro" data-reveal>
-    <p class="eyebrow centro">${esc(eyebrow)}</p>
-    <h2 id="acervoTitulo" style="margin-top:20px">${titulo}</h2>
-  </div>
+  <!-- O título saiu da tela, não do documento. Os cartões do carrossel são
+       <h3>; sem um <h2> antes deles a página pula de h1 para h3, e leitor de
+       tela que navega por títulos perde o nível do meio. -->
+  <h2 id="acervoTitulo" class="so-leitor">Arquivo de obras da SPX Engenharia</h2>
 
   <div class="capa3d" data-capa3d>
     <button class="capa3d-seta ant" type="button" data-capa3d-ant aria-label="Obra anterior">
@@ -930,7 +1024,7 @@ pagina({
   termina num espaço em operação, e é essa travessia que a engenharia organiza.</p>
 </section>
 
-${carrossel('Arquivo SPX', 'Obras que saíram<br>da planta.')}
+${carrossel()}
 
 ${projetosPublicaveis.length
   ? secao('Obras', `<ul class="grade-obras">${projetosPublicaveis.map((p) =>
@@ -948,7 +1042,6 @@ ${projetosPublicaveis.length
       { icone: 'cronograma', titulo: 'Cronograma medido', texto: 'O previsto contra o realizado, semana a semana.' },
       { icone: 'entrega', titulo: 'Lista de pendências fechada', texto: 'Assinada na vistoria conjunta de entrega.' },
   ]), mosaicoFotos(['estante-espinha-peixe', 'banheiro-marmore', 'restaurante-salao']))}
-  ${barraCta('Quer ver o arquivo de uma obra parecida com a sua?', 'Falar com a SPX')}
 </section>
 
 <section class="sec wrap" data-reveal>

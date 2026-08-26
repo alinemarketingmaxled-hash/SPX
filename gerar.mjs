@@ -18,7 +18,7 @@
 import { mkdirSync, writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { empresa, responsavel, numeros, processo, camadas, servicos, projetos,
-         duvidas, temas, acervo, chamadas, regioes, falta } from './conteudo/dados.mjs';
+         duvidas, temas, acervo, chamadas, regioes, historia, falta } from './conteudo/dados.mjs';
 
 const SITE = empresa.dominio.replace(/\/+$/, '');
 /* proporções das fotos usadas como fundo, para declarar width e height e o
@@ -1197,6 +1197,13 @@ pagina({
   </ul>
   ${numerosValidados.length ? faixaNumeros(numerosValidados) : ''}
 </section>
+
+${secao('Como a SPX começou', `
+  <p class="sub-secao">Uma empresa de um ano, tocada por um engenheiro com nove.</p>
+  <ol class="historia">${historia.map((h) => `
+    <li><span class="hi-n">${h.n}</span>
+      <div><b>${esc(h.titulo)}</b><p>${esc(h.texto)}</p></div>
+    </li>`).join('')}</ol>`, 'vidro faixa-vidro')}
 
 ${blocoResponsavel()}
 

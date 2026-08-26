@@ -22,6 +22,31 @@
 export const FALTA = Symbol('falta confirmar');
 export const falta = (v) => v === FALTA || v === undefined || v === null || v === '';
 
+/**
+ * História da empresa, confirmada por você no questionário:
+ * fundada pelo Wesley sozinho, um ano de operação, começou por reforma e
+ * manutenção, e a especialidade é obra sem parar a operação do cliente.
+ * Nada aqui é preenchimento: cada frase saiu de uma resposta sua.
+ */
+export const historia = [
+  { n: '01', titulo: 'Nove anos antes do CNPJ',
+    texto: 'A SPX é nova, o engenheiro não. O responsável técnico passou nove anos em obra ' +
+           'antes de abrir a empresa, e é essa bagagem que a SPX aplica desde a primeira ' +
+           'visita técnica.' },
+  { n: '02', titulo: 'Aberta por quem responde por ela',
+    texto: 'A empresa foi aberta pelo próprio engenheiro responsável, sozinho. Quem assina a ' +
+           'ART é quem atende, orça e vai ao canteiro — não há camada entre o cliente e quem ' +
+           'decide.' },
+  { n: '03', titulo: 'Começou pelo que ninguém quer fazer',
+    texto: 'O primeiro trabalho foi reforma e manutenção: obra pequena, prazo curto, cliente ' +
+           'em cima. É onde se aprende a trabalhar sem atrapalhar, e foi de lá que veio a ' +
+           'especialidade da casa.' },
+  { n: '04', titulo: 'Obra sem parar a operação',
+    texto: 'Loja aberta, escritório ocupado, prédio em funcionamento. A SPX executa na janela ' +
+           'que a operação permite, com controle de poeira e ruído e a área liberada limpa a ' +
+           'cada turno.' },
+];
+
 export const empresa = {
   nome: 'SPX Engenharia',
   razaoSocial: FALTA,            // razão social do contrato social
@@ -70,15 +95,16 @@ export const numeros = [
   { chave: 'anos', icone: 'anos',   valor: 9,  prefixo: '+',
     rotulo: 'anos de experiência do engenheiro responsável',
     validado: true },
-  /* Os dois abaixo ficaram fora do site até você confirmar, e você confirmou.
-     O rótulo diz "obras entregues" e "construídos" sem afirmar se é tudo da
-     SPX ou se soma a trajetória do responsável — se um dia for para separar as
-     duas coisas, o rótulo muda aqui e o site inteiro acompanha. */
+  /* A SPX tem um ano. Os dois números abaixo são da trajetória do engenheiro
+     responsável, não do CNPJ — e o rótulo diz isso. Publicar "+40 obras
+     entregues" seco ao lado de uma empresa de um ano é o tipo de coisa que o
+     cliente confere e não fecha; dito certo, é uma força: nove anos de campo
+     numa empresa nova. */
   { chave: 'obras', icone: 'obras',  valor: 40, prefixo: '+',
-    rotulo: 'obras entregues',
+    rotulo: 'obras na trajetória do responsável técnico',
     validado: true },
   { chave: 'area', icone: 'area',   valor: 42, sufixo: ' mil m²',
-    rotulo: 'construídos',
+    rotulo: 'construídos ao longo dessa trajetória',
     validado: true },
   { chave: 'etapas', icone: 'cronograma', valor: 7,
     rotulo: 'etapas, do levantamento à entrega',

@@ -1198,6 +1198,20 @@ h2 em{font-style:normal;color:var(--acc-2)}
 .topo-lead{margin-top:var(--e3);max-width:min(52%,54ch)}
 @media (max-width:999px){ .topo-lead{max-width:none} }
 
+/* ------------------------------------------------------ história da empresa */
+/* Quatro marcos em linha, com o número grande fazendo o papel de eixo. Não é
+   linha do tempo com data: a empresa tem um ano, e datar quatro momentos num
+   ano só seria encher linguiça. São quatro fatos em ordem de causa. */
+.historia{list-style:none;margin:var(--e4) 0 0;padding:0;display:grid;
+  grid-template-columns:repeat(4,1fr);gap:var(--e4)}
+.historia li{display:grid;gap:var(--e2);align-content:start;
+  border-top:1px solid var(--linha);padding-top:var(--e3)}
+.hi-n{font-family:var(--display);font-weight:700;font-size:26px;line-height:1;
+  color:var(--acc-2);opacity:.55}
+.historia b{display:block;font-family:var(--display);font-size:12.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--txt);margin-bottom:7px}
+.historia p{margin:0;color:var(--txt-2);font-size:13.5px;line-height:1.55}
+
 /* ------------------------------------------------ abertura da página /sobre */
 /* Fatos em linha, com ícone fino à esquerda. É a forma curta do que a empresa
    afirma: cada item é uma frase que o resto do site sustenta. */
@@ -1251,6 +1265,7 @@ h2 em{font-style:normal;color:var(--acc-2)}
 .cf-txt .btn{margin-top:var(--e2)}
 
 @media (max-width:900px){
+  .historia{grid-template-columns:1fr 1fr;gap:var(--e3)}
   /* empilhado não existe serpentina: vira lista, e o fio some */
   .fluxo{grid-template-columns:1fr;gap:var(--e4)}
   .fluxo li{grid-column:1;grid-row:auto}
@@ -1263,6 +1278,7 @@ h2 em{font-style:normal;color:var(--acc-2)}
   .cf-txt{padding:var(--e4)}
 }
 @media (max-width:520px){
+  .historia{grid-template-columns:1fr}
   .faixa-num{grid-template-columns:1fr 1fr}
   .proc-faixa{grid-template-columns:repeat(2,1fr)}
   .pf-marca{width:46px;height:46px}

@@ -1012,19 +1012,20 @@ ${chamada(chamadas.projeto)}`,
 /* --------------------------------------------------------- índice de obras */
 pagina({
   url: '/obras', arquivo: 'obras.html',
-  fundo: 'recepcao-marmore',
+  /* sem foto de topo: aqui quem abre a página é o carrossel, e uma foto grande
+     antes dele empurrava o portfólio inteiro para baixo da dobra */
   title: 'Projetos realizados | SPX Engenharia',
   descricao: 'Obras corporativas e comerciais executadas pela SPX Engenharia em São Paulo: ' +
     'Avenida Paulista, Jardins e Brooklin.',
   h1: 'Projetos realizados',
   trilha: [{ nome: 'Início', url: '/' }, { nome: 'Projetos', url: '/obras' }],
   corpo: `
+${carrossel()}
+
 <section class="sec wrap" data-reveal>
   <p class="lead">Obras conduzidas pela SPX em São Paulo. Cada uma começa numa planta e
   termina num espaço em operação, e é essa travessia que a engenharia organiza.</p>
 </section>
-
-${carrossel()}
 
 ${projetosPublicaveis.length
   ? secao('Obras', `<ul class="grade-obras">${projetosPublicaveis.map((p) =>

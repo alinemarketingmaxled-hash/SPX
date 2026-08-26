@@ -751,7 +751,7 @@ b,strong{font-weight:600}
 .migalhas i{font-style:normal;color:var(--linha-forte)}
 .migalhas [aria-current]{color:var(--txt)}
 /* sem migalhas o topo precisa da folga do menu por conta própria */
-.topo-interno:not(.com-foto){padding-top:calc(var(--nav-altura) + var(--e6));padding-bottom:0}
+.topo-interno:not(.com-foto){padding-top:calc(var(--nav-altura) + var(--e4));padding-bottom:var(--e3)}
 .topo-interno:not(.com-foto) + .sec{padding-top:var(--e5)}
 /* nas páginas geradas o h2 é filho direto da seção e precisa do respiro;
    na home ele vem dentro de .cabeca, que já cuida disso */
@@ -872,18 +872,21 @@ b,strong{font-weight:600}
   padding-top:calc(var(--nav-altura) + var(--e3));padding-bottom:var(--e4);
   margin-bottom:var(--e5)}
 .topo-interno.com-foto .topo-in{position:relative;z-index:2;width:100%}
-/* a folga do menu já está no padding do cabeçalho; a migalha traz a dela
-   para as páginas sem foto, e somar as duas abria quase 180px de vazio */
-.topo-interno.com-foto .migalhas{padding-top:0;margin-bottom:var(--e3)}
+/* a folga do menu já está no padding do cabeçalho: somar a da migalha por
+   cima abria quase 180px de vazio em toda página interna */
+.topo-interno .migalhas{padding-top:0}
+.topo-interno.com-foto .migalhas{margin-bottom:var(--e3)}
 .topo-interno.com-foto h1{max-width:20ch}
 
-/* sobe por baixo do menu: a pílula flutua e é opaca, então a foto pode
-   encostar no topo da tela como nos modelos, em vez de começar abaixo dela */
 /* O painel começa logo depois do título, não na metade da tela: é o que põe a
    foto perto do texto. A foto fica encostada na borda esquerda dele, e o que
-   sobrar até a beirada da tela é preenchido pelo fundo borrado. */
-.topo-foto{position:absolute;left:50vw;right:0;
-  top:calc(var(--nav-altura) * -1);bottom:0;
+   sobrar até a beirada da tela é preenchido pelo fundo borrado.
+
+   E começa no topo do cabeçalho, não por baixo do menu: subindo, a borda de
+   cima da foto ficava fora da área visível, e o degradê que apaga aquela
+   aresta era cortado junto pelo `overflow` do cabeçalho — sobrava um corte
+   reto embaixo da pílula. */
+.topo-foto{position:absolute;left:50vw;right:0;top:0;bottom:0;
   z-index:1;pointer-events:none}
 .topo-foto .hero-fundo{position:absolute;inset:0}
 
@@ -928,13 +931,24 @@ b,strong{font-weight:600}
   filter:contrast(1.05) saturate(1.06)
          drop-shadow(-14px 0 26px rgba(110,144,174,.22))
          drop-shadow(0 12px 34px rgba(0,0,0,.5));
-  /* borda esquerda viva, colada no texto; a direita dissolve no fundo */
-  -webkit-mask-image:linear-gradient(270deg,transparent 0,#000 16%,#000 100%);
-  mask-image:linear-gradient(270deg,transparent 0,#000 16%,#000 100%)}
-/* fio de acento marcando onde a foto começa, do lado do texto */
-.topo-foto .hero-fundo img.ativa{border-left:2px solid var(--acc-2)}
+  /* Some pelos quatro lados, não só pela direita: aresta reta em foto sangrada
+     lê como recorte mal feito. São duas máscaras cruzadas — uma horizontal e
+     uma vertical — combinadas por interseção, que é o único jeito de apagar as
+     quatro bordas sem arredondar a imagem inteira num degradê radial.
+     Onde `mask-composite` não existir, vale a primeira camada e a foto volta a
+     sumir só pela direita: perde o acabamento, não quebra. */
+  -webkit-mask-image:
+    linear-gradient(270deg,transparent 0,#000 17%,#000 100%),
+    linear-gradient(90deg,transparent 0,#000 13%,#000 100%),
+    linear-gradient(180deg,transparent 0,#000 12%,#000 85%,transparent 100%);
+  mask-image:
+    linear-gradient(270deg,transparent 0,#000 17%,#000 100%),
+    linear-gradient(90deg,transparent 0,#000 13%,#000 100%),
+    linear-gradient(180deg,transparent 0,#000 12%,#000 85%,transparent 100%);
+  -webkit-mask-composite:source-in;
+  mask-composite:intersect}
 /* a base da foto emenda na cor da página em vez de terminar em corte seco */
-.topo-foto .hero-veu{background:linear-gradient(180deg,transparent 58%,var(--bg-pagina,#000) 100%)}
+.topo-foto .hero-veu{background:linear-gradient(180deg,transparent 74%,var(--bg-pagina,#000) 100%)}
 body{--bg-pagina:var(--bg)}
 .topo-interno.com-foto + .sec,
 .topo-interno.com-foto + .resposta-direta{padding-top:0}
@@ -956,11 +970,17 @@ body{--bg-pagina:var(--bg)}
   .topo-foto::before{display:none}
   .topo-foto{position:relative;left:auto;right:auto;top:auto;width:min(100%,290px);
     margin:var(--e4) 0 0 auto;height:min(40vh,300px)}
-  /* empilhada, a foto some por baixo em vez de pelo lado */
+  /* empilhada, a foto some pelos lados e por baixo */
   .topo-foto .hero-fundo img{object-position:center;left:0;right:0;width:100%;
     max-width:100%;
-    -webkit-mask-image:linear-gradient(180deg,#000 72%,transparent 100%);
-    mask-image:linear-gradient(180deg,#000 72%,transparent 100%)}
+    -webkit-mask-image:
+      linear-gradient(90deg,transparent 0,#000 8%,#000 92%,transparent 100%),
+      linear-gradient(180deg,#000 0,#000 70%,transparent 100%);
+    mask-image:
+      linear-gradient(90deg,transparent 0,#000 8%,#000 92%,transparent 100%),
+      linear-gradient(180deg,#000 0,#000 70%,transparent 100%);
+    -webkit-mask-composite:source-in;
+    mask-composite:intersect}
   .topo-foto .hero-veu{background:none}
 }
 @media (min-width:700px) and (max-width:999px){
@@ -1338,6 +1358,9 @@ h2 em{font-style:normal;color:var(--acc-2)}
 
 /* ------------------------- carrossel em profundidade (página de projetos) -- */
 .capa3d-bloco{padding-top:var(--e6);padding-bottom:var(--e6);overflow:hidden}
+/* quando o carrossel abre a página, ele encosta no título em vez de
+   herdar o respiro de quem vem no meio do corpo */
+.topo-interno + .capa3d-bloco{padding-top:var(--e3)}
 /* No computador os cartões precisam ocupar a tela: é a peça principal da
    página e vinha pequena demais. Encolhe por degraus até o celular. */
 .capa3d{position:relative;margin-top:var(--e4);

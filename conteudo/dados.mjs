@@ -68,14 +68,14 @@ export const responsavel = {
  * a mesma afirmação e não foi confirmada.
  */
 export const numeros = [
-  { chave: 'anos',   valor: 9,  prefixo: '+',
+  { chave: 'anos', icone: 'anos',   valor: 9,  prefixo: '+',
     rotulo: 'anos de experiência do engenheiro responsável',
     validado: true },
-  { chave: 'obras',  valor: 40, prefixo: '+',
+  { chave: 'obras', icone: 'obras',  valor: 40, prefixo: '+',
     rotulo: 'obras entregues',
     validado: false,   // o material chama de "referência aproximada"
     nota: 'Confirmar se são obras da SPX ou da trajetória do responsável.' },
-  { chave: 'area',   valor: 42, sufixo: ' mil m²',
+  { chave: 'area', icone: 'area',   valor: 42, sufixo: ' mil m²',
     rotulo: 'construídos',
     validado: false,
     nota: 'Confirmar o que a métrica mede: área executada pela SPX, ou somada à trajetória do responsável?' },
@@ -83,25 +83,25 @@ export const numeros = [
 
 /** Etapas do processo. É o que diferencia engenharia de mão de obra. */
 export const processo = [
-  { n: '01', nome: 'Levantamento',
+  { icone: 'visita', n: '01', nome: 'Levantamento',
     texto: 'Visita ao local, medição, registro das condições existentes e das restrições do ' +
            'condomínio ou do shopping. Nada é orçado sem ver a obra de perto.' },
-  { n: '02', nome: 'Orçamento',
+  { icone: 'orcamento', n: '02', nome: 'Orçamento',
     texto: 'Proposta técnica com todos os serviços discriminados, quantidades e critérios de ' +
            'medição. Sem verba aberta e sem "a definir".' },
-  { n: '03', nome: 'Planejamento',
+  { icone: 'planejamento', n: '03', nome: 'Planejamento',
     texto: 'Cronograma físico-financeiro com as frentes amarradas entre si, caminho crítico ' +
            'identificado e desembolso previsto por etapa.' },
-  { n: '04', nome: 'Coordenação',
+  { icone: 'compat', n: '04', nome: 'Coordenação',
     texto: 'Compatibilização entre arquitetura, estrutura, elétrica, hidráulica, climatização ' +
            'e incêndio antes de a equipe subir, para o conflito aparecer no papel e não na parede.' },
-  { n: '05', nome: 'Execução',
+  { icone: 'execucao', n: '05', nome: 'Execução',
     texto: 'Equipe própria e fornecedores coordenados pela mesma engenharia que orçou e ' +
            'planejou, com responsável técnico nomeado.' },
-  { n: '06', nome: 'Controle',
+  { icone: 'acompanha', n: '06', nome: 'Controle',
     texto: 'Medição semanal do avanço contra o cronograma, registro fotográfico e relatório ' +
            'de desvio enquanto ainda dá para corrigir.' },
-  { n: '07', nome: 'Entrega',
+  { icone: 'entrega', n: '07', nome: 'Entrega',
     texto: 'Vistoria conjunta, lista de pendências fechada, as built e manuais das instalações.' },
 ];
 
@@ -116,6 +116,7 @@ export const processo = [
 export const servicos = [
   {
     slug: 'obras-corporativas',
+    icone: 'corporativa',
     pergunta: 'O que é uma obra corporativa?',
     resposta: 'Obra corporativa é a construção ou reforma completa de um espaço de trabalho: layout, divisórias, forro, piso, instalações elétricas e de dados, climatização, iluminação, marcenaria e acabamento. A SPX Engenharia executa obras corporativas em São Paulo e região metropolitana, com engenharia própria do levantamento à entrega.',
     fatos: [
@@ -165,6 +166,7 @@ export const servicos = [
   },
   {
     slug: 'obras-comerciais',
+    icone: 'varejo',
     pergunta: 'A SPX executa obra de loja em shopping?',
     resposta: 'Sim. A SPX Engenharia executa obras de varejo em rua e em shopping center em São Paulo, dentro da janela de horário liberada pela administração e com o projeto aprovado antes da mobilização.',
     fatos: [
@@ -208,6 +210,7 @@ export const servicos = [
   },
   {
     slug: 'retrofit',
+    icone: 'retrofit',
     pergunta: 'O que é retrofit e dá para fazer com o prédio ocupado?',
     resposta: 'Retrofit é modernizar um imóvel existente sem demolir: trocar instalações no fim da vida útil, adequar o prédio a normas que mudaram e atualizar o acabamento. A SPX executa retrofit em ambiente ocupado em São Paulo, com a obra dividida em frentes e a área em serviço isolada.',
     fatos: [
@@ -254,6 +257,7 @@ export const servicos = [
   },
   {
     slug: 'reformas',
+    icone: 'reforma',
     pergunta: 'Quanto tempo leva para receber um orçamento de reforma?',
     resposta: 'O orçamento preliminar da SPX Engenharia sai em até cinco dias úteis depois da visita técnica ao local. Nenhuma reforma é orçada sem essa visita.',
     fatos: [
@@ -297,6 +301,7 @@ export const servicos = [
   },
   {
     slug: 'gerenciamento-de-obras',
+    icone: 'gerencia',
     pergunta: 'Dá para contratar só o gerenciamento da obra?',
     resposta: 'Sim. A SPX Engenharia gerencia obras executadas por terceiros em São Paulo, cobrindo cronograma, coordenação de fornecedores, conferência de medição em campo e controle de desvio, com responsável técnico nomeado.',
     fatos: [
@@ -344,6 +349,7 @@ export const servicos = [
   },
   {
     slug: 'manutencao-predial',
+    icone: 'manutencao',
     pergunta: 'A SPX faz manutenção predial para empresas?',
     resposta: 'Sim. A SPX Engenharia presta manutenção predial preventiva e corretiva para empresas em São Paulo, com plano por sistema, registro de cada intervenção e prazo de atendimento acordado em contrato.',
     fatos: [
@@ -384,6 +390,7 @@ export const servicos = [
   },
   {
     slug: 'projetos',
+    icone: 'projeto',
     pergunta: 'A SPX faz projeto sem executar a obra?',
     resposta: 'Sim. A SPX Engenharia desenvolve projetos de engenharia, levantamento técnico, as built e compatibilização entre disciplinas em São Paulo, contratáveis separadamente da execução.',
     fatos: [
@@ -429,6 +436,7 @@ export const servicos = [
   },
   {
     slug: 'consultoria-em-engenharia',
+    icone: 'laudo',
     pergunta: 'Preciso de laudo antes de alugar uma sala comercial?',
     resposta: 'É a hora mais barata de descobrir problema. A SPX Engenharia emite laudo técnico e vistoria de imóvel comercial em São Paulo, com registro fotográfico, conclusão objetiva e ART.',
     fatos: [

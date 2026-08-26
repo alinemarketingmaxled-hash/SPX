@@ -25,7 +25,7 @@
 <link rel="icon" type="image/png" href="/img/favicon.png">
 <link rel="preload" as="image" href="/img/capa-sala-reuniao-azul-1280.webp"
       imagesrcset="/img/capa-sala-reuniao-azul-768.webp 768w, /img/capa-sala-reuniao-azul-1280.webp 1280w" imagesizes="100vw" fetchpriority="high">
-<link rel="stylesheet" href="/assets/css/spx.min.css?v=873d417d">
+<link rel="stylesheet" href="/assets/css/spx.min.css?v=56a49323">
 <script>
 /* aplica o tema antes da pintura para não piscar */
 (function(){try{var t=localStorage.getItem('spx-tema')||'escuro';document.documentElement.setAttribute('data-tema',t);}catch(e){}})();
@@ -324,19 +324,73 @@
   <p class="lead">Engenharia, gestão e execução são três coisas diferentes, e a maioria dos
   problemas de obra nasce quando estão em mãos diferentes. Na SPX estão na mesma: quem levanta
   é quem orça, quem orça é quem planeja, quem planeja é quem executa e responde.</p>
-  <ul class="marcada"><li><b>Engenharia</b>: o que fazer, como fazer e o que a norma exige</li>
-  <li><b>Gestão</b>: cronograma, coordenação, medição e controle de desvio</li>
-  <li><b>Execução</b>: equipe em campo, com responsável técnico nomeado</li></ul></section>
+  <ul class="cartoes-icone" style="--colunas:3">
+  <li><div>
+    <svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M4 9h16M9 9v11M13 13h7M13 17h7"/></svg>
+    <b>Engenharia</b>
+    <span>O que fazer, como fazer e o que a norma exige.</span>
+  </div></li>
+  <li><div>
+    <svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M7 14h5M7 17h8"/></svg>
+    <b>Gestão</b>
+    <span>Cronograma, coordenação, medição e controle de desvio.</span>
+  </div></li>
+  <li><div>
+    <svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M6 21v-8h4v8M14 21V7h4v14"/><path d="m6 13 4-4 4 4"/></svg>
+    <b>Execução</b>
+    <span>Equipe em campo, com responsável técnico nomeado.</span>
+  </div></li></ul></section>
 
-<section class="sec wrap "><h2>A SPX em números</h2><div class="numeros-grade"><div><b data-conta="9" data-prefixo="+">+9</b><span>anos de experiência do engenheiro responsável</span></div></div></section>
+<section class="sec wrap "><h2>A SPX em números</h2><div class="numeros-cartao">
+  <div><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v5l3 1.8"/></svg>
+    <b data-conta="9" data-prefixo="+">+9</b>
+    <span>anos de experiência do engenheiro responsável</span>
+  </div></div></section>
 
 
 
-<section class="sec wrap "><h2>Como trabalhamos</h2><ol class="etapas"><li><span class="etapa-n">01</span><b>Levantamento</b><p>Visita ao local, medição, registro das condições existentes e das restrições do condomínio ou do shopping. Nada é orçado sem ver a obra de perto.</p></li><li><span class="etapa-n">02</span><b>Orçamento</b><p>Proposta técnica com todos os serviços discriminados, quantidades e critérios de medição. Sem verba aberta e sem &quot;a definir&quot;.</p></li><li><span class="etapa-n">03</span><b>Planejamento</b><p>Cronograma físico-financeiro com as frentes amarradas entre si, caminho crítico identificado e desembolso previsto por etapa.</p></li><li><span class="etapa-n">04</span><b>Coordenação</b><p>Compatibilização entre arquitetura, estrutura, elétrica, hidráulica, climatização e incêndio antes de a equipe subir, para o conflito aparecer no papel e não na parede.</p></li><li><span class="etapa-n">05</span><b>Execução</b><p>Equipe própria e fornecedores coordenados pela mesma engenharia que orçou e planejou, com responsável técnico nomeado.</p></li><li><span class="etapa-n">06</span><b>Controle</b><p>Medição semanal do avanço contra o cronograma, registro fotográfico e relatório de desvio enquanto ainda dá para corrigir.</p></li><li><span class="etapa-n">07</span><b>Entrega</b><p>Vistoria conjunta, lista de pendências fechada, as built e manuais das instalações.</p></li></ol></section>
+<section class="sec wrap "><h2>Como trabalhamos</h2><ol class="linha-tempo">
+  <li>
+    <span class="lt-marca"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg><b>01</b></span>
+    <div class="lt-txt"><h3>Levantamento</h3><p>Visita ao local, medição, registro das condições existentes e das restrições do condomínio ou do shopping. Nada é orçado sem ver a obra de perto.</p></div>
+  </li>
+  <li>
+    <span class="lt-marca"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M8 7h6a2.5 2.5 0 0 1 0 5h-4a2.5 2.5 0 0 0 0 5h6"/></svg><b>02</b></span>
+    <div class="lt-txt"><h3>Orçamento</h3><p>Proposta técnica com todos os serviços discriminados, quantidades e critérios de medição. Sem verba aberta e sem &quot;a definir&quot;.</p></div>
+  </li>
+  <li>
+    <span class="lt-marca"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5M4 19h16"/><path d="M8 15h3v4H8zM13 9h3v10h-3z"/></svg><b>03</b></span>
+    <div class="lt-txt"><h3>Planejamento</h3><p>Cronograma físico-financeiro com as frentes amarradas entre si, caminho crítico identificado e desembolso previsto por etapa.</p></div>
+  </li>
+  <li>
+    <span class="lt-marca"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="12" r="5.5"/><circle cx="15" cy="12" r="5.5"/></svg><b>04</b></span>
+    <div class="lt-txt"><h3>Coordenação</h3><p>Compatibilização entre arquitetura, estrutura, elétrica, hidráulica, climatização e incêndio antes de a equipe subir, para o conflito aparecer no papel e não na parede.</p></div>
+  </li>
+  <li>
+    <span class="lt-marca"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M6 21v-8h4v8M14 21V7h4v14"/><path d="m6 13 4-4 4 4"/></svg><b>05</b></span>
+    <div class="lt-txt"><h3>Execução</h3><p>Equipe própria e fornecedores coordenados pela mesma engenharia que orçou e planejou, com responsável técnico nomeado.</p></div>
+  </li>
+  <li>
+    <span class="lt-marca"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="2.8"/></svg><b>06</b></span>
+    <div class="lt-txt"><h3>Controle</h3><p>Medição semanal do avanço contra o cronograma, registro fotográfico e relatório de desvio enquanto ainda dá para corrigir.</p></div>
+  </li>
+  <li>
+    <span class="lt-marca"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5 9 17.5 20 6.5"/></svg><b>07</b></span>
+    <div class="lt-txt"><h3>Entrega</h3><p>Vistoria conjunta, lista de pendências fechada, as built e manuais das instalações.</p></div>
+  </li></ol></section>
 
 <section class="sec wrap claro"><h2>O que executamos</h2><ul class="grade-servicos"><li><a href="/servicos/obras-corporativas"><b>Obras corporativas</b><span>Escritórios, sedes e espaços administrativos executados com cronograma físico-financeiro e responsável técnico nomeado antes da assinatura.</span></a></li><li><a href="/servicos/obras-comerciais"><b>Obras comerciais e varejo</b><span>Lojas, flagships, restaurantes e quiosques, em rua e em shopping, com prazo de inauguração tratado como data de contrato.</span></a></li><li><a href="/servicos/retrofit"><b>Retrofit</b><span>Atualizar um imóvel antigo, nas instalações, no layout, no acabamento e na norma, sem esvaziar o prédio.</span></a></li><li><a href="/servicos/reformas"><b>Reformas</b><span>Escopo delimitado, prazo curto e o mesmo rigor de uma obra completa: proposta discriminada, cronograma e medição.</span></a></li><li><a href="/servicos/gerenciamento-de-obras"><b>Gerenciamento de obras</b><span>Planejar, coordenar e medir a obra, inclusive quando quem executa é outro.</span></a></li><li><a href="/servicos/manutencao-predial"><b>Manutenção predial</b><span>Preventiva com plano e registro, corretiva com prazo de atendimento definido.</span></a></li><li><a href="/servicos/projetos"><b>Projetos de engenharia</b><span>O desenho que a obra vai seguir, compatibilizado antes de a equipe subir.</span></a></li><li><a href="/servicos/consultoria-em-engenharia"><b>Consultoria e laudos</b><span>Parecer de engenheiro para decidir antes de contratar obra.</span></a></li></ul></section>
 
-<section class="sec wrap "><h2>Dados institucionais</h2><dl class="ficha-obra ficha-larga"><div><dt>Empresa</dt><dd>SPX Engenharia</dd></div><div><dt>Segmento</dt><dd>Engenharia civil</dd></div><div><dt>Base</dt><dd>São Paulo, SP</dd></div><div><dt>Área de atuação</dt><dd>São Paulo e região metropolitana</dd></div><div><dt>Telefone</dt><dd>+55 11 95275-1874</dd></div><div><dt>E-mail</dt><dd>contato@spxengenharia.com.br</dd></div><div><dt>Atendimento</dt><dd>Segunda a sexta, das 8h às 18h</dd></div></dl></section>
+<section class="sec wrap "><h2>Dados institucionais</h2><dl class="ficha-icone"><div><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M5 21V4h10v17M15 21V10h4v11"/><path d="M8 8h4M8 12h4M8 16h4"/></svg><dt>Empresa</dt><dd>SPX Engenharia</dd></div><div><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M4 9h16M9 9v11M13 13h7M13 17h7"/></svg><dt>Segmento</dt><dd>Engenharia civil</dd></div><div><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11Z"/><circle cx="12" cy="10" r="2.4"/></svg><dt>Base</dt><dd>São Paulo, SP</dd></div><div><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11Z"/><circle cx="12" cy="10" r="2.4"/></svg><dt>Área de atuação</dt><dd>São Paulo e região metropolitana</dd></div><div><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a12 12 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1.1 1A16 16 0 0 1 4 5.1 1 1 0 0 1 5 4Z"/></svg><dt>Telefone</dt><dd>+55 11 95275-1874</dd></div><div><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6 8.5-6"/></svg><dt>E-mail</dt><dd>contato@spxengenharia.com.br</dd></div><div><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5h4.5"/></svg><dt>Atendimento</dt><dd>Segunda a sexta, das 8h às 18h</dd></div></dl></section>
+
+
+<section class="sec wrap" data-reveal>
+  <div class="convite">
+    <span class="convite-ico"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14a3 3 0 0 1-3 3H8l-4 3V6a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3z"/></svg></span>
+    <div><b>Quer conhecer melhor a SPX?</b><span>Agende uma conversa com o engenheiro responsável.</span></div>
+    <a class="btn btn-acc" href="/contato">Agendar conversa ↗</a>
+  </div>
+</section>
 
 <section class="sec wrap cta-faixa" data-reveal>
   <p class="cta-frase">Fale com a SPX sobre a sua obra.</p>

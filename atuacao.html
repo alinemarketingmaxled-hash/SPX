@@ -25,7 +25,7 @@
 <link rel="icon" type="image/png" href="/img/favicon.png">
 <link rel="preload" as="image" href="/img/capa-restaurante-fachada-1280.webp"
       imagesrcset="/img/capa-restaurante-fachada-768.webp 768w, /img/capa-restaurante-fachada-1280.webp 1280w" imagesizes="100vw" fetchpriority="high">
-<link rel="stylesheet" href="/assets/css/spx.min.css?v=873d417d">
+<link rel="stylesheet" href="/assets/css/spx.min.css?v=56a49323">
 <script>
 /* aplica o tema antes da pintura para não piscar */
 (function(){try{var t=localStorage.getItem('spx-tema')||'escuro';document.documentElement.setAttribute('data-tema',t);}catch(e){}})();
@@ -250,8 +250,65 @@
   metropolitana. Obra corporativa exige engenheiro em campo com frequência. Por isso o raio de
   atuação é definido pela distância que permite acompanhar de verdade, e não por marketing.</p>
 </section>
-<section class="sec wrap "><h2>São Paulo capital</h2><ul class="grade-regioes"><li>Avenida Paulista</li><li>Jardins</li><li>Faria Lima</li><li>Itaim Bibi</li><li>Vila Olímpia</li><li>Brooklin</li><li>Berrini</li><li>Chácara Santo Antônio</li><li>Pinheiros</li><li>Vila Madalena</li><li>Moema</li><li>Santo Amaro</li><li>Centro</li><li>Barra Funda</li><li>Lapa</li><li>Tatuapé</li></ul></section>
-<section class="sec wrap claro"><h2>Grande São Paulo</h2><ul class="grade-regioes"><li>Alphaville</li><li>Barueri</li><li>Osasco</li><li>Guarulhos</li><li>São Bernardo do Campo</li><li>Santo André</li><li>São Caetano do Sul</li><li>Diadema</li><li>Cotia</li><li>Taboão da Serra</li></ul></section>
+<section class="sec wrap mapa-secao">
+  <h2>Onde essas obras acontecem</h2>
+  <div class="mapa-grid">
+    <div class="mapa-arte" aria-hidden="true">
+      <svg viewBox="0 0 420 420" role="img">
+        <defs><pattern id="pontos" width="11" height="11" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1.5" fill="currentColor" opacity=".28"/></pattern></defs>
+        <path d="M96 24h228l72 88-34 148-96 132H150L54 246 30 118Z" fill="url(#pontos)"/>
+        <path d="M96 24h228l72 88-34 148-96 132H150L54 246 30 118Z" fill="none"
+              stroke="currentColor" stroke-opacity=".2"/>
+        
+        <g class="mapa-pino" style="--atraso:0s">
+          <circle cx="168" cy="150" r="16" class="mapa-onda"/>
+          <path d="M168 159c0 0 8-7.6 8-13a8 8 0 1 0-16 0c0 5.4 8 13 8 13Z"/>
+          <circle cx="168" cy="146" r="2.6" class="mapa-furo"/>
+        </g>
+        <g class="mapa-pino" style="--atraso:0.36s">
+          <circle cx="236" cy="124" r="16" class="mapa-onda"/>
+          <path d="M236 133c0 0 8-7.6 8-13a8 8 0 1 0-16 0c0 5.4 8 13 8 13Z"/>
+          <circle cx="236" cy="120" r="2.6" class="mapa-furo"/>
+        </g>
+        <g class="mapa-pino" style="--atraso:0.72s">
+          <circle cx="204" cy="206" r="16" class="mapa-onda"/>
+          <path d="M204 215c0 0 8-7.6 8-13a8 8 0 1 0-16 0c0 5.4 8 13 8 13Z"/>
+          <circle cx="204" cy="202" r="2.6" class="mapa-furo"/>
+        </g>
+        <g class="mapa-pino" style="--atraso:1.08s">
+          <circle cx="280" cy="178" r="16" class="mapa-onda"/>
+          <path d="M280 187c0 0 8-7.6 8-13a8 8 0 1 0-16 0c0 5.4 8 13 8 13Z"/>
+          <circle cx="280" cy="174" r="2.6" class="mapa-furo"/>
+        </g>
+        <g class="mapa-pino" style="--atraso:1.44s">
+          <circle cx="140" cy="236" r="16" class="mapa-onda"/>
+          <path d="M140 245c0 0 8-7.6 8-13a8 8 0 1 0-16 0c0 5.4 8 13 8 13Z"/>
+          <circle cx="140" cy="232" r="2.6" class="mapa-furo"/>
+        </g>
+        <g class="mapa-pino" style="--atraso:1.7999999999999998s">
+          <circle cx="248" cy="268" r="16" class="mapa-onda"/>
+          <path d="M248 277c0 0 8-7.6 8-13a8 8 0 1 0-16 0c0 5.4 8 13 8 13Z"/>
+          <circle cx="248" cy="264" r="2.6" class="mapa-furo"/>
+        </g>
+        <g class="mapa-pino" style="--atraso:2.16s">
+          <circle cx="186" cy="300" r="16" class="mapa-onda"/>
+          <path d="M186 309c0 0 8-7.6 8-13a8 8 0 1 0-16 0c0 5.4 8 13 8 13Z"/>
+          <circle cx="186" cy="296" r="2.6" class="mapa-furo"/>
+        </g>
+      </svg>
+    </div>
+    <div class="mapa-txt" data-reveal>
+      <p class="lead">A maior parte do portfólio está na capital, nos polos corporativos e nos
+      bairros de varejo de alto padrão.</p>
+      
+      <h3 class="mapa-grupo">São Paulo capital</h3>
+      <ul class="grade-regioes"><li>Avenida Paulista</li><li>Jardins</li><li>Faria Lima</li><li>Itaim Bibi</li><li>Vila Olímpia</li><li>Brooklin</li><li>Berrini</li><li>Chácara Santo Antônio</li><li>Pinheiros</li><li>Vila Madalena</li><li>Moema</li><li>Santo Amaro</li><li>Centro</li><li>Barra Funda</li><li>Lapa</li><li>Tatuapé</li></ul>
+      <h3 class="mapa-grupo">Grande São Paulo</h3>
+      <ul class="grade-regioes"><li>Alphaville</li><li>Barueri</li><li>Osasco</li><li>Guarulhos</li><li>São Bernardo do Campo</li><li>Santo André</li><li>São Caetano do Sul</li><li>Diadema</li><li>Cotia</li><li>Taboão da Serra</li></ul>
+    </div>
+  </div>
+</section>
 <section class="sec wrap "><h2>Não achou a sua região?</h2><p class="lead">Obra fora dessa lista é avaliada caso a
 caso, conforme porte e prazo. <a href="/servicos-e-regioes">Veja a lista completa de serviços
 por região</a> ou fale com a equipe.</p></section>

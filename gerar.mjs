@@ -344,6 +344,46 @@ ${rodape()}
   return html;
 }
 
+/* ---------------------------------------------------------------- ícones */
+/* Traço de 1,6, sem preenchimento, 24x24: o mesmo desenho técnico do resto do
+   site. Ficam aqui porque são conteúdo de página, não decoração de CSS. */
+const ICONES = {
+  visita:   '<path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/>',
+  proposta: '<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/>',
+  cronograma:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M7 14h5M7 17h8"/>',
+  art:      '<path d="M12 3 4 6v6c0 4.4 3.4 8.5 8 9.5 4.6-1 8-5.1 8-9.5V6l-8-3Z"/><path d="m9 12 2 2 4-4"/>',
+  relatorio:'<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h4"/>',
+  asbuilt:  '<path d="M3 20h18M5 20V9l7-5 7 5v11"/><path d="M10 20v-6h4v6"/>',
+  corporativa:'<path d="M3 21h18M5 21V6h9v15M14 21V10h5v11"/><path d="M8 9h3M8 13h3M8 17h3"/>',
+  varejo:   '<path d="M3 9h18l-1.4-4.2a1 1 0 0 0-1-.8H5.4a1 1 0 0 0-1 .8L3 9Z"/><path d="M5 9v11h14V9M10 20v-6h4v6"/>',
+  retrofit: '<path d="M4 21h16M6 21V8l6-4 6 4v13"/><path d="M9 21v-5h6v5M9 11h2M13 11h2"/>',
+  reforma:  '<path d="m14.5 6.5 3 3M3 21l3.5-1 11-11-2.5-2.5-11 11L3 21Z"/><path d="M17 3.5 20.5 7"/>',
+  gerencia: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.5 2"/>',
+  manutencao:'<path d="M14.7 6.3a4 4 0 0 1 5 5l-9 9-5-5 9-9Z"/><path d="m5 19 2-2"/>',
+  projeto:  '<path d="M4 4h16v16H4z"/><path d="M4 9h16M9 9v11M13 13h7M13 17h7"/>',
+  laudo:    '<circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5M9 11h4M11 9v4"/>',
+  leitura:  '<path d="M4 5h6a2 2 0 0 1 2 2v13a2 2 0 0 0-2-2H4zM20 5h-6a2 2 0 0 0-2 2v13a2 2 0 0 1 2-2h6z"/>',
+  compat:   '<circle cx="9" cy="12" r="5.5"/><circle cx="15" cy="12" r="5.5"/>',
+  orcamento:'<path d="M12 3v18M8 7h6a2.5 2.5 0 0 1 0 5h-4a2.5 2.5 0 0 0 0 5h6"/>',
+  planejamento:'<path d="M4 19V5M4 19h16"/><path d="M8 15h3v4H8zM13 9h3v10h-3z"/>',
+  execucao: '<path d="M3 21h18M6 21v-8h4v8M14 21V7h4v14"/><path d="m6 13 4-4 4 4"/>',
+  acompanha:'<path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="2.8"/>',
+  entrega:  '<path d="M4 12.5 9 17.5 20 6.5"/>',
+  anos:     '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v5l3 1.8"/>',
+  obras:    '<path d="M3 21h18M6 21V10l6-4 6 4v11"/><path d="m4 10 8-6 8 6"/>',
+  area:     '<path d="M4 4h16v16H4z"/><path d="M4 9h5v5H4zM15 9h5M15 13h5M15 17h5"/>',
+  foco:     '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1"/>',
+  telefone: '<path d="M5 4h4l2 5-2.5 1.5a12 12 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1.1 1A16 16 0 0 1 4 5.1 1 1 0 0 1 5 4Z"/>',
+  email:    '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6 8.5-6"/>',
+  local:    '<path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11Z"/><circle cx="12" cy="10" r="2.4"/>',
+  relogio:  '<circle cx="12" cy="12" r="8.5"/><path d="M12 7v5h4.5"/>',
+  empresa:  '<path d="M3 21h18M5 21V4h10v17M15 21V10h4v11"/><path d="M8 8h4M8 12h4M8 16h4"/>',
+  sigilo:   '<rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>',
+  conversa: '<path d="M20 14a3 3 0 0 1-3 3H8l-4 3V6a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3z"/>',
+};
+const icone = (nome) =>
+  `<svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true">${ICONES[nome] || ICONES.foco}</svg>`;
+
 /* blocos reaproveitados nas páginas */
 /* Resposta direta: pergunta como título, resposta na primeira frase. É o
    formato que vira trecho em destaque no Google e é o que uma IA copia
@@ -353,6 +393,41 @@ const respostaDireta = (pergunta, resposta, fatos = []) => `
   <h2>${esc(pergunta)}</h2>
   <p>${esc(resposta)}</p>
   ${fatos.length ? `<ul class="fatos">${fatos.map((f) => `<li>${esc(f)}</li>`).join('')}</ul>` : ''}
+</section>`;
+
+/* Linha do tempo numerada com fio ligando as etapas. É o padrão que mais se
+   repete nas referências, e resolve bem o processo de sete passos. */
+const linhaTempo = (etapas) => `<ol class="linha-tempo">${etapas.map((e) => `
+  <li>
+    <span class="lt-marca">${icone(e.icone)}<b>${e.n}</b></span>
+    <div class="lt-txt"><h3>${esc(e.nome)}</h3><p>${esc(e.texto)}</p></div>
+  </li>`).join('')}</ol>`;
+
+/* Grade de cartões com ícone: usada para serviços e para listas de garantia. */
+const cartoesIcone = (itens, colunas = 4) =>
+  `<ul class="cartoes-icone" style="--colunas:${colunas}">${itens.map((i) => `
+  <li>${i.url ? `<a href="${i.url}">` : '<div>'}
+    ${icone(i.icone)}
+    <b>${esc(i.titulo)}</b>
+    <span>${esc(i.texto)}</span>
+  ${i.url ? '</a>' : '</div>'}</li>`).join('')}</ul>`;
+
+/* Números em cartão, com ícone em cima. */
+const numerosCartao = (itens) =>
+  `<div class="numeros-cartao">${itens.map((n) => `
+  <div>${icone(n.icone)}
+    <b data-conta="${n.valor}"${n.prefixo ? ` data-prefixo="${n.prefixo}"` : ''}${n.sufixo ? ` data-sufixo="${n.sufixo}"` : ''}>${n.prefixo || ''}${n.valor}${n.sufixo || ''}</b>
+    <span>${esc(n.rotulo)}</span>
+  </div>`).join('')}</div>`;
+
+/* Faixa de chamada em cartão, com pergunta à esquerda e botão à direita. */
+const convite = (titulo, apoio, rotulo, url = '/contato', ic = 'conversa') => `
+<section class="sec wrap" data-reveal>
+  <div class="convite">
+    <span class="convite-ico">${icone(ic)}</span>
+    <div><b>${esc(titulo)}</b><span>${esc(apoio)}</span></div>
+    <a class="btn btn-acc" href="${url}">${esc(rotulo)} ↗</a>
+  </div>
 </section>`;
 
 const secao = (titulo, dentro, classe = '') =>
@@ -384,6 +459,10 @@ const esteira = (eyebrow, titulo) => `
    dos lados giram para dentro e recuam. Setas, marcadores e arraste no dedo.
    Cada cartão é um <article> de verdade, então quem usa leitor de tela recebe
    a lista completa mesmo sem enxergar o efeito. */
+/* um ícone por pergunta, rodando na lista: sem repetir dois seguidos */
+const ICO_DUVIDA = ['empresa','corporativa','retrofit','reforma','gerencia','projeto','compat','art',
+                    'local','proposta','visita','cronograma','execucao','laudo'];
+
 const carrossel = (eyebrow, titulo) => `
 <section class="sec capa3d-bloco" aria-labelledby="acervoTitulo">
   <div class="wrap centro" data-reveal>
@@ -465,8 +544,7 @@ ${secao('Para quem é', `<ul class="marcada">${lista(s.paraQuem)}</ul>`, 'claro'
 
 ${secao('O que a SPX executa', `<ul class="grade-servicos">${lista(s.executa)}</ul>`)}
 
-${secao('Como funciona', `<ol class="etapas">${processo.map((e) =>
-  `<li><span class="etapa-n">${e.n}</span><b>${esc(e.nome)}</b><p>${esc(e.texto)}</p></li>`).join('')}</ol>`, 'claro')}
+${secao('Como funciona', linhaTempo(processo), 'claro')}
 
 ${secao('Diferenciais', `<ul class="marcada">${lista(s.diferenciais)}</ul>`)}
 
@@ -499,25 +577,21 @@ pagina({
   decide o que fazer, a gestão que mantém o prazo e a execução que entrega.</p>
 </section>
 
-${secao('O que a SPX faz', `<ol class="indice-servicos">${servicosPublicaveis.map((s, i) =>
-  `<li><a href="/servicos/${s.slug}">
-    <span class="indice-n">${String(i + 1).padStart(2, '0')}</span>
-    <span class="indice-txt"><b>${esc(s.nome)}</b><span>${esc(s.resumo)}</span></span>
-    <span class="indice-seta" aria-hidden="true">↗</span>
-  </a></li>`).join('')}</ol>`)}
+${secao('O que executamos', cartoesIcone(servicosPublicaveis.map((s) => ({
+  icone: s.icone, titulo: s.nome, texto: s.resumo, url: '/servicos/' + s.slug })), 4))}
 
 ${esteira('Do executivo à inauguração', 'O que sai da planta<br>e vira obra entregue.')}
 
-${secao('Como trabalhamos', `<ol class="etapas">${processo.map((e) =>
-  `<li><span class="etapa-n">${e.n}</span><b>${esc(e.nome)}</b><p>${esc(e.texto)}</p></li>`).join('')}</ol>`, 'claro')}
+${secao('Como trabalhamos', linhaTempo(processo), 'claro')}
 
-${secao('O que vem junto, em qualquer serviço', `<ul class="marcada">
-  <li><b>Visita técnica antes do orçamento</b>: nenhuma obra é orçada por telefone</li>
-  <li><b>Proposta discriminada</b>: serviço a serviço, com quantidade e critério de medição</li>
-  <li><b>Cronograma físico-financeiro</b>: entregue junto da proposta, não depois de assinar</li>
-  <li><b>Responsável técnico nomeado</b>: com ART emitida para a obra</li>
-  <li><b>Relatório semanal</b>: avanço medido contra o previsto, com registro fotográfico</li>
-  <li><b>As built e manuais na entrega</b>: para a próxima intervenção não começar às cegas</li></ul>`)}
+${secao('O que vem junto, em qualquer serviço', cartoesIcone([
+  { icone: 'visita', titulo: 'Visita técnica antes do orçamento', texto: 'Nenhuma obra é orçada por telefone.' },
+  { icone: 'proposta', titulo: 'Proposta discriminada', texto: 'Serviço a serviço, com quantidade e critério de medição.' },
+  { icone: 'cronograma', titulo: 'Cronograma físico-financeiro', texto: 'Entregue junto da proposta, não depois de assinar.' },
+  { icone: 'art', titulo: 'Responsável técnico nomeado', texto: 'Com ART emitida para a obra.' },
+  { icone: 'relatorio', titulo: 'Relatório semanal', texto: 'Avanço medido contra o previsto, com registro fotográfico.' },
+  { icone: 'asbuilt', titulo: 'As built e manuais na entrega', texto: 'Para a próxima intervenção não começar às cegas.' },
+], 3))}
 
 ${chamada(chamadas.orcamento)}`,
   visual: 'pag-servicos',
@@ -642,15 +716,17 @@ const blocoResponsavel = () => {
 };
 
 const dadosInstitucionais = () => {
-  const linhas = [['Empresa', empresa.nome], ['Razão social', empresa.razaoSocial],
-                  ['CNPJ', empresa.cnpj], ['Segmento', empresa.segmento],
-                  ['Base', empresa.base], ['Área de atuação', empresa.atuacao],
-                  ['Endereço', empresa.endereco],
-                  ['Responsável técnico', responsavel.nome], ['Registro', responsavel.crea],
-                  ['Telefone', empresa.telefone], ['E-mail', empresa.email],
-                  ['Atendimento', empresa.horario]].filter(([, v]) => !falta(v));
-  return `<dl class="ficha-obra ficha-larga">${linhas.map(([r, v]) =>
-    `<div><dt>${esc(r)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>`;
+  const linhas = [['empresa', 'Empresa', empresa.nome], ['empresa', 'Razão social', empresa.razaoSocial],
+                  ['proposta', 'CNPJ', empresa.cnpj], ['projeto', 'Segmento', empresa.segmento],
+                  ['local', 'Base', empresa.base], ['local', 'Área de atuação', empresa.atuacao],
+                  ['local', 'Endereço', empresa.endereco],
+                  ['art', 'Responsável técnico', responsavel.nome], ['art', 'Registro', responsavel.crea],
+                  ['telefone', 'Telefone', empresa.telefone], ['email', 'E-mail', empresa.email],
+                  ['relogio', 'Atendimento', empresa.horario]].filter(([, , v]) => !falta(v));
+  /* dentro de <dl>, o <div> só pode conter <dt> e <dd>; envolver os dois num
+     segundo <div> quebra a semântica da lista de definições */
+  return `<dl class="ficha-icone">${linhas.map(([ic, r, v]) =>
+    `<div>${icone(ic)}<dt>${esc(r)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>`;
 };
 
 const numerosValidados = numeros.filter((n) => {
@@ -679,23 +755,24 @@ ${secao('Posicionamento', `
   <p class="lead">Engenharia, gestão e execução são três coisas diferentes, e a maioria dos
   problemas de obra nasce quando estão em mãos diferentes. Na SPX estão na mesma: quem levanta
   é quem orça, quem orça é quem planeja, quem planeja é quem executa e responde.</p>
-  <ul class="marcada"><li><b>Engenharia</b>: o que fazer, como fazer e o que a norma exige</li>
-  <li><b>Gestão</b>: cronograma, coordenação, medição e controle de desvio</li>
-  <li><b>Execução</b>: equipe em campo, com responsável técnico nomeado</li></ul>`, 'vidro faixa-vidro')}
+  ${cartoesIcone([
+    { icone: 'projeto', titulo: 'Engenharia', texto: 'O que fazer, como fazer e o que a norma exige.' },
+    { icone: 'cronograma', titulo: 'Gestão', texto: 'Cronograma, coordenação, medição e controle de desvio.' },
+    { icone: 'execucao', titulo: 'Execução', texto: 'Equipe em campo, com responsável técnico nomeado.' },
+  ], 3)}`, 'vidro faixa-vidro')}
 
-${numerosValidados.length ? secao('A SPX em números',
-  `<div class="numeros-grade">${numerosValidados.map((n) =>
-    `<div><b data-conta="${n.valor}"${n.prefixo ? ` data-prefixo="${n.prefixo}"` : ''}${n.sufixo ? ` data-sufixo="${n.sufixo}"` : ''}>${n.prefixo || ''}${n.valor}${n.sufixo || ''}</b><span>${esc(n.rotulo)}</span></div>`).join('')}</div>`) : ''}
+${numerosValidados.length ? secao('A SPX em números', numerosCartao(numerosValidados)) : ''}
 
 ${blocoResponsavel()}
 
-${secao('Como trabalhamos', `<ol class="etapas">${processo.map((e) =>
-  `<li><span class="etapa-n">${e.n}</span><b>${esc(e.nome)}</b><p>${esc(e.texto)}</p></li>`).join('')}</ol>`)}
+${secao('Como trabalhamos', linhaTempo(processo))}
 
 ${secao('O que executamos', `<ul class="grade-servicos">${servicos.map((s) =>
   `<li><a href="/servicos/${s.slug}"><b>${esc(s.nome)}</b><span>${esc(s.resumo)}</span></a></li>`).join('')}</ul>`, 'claro')}
 
 ${secao('Dados institucionais', dadosInstitucionais())}
+
+${convite('Quer conhecer melhor a SPX?', 'Agende uma conversa com o engenheiro responsável.', 'Agendar conversa', '/contato', 'conversa')}
 
 ${chamada(chamadas.obra)}`,
 });
@@ -726,30 +803,30 @@ pagina({
   da obra começar, o que não vai caber.</p>
 </section>
 
-${secao('O que a SPX faz com o seu projeto', `<ol class="etapas">
-  <li><span class="etapa-n">01</span><b>Leitura</b><p>Estudo do projeto e das intenções de
-  detalhe, para entender o que não pode ser negociado no acabamento.</p></li>
-  <li><span class="etapa-n">02</span><b>Compatibilização</b><p>Cruzamento com estrutura,
-  elétrica, hidráulica, climatização e incêndio. As divergências voltam para você antes de
-  virarem improviso em campo.</p></li>
-  <li><span class="etapa-n">03</span><b>Orçamento</b><p>Proposta discriminada por serviço, com
-  quantidade e critério de medição, então dá para comparar linha a linha.</p></li>
-  <li><span class="etapa-n">04</span><b>Planejamento</b><p>Cronograma físico-financeiro com o
-  caminho crítico identificado e as entregas de fornecedor amarradas.</p></li>
-  <li><span class="etapa-n">05</span><b>Execução</b><p>Equipe coordenada pela mesma engenharia
-  que orçou, com responsável técnico nomeado.</p></li>
-  <li><span class="etapa-n">06</span><b>Acompanhamento</b><p>Visita do autor do projeto sempre
-  bem-vinda, com relatório semanal e registro fotográfico entre uma visita e outra.</p></li>
-  <li><span class="etapa-n">07</span><b>Entrega</b><p>Vistoria conjunta, pendências fechadas e
-  as built do que foi construído.</p></li>
-</ol>`, 'claro')}
+${secao('O que a SPX faz com o seu projeto', linhaTempo([
+  { icone: 'leitura', n: '01', nome: 'Leitura',
+    texto: 'Estudo do projeto e das intenções de detalhe, para entender o que não pode ser negociado no acabamento.' },
+  { icone: 'compat', n: '02', nome: 'Compatibilização',
+    texto: 'Cruzamento com estrutura, elétrica, hidráulica, climatização e incêndio. As divergências voltam para você antes de virarem improviso em campo.' },
+  { icone: 'orcamento', n: '03', nome: 'Orçamento',
+    texto: 'Proposta discriminada por serviço, com quantidade e critério de medição, então dá para comparar linha a linha.' },
+  { icone: 'planejamento', n: '04', nome: 'Planejamento',
+    texto: 'Cronograma físico-financeiro com o caminho crítico identificado e as entregas de fornecedor amarradas.' },
+  { icone: 'execucao', n: '05', nome: 'Execução',
+    texto: 'Equipe coordenada pela mesma engenharia que orçou, com responsável técnico nomeado.' },
+  { icone: 'acompanha', n: '06', nome: 'Acompanhamento',
+    texto: 'Visita do autor do projeto sempre bem-vinda, com relatório semanal e registro fotográfico entre uma visita e outra.' },
+  { icone: 'entrega', n: '07', nome: 'Entrega',
+    texto: 'Vistoria conjunta, pendências fechadas e as built do que foi construído.' },
+]), 'claro')}
 
-${secao('O que muda para o escritório', `<ul class="marcada">
-  <li>Interlocução única em obra, em vez de coordenar cinco fornecedores</li>
-  <li>Divergência de projeto identificada no papel, não na parede levantada</li>
-  <li>Orçamento que dá para defender junto ao cliente, item por item</li>
-  <li>O detalhe desenhado chega até a entrega, porque tem engenheiro conferindo</li>
-  <li>Responsabilidade técnica da execução é da SPX</li></ul>`)}
+${secao('O que muda para o escritório', cartoesIcone([
+  { icone: 'conversa', titulo: 'Interlocução única', texto: 'Em obra, em vez de coordenar cinco fornecedores.' },
+  { icone: 'compat', titulo: 'Divergência identificada', texto: 'No papel, não na parede levantada.' },
+  { icone: 'orcamento', titulo: 'Orçamento que defende você', texto: 'Item por item, alinhado com o cliente.' },
+  { icone: 'projeto', titulo: 'O detalhe desenhado', texto: 'Chega até a entrega, porque tem engenheiro conferindo.' },
+  { icone: 'art', titulo: 'Responsabilidade técnica', texto: 'Da execução, é da SPX.' },
+], 3))}
 
 ${secao('Dúvidas de quem projeta', perguntas([
   ['A SPX executa projeto desenvolvido por outro arquiteto?',
@@ -765,6 +842,8 @@ ${secao('Dúvidas de quem projeta', perguntas([
    'As duas formas funcionam: a SPX pode ser contratada pelo cliente final com o escritório ' +
    'coordenando o projeto, ou diretamente pelo escritório.'],
 ]), 'claro')}
+
+${convite('Precisa de agilidade e segurança no projeto?', 'Fale com um engenheiro da SPX sobre o seu.', 'Falar com a SPX', '/contato', 'conversa')}
 
 ${chamada(chamadas.arquiteto, 'Falar sobre um projeto')}`,
 });
@@ -808,8 +887,8 @@ ${respostaDireta('O que a SPX Engenharia faz?', empresa.definicao + ' ' + empres
     const pares = t[1].map((q) => duvidas.find((d) => d[0] === q)).filter(Boolean);
     return `<div class="faq-tema" data-faq-tema>
     <h3><span class="faq-tema-n">${String(i + 1).padStart(2, '0')}</span>${esc(t[0])}</h3>
-    <div class="faq-lista">${pares.map(([q, r]) =>
-      `<details class="q-item" data-faq-item><summary>${esc(q)}</summary><p>${esc(r)}</p></details>`).join('')}</div>
+    <div class="faq-lista">${pares.map(([q, r], k) =>
+      `<details class="q-item com-ico" data-faq-item><summary>${icone(ICO_DUVIDA[(i * 4 + k) % ICO_DUVIDA.length])}<span>${esc(q)}</span></summary><p>${esc(r)}</p></details>`).join('')}</div>
   </div>`;
   }).join('')}
 </section>
@@ -833,8 +912,33 @@ pagina({
   metropolitana. Obra corporativa exige engenheiro em campo com frequência. Por isso o raio de
   atuação é definido pela distância que permite acompanhar de verdade, e não por marketing.</p>
 </section>
-${Object.entries(regioes).map(([grupo, nomes], i) =>
-  secao(grupo, `<ul class="grade-regioes">${lista(nomes)}</ul>`, i % 2 ? 'claro' : '')).join('\n')}
+<section class="sec wrap mapa-secao">
+  <h2>Onde essas obras acontecem</h2>
+  <div class="mapa-grid">
+    <div class="mapa-arte" aria-hidden="true">
+      <svg viewBox="0 0 420 420" role="img">
+        <defs><pattern id="pontos" width="11" height="11" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1.5" fill="currentColor" opacity=".28"/></pattern></defs>
+        <path d="M96 24h228l72 88-34 148-96 132H150L54 246 30 118Z" fill="url(#pontos)"/>
+        <path d="M96 24h228l72 88-34 148-96 132H150L54 246 30 118Z" fill="none"
+              stroke="currentColor" stroke-opacity=".2"/>
+        ${[[168,150],[236,124],[204,206],[280,178],[140,236],[248,268],[186,300]].map(([x, y], i) => `
+        <g class="mapa-pino" style="--atraso:${i * 0.36}s">
+          <circle cx="${x}" cy="${y}" r="16" class="mapa-onda"/>
+          <path d="M${x} ${y + 9}c0 0 8-7.6 8-13a8 8 0 1 0-16 0c0 5.4 8 13 8 13Z"/>
+          <circle cx="${x}" cy="${y - 4}" r="2.6" class="mapa-furo"/>
+        </g>`).join('')}
+      </svg>
+    </div>
+    <div class="mapa-txt" data-reveal>
+      <p class="lead">A maior parte do portfólio está na capital, nos polos corporativos e nos
+      bairros de varejo de alto padrão.</p>
+      ${Object.entries(regioes).map(([grupo, nomes]) => `
+      <h3 class="mapa-grupo">${esc(grupo)}</h3>
+      <ul class="grade-regioes">${lista(nomes)}</ul>`).join('')}
+    </div>
+  </div>
+</section>
 ${secao('Não achou a sua região?', `<p class="lead">Obra fora dessa lista é avaliada caso a
 caso, conforme porte e prazo. <a href="/servicos-e-regioes">Veja a lista completa de serviços
 por região</a> ou fale com a equipe.</p>`)}
@@ -895,6 +999,11 @@ pagina({
 <section class="sec wrap" data-reveal>
   <p class="lead">A avaliação é feita no local. Um engenheiro visita, mede e levanta as
   restrições do prédio; o orçamento preliminar sai em até cinco dias úteis depois disso.</p>
+  <ul class="garantias">
+    <li>${icone('visita')}<div><b>Visita técnica sem compromisso</b><span>Um engenheiro vai ao local antes de qualquer número.</span></div></li>
+    <li>${icone('relogio')}<div><b>Orçamento em até cinco dias úteis</b><span>Contado a partir da visita, não do primeiro contato.</span></div></li>
+    <li>${icone('sigilo')}<div><b>Sigilo sobre o que você enviar</b><span>As informações são usadas apenas para a avaliação técnica.</span></div></li>
+  </ul>
 </section>
 
 <section class="sec wrap">

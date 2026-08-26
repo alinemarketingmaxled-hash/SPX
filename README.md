@@ -557,6 +557,33 @@ quadrado. A perspectiva fica no pai, o giro no filho.
 
 Com `prefers-reduced-motion` as peças param numa posição fixa em vez de girar.
 
+### Componentes vindos das referências
+
+Os modelos que a SPX enviou repetiam alguns padrões nos três conjuntos. Os que
+se repetiam foram os escolhidos, e viraram componentes reutilizáveis no
+gerador em vez de marcação copiada página a página:
+
+| Componente | Onde entra |
+| --- | --- |
+| `linhaTempo()` | processo de sete etapas, em `/servicos`, `/sobre`, `/para-arquitetos` e cada serviço |
+| `cartoesIcone()` | serviços, garantias de contrato, pilares e o que muda para o escritório |
+| `numerosCartao()` | a SPX em números |
+| `convite()` | faixa de "ainda com dúvidas?" antes da chamada final |
+| `icone()` | 32 ícones técnicos de traço, no mesmo desenho do resto do site |
+| Mapa com alfinetes | `/atuacao`, com pulso escalonado e as regiões em pílulas ao lado |
+
+Os ícones são SVG inline no gerador, não fonte de ícone nem sprite: são
+conteúdo de página, mudam junto com o texto, e não custam requisição.
+
+Duas armadilhas que apareceram:
+
+- **`<dl>` com `<div>` aninhado é inválido.** Na ficha institucional o ícone
+  precisava ficar ao lado de `<dt>` e `<dd>`, e envolver os dois num segundo
+  `<div>` derrubou a acessibilidade de 100 para 91. A solução foi grade CSS
+  com o ícone ocupando as duas linhas da primeira coluna.
+- **Alvo de toque nos marcadores.** Os pontos do carrossel tinham 8 px; o
+  mínimo é 24. Recheio transparente resolve sem engordar o desenho.
+
 ### Carrossel em profundidade (página de projetos)
 
 A página de projetos abre com um carrossel onde o cartão do meio fica de

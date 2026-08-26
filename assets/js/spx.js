@@ -937,15 +937,7 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
   var caixa = $('[data-capa3d]');
   if(!caixa) return;
   var itens = $$('[data-capa3d-item]');
-  /* as fotos só entram quando a seção chega perto: baixadas na carga, elas
-     disputavam banda com a foto do topo e atrasavam o maior elemento pintado */
-  aoAproximar(caixa, function(){
-    $$('img[data-fonte]', caixa).forEach(function(im){
-      im.src = im.dataset.fonte;
-      im.srcset = im.dataset.fonte + ' 480w';
-      im.removeAttribute('data-fonte');
-    });
-  });
+  caixa.setAttribute('data-adiar', '');
   var pontos = $$('[data-capa3d-ponto]');
   if(itens.length < 2) return;
   var atual = 0, relogio = null;
@@ -972,8 +964,8 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
         el.style.transform = 'translate3d(-50%,-50%,-620px)';
         return;
       }
-      var desloc = d * largura * 0.62;
-      var recuo = longe * -170;
+      var desloc = d * largura * 0.58;
+      var recuo = longe * -Math.max(150, largura * 0.42);
       var giro = d === 0 ? 0 : (d > 0 ? -26 : 26);
       var escala = 1 - longe * 0.1;
       el.style.opacity = frente ? '1' : (longe === 1 ? '.7' : '.32');
@@ -1037,6 +1029,23 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
   window.addEventListener('resize', coloca);
   coloca();
   reinicia();
+})();
+
+/* ------------------------- fotos que só carregam quando a seção se aproxima */
+(function fotosAdiadas(){
+  /* O adiamento nativo do navegador começa a baixar cedo demais: numa página
+     com foto grande no topo, as imagens de baixo disputam banda com ela e
+     atrasam o maior elemento pintado. Marcar o bloco com data-adiar dá o
+     controle de quando a fila começa. */
+  $$('[data-adiar]').forEach(function(bloco){
+    aoAproximar(bloco, function(){
+      $$('img[data-fonte]', bloco).forEach(function(im){
+        im.src = im.dataset.fonte;
+        im.srcset = im.dataset.fonte + ' 480w';
+        im.removeAttribute('data-fonte');
+      });
+    });
+  });
 })();
 
 })();

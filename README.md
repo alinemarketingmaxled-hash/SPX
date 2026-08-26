@@ -557,6 +557,25 @@ quadrado. A perspectiva fica no pai, o giro no filho.
 
 Com `prefers-reduced-motion` as peças param numa posição fixa em vez de girar.
 
+### Tamanho do carrossel
+
+O cartão da frente ocupa **32% da largura no computador, 44% no tablet e 74%
+no celular**. Vinha pequeno demais no desktop para o que é a peça principal da
+página de projetos.
+
+O afastamento dos cartões laterais é proporcional à largura do cartão, não um
+número fixo: com tamanhos que variam tanto entre telas, valor fixo deixava os
+vizinhos colados no celular e perdidos no monitor grande.
+
+### Fotos que só carregam quando a seção se aproxima
+
+`data-adiar` num bloco, `data-fonte` nas imagens dentro dele. O adiamento
+nativo do navegador começa a baixar cedo demais: numa página com foto grande
+no topo, as imagens de baixo disputam banda com ela e atrasam o maior elemento
+pintado. Medido em `/obras`: 95 caía para 92 sem isso.
+
+Usado no carrossel e no mosaico de fotos.
+
 ### Painéis da página de serviços
 
 Nos modelos, cada assunto é um **painel fechado**: a grade ou a lista dentro de

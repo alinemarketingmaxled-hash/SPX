@@ -1040,6 +1040,22 @@ h2 em{font-style:normal;color:var(--acc-2)}
   .barra-cta p{font-size:12px}
 }
 
+/* ---- mosaico de fotos ao lado de uma lista ---- */
+/* Faixas empilhadas com um leve desencontro: preenche a altura da lista sem
+   virar galeria, que roubaria a atenção do texto ao lado. */
+.mosaico{display:grid;gap:6px;width:100%}
+.mosaico img{width:100%;height:clamp(110px,13vw,168px);object-fit:cover;display:block;
+  background:var(--bg-2);
+  border:1px solid var(--linha);border-radius:3px;
+  filter:saturate(.85) brightness(.86);transition:filter .4s ease,transform .4s ease}
+.mosaico img:nth-child(even){margin-left:clamp(10px,2.4vw,34px)}
+.mosaico img:nth-child(odd){margin-right:clamp(10px,2.4vw,34px)}
+.mosaico:hover img{filter:saturate(1) brightness(1)}
+@media (max-width:900px){
+  .mosaico{grid-template-columns:repeat(3,1fr);gap:4px}
+  .mosaico img{height:110px;margin:0!important}
+}
+
 /* ============ componentes dos modelos de referência ====================== */
 /* ícone técnico padrão: traço fino, sem preenchimento, na cor do acento */
 .ico-tec{width:22px;height:22px;flex:0 0 auto;fill:none;stroke:var(--acc-2);
@@ -1151,12 +1167,14 @@ h2 em{font-style:normal;color:var(--acc-2)}
 
 /* ------------------------- carrossel em profundidade (página de projetos) -- */
 .capa3d-bloco{padding-top:var(--e6);padding-bottom:var(--e6);overflow:hidden}
-.capa3d{position:relative;margin-top:var(--e5);
-  height:clamp(420px,62vh,560px);perspective:1400px}
+/* No computador os cartões precisam ocupar a tela: é a peça principal da
+   página e vinha pequena demais. Encolhe por degraus até o celular. */
+.capa3d{position:relative;margin-top:var(--e4);
+  height:clamp(430px,76vh,760px);perspective:1900px}
 .capa3d-palco{position:absolute;inset:0;transform-style:preserve-3d}
 .capa3d-item{
-  position:absolute;left:50%;top:50%;width:clamp(250px,26vw,340px);
-  height:clamp(380px,56vh,500px);margin:0;
+  position:absolute;left:50%;top:50%;width:clamp(260px,32vw,470px);
+  height:clamp(390px,68vh,680px);margin:0;
   background:var(--bg-2);border:1px solid var(--linha);border-radius:4px;
   overflow:hidden;transform-origin:50% 50%;
   /* o JavaScript escreve a transformação; aqui só o tempo e a curva */
@@ -1168,7 +1186,8 @@ h2 em{font-style:normal;color:var(--acc-2)}
   object-fit:cover;display:block;background:var(--bg-2)}
 /* enquanto a foto não chegou, o cartão é um retângulo neutro, não um
    ícone de imagem quebrada */
-.capa3d-item img[data-fonte]{opacity:0}
+/* enquanto a foto não chegou, o espaço fica neutro em vez de vazio */
+.capa3d-item img[data-fonte],.mosaico img[data-fonte]{opacity:0}
 /* escurece de baixo para cima, para o texto do cartão da frente ser lido */
 .capa3d-item::after{content:"";position:absolute;inset:0;
   background:linear-gradient(180deg,rgba(0,0,0,.5) 0%,transparent 26%,
@@ -1179,15 +1198,15 @@ h2 em{font-style:normal;color:var(--acc-2)}
   background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.24);
   border-radius:999px;padding:6px 11px;backdrop-filter:blur(6px)}
 .capa3d-corpo{position:absolute;left:0;right:0;bottom:0;z-index:2;
-  padding:0 var(--e3) var(--e3);text-align:center;color:#F5F5F2;
+  padding:0 var(--e3) var(--e4);text-align:center;color:#F5F5F2;
   opacity:0;transform:translateY(12px);transition:opacity .4s ease .1s,transform .4s ease .1s}
-.capa3d-corpo h3{font-size:clamp(19px,2.2vw,26px);line-height:1.05}
+.capa3d-corpo h3{font-size:clamp(19px,2.4vw,32px);line-height:1.05}
 .capa3d-corpo h3 span{display:block;margin-top:5px;font-size:.62em;color:#CBD4DC;
   letter-spacing:.02em}
 .capa3d-corpo h3::after{content:"";display:block;width:46px;height:1px;
   background:var(--acc-2);margin:12px auto 0}
-.capa3d-corpo p{margin:12px 0 0;font-size:13px;line-height:1.5;color:#C7CDD3;
-  max-width:34ch;margin-inline:auto}
+.capa3d-corpo p{margin:12px 0 0;font-size:clamp(13px,1vw,14.5px);line-height:1.55;
+  color:#C7CDD3;max-width:36ch;margin-inline:auto}
 .capa3d-corpo .btn{margin-top:var(--e3);font-size:11px;padding:11px 18px}
 /* só o cartão da frente mostra o texto e recebe foco */
 .capa3d-item.frente .capa3d-corpo{opacity:1;transform:none}
@@ -1218,11 +1237,19 @@ h2 em{font-style:normal;color:var(--acc-2)}
   background-clip:content-box}
 .capa3d-pontos button:focus-visible{outline:2px solid var(--acc-2);outline-offset:3px}
 
+/* tablet: cartão ainda grande, mas a seta precisa caber ao lado */
+@media (max-width:1024px){
+  .capa3d{height:clamp(420px,66vh,600px);perspective:1300px}
+  .capa3d-item{width:clamp(260px,44vw,380px);height:clamp(400px,60vh,540px)}
+  .capa3d-seta.ant{left:2px}
+  .capa3d-seta.prox{right:2px}
+}
 @media (max-width:700px){
-  .capa3d{height:clamp(400px,72vh,520px);perspective:900px}
-  .capa3d-item{width:min(78vw,300px);height:clamp(360px,64vh,460px)}
-  .capa3d-seta{width:40px;height:40px}
+  .capa3d{height:clamp(400px,66vh,520px);perspective:900px}
+  .capa3d-item{width:min(74vw,320px);height:clamp(370px,58vh,470px)}
+  .capa3d-seta{width:38px;height:38px}
   .capa3d-corpo p{display:none}
+  .capa3d-corpo{padding-bottom:var(--e3)}
 }
 /* sem animação: os cartões param de girar, só trocam */
 @media (prefers-reduced-motion:reduce){
@@ -1359,11 +1386,14 @@ h2 em{font-style:normal;color:var(--acc-2)}
 /* Vão menor entre seções nas páginas internas. A home respira mais porque
    cada bloco dela é uma peça inteira; aqui o conteúdo é denso e o vão grande
    fazia a página parecer vazia entre um assunto e outro. */
-[class*="pag-"] .sec{padding-top:var(--e6);padding-bottom:var(--e6)}
+[class*="pag-"] .sec{padding-top:var(--e5);padding-bottom:var(--e5)}
 [class*="pag-"] .sec.claro,[class*="pag-"] .sec.vidro{
-  padding-top:var(--e7);padding-bottom:var(--e7)}
+  padding-top:var(--e6);padding-bottom:var(--e6)}
 [class*="pag-"] .esteira-bloco,[class*="pag-"] .capa3d-bloco{
-  padding-top:var(--e5);padding-bottom:var(--e5)}
+  padding-top:var(--e4);padding-bottom:var(--e4)}
+/* seção que já termina num painel fechado não precisa do respiro inteiro */
+[class*="pag-"] .sec:has(> .painel){padding-bottom:var(--e4)}
+[class*="pag-"] .topo-interno.com-foto{margin-bottom:var(--e4)}
 
 /* ------------------- cada página interna tem um tratamento próprio ------- */
 /* A identidade é a mesma: preto, cinza esbranquiçado, azul-cimento, trama de

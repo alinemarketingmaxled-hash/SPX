@@ -502,6 +502,30 @@ const diagramaSPX = () => `
   </ul>
 </div>`;
 
+/* Mosaico de fotos em faixas, como a coluna direita do modelo: as imagens
+   empilhadas ocupam a altura da lista ao lado. */
+const mosaicoFotos = (nomes) => `
+<div class="mosaico" data-adiar>${nomes.map((f, i) => `
+  <img data-fonte="/img/${f}-480.webp" sizes="(max-width:900px) 90vw, 300px"
+       width="480" height="${Math.round(480 * dim(f)[1] / dim(f)[0])}" alt=""
+       decoding="async" fetchpriority="low" style="--i:${i}">`).join('')}</div>`;
+
+/* mapa de alfinetes, usado na atuação e nos projetos */
+const mapaSVG = () => `
+<svg viewBox="0 0 420 420" role="img">
+        <defs><pattern id="pontos" width="11" height="11" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1.5" fill="currentColor" opacity=".28"/></pattern></defs>
+        <path d="M96 24h228l72 88-34 148-96 132H150L54 246 30 118Z" fill="url(#pontos)"/>
+        <path d="M96 24h228l72 88-34 148-96 132H150L54 246 30 118Z" fill="none"
+              stroke="currentColor" stroke-opacity=".2"/>
+        ${[[168,150],[236,124],[204,206],[280,178],[140,236],[248,268],[186,300]].map(([x, y], i) => `
+        <g class="mapa-pino" style="--atraso:${i * 0.36}s">
+          <circle cx="${x}" cy="${y}" r="16" class="mapa-onda"/>
+          <path d="M${x} ${y + 9}c0 0 8-7.6 8-13a8 8 0 1 0-16 0c0 5.4 8 13 8 13Z"/>
+          <circle cx="${x}" cy="${y - 4}" r="2.6" class="mapa-furo"/>
+        </g>`).join('')}
+      </svg>`;
+
 const secao = (titulo, dentro, classe = '') =>
   `<section class="sec wrap ${classe}"><h2>${esc(titulo)}</h2>${dentro}</section>`;
 
@@ -758,25 +782,43 @@ ${projetosPublicaveis.length
       `<li><a href="/obras/${p.slug}"><b>${esc(p.nome)}</b><span>${esc(p.regiao)} · ${esc(p.atuacao)}</span></a></li>`).join('')}</ul>`, 'claro')
   : ''}
 
-${secao('O que a SPX documenta em toda obra', `
-  <p class="lead">Obra que não deixa registro não vira referência para a próxima. O que fica
-  arquivado ao fim de cada uma:</p>
-  <ul class="marcada">
-    <li><b>As built</b>: a planta do que foi realmente construído, com as alterações de campo</li>
-    <li><b>Memorial de acabamentos</b>: o que foi aplicado, onde, de qual fornecedor</li>
-    <li><b>Manuais e garantias</b>: de cada equipamento e sistema instalado</li>
-    <li><b>Registro fotográfico semanal</b>: o antes, o durante e o depois de cada frente</li>
-    <li><b>Cronograma medido</b>: o previsto contra o realizado, semana a semana</li>
-    <li><b>Lista de pendências fechada</b>: assinada na vistoria conjunta de entrega</li>
-  </ul>`, 'claro')}
+<section class="sec wrap" data-reveal>
+  <h2>O que a SPX <em>documenta</em><br>em toda obra</h2>
+  <p class="sub-secao">Obra que não deixa registro não vira referência para a próxima.</p>
+  <div class="painel">
+    ${blocoDuplo(listaNumerada([
+      { icone: 'asbuilt', titulo: 'As built', texto: 'A planta do que foi realmente construído, com as alterações de campo.' },
+      { icone: 'proposta', titulo: 'Memorial de acabamentos', texto: 'O que foi aplicado, onde, de qual fornecedor.' },
+      { icone: 'relatorio', titulo: 'Manuais e garantias', texto: 'De cada equipamento e sistema instalado.' },
+      { icone: 'acompanha', titulo: 'Registro fotográfico semanal', texto: 'O antes, o durante e o depois de cada frente.' },
+      { icone: 'cronograma', titulo: 'Cronograma medido', texto: 'O previsto contra o realizado, semana a semana.' },
+      { icone: 'entrega', titulo: 'Lista de pendências fechada', texto: 'Assinada na vistoria conjunta de entrega.' },
+    ]), mosaicoFotos(['estante-espinha-peixe', 'banheiro-marmore', 'restaurante-salao']))}
+    ${barraCta('Quer ver o arquivo de uma obra parecida com a sua?', 'Falar com a SPX')}
+  </div>
+</section>
 
-${secao('Tipos de obra no portfólio', `<ul class="grade-servicos">${servicos.slice(0, 6).map((s) =>
-  `<li><a href="/servicos/${s.slug}"><b>${esc(s.nome)}</b><span>${esc(s.resumo)}</span></a></li>`).join('')}</ul>`)}
+<section class="sec wrap" data-reveal>
+  <h2>Tipos de obra <em>no portfólio</em></h2>
+  <div class="painel">
+    ${cartoesIcone(servicos.slice(0, 8).map((s) => ({
+      icone: s.icone, titulo: s.nome, texto: s.resumo, url: '/servicos/' + s.slug })), 4)}
+    ${barraCta('Qual desses se parece com o seu projeto?', 'Solicitar avaliação')}
+  </div>
+</section>
 
-${secao('Onde essas obras acontecem', `
-  <p class="lead">A maior parte do portfólio está na capital, nos polos corporativos e nos
-  bairros de varejo de alto padrão. <a href="/atuacao">Veja todas as regiões atendidas</a>.</p>
-  <ul class="grade-regioes">${lista(regioes['São Paulo capital'].slice(0, 10))}</ul>`, 'claro')}
+<section class="sec wrap" data-reveal>
+  <h2>Onde essas obras <em>acontecem</em></h2>
+  <div class="mapa-grid">
+    <div class="mapa-arte" aria-hidden="true">${mapaSVG()}</div>
+    <div class="mapa-txt">
+      <p class="lead">A maior parte do portfólio está na capital, nos polos corporativos e nos
+      bairros de varejo de alto padrão.</p>
+      <ul class="grade-regioes">${lista(regioes['São Paulo capital'])}</ul>
+      <p style="margin-top:var(--e3)"><a class="btn" href="/atuacao">Ver todas as regiões ↗</a></p>
+    </div>
+  </div>
+</section>
 
 ${chamada(chamadas.projeto)}`,
   visual: 'pag-obras',
@@ -1007,19 +1049,7 @@ pagina({
   <h2>Onde essas obras acontecem</h2>
   <div class="mapa-grid">
     <div class="mapa-arte" aria-hidden="true">
-      <svg viewBox="0 0 420 420" role="img">
-        <defs><pattern id="pontos" width="11" height="11" patternUnits="userSpaceOnUse">
-          <circle cx="2" cy="2" r="1.5" fill="currentColor" opacity=".28"/></pattern></defs>
-        <path d="M96 24h228l72 88-34 148-96 132H150L54 246 30 118Z" fill="url(#pontos)"/>
-        <path d="M96 24h228l72 88-34 148-96 132H150L54 246 30 118Z" fill="none"
-              stroke="currentColor" stroke-opacity=".2"/>
-        ${[[168,150],[236,124],[204,206],[280,178],[140,236],[248,268],[186,300]].map(([x, y], i) => `
-        <g class="mapa-pino" style="--atraso:${i * 0.36}s">
-          <circle cx="${x}" cy="${y}" r="16" class="mapa-onda"/>
-          <path d="M${x} ${y + 9}c0 0 8-7.6 8-13a8 8 0 1 0-16 0c0 5.4 8 13 8 13Z"/>
-          <circle cx="${x}" cy="${y - 4}" r="2.6" class="mapa-furo"/>
-        </g>`).join('')}
-      </svg>
+${mapaSVG()}
     </div>
     <div class="mapa-txt" data-reveal>
       <p class="lead">A maior parte do portfólio está na capital, nos polos corporativos e nos

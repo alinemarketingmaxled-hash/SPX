@@ -70,14 +70,19 @@ export const numeros = [
   { chave: 'anos', icone: 'anos',   valor: 9,  prefixo: '+',
     rotulo: 'anos de experiência do engenheiro responsável',
     validado: true },
+  /* Os dois abaixo ficaram fora do site até você confirmar, e você confirmou.
+     O rótulo diz "obras entregues" e "construídos" sem afirmar se é tudo da
+     SPX ou se soma a trajetória do responsável — se um dia for para separar as
+     duas coisas, o rótulo muda aqui e o site inteiro acompanha. */
   { chave: 'obras', icone: 'obras',  valor: 40, prefixo: '+',
     rotulo: 'obras entregues',
-    validado: false,   // o material chama de "referência aproximada"
-    nota: 'Confirmar se são obras da SPX ou da trajetória do responsável.' },
+    validado: true },
   { chave: 'area', icone: 'area',   valor: 42, sufixo: ' mil m²',
     rotulo: 'construídos',
-    validado: false,
-    nota: 'Confirmar o que a métrica mede: área executada pela SPX, ou somada à trajetória do responsável?' },
+    validado: true },
+  { chave: 'etapas', icone: 'cronograma', valor: 7,
+    rotulo: 'etapas, do levantamento à entrega',
+    validado: true },
 ];
 
 /** Etapas do processo. É o que diferencia engenharia de mão de obra. */

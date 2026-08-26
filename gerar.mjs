@@ -82,14 +82,9 @@ function menu(atual) {
   return `<nav class="nav" aria-label="Principal"><div class="wrap nav-in">
   <div class="navpill">
     <a href="/" class="navlogo" aria-label="${esc(empresa.nome)} · início">
-      <img class="marca so-escuro" src="/img/logo-spx.webp" width="300" height="72" alt="" aria-hidden="true"><img class="marca so-claro" src="/img/logo-spx-negativa.webp" width="300" height="72" alt="" aria-hidden="true">
-    </a>
+      <img class="marca" src="/img/logo-spx.webp" width="300" height="72" alt="" aria-hidden="true"></a>
     ${MENU.map(item).join('\n    ')}
     <a href="/contato" class="cta">Visita técnica</a>
-    <button class="nav-btn" type="button" data-acao="tema" aria-label="Alternar tema">
-      <svg viewBox="0 0 24 24" class="sol" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.1 5.1l1.4 1.4M17.5 17.5l1.4 1.4M18.9 5.1l-1.4 1.4M6.5 17.5l-1.4 1.4"/></svg>
-      <svg viewBox="0 0 24 24" class="lua" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/></svg>
-    </button>
     <button class="nav-btn nav-menu" type="button" data-acao="menu" aria-expanded="false" aria-controls="gaveta" aria-label="Abrir menu">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
     </button>
@@ -116,8 +111,10 @@ function menu(atual) {
 function botaoZap() {
   return `<a class="zap" href="https://wa.me/${empresa.whatsapp}" rel="noopener"
    aria-label="Falar com a ${esc(empresa.nome)} no WhatsApp" data-zap>
-  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 12a8.5 8.5 0 1 1-4.2-7.3L21 3.5l-1.2 4.6A8.4 8.4 0 0 1 20.5 12Z"/><path d="M9 9.4c.5 2.2 2.4 4.1 4.6 4.6l1.1-1.2 1.8.8-.5 1.6c-3.4.5-7.2-3.3-6.7-6.7l1.6-.5.8 1.8z"/></svg>
-  <span>Falar no WhatsApp</span>
+  <!-- a marca do WhatsApp desenhada de verdade, cheia. A aproximação feita a
+       traço não lia como o aplicativo: virava um círculo com um risco dentro. -->
+  <svg viewBox="0 0 24 24" class="zap-marca" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.174.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347M12.05 21.785h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+  <span>${esc(empresa.telefone.replace('+55 ', ''))} · WhatsApp</span>
 </a>`;
 }
 
@@ -154,13 +151,11 @@ function rodape() {
       <li><a href="/duvidas">Dúvidas frequentes</a></li>
       <li><a href="/servicos-e-regioes">Serviços por região</a></li>
       <li><a href="/contato">Contato</a></li></ul></div>
-  </div>
 
-  <div class="wordmark" id="wordmark" aria-hidden="true">
-    <img class="wm base so-escuro" src="/img/logo-negativa.webp" width="723" height="304" alt="" loading="lazy" decoding="async">
-    <img class="wm luz so-escuro" src="/img/logo-negativa.webp" width="723" height="304" alt="" loading="lazy" decoding="async">
-    <img class="wm base so-claro" src="/img/logo.webp" width="723" height="304" alt="" loading="lazy" decoding="async">
-    <img class="wm luz so-claro" src="/img/logo.webp" width="723" height="304" alt="" loading="lazy" decoding="async">
+    <div class="wordmark" id="wordmark" aria-hidden="true">
+      <img class="wm base" src="/img/logo-negativa.webp" width="723" height="304" alt="" loading="lazy" decoding="async">
+      <img class="wm luz" src="/img/logo-negativa.webp" width="723" height="304" alt="" loading="lazy" decoding="async">
+    </div>
   </div>
 
   <div class="rod-fim">
@@ -264,7 +259,7 @@ const schemaTrilha = (trilha) => ({
 
 /* --------------------------------------------------------------- moldura */
 function pagina({ url, arquivo, title, descricao, h1, trilha = [], corpo, schema = [],
-                 visual = '', fundo = null }) {
+                 visual = '', fundo = null, h1b = '' }) {
   const grafo = [schemaOrganizacao(), ...schema].filter(Boolean);
   if (trilha.length > 1) grafo.push(schemaTrilha(trilha));
   const migalhasHTML = trilha.length > 1
@@ -303,7 +298,7 @@ ${fundo ? `<link rel="preload" as="image" href="/img/${fundo}-640.webp"
       imagesrcset="${larguras(fundo)}" imagesizes="${TAM_TOPO}" fetchpriority="high">\n` : ''}<link rel="stylesheet" href="/assets/css/spx.min.css?v=${VERSAO_CSS}">
 <script>
 /* aplica o tema antes da pintura para não piscar */
-(function(){try{var t=localStorage.getItem('spx-tema')||'escuro';document.documentElement.setAttribute('data-tema',t);}catch(e){}})();
+document.documentElement.setAttribute('data-tema','escuro');
 </script>
 <script type="application/ld+json">
 ${JSON.stringify({ '@context': 'https://schema.org', '@graph': grafo }, null, 1)}
@@ -317,7 +312,7 @@ ${menu(trilha[1] ? trilha[1].url : url)}
 <header class="topo-interno${fundo ? ' com-foto' : ''}">
   <div class="wrap topo-in">
 ${migalhasHTML}
-    <h1>${esc(h1)}</h1>
+    <h1>${esc(h1)}${h1b ? `<em>${esc(h1b)}</em>` : ''}</h1>
   </div>
 ${fundo ? `  <div class="topo-foto" aria-hidden="true">
     <div class="hero-fundo" id="heroFundo" data-fotos="${fotos(fundo).join(',')}">
@@ -410,24 +405,6 @@ const cartoesIcone = (itens, colunas = 4) =>
     <span>${esc(i.texto)}</span>
   ${i.url ? '</a>' : '</div>'}</li>`).join('')}</ul>`;
 
-/* Números em cartão, com ícone em cima. */
-const numerosCartao = (itens) =>
-  `<div class="numeros-cartao">${itens.map((n) => `
-  <div>${icone(n.icone)}
-    <b data-conta="${n.valor}"${n.prefixo ? ` data-prefixo="${n.prefixo}"` : ''}${n.sufixo ? ` data-sufixo="${n.sufixo}"` : ''}>${n.prefixo || ''}${n.valor}${n.sufixo || ''}</b>
-    <span>${esc(n.rotulo)}</span>
-  </div>`).join('')}</div>`;
-
-/* Faixa de chamada em cartão, com pergunta à esquerda e botão à direita. */
-const convite = (titulo, apoio, rotulo, url = '/contato', ic = 'conversa') => `
-<section class="sec wrap" data-reveal>
-  <div class="convite">
-    <span class="convite-ico">${icone(ic)}</span>
-    <div><b>${esc(titulo)}</b><span>${esc(apoio)}</span></div>
-    <a class="btn btn-acc" href="${url}">${esc(rotulo)} ↗</a>
-  </div>
-</section>`;
-
 /* Bloco de duas colunas: conteúdo à esquerda, arte técnica à direita. É o
    arranjo dos três modelos da página de serviços. */
 const blocoDuplo = (esquerda, direita, invertido = false) =>
@@ -442,6 +419,69 @@ const listaNumerada = (itens) => `<ol class="lista-num">${itens.map((i, k) => `
     <span class="ln-ico">${icone(i.icone)}</span>
     <span class="ln-txt"><b>${esc(i.titulo)}</b><span>${esc(i.texto)}</span></span>
   </li>`).join('')}</ol>`;
+
+/* Fluxo em serpentina: a primeira fileira corre para a direita, a segunda
+   volta para a esquerda, e um fio liga uma etapa na outra. É a mesma
+   informação da linha do tempo vertical num desenho que cabe numa tela — e
+   deixa claro que o processo é uma sequência, não uma lista solta.
+   As posições saem daqui, não do CSS: com sete etapas a segunda fileira tem
+   uma coluna a menos, e é a conta abaixo que decide onde cada uma cai. */
+const fluxoSerpente = (etapas, colunas = 4) => `
+<ol class="fluxo" style="--colunas:${colunas}">${etapas.map((e, i) => {
+  const linha = Math.floor(i / colunas) + 1;
+  const dentro = i % colunas;
+  /* fileira par corre ao contrário, daí a coluna espelhada */
+  const col = linha % 2 ? dentro + 1 : colunas - dentro;
+  const ultimoDaFileira = dentro === colunas - 1;
+  const ultimo = i === etapas.length - 1;
+  const lig = ultimo ? 'fim' : ultimoDaFileira ? 'desce' : (linha % 2 ? 'dir' : 'esq');
+  return `
+  <li style="--col:${col};--lin:${linha}" data-lig="${lig}">
+    <span class="fx-topo"><span class="fx-ico">${icone(e.icone)}</span><span class="fx-n">${e.n}</span></span>
+    <b>${esc(e.nome)}</b>
+    <span class="fx-txt">${esc(e.texto)}</span>
+  </li>`;
+}).join('')}</ol>`;
+
+/* Faixa de números colada na abertura: ícone, valor e rótulo em colunas.
+   É uma barra fechada, e não uma grade solta no meio do corpo: o número
+   aparece junto do que ele qualifica. */
+const faixaNumeros = (itens) => `
+<div class="faixa-num">${itens.map((n) => `
+  <div>
+    <span class="fn-ico">${icone(n.icone)}</span>
+    <b data-conta="${n.valor}"${n.prefixo ? ` data-prefixo="${n.prefixo}"` : ''}${n.sufixo ? ` data-sufixo="${n.sufixo}"` : ''}>${n.prefixo || ''}${n.valor}${n.sufixo || ''}</b>
+    <span class="fn-rot">${esc(n.rotulo)}</span>
+  </div>`).join('')}</div>`;
+
+/* O processo numa faixa horizontal, com fio ligando as etapas. É a mesma
+   informação da linha do tempo vertical, num formato que cabe na abertura de
+   uma página sem tomar uma tela inteira. */
+const faixaProcesso = (etapas) => `
+<ol class="proc-faixa">${etapas.map((e) => `
+  <li>
+    <span class="pf-marca">${icone(e.icone)}</span>
+    <span class="pf-n">${e.n}</span>
+    <b>${esc(e.nome)}</b>
+  </li>`).join('')}</ol>`;
+
+/* Chamada final com foto de obra do lado: a última coisa da página é um
+   convite, e ele fica mais forte com uma obra real ao lado do que sozinho
+   numa caixa de texto. */
+const chamadaFoto = (foto, titulo, apoio, rotulo, url = '/contato') => `
+<section class="sec wrap" data-reveal>
+  <div class="cta-foto" data-adiar>
+    <div class="cf-foto">
+      <img data-fonte="/img/${foto}-640.webp" width="${dim(foto)[0]}" height="${dim(foto)[1]}"
+           alt="" aria-hidden="true" loading="lazy" decoding="async">
+    </div>
+    <div class="cf-txt">
+      <p class="cf-titulo">${titulo}</p>
+      <p class="cf-apoio">${esc(apoio)}</p>
+      <a class="btn btn-acc" href="${url}">${esc(rotulo)} ↗</a>
+    </div>
+  </div>
+</section>`;
 
 /* Barra de chamada colada no bloco de cima, como nos modelos. */
 const barraCta = (pergunta, rotulo, url = '/contato') => `
@@ -627,8 +667,7 @@ const faixaDupla = () => {
   /* a tira é escura no tema escuro, então quem entra é a marca de tinta clara.
      Invertido em relação ao menu, onde a marca fica sobre a cápsula clara. */
   const peca = `<span class="fd-peca">
-    <img class="fd-marca so-escuro" src="/img/logo-spx-negativa.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
-    <img class="fd-marca so-claro" src="/img/logo-spx.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <img class="fd-marca" src="/img/logo-spx-negativa.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
     <i>Engenharia · Gestão · Execução</i>
   </span>`;
   /* dobrado: a animação anda 50% e volta ao começo sem emenda visível */
@@ -794,22 +833,6 @@ const chamada = (texto, rotulo = 'Solicitar visita técnica') =>
   `<section class="sec wrap cta-faixa" data-reveal>
   <p class="cta-frase">${esc(texto)}</p>
   <a class="btn btn-acc" href="/contato">${esc(rotulo)} ↗</a>
-</section>`;
-
-/* A esteira de polaroides da home, reaproveitada. O JavaScript procura
-   #beamwrap e #track, então basta existir um por página. As fotos entram
-   sozinhas; a da esquerda aparece como planta e vira obra pronta ao cruzar
-   o meio da tela. */
-const esteira = (eyebrow, titulo) => `
-<section class="sec esteira-bloco">
-  <div class="wrap centro" data-reveal>
-    <p class="eyebrow centro">${esc(eyebrow)}</p>
-    <h2 style="margin-top:20px">${titulo}</h2>
-  </div>
-  <div class="beamwrap" id="beamwrap">
-    <div class="beam" aria-hidden="true"><span class="rot esq">Projeto</span><span class="rot dir">Entregue</span></div>
-    <div class="track" id="track"></div>
-  </div>
 </section>`;
 
 /* Carrossel em profundidade: o cartão do meio fica de frente e inteiro, os
@@ -1062,9 +1085,7 @@ ${projetosPublicaveis.length
       <p style="margin-top:var(--e3)"><a class="btn" href="/atuacao">Ver todas as regiões ↗</a></p>
     </div>
   </div>
-</section>
-
-${chamada(chamadas.projeto)}`,
+</section>`,
   visual: 'pag-obras',
 });
 
@@ -1125,32 +1146,22 @@ pagina({
   corpo: `
 <section class="sec wrap" data-reveal>
   <p class="lead">${esc(empresa.definicao)} ${esc(empresa.proposta)}</p>
+  <ul class="marcas-fato">
+    <li>${icone('local')}<span>Base em ${esc(empresa.base)}, com atuação em ${esc(empresa.atuacao)}.</span></li>
+    <li>${icone('cronograma')}<span>Cronograma físico-financeiro entregue junto da proposta, não depois de assinar.</span></li>
+    <li>${icone('art')}<span>Engenheiro responsável nomeado, com ART emitida para a obra, antes da assinatura.</span></li>
+  </ul>
+  ${numerosValidados.length ? faixaNumeros(numerosValidados) : ''}
 </section>
-
-${secao('Posicionamento', `
-  <p class="lead">Engenharia, gestão e execução são três coisas diferentes, e a maioria dos
-  problemas de obra nasce quando estão em mãos diferentes. Na SPX estão na mesma: quem levanta
-  é quem orça, quem orça é quem planeja, quem planeja é quem executa e responde.</p>
-  ${cartoesIcone([
-    { icone: 'projeto', titulo: 'Engenharia', texto: 'O que fazer, como fazer e o que a norma exige.' },
-    { icone: 'cronograma', titulo: 'Gestão', texto: 'Cronograma, coordenação, medição e controle de desvio.' },
-    { icone: 'execucao', titulo: 'Execução', texto: 'Equipe em campo, com responsável técnico nomeado.' },
-  ], 3)}`, 'vidro faixa-vidro')}
-
-${numerosValidados.length ? secao('A SPX em números', numerosCartao(numerosValidados)) : ''}
 
 ${blocoResponsavel()}
 
-${secao('Como trabalhamos', linhaTempo(processo))}
-
-${secao('O que executamos', `<ul class="grade-servicos">${servicos.map((s) =>
-  `<li><a href="/servicos/${s.slug}"><b>${esc(s.nome)}</b><span>${esc(s.resumo)}</span></a></li>`).join('')}</ul>`, 'claro')}
+${secao('Como trabalhamos', faixaProcesso(processo))}
 
 ${secao('Dados institucionais', dadosInstitucionais())}
 
-${convite('Quer conhecer melhor a SPX?', 'Agende uma conversa com o engenheiro responsável.', 'Agendar conversa', '/contato', 'conversa')}
-
-${chamada(chamadas.obra)}`,
+${chamadaFoto('lounge-recepcao', 'Vamos fazer<br>o seu projeto <em>acontecer</em>.',
+  'Fale com um engenheiro da SPX.', 'Solicitar visita técnica')}`,
 });
 
 /* -------------------------------------------------------- para arquitetos */
@@ -1178,7 +1189,7 @@ pagina({
   da obra começar, o que não vai caber.</p>
 </section>
 
-${secao('O que a SPX faz com o seu projeto', linhaTempo([
+${secao('O que a SPX faz com o seu projeto', fluxoSerpente([
   { icone: 'leitura', n: '01', nome: 'Leitura',
     texto: 'Estudo do projeto e das intenções de detalhe, para entender o que não pode ser negociado no acabamento.' },
   { icone: 'compat', n: '02', nome: 'Compatibilização',
@@ -1217,10 +1228,7 @@ ${secao('Dúvidas de quem projeta', perguntas([
    'As duas formas funcionam: a SPX pode ser contratada pelo cliente final com o escritório ' +
    'coordenando o projeto, ou diretamente pelo escritório.'],
 ]), 'claro')}
-
-${convite('Precisa de agilidade e segurança no projeto?', 'Fale com um engenheiro da SPX sobre o seu.', 'Falar com a SPX', '/contato', 'conversa')}
-
-${chamada(chamadas.arquiteto, 'Falar sobre um projeto')}`,
+`,
 });
 
 /* ---------------------------------------------------------------- dúvidas */
@@ -1231,19 +1239,22 @@ pagina({
   title: 'Dúvidas frequentes sobre obras corporativas | SPX Engenharia',
   descricao: 'Respostas objetivas sobre o que a SPX Engenharia faz, como funciona a visita ' +
     'técnica, prazo, orçamento, obra em ambiente ocupado e responsabilidade técnica.',
-  h1: 'Dúvidas frequentes',
+  h1: 'Dúvidas frequentes.',
+  h1b: 'Respondidas pela engenharia.',
   trilha: [{ nome: 'Início', url: '/' }, { nome: 'Dúvidas', url: '/duvidas' }],
   schema: [schemaPerguntas(duvidas), { '@type': 'QAPage', speakable: FALADO,
            about: { '@id': idEmpresa } }],
   corpo: `
-${respostaDireta('O que a SPX Engenharia faz?', empresa.definicao + ' ' + empresa.proposta,
-  ['Atua em São Paulo capital e na região metropolitana.',
-   'Executa obra corporativa, comercial, retrofit, reforma, gerenciamento, manutenção, projeto e laudo.',
-   'Cada obra tem engenheiro responsável nomeado, com ART, antes da assinatura do contrato.'])}
-
-<section class="sec wrap" data-reveal>
-  <p class="lead">As perguntas que mais chegam, respondidas de forma direta. Para obra com
-  prazo crítico, concorrência ou adequação de norma, envie o contexto completo.</p>
+<section class="sec wrap resposta-direta" data-reveal>
+  <h2>O que a SPX Engenharia faz?</h2>
+  <p>${esc(empresa.definicao + ' ' + empresa.proposta)}</p>
+  <ul class="marcas-fato">
+    <li>${icone('local')}<span>Atua em São Paulo capital e na região metropolitana.</span></li>
+    <li>${icone('execucao')}<span>Executa obra corporativa, comercial, retrofit, reforma, gerenciamento, manutenção, projeto e laudo.</span></li>
+    <li>${icone('art')}<span>Cada obra tem engenheiro responsável nomeado, com ART, antes da assinatura do contrato.</span></li>
+  </ul>
+  <p class="lead" style="margin-top:var(--e4)">As perguntas que mais chegam, respondidas de forma
+  direta. Para obra com prazo crítico, concorrência ou adequação de norma, envie o contexto completo.</p>
 </section>
 <section class="sec wrap faq-central">
   <div class="faq-topo">
@@ -1357,27 +1368,21 @@ pagina({
   title: `Contato e visita técnica | ${empresa.nome}`,
   descricao: 'Solicite a visita técnica da SPX Engenharia. Orçamento preliminar em até cinco ' +
     'dias úteis depois da visita ao local, em São Paulo e região.',
-  h1: 'Envie o contexto da obra',
+  h1: 'Envie o contexto da obra.',
+  h1b: 'A SPX cuida do resto.',
   trilha: [{ nome: 'Início', url: '/' }, { nome: 'Contato', url: '/contato' }],
   schema: [{ '@type': 'ContactPage', name: 'Contato', mainEntity: { '@id': idEmpresa } }],
   corpo: `
-<section class="sec wrap" data-reveal>
-  <p class="lead">A avaliação é feita no local. Um engenheiro visita, mede e levanta as
-  restrições do prédio; o orçamento preliminar sai em até cinco dias úteis depois disso.</p>
-  <ul class="garantias">
-    <li>${icone('visita')}<div><b>Visita técnica sem compromisso</b><span>Um engenheiro vai ao local antes de qualquer número.</span></div></li>
-    <li>${icone('relogio')}<div><b>Orçamento em até cinco dias úteis</b><span>Contado a partir da visita, não do primeiro contato.</span></div></li>
-    <li>${icone('sigilo')}<div><b>Sigilo sobre o que você enviar</b><span>As informações são usadas apenas para a avaliação técnica.</span></div></li>
-  </ul>
-</section>
-
 <section class="sec wrap">
   <div class="contato-grid">
     <div data-reveal>
-      <h2 class="so-leitor">Formulário de visita técnica</h2>
-      ${formulario[0]}
-    </div>
-    <aside data-reveal data-atraso="1">
+      <p class="lead">A avaliação é feita no local. Um engenheiro visita, mede e levanta as
+      restrições do prédio; o orçamento preliminar sai em até cinco dias úteis depois disso.</p>
+      <ul class="garantias">
+        <li>${icone('visita')}<div><b>Visita técnica sem compromisso</b><span>Um engenheiro vai ao local antes de qualquer número.</span></div></li>
+        <li>${icone('relogio')}<div><b>Orçamento em até cinco dias úteis</b><span>Contado a partir da visita, não do primeiro contato.</span></div></li>
+        <li>${icone('sigilo')}<div><b>Sigilo sobre o que você enviar</b><span>As informações são usadas apenas para a avaliação técnica.</span></div></li>
+      </ul>
       <h2>Canais diretos</h2>
       <ul class="canais">
         <li><a href="https://wa.me/${empresa.whatsapp}" rel="noopener"><b>WhatsApp</b><span>${esc(empresa.telefone.replace('+55 ', ''))}</span></a></li>
@@ -1385,9 +1390,15 @@ pagina({
         <li><a href="mailto:${empresa.email}"><b>E-mail</b><span>${esc(empresa.email)}</span></a></li>
       </ul>
       <p class="form-nota">${esc(empresa.horario)}. Obra em andamento: atendimento conforme escopo contratado.</p>
-    </aside>
+    </div>
+    <div data-reveal data-atraso="1">
+      <h2 class="so-leitor">Formulário de visita técnica</h2>
+      ${formulario[0]}
+    </div>
   </div>
-</section>`,
+</section>
+
+${faixaDupla()}`,
   visual: 'pag-contato',
 });
 

@@ -367,7 +367,8 @@ b,strong{font-weight:600}
   -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
   mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
 .seg-track{display:flex;width:max-content;animation:segcorre 54s linear infinite}
-.seg-esteira:hover .seg-track{animation-play-state:paused}
+/* a esteira de segmentos não para mais no mouse: passar por cima dela é o
+   que mais acontece na home, e congelar a cada passada lia como travamento */
 @keyframes segcorre{to{transform:translateX(-50%)}}
 .seg{
   flex:0 0 auto;width:clamp(226px,23vw,262px);margin-right:18px;
@@ -590,26 +591,26 @@ b,strong{font-weight:600}
    alta e as duas colunas terminam juntas. */
 .faq-grid{display:grid;grid-template-columns:.85fr 2fr;gap:20px;align-items:start}
 /* 18 perguntas em duas colunas dão nove fileiras, e nove fileiras com este
-   vão fecham na mesma altura do painel ao lado. Mexer no número de
-   perguntas desencontra os dois de novo. */
-.faq-cols{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-content:start}
+   vão fecham na mesma altura do painel ao lado. Mexer no número de perguntas,
+   no vão ou no recheio do cartão desencontra os dois de novo. */
+.faq-cols{display:grid;grid-template-columns:1fr 1fr;gap:15px;align-content:start}
 .faq-cols .q{margin-bottom:0}
-.faq-side{background:var(--sup);border:1px solid var(--linha);padding:32px;position:relative;overflow:hidden;border-radius:var(--raio)}
+.faq-side{background:var(--sup);border:1px solid var(--linha);padding:26px;position:relative;overflow:hidden;border-radius:var(--raio)}
 .faq-side::after{content:"";position:absolute;right:-40px;top:-40px;width:180px;height:180px;pointer-events:none;
   background:repeating-linear-gradient(115deg,var(--trama) 0 2px,transparent 2px 10px)}
-.faq-side h2{font-size:clamp(24px,2.6vw,34px);position:relative}
-.faq-stats{display:flex;gap:26px;border-top:1px solid var(--linha);border-bottom:1px solid var(--linha);padding:20px 0;margin:28px 0;position:relative}
+.faq-side h2{font-size:clamp(21px,2.2vw,28px);position:relative}
+.faq-stats{display:flex;gap:22px;border-top:1px solid var(--linha);border-bottom:1px solid var(--linha);padding:16px 0;margin:22px 0;position:relative}
 .faq-stats div{flex:1}
-.faq-stats b{font-family:var(--display);font-size:29px;font-weight:700;display:block;line-height:1;color:var(--acc-2)}
+.faq-stats b{font-family:var(--display);font-size:25px;font-weight:700;display:block;line-height:1;color:var(--acc-2)}
 .faq-stats span{font-size:12px;color:var(--txt-2)}
 .q{background:var(--sup);border:1px solid var(--linha);margin-bottom:14px;overflow:hidden;transition:border-color .25s,background .25s;border-radius:var(--raio)}
 .q:hover{border-color:var(--linha-forte)}
 .q.aberta{border-color:var(--acc-2)}
-.q button{width:100%;background:none;border:0;color:var(--txt);font-family:var(--corpo);font-weight:600;font-size:15.5px;text-align:left;padding:19px 21px;display:flex;gap:14px;justify-content:space-between;align-items:flex-start;cursor:pointer;line-height:1.35}
+.q button{width:100%;background:none;border:0;color:var(--txt);font-family:var(--corpo);font-weight:600;font-size:14px;text-align:left;padding:13px 17px;display:flex;gap:12px;justify-content:space-between;align-items:flex-start;cursor:pointer;line-height:1.35}
 .q .sinal{flex:0 0 auto;color:var(--txt-2);font-size:19px;line-height:1;transition:transform .3s,color .3s}
 .q.aberta .sinal{transform:rotate(45deg);color:var(--acc-2)}
 .q .resp{max-height:0;overflow:hidden;transition:max-height .38s cubic-bezier(.3,.8,.3,1)}
-.q .resp p{padding:0 21px 21px;color:var(--txt-2);font-size:14.5px}
+.q .resp p{padding:0 17px 17px;color:var(--txt-2);font-size:14px}
 
 /* contato */
 .contato-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:var(--e6);align-items:start}
@@ -655,7 +656,7 @@ b,strong{font-weight:600}
    de preto entre a última chamada e o primeiro texto do rodapé, que na tela
    lia como página quebrada, não como respiro */
 .rodape{border-top:1px solid var(--linha);padding-top:var(--e5);margin-top:var(--e4)}
-.rod-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:34px}
+.rod-grid{display:grid;grid-template-columns:1.35fr 1fr 1fr 1fr auto;gap:34px;align-items:start}
 .rod-grid h3{font-family:var(--display);font-size:12px;letter-spacing:.16em;text-transform:uppercase;margin:0 0 15px;font-weight:600;border-top:1px solid var(--linha);padding-top:16px;color:var(--txt)}
 .rod-grid ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px;font-size:14px;color:var(--txt-2)}
 .rod-grid a{text-decoration:none;transition:color .2s}
@@ -665,13 +666,19 @@ b,strong{font-weight:600}
 .soc a{width:38px;height:38px;border:1px solid var(--linha);display:flex;align-items:center;justify-content:center;transition:.22s;border-radius:var(--raio)}
 .soc a svg{stroke:var(--txt);fill:none;stroke-width:1.7}
 .soc a:hover{border-color:var(--acc-2);background:var(--sup);transform:translateY(-2px)}
-.wordmark{position:relative;margin:var(--e6) auto var(--e3);user-select:none;
-  width:min(100%,620px)}
+/* A marca gigante no fim da página saiu: virou uma peça pequena na quinta
+   coluna do rodapé, do lado das informações. O tamanho anterior tomava uma
+   tela inteira de rolagem para dizer o que o menu já diz no topo. */
+/* largura fixa, e não `min(100%, …)`: numa coluna de grade com largura
+   automática o 100% se referia à própria coluna, que por sua vez media pelo
+   conteúdo — a conta fechava em zero e a marca sumia */
+.wordmark{position:relative;user-select:none;width:210px;
+  align-self:center;justify-self:end}
 .wordmark .wm{width:100%;height:auto}
 .wordmark .wm.base{opacity:.17}
 .wordmark .wm.luz{position:absolute;left:0;top:0;
-  -webkit-mask-image:radial-gradient(circle 190px at var(--mx,50%) var(--my,50%),#000 0%,transparent 72%);
-  mask-image:radial-gradient(circle 190px at var(--mx,50%) var(--my,50%),#000 0%,transparent 72%)}
+  -webkit-mask-image:radial-gradient(circle 70px at var(--mx,50%) var(--my,50%),#000 0%,transparent 72%);
+  mask-image:radial-gradient(circle 70px at var(--mx,50%) var(--my,50%),#000 0%,transparent 72%)}
 /* página de diretório: serviços cruzados com as regiões atendidas */
 .diretorio{padding-top:calc(var(--nav-altura) + var(--e6))}
 .dir-indice{display:flex;flex-wrap:wrap;gap:7px;margin-top:var(--e4)}
@@ -757,6 +764,9 @@ b,strong{font-weight:600}
    na home ele vem dentro de .cabeca, que já cuida disso */
 .sec > h2{margin-bottom:var(--e3)}
 .topo-interno h1{font-size:var(--t-h1);max-width:17ch}
+/* segunda linha do título, no acento: é ela que separa o que a página é do
+   que ela promete, sem precisar de um subtítulo solto embaixo */
+.topo-interno h1 em{display:block;font-style:normal;color:var(--acc-2)}
 
 /* lista com marcador de traço, no lugar do ponto redondo */
 .marcada{list-style:none;margin:var(--e3) 0 0;padding:0;display:grid;gap:11px;max-width:60ch}
@@ -1037,6 +1047,107 @@ h2 em{font-style:normal;color:var(--acc-2)}
   text-transform:uppercase;color:var(--txt);margin-bottom:4px}
 .ln-txt > span{display:block;color:var(--txt-3);font-size:13.5px;line-height:1.5}
 
+/* --------------------------------------------- fluxo em serpentina (etapas) */
+/* A primeira fileira corre para a direita, a segunda volta para a esquerda, e
+   um fio liga uma etapa na outra. A posição de cada uma vem do gerador, em
+   `--col` e `--lin`: com sete etapas a segunda fileira tem uma coluna a menos
+   e nenhuma regra de CSS sozinha acerta isso. */
+.fluxo{list-style:none;margin:var(--e5) 0 0;padding:0;display:grid;
+  grid-template-columns:repeat(var(--colunas,4),1fr);gap:var(--e5) var(--e4)}
+.fluxo li{grid-column:var(--col);grid-row:var(--lin);position:relative;
+  display:grid;gap:7px;align-content:start}
+.fx-topo{display:flex;align-items:center;gap:10px}
+.fx-ico{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;
+  background:var(--sup);border:1px solid var(--linha);color:var(--acc-2);flex:0 0 auto;
+  transition:border-color var(--transicao),background var(--transicao)}
+.fx-ico svg{width:18px;height:18px;stroke-width:1.2}
+.fluxo li:hover .fx-ico{border-color:var(--acc-2);background:var(--sup-2)}
+.fx-n{font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.08em;
+  color:var(--acc-2)}
+.fluxo b{font-family:var(--display);font-size:12.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--txt)}
+.fx-txt{color:var(--txt-3);font-size:13.5px;line-height:1.55}
+
+/* o fio: sai da bola e vai até a bola seguinte, no sentido daquela fileira */
+.fluxo li::after{content:"";position:absolute;top:21px;height:1px;
+  background:var(--linha-forte);opacity:.55;pointer-events:none}
+.fluxo li[data-lig="dir"]::after{left:52px;right:calc(-1 * var(--e4))}
+.fluxo li[data-lig="esq"]::after{right:52px;left:calc(-1 * var(--e4))}
+/* na virada o fio desce pela borda de fora e entra na fileira de baixo */
+.fluxo li[data-lig="desce"]::after{top:21px;left:auto;right:21px;width:1px;height:calc(100% + var(--e5) - 21px);
+  background:var(--linha-forte)}
+.fluxo li[data-lig="fim"]::after{display:none}
+
+/* ------------------------------------------------ abertura da página /sobre */
+/* Fatos em linha, com ícone fino à esquerda. É a forma curta do que a empresa
+   afirma: cada item é uma frase que o resto do site sustenta. */
+.marcas-fato{list-style:none;margin:var(--e4) 0 0;padding:0;display:grid;gap:var(--e3);
+  max-width:62ch}
+.marcas-fato li{display:grid;grid-template-columns:auto 1fr;gap:var(--e3);align-items:start}
+.marcas-fato svg{width:19px;height:19px;stroke-width:1.2;color:var(--acc-2);margin-top:2px}
+.marcas-fato span{color:var(--txt-2);font-size:14.5px;line-height:1.6}
+
+/* Barra de números: colada na abertura, não solta no meio do corpo. */
+.faixa-num{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:var(--e5);
+  background:var(--linha);border:1px solid var(--linha);border-radius:var(--raio);
+  overflow:hidden}
+.faixa-num > div{background:var(--sup);padding:var(--e3) var(--e3) var(--e4);
+  display:grid;justify-items:center;gap:8px;text-align:center}
+.fn-ico{display:grid;place-items:center;color:var(--acc-2)}
+.fn-ico svg{width:21px;height:21px;stroke-width:1.2}
+.faixa-num b{font-family:var(--display);font-weight:700;font-size:clamp(24px,3vw,33px);
+  line-height:1;color:var(--txt);font-variant-numeric:tabular-nums}
+.fn-rot{font-size:12px;color:var(--txt-3);line-height:1.4;max-width:20ch}
+
+/* Processo em faixa horizontal, com o fio ligando as etapas por trás. */
+.proc-faixa{list-style:none;margin:var(--e4) 0 0;padding:0;display:grid;
+  grid-template-columns:repeat(7,1fr);gap:var(--e2);position:relative}
+.proc-faixa::before{content:"";position:absolute;left:7%;right:7%;top:27px;height:1px;
+  background:var(--linha-forte);opacity:.5}
+.proc-faixa li{display:grid;justify-items:center;gap:9px;text-align:center;position:relative}
+.pf-marca{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;
+  background:var(--sup);border:1px solid var(--linha);color:var(--acc-2);
+  transition:border-color var(--transicao),background var(--transicao)}
+.pf-marca svg{width:21px;height:21px;stroke-width:1.2}
+.proc-faixa li:hover .pf-marca{border-color:var(--acc-2);background:var(--sup-2)}
+.pf-n{font-family:var(--display);font-weight:700;font-size:11px;letter-spacing:.1em;
+  color:var(--acc-2)}
+.proc-faixa b{font-family:var(--display);font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--txt);line-height:1.3}
+
+/* Chamada final com foto de obra ao lado. */
+.cta-foto{display:grid;grid-template-columns:.9fr 1.1fr;align-items:stretch;
+  margin-top:var(--e4);border:1px solid var(--linha);border-radius:var(--raio);
+  overflow:hidden;background:var(--acc-suave)}
+.cf-foto{position:relative;min-height:230px}
+.cf-foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.cf-txt{padding:var(--e5);display:grid;align-content:center;gap:var(--e2);
+  justify-items:start}
+.cf-titulo{margin:0;font-family:var(--display);font-weight:700;
+  font-size:clamp(21px,2.6vw,30px);line-height:1.1;text-transform:uppercase;
+  letter-spacing:-.01em;color:var(--txt)}
+.cf-titulo em{font-style:normal;color:var(--acc-2)}
+.cf-apoio{margin:0;color:var(--txt-2);font-size:14.5px}
+.cf-txt .btn{margin-top:var(--e2)}
+
+@media (max-width:900px){
+  /* empilhado não existe serpentina: vira lista, e o fio some */
+  .fluxo{grid-template-columns:1fr;gap:var(--e4)}
+  .fluxo li{grid-column:1;grid-row:auto}
+  .fluxo li::after{display:none}
+  .faixa-num{grid-template-columns:repeat(2,1fr)}
+  .proc-faixa{grid-template-columns:repeat(4,1fr);gap:var(--e3) var(--e2)}
+  .proc-faixa::before{display:none}
+  .cta-foto{grid-template-columns:1fr}
+  .cf-foto{min-height:200px}
+  .cf-txt{padding:var(--e4)}
+}
+@media (max-width:520px){
+  .faixa-num{grid-template-columns:1fr 1fr}
+  .proc-faixa{grid-template-columns:repeat(2,1fr)}
+  .pf-marca{width:46px;height:46px}
+}
+
 /* ÓRBITA · a marca no centro, as três camadas em volta, as etapas ao lado.
    As bolas ficam paradas de propósito: o anel é que gira. Alvo que se mexe é
    alvo que não se acerta, ainda mais no dedo. */
@@ -1296,11 +1407,14 @@ h2 em{font-style:normal;color:var(--acc-2)}
 .numeros-cartao span{color:var(--txt-3);font-size:12.5px;line-height:1.45;max-width:22ch}
 
 /* ---- ficha institucional com ícone ---- */
-.ficha-icone{margin:var(--e4) 0 0;display:grid;gap:1px;background:var(--linha);
+/* Linhas com fio em cima, e não células com o fundo vazando pelo vão: a
+   lista tem número ímpar de itens enquanto CNPJ e endereço não chegam, e a
+   última célula da grade aparecia como um retângulo cinza vazio. */
+.ficha-icone{margin:var(--e4) 0 0;display:grid;gap:0;
   grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
 /* o ícone ocupa a primeira coluna nas duas linhas; rótulo e valor empilham
    na segunda. Grade em vez de div aninhada, para o <dl> continuar válido. */
-.ficha-icone > div{background:var(--bg);padding:var(--e3);
+.ficha-icone > div{padding:var(--e3);border-top:1px solid var(--linha);
   display:grid;grid-template-columns:auto 1fr;gap:2px 13px;align-items:start}
 .ficha-icone .ico-tec{grid-row:1 / span 2;margin-top:2px}
 .ficha-icone dt{font-family:var(--display);font-size:var(--t-micro);letter-spacing:.16em;
@@ -1537,6 +1651,9 @@ h2 em{font-style:normal;color:var(--acc-2)}
              background .25s ease,box-shadow .3s ease}
 .zap::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
   background:repeating-linear-gradient(115deg,rgba(255,255,255,.14) 0 1px,transparent 1px 7px)}
+/* a marca do WhatsApp é uma forma cheia, não um traço: herdar o stroke das
+   outras peças da interface a deixava borrada e ilegível em 24px */
+.zap .zap-marca{fill:currentColor;stroke:none}
 .zap svg{width:24px;height:24px;flex:0 0 auto;fill:none;stroke:currentColor;
   stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;position:relative;z-index:1;
   margin-left:-1px}
@@ -1547,6 +1664,19 @@ h2 em{font-style:normal;color:var(--acc-2)}
   box-shadow:0 18px 44px rgba(4,7,10,.56)}
 .zap:hover span,.zap:focus-visible span{opacity:1}
 .zap:focus-visible{outline:2px solid var(--txt);outline-offset:3px}
+/* Metal no clique: a faixa de brilho atravessa o botão uma vez e volta ao
+   azul. É `background-image` com várias paradas claras e escuras, deslocada
+   por `background-position` — sem imagem, sem filtro, sem custo de pintura. */
+.zap.metal{
+  background-image:linear-gradient(115deg,
+    #5c666f 0%, #d9dee3 16%, #7f888f 30%, #f2f4f6 44%,
+    #737c84 58%, #c8ced4 72%, #626b73 86%, #aeb5bb 100%);
+  background-size:280% 100%;
+  animation:zapmetal .9s cubic-bezier(.3,.7,.3,1) 1;
+  color:#0B0E10;border-color:rgba(255,255,255,.5)}
+@keyframes zapmetal{
+  from{background-position:120% 0}
+  to{background-position:-60% 0}}
 /* no toque não existe passar o cursor: o botão já nasce aberto, mas compacto */
 @media (pointer:coarse){
   .zap{width:auto;gap:10px;height:52px;border-radius:3px 3px 3px 14px}
@@ -1645,7 +1775,8 @@ h2 em{font-style:normal;color:var(--acc-2)}
 
 /* DÚVIDAS · o título acompanha a rolagem enquanto as perguntas passam */
 @media (min-width:981px){
-  .pag-duvidas .topo-interno{position:sticky;top:calc(var(--nav-altura) + var(--e3));z-index:1}
+  /* o título fixo grudava na seção seguinte agora que o cabeçalho tem foto ao
+     lado e altura própria: o texto de baixo subia por baixo dele */
   .pag-duvidas .faq-lista{max-width:70ch;margin-left:auto}
 }
 
@@ -1698,6 +1829,7 @@ h2 em{font-style:normal;color:var(--acc-2)}
   .compromissos{grid-template-columns:1fr}
   .colunas .coluna:nth-child(n+2){display:none}
   .rod-grid{grid-template-columns:1fr 1fr}
+  .wordmark{grid-column:1 / -1;justify-self:center;margin-top:var(--e3);width:min(100%,210px)}
   .peca{width:82px;height:82px}
   .pecas{height:150px;margin-top:var(--e5)}
   .beamwrap{height:320px}

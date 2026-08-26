@@ -42,28 +42,12 @@ var $  = function(s,c){ return (c||document).querySelector(s); };
 var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySelectorAll(s)); };
 
 /* ---------------------------------------------- tema claro/escuro */
+/* O site é escuro, e só. O alternador de tema saiu a pedido: o que sobra aqui
+   é garantir o atributo mesmo se alguém tiver 'claro' guardado de antes, e
+   limpar esse resto do navegador dele. */
 (function tema(){
-  var raiz = document.documentElement;
-  var salvo = null;
-  try{ salvo = localStorage.getItem('spx-tema'); }catch(e){}
-  aplica(salvo || 'escuro');   /* escuro é o padrão da marca */
-
-  function aplica(t){
-    raiz.setAttribute('data-tema', t);
-    var meta = $('meta[name="theme-color"]');
-    if(meta) meta.setAttribute('content', t === 'claro' ? '#F4F3EF' : '#000000');
-    $$('[data-acao="tema"]').forEach(function(b){
-      b.setAttribute('aria-label', t === 'claro' ? 'Ativar tema escuro' : 'Ativar tema claro');
-      b.setAttribute('aria-pressed', String(t === 'claro'));
-    });
-  }
-  $$('[data-acao="tema"]').forEach(function(b){
-    b.addEventListener('click', function(){
-      var novo = raiz.getAttribute('data-tema') === 'claro' ? 'escuro' : 'claro';
-      aplica(novo);
-      try{ localStorage.setItem('spx-tema', novo); }catch(e){}
-    });
-  });
+  document.documentElement.setAttribute('data-tema', 'escuro');
+  try{ localStorage.removeItem('spx-tema'); }catch(e){}
 })();
 
 /* ---------------------------------------------- barra de progresso */
@@ -281,8 +265,9 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
   var frames = $$('.frame', track);
   var caixa = $('#beamwrap');
   var desloc = 0, pausado = false, ciclo = 0;
-  caixa.addEventListener('mouseenter', function(){ pausado = true; });
-  caixa.addEventListener('mouseleave', function(){ pausado = false; });
+  /* o mouse não para mais a esteira: passar por cima dela é o que mais
+     acontece na home, e a peça congelando a cada passada dava impressão de
+     travamento. No toque continua parando, que ali é gesto deliberado. */
   caixa.addEventListener('touchstart', function(){ pausado = !pausado; }, {passive:true});
 
   /* as posições são medidas uma vez e recalculadas só no resize;
@@ -895,6 +880,16 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
   new IntersectionObserver(function(es){
     botao.classList.toggle('recolhido', es[0].isIntersecting);
   }, {threshold:0.12}).observe(form);
+
+  /* o metal acende no clique e apaga sozinho: `pointerdown` e não `click`
+     porque o clique já está saindo da página para o WhatsApp, e o efeito
+     precisa aparecer antes disso */
+  botao.addEventListener('pointerdown', function(){
+    botao.classList.remove('metal');
+    void botao.offsetWidth;          /* reinicia a animação se clicar de novo */
+    botao.classList.add('metal');
+  });
+  botao.addEventListener('animationend', function(){ botao.classList.remove('metal'); });
 })();
 
 /* ---------------------------------------------- poeira de obra nas laterais */
@@ -1040,8 +1035,8 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
   $('[data-capa3d-prox]').addEventListener('click', function(){ anda(1); });
   pontos.forEach(function(b, i){ b.addEventListener('click', function(){ vai(i); reinicia(); }); });
 
-  caixa.addEventListener('mouseenter', pausa);
-  caixa.addEventListener('mouseleave', reinicia);
+  /* o carrossel só para no foco do teclado, onde parar é o certo: quem
+     navegou até ele quer ler. No mouse, segue andando. */
   caixa.addEventListener('focusin', pausa);
 
   /* setas do teclado quando o carrossel está em foco */

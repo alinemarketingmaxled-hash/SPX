@@ -1078,6 +1078,126 @@ h2 em{font-style:normal;color:var(--acc-2)}
   background:var(--linha-forte)}
 .fluxo li[data-lig="fim"]::after{display:none}
 
+/* ------------------------------------------------------- cartão que vira */
+/* A perspectiva fica no pai e o giro no filho: na mesma caixa o 3D achata e o
+   cartão vira um retângulo que troca de cor. As duas faces ficam empilhadas
+   com `backface-visibility:hidden`, então só uma aparece por vez sem que
+   nenhuma saia do documento. */
+.meio-a-meio{display:grid;grid-template-columns:1fr 1fr;gap:var(--e5);align-items:center}
+.vira{perspective:1400px}
+.vira-caixa{position:relative;display:block;width:100%;aspect-ratio:1.35;cursor:pointer;
+  transform-style:preserve-3d;transition:transform .72s cubic-bezier(.2,.75,.2,1)}
+.vira[data-virado] .vira-caixa{transform:rotateY(180deg)}
+.vira-btn{margin-top:var(--e2);display:inline-flex;align-items:center;gap:9px;
+  background:none;border:0;padding:8px 2px;cursor:pointer;
+  font-family:var(--display);font-weight:600;font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--acc-2);transition:color var(--transicao)}
+.vira-btn i{font-style:normal;font-size:14px;line-height:1;
+  transition:transform var(--transicao)}
+.vira-btn:hover{color:var(--txt)}
+.vira-btn:hover i{transform:rotate(180deg)}
+.vira-btn:focus-visible{outline:2px solid var(--acc-2);outline-offset:4px}
+.vira-face{position:absolute;inset:0;display:grid;align-content:center;gap:var(--e3);
+  padding:var(--e4);border:1px solid var(--linha);border-radius:var(--raio);
+  background:var(--sup);text-align:left;
+  -webkit-backface-visibility:hidden;backface-visibility:hidden;overflow:hidden}
+.vira-frente{background:
+  radial-gradient(120% 90% at 78% 12%,var(--acc-suave),transparent 62%),var(--sup);
+  place-items:center;text-align:center}
+.vira-verso{transform:rotateY(180deg);background:var(--sup-2)}
+.vira-marca{display:grid;justify-items:center;gap:var(--e2)}
+.vira-marca img{width:min(74%,260px);height:auto;display:block;opacity:.92}
+.vira-legenda{font-family:var(--display);font-weight:500;font-size:10.5px;
+  letter-spacing:.24em;text-transform:uppercase;color:var(--txt-3)}
+.vira-titulo{font-family:var(--display);font-size:12px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--acc-2)}
+.vira-verso .marcas-fato{margin-top:0;gap:var(--e2)}
+.vira-verso .marcas-fato span{font-size:13px}
+
+@media (max-width:900px){
+  .meio-a-meio{grid-template-columns:1fr;gap:var(--e4)}
+  .vira-caixa{aspect-ratio:1.15}
+}
+@media (prefers-reduced-motion:reduce){
+  .vira-caixa{transition:none}
+}
+
+/* frente do cartão nas páginas de serviço: tipo, nome, resumo, três marcas e
+   a foto sangrando no pé */
+.vira-frente:has(.vira-foto){place-items:stretch;text-align:left;
+  align-content:start;gap:var(--e2);padding-bottom:0}
+.vira-tipo{font-family:var(--display);font-size:10.5px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--acc-2)}
+.vira-nome{font-family:var(--display);font-weight:700;font-size:clamp(19px,2.2vw,25px);
+  line-height:1.1;text-transform:uppercase;color:var(--txt)}
+.vira-resumo{color:var(--txt-2);font-size:13px;line-height:1.5}
+.vira-marcas{display:grid;gap:7px;margin-top:2px}
+.vira-marcas > span{display:grid;grid-template-columns:auto 1fr;gap:9px;align-items:start}
+.vira-marcas svg{width:15px;height:15px;stroke-width:1.2;color:var(--acc-2);margin-top:2px}
+.vira-marcas i{font-style:normal;font-size:12px;color:var(--txt-2);line-height:1.4}
+.vira-foto{display:block;margin:auto calc(-1 * var(--e4)) 0;height:38%;overflow:hidden;
+  -webkit-mask-image:linear-gradient(180deg,transparent,#000 34%);
+  mask-image:linear-gradient(180deg,transparent,#000 34%)}
+.vira-foto img{width:100%;height:100%;object-fit:cover;display:block;opacity:.85}
+.vira-texto{margin:0;color:var(--txt-2);font-size:13px;line-height:1.55}
+.vira-lista{list-style:none;margin:0;padding:0;display:grid;gap:5px}
+.vira-lista li{color:var(--txt-2);font-size:12.5px;line-height:1.45;
+  padding-left:14px;position:relative}
+.vira-lista li::before{content:"";position:absolute;left:0;top:7px;width:5px;height:5px;
+  border:1px solid var(--acc-2);transform:rotate(45deg)}
+.vira-verso:has(.vira-lista){align-content:start;gap:8px;overflow-y:auto}
+
+/* ------------------------------------------- contato: foto atrás do vidro */
+/* A foto vai atrás do bloco inteiro e o formulário fica translúcido por cima.
+   `backdrop-filter` desfoca o que passa por baixo dele — sem isso o texto do
+   formulário disputava legibilidade com o azulejo da foto. */
+.contato-bloco{position:relative;isolation:isolate}
+.cb-foto{position:absolute;top:calc(-1 * var(--e5));bottom:0;
+  left:calc(50% - 50vw);width:100vw;z-index:-1;overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent 8%,#000 46%),
+                     linear-gradient(180deg,#000 0,#000 62%,transparent 100%);
+  mask-image:linear-gradient(90deg,transparent 8%,#000 46%),
+             linear-gradient(180deg,#000 0,#000 62%,transparent 100%);
+  -webkit-mask-composite:source-in;mask-composite:intersect}
+.cb-foto img{width:100%;height:100%;object-fit:cover;display:block;opacity:.5}
+.contato-bloco .form{background:rgba(9,13,17,.62);
+  -webkit-backdrop-filter:blur(14px) saturate(1.1);backdrop-filter:blur(14px) saturate(1.1);
+  border-color:rgba(255,255,255,.16)}
+.contato-bloco .form input,.contato-bloco .form select,.contato-bloco .form textarea{
+  background:rgba(0,0,0,.34)}
+
+/* --------------------------------------------- cartão de chamada em célula */
+/* Nos modelos, a célula que sobra na grade não fica vazia: recebe o convite.
+   Aqui ele herda a caixa do cartão vizinho e muda só de peso, para ler como
+   parte da mesma grade e não como um banner colado por cima. */
+.cartoes-icone li.ci-cta{padding:0;border:0;background:none}
+.cartao-cta{height:100%;display:grid;align-content:start;gap:9px;justify-items:start;
+  padding:var(--e3);background:var(--acc-suave);border:1px solid var(--acc-2);
+  border-radius:var(--raio)}
+.cc-ico{display:grid;place-items:center;color:var(--acc-2)}
+.cc-ico svg{width:20px;height:20px;stroke-width:1.2}
+.cartao-cta b{font-family:var(--display);font-size:12.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--txt);line-height:1.35}
+/* --txt-3 dá 3,0 sobre o fundo do cartão: abaixo dos 4,5 que a norma pede
+   para texto pequeno. Sobe um degrau — e com o nome do pai junto, senão a
+   regra genérica `.cartoes-icone li span` ganha por especificidade. */
+.cartao-cta .cc-apoio{color:var(--txt-2);font-size:13.5px;line-height:1.5}
+.cartao-cta .btn{margin-top:auto}
+/* depois de uma lista de perguntas ele vira uma faixa larga, não um cartão */
+.faq-lista + .cartao-cta,.perguntas + .cartao-cta{
+  margin-top:var(--e4);grid-template-columns:auto 1fr auto;align-items:center;
+  justify-items:start;gap:var(--e3);column-gap:var(--e3)}
+.faq-lista + .cartao-cta b,.perguntas + .cartao-cta b{grid-column:2;grid-row:1}
+.faq-lista + .cartao-cta .cc-apoio,.perguntas + .cartao-cta .cc-apoio{grid-column:2;grid-row:2}
+.faq-lista + .cartao-cta .cc-ico,.perguntas + .cartao-cta .cc-ico{grid-row:1 / span 2}
+.faq-lista + .cartao-cta .btn,.perguntas + .cartao-cta .btn{grid-column:3;grid-row:1 / span 2;margin:0}
+
+/* o texto de abertura mora dentro do cabeçalho, logo abaixo do título: solto
+   numa seção seguinte ele caía a duzentos pixels dali, porque o cabeçalho tem
+   altura própria por causa da foto */
+.topo-lead{margin-top:var(--e3);max-width:min(52%,54ch)}
+@media (max-width:999px){ .topo-lead{max-width:none} }
+
 /* ------------------------------------------------ abertura da página /sobre */
 /* Fatos em linha, com ícone fino à esquerda. É a forma curta do que a empresa
    afirma: cada item é uma frase que o resto do site sustenta. */

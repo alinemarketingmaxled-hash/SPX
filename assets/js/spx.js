@@ -1190,4 +1190,30 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
   });
 })();
 
+/* CARTÃO QUE VIRA · clicar mostra o outro lado. O estado fica no atributo
+   `data-virado` do pai, e não numa classe do botão, porque é o pai que carrega
+   a perspectiva — girar o elemento que também define a perspectiva achata o
+   3D. `aria-pressed` conta o estado para quem não vê a animação. */
+(function cartaoVira(){
+  $$('[data-vira]').forEach(function(caixa){
+    var botao = $('[data-vira-btn]', caixa);
+    var palco = $('[data-vira-palco]', caixa);
+    if(!botao) return;
+    function vira(){
+      var virado = caixa.hasAttribute('data-virado');
+      if(virado) caixa.removeAttribute('data-virado');
+      else caixa.setAttribute('data-virado', '');
+      botao.setAttribute('aria-pressed', String(!virado));
+    }
+    botao.addEventListener('click', vira);
+    /* clicar no cartão também vira, mas sem atrapalhar quem está selecionando
+       texto ou clicando num link de dentro dele */
+    if(palco) palco.addEventListener('click', function(e){
+      if(e.target.closest('a,button')) return;
+      if(String(getSelection())) return;
+      vira();
+    });
+  });
+})();
+
 })();

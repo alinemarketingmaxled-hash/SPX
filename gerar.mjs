@@ -259,7 +259,7 @@ const schemaTrilha = (trilha) => ({
 
 /* --------------------------------------------------------------- moldura */
 function pagina({ url, arquivo, title, descricao, h1, trilha = [], corpo, schema = [],
-                 visual = '', fundo = null, h1b = '' }) {
+                 visual = '', fundo = null, h1b = '', lead = '' }) {
   const grafo = [schemaOrganizacao(), ...schema].filter(Boolean);
   if (trilha.length > 1) grafo.push(schemaTrilha(trilha));
   const migalhasHTML = trilha.length > 1
@@ -313,6 +313,7 @@ ${menu(trilha[1] ? trilha[1].url : url)}
   <div class="wrap topo-in">
 ${migalhasHTML}
     <h1>${esc(h1)}${h1b ? `<em>${esc(h1b)}</em>` : ''}</h1>
+${lead ? `    <p class="lead topo-lead">${esc(lead)}</p>` : ''}
   </div>
 ${fundo ? `  <div class="topo-foto" aria-hidden="true">
     <div class="hero-fundo" id="heroFundo" data-fotos="${fotos(fundo).join(',')}">
@@ -396,14 +397,46 @@ const linhaTempo = (etapas) => `<ol class="linha-tempo">${etapas.map((e) => `
     <div class="lt-txt"><h3>${esc(e.nome)}</h3><p>${esc(e.texto)}</p></div>
   </li>`).join('')}</ol>`;
 
+/* Cartão que vira. As duas faces existem no HTML o tempo todo — o giro é
+   `rotateY` com `backface-visibility`, e não troca de conteúdo — então quem
+   usa leitor de tela recebe frente e verso mesmo sem enxergar a animação.
+
+   O botão é uma peça separada, e não o cartão inteiro: com o cartão sendo o
+   botão, o nome acessível dele virava todo o texto das duas faces e a WCAG
+   reprova quando o nome não contém o rótulo visível. Assim o botão tem o seu
+   próprio texto, e clicar em qualquer lugar do cartão também vira. */
+const cartaoVira = (frente, verso, rotulo = 'Ver as informações') => `
+<div class="vira" data-vira>
+  <div class="vira-caixa" data-vira-palco>
+    <div class="vira-face vira-frente">${frente}</div>
+    <div class="vira-face vira-verso">${verso}</div>
+  </div>
+  <button class="vira-btn" type="button" data-vira-btn aria-pressed="false">
+    ${esc(rotulo)}<i aria-hidden="true">↻</i>
+  </button>
+</div>`;
+
+/* Cartão de chamada do tamanho de um cartão da grade. Nos modelos ele ocupa a
+   célula que sobra quando a lista tem número ímpar de itens — em vez de um
+   retângulo vazio no canto, o convite entra ali. */
+const cartaoChamada = (titulo, apoio, rotulo, url = '/contato', ic = 'conversa') => `
+<div class="cartao-cta">
+  <span class="cc-ico">${icone(ic)}</span>
+  <b>${esc(titulo)}</b>
+  <span class="cc-apoio">${esc(apoio)}</span>
+  <a class="btn btn-acc" href="${url}">${esc(rotulo)} ↗</a>
+</div>`;
+
 /* Grade de cartões com ícone: usada para serviços e para listas de garantia. */
-const cartoesIcone = (itens, colunas = 4) =>
+/* `extra` entra como último item da grade — é por onde o cartão de chamada
+   ocupa a célula que sobraria vazia quando a lista tem número ímpar. */
+const cartoesIcone = (itens, colunas = 4, extra = '') =>
   `<ul class="cartoes-icone" style="--colunas:${colunas}">${itens.map((i) => `
   <li>${i.url ? `<a href="${i.url}">` : '<div>'}
     ${icone(i.icone)}
     <b>${esc(i.titulo)}</b>
     <span>${esc(i.texto)}</span>
-  ${i.url ? '</a>' : '</div>'}</li>`).join('')}</ul>`;
+  ${i.url ? '</a>' : '</div>'}</li>`).join('')}${extra ? `<li class="ci-cta">${extra}</li>` : ''}</ul>`;
 
 /* Bloco de duas colunas: conteúdo à esquerda, arte técnica à direita. É o
    arranjo dos três modelos da página de serviços. */
@@ -913,15 +946,34 @@ for (const s of servicosPublicaveis) {
              { '@type': 'WebPage', '@id': `${SITE}/servicos/${s.slug}#pagina`,
                name: s.h1, speakable: FALADO, about: { '@id': idEmpresa } }],
     corpo: `
-${respostaDireta(s.pergunta, s.resposta, s.fatos)}
-
 <section class="sec wrap" data-reveal>
-  <p class="lead">${esc(s.oQueE)}</p>
+  <div class="meio-a-meio">
+    <div class="resposta-direta">
+      <h2>${esc(s.pergunta)}</h2>
+      <p>${esc(s.resposta)}</p>
+      ${s.fatos.length ? `<ul class="fatos">${s.fatos.map((f) => `<li>${esc(f)}</li>`).join('')}</ul>` : ''}
+    </div>
+    ${cartaoVira(`
+      <span class="vira-tipo">Tipo de obra</span>
+      <span class="vira-nome">${esc(s.nome)}</span>
+      <span class="vira-resumo">${esc(s.resumo)}</span>
+      <span class="vira-marcas">
+        ${s.executa.slice(0, 3).map((e) => `<span>${icone(s.icone)}<i>${esc(e)}</i></span>`).join('')}
+      </span>
+      <span class="vira-foto"><img src="/img/${s.fotos[0]}-480.webp" width="480"
+        height="${Math.round(480 * dim(s.fotos[0])[1] / dim(s.fotos[0])[0])}" alt=""
+        loading="lazy" decoding="async"></span>`, `
+      <span class="vira-titulo">O que é</span>
+      <p class="vira-texto">${esc(s.oQueE)}</p>
+      <span class="vira-titulo">Para quem é</span>
+      <ul class="vira-lista">${s.paraQuem.slice(0, 3).map((q) => `<li>${esc(q)}</li>`).join('')}</ul>
+      <span class="vira-titulo">Diferenciais</span>
+      <ul class="vira-lista">${s.diferenciais.slice(0, 3).map((d) => `<li>${esc(d)}</li>`).join('')}</ul>`,
+      `Ver o que é ${s.nome.toLowerCase()}`)}
+  </div>
 </section>
 
-${secao('Para quem é', `<ul class="marcada">${lista(s.paraQuem)}</ul>`, 'claro')}
-
-${secao('O que a SPX executa', `<ul class="grade-servicos">${lista(s.executa)}</ul>`)}
+${secao('O que a SPX executa', `<ul class="grade-servicos">${lista(s.executa)}</ul>`, 'claro')}
 
 ${secao('Como funciona', linhaTempo(processo), 'claro')}
 
@@ -944,17 +996,14 @@ pagina({
   descricao: 'Obras corporativas e comerciais, retrofit, reformas, gerenciamento, manutenção, ' +
     'projetos e laudos. Engenharia, gestão e execução pela mesma equipe, em São Paulo e região.',
   h1: 'Serviços de engenharia, gestão e execução',
+  lead: `${empresa.proposta} A SPX não vende mão de obra: vende a engenharia que decide o que ` +
+        'fazer, a gestão que mantém o prazo e a execução que entrega.',
   trilha: [{ nome: 'Início', url: '/' }, { nome: 'Serviços', url: '/servicos' }],
   schema: [schemaProcesso(), { '@type': 'CollectionPage', name: 'Serviços da SPX Engenharia',
     speakable: FALADO, about: { '@id': idEmpresa },
     hasPart: servicos.map((s) => ({ '@type': 'Service', name: s.nome,
       url: `${SITE}/servicos/${s.slug}` })) }],
   corpo: `
-<section class="sec wrap" data-reveal>
-  <p class="lead">${esc(empresa.proposta)} A SPX não vende mão de obra: vende a engenharia que
-  decide o que fazer, a gestão que mantém o prazo e a execução que entrega.</p>
-</section>
-
 <section class="sec wrap" data-reveal>
   <h2>O que <em>executamos</em></h2>
   <p class="sub-secao">Soluções completas para cada tipo de necessidade.</p>
@@ -1045,11 +1094,6 @@ pagina({
   corpo: `
 ${carrossel()}
 
-<section class="sec wrap" data-reveal>
-  <p class="lead">Obras conduzidas pela SPX em São Paulo. Cada uma começa numa planta e
-  termina num espaço em operação, e é essa travessia que a engenharia organiza.</p>
-</section>
-
 ${projetosPublicaveis.length
   ? secao('Obras', `<ul class="grade-obras">${projetosPublicaveis.map((p) =>
       `<li><a href="/obras/${p.slug}"><b>${esc(p.nome)}</b><span>${esc(p.regiao)} · ${esc(p.atuacao)}</span></a></li>`).join('')}</ul>`, 'claro')
@@ -1139,13 +1183,13 @@ pagina({
   title: `Sobre a ${empresa.nome} | Engenharia de obras corporativas em São Paulo`,
   descricao: `${empresa.definicao} Quem somos, como trabalhamos, área de atuação e responsabilidade técnica.`,
   h1: `Sobre a ${empresa.nome}`,
+  lead: `${empresa.definicao} ${empresa.proposta}`,
   trilha: [{ nome: 'Início', url: '/' }, { nome: 'Sobre', url: '/sobre' }],
   schema: [schemaPessoa(), schemaProcesso(),
            { '@type': 'AboutPage', name: `Sobre a ${empresa.nome}`, speakable: FALADO,
              mainEntity: { '@id': idEmpresa } }].filter(Boolean),
   corpo: `
 <section class="sec wrap" data-reveal>
-  <p class="lead">${esc(empresa.definicao)} ${esc(empresa.proposta)}</p>
   <ul class="marcas-fato">
     <li>${icone('local')}<span>Base em ${esc(empresa.base)}, com atuação em ${esc(empresa.atuacao)}.</span></li>
     <li>${icone('cronograma')}<span>Cronograma físico-financeiro entregue junto da proposta, não depois de assinar.</span></li>
@@ -1173,6 +1217,9 @@ pagina({
   descricao: 'A SPX executa o projeto do arquiteto: leitura, compatibilização, orçamento ' +
     'discriminado, planejamento, execução e acompanhamento, em São Paulo e região.',
   h1: 'Você cria o projeto. A SPX cuida da execução.',
+  lead: 'Projeto bom executado por quem não entende de projeto vira outra coisa. A SPX ' +
+        'trabalha com escritórios de arquitetura executando o que foi desenhado, e apontando ' +
+        'antes da obra começar, o que não vai caber.',
   trilha: [{ nome: 'Início', url: '/' }, { nome: 'Para arquitetos', url: '/para-arquitetos' }],
   schema: [schemaPerguntas([
     ['A SPX executa projeto desenvolvido por outro arquiteto?',
@@ -1183,12 +1230,6 @@ pagina({
      'engenharia da obra.'],
   ])],
   corpo: `
-<section class="sec wrap" data-reveal>
-  <p class="lead">Projeto bom executado por quem não entende de projeto vira outra coisa. A SPX
-  trabalha com escritórios de arquitetura executando o que foi desenhado, e apontando antes
-  da obra começar, o que não vai caber.</p>
-</section>
-
 ${secao('O que a SPX faz com o seu projeto', fluxoSerpente([
   { icone: 'leitura', n: '01', nome: 'Leitura',
     texto: 'Estudo do projeto e das intenções de detalhe, para entender o que não pode ser negociado no acabamento.' },
@@ -1212,7 +1253,8 @@ ${secao('O que muda para o escritório', cartoesIcone([
   { icone: 'orcamento', titulo: 'Orçamento que defende você', texto: 'Item por item, alinhado com o cliente.' },
   { icone: 'projeto', titulo: 'O detalhe desenhado', texto: 'Chega até a entrega, porque tem engenheiro conferindo.' },
   { icone: 'art', titulo: 'Responsabilidade técnica', texto: 'Da execução, é da SPX.' },
-], 3))}
+], 3, cartaoChamada('Precisa de agilidade e segurança no projeto?',
+  'Fale com um engenheiro da SPX sobre o seu.', 'Falar com a SPX')))}
 
 ${secao('Dúvidas de quem projeta', perguntas([
   ['A SPX executa projeto desenvolvido por outro arquiteto?',
@@ -1227,7 +1269,8 @@ ${secao('Dúvidas de quem projeta', perguntas([
   ['Vocês indicam a SPX para o meu cliente ou eu contrato?',
    'As duas formas funcionam: a SPX pode ser contratada pelo cliente final com o escritório ' +
    'coordenando o projeto, ou diretamente pelo escritório.'],
-]), 'claro')}
+]) + cartaoChamada('Ainda tem dúvida?', 'Fale diretamente com um engenheiro da SPX.',
+  'Enviar pergunta', '/contato', 'conversa'), 'claro')}
 `,
 });
 
@@ -1245,16 +1288,27 @@ pagina({
   schema: [schemaPerguntas(duvidas), { '@type': 'QAPage', speakable: FALADO,
            about: { '@id': idEmpresa } }],
   corpo: `
-<section class="sec wrap resposta-direta" data-reveal>
-  <h2>O que a SPX Engenharia faz?</h2>
-  <p>${esc(empresa.definicao + ' ' + empresa.proposta)}</p>
-  <ul class="marcas-fato">
-    <li>${icone('local')}<span>Atua em São Paulo capital e na região metropolitana.</span></li>
-    <li>${icone('execucao')}<span>Executa obra corporativa, comercial, retrofit, reforma, gerenciamento, manutenção, projeto e laudo.</span></li>
-    <li>${icone('art')}<span>Cada obra tem engenheiro responsável nomeado, com ART, antes da assinatura do contrato.</span></li>
-  </ul>
-  <p class="lead" style="margin-top:var(--e4)">As perguntas que mais chegam, respondidas de forma
-  direta. Para obra com prazo crítico, concorrência ou adequação de norma, envie o contexto completo.</p>
+<section class="sec wrap" data-reveal>
+  <div class="meio-a-meio">
+    <div class="resposta-direta">
+      <h2>O que a SPX Engenharia faz?</h2>
+      <p>${esc(empresa.definicao + ' ' + empresa.proposta)}</p>
+      <p class="lead" style="margin-top:var(--e3)">As perguntas que mais chegam, respondidas de
+      forma direta. Para obra com prazo crítico, concorrência ou adequação de norma, envie o
+      contexto completo.</p>
+    </div>
+    ${cartaoVira(`
+      <span class="vira-marca">
+        <img src="/img/logo-negativa.webp" width="723" height="304" alt="" loading="lazy" decoding="async">
+        <span class="vira-legenda">Engenharia · Gestão · Execução</span>
+      </span>`, `
+      <span class="vira-titulo">A SPX em três linhas</span>
+      <ul class="marcas-fato">
+        <li>${icone('local')}<span>Atua em São Paulo capital e na região metropolitana.</span></li>
+        <li>${icone('execucao')}<span>Executa obra corporativa, comercial, retrofit, reforma, gerenciamento, manutenção, projeto e laudo.</span></li>
+        <li>${icone('art')}<span>Cada obra tem engenheiro responsável nomeado, com ART, antes da assinatura do contrato.</span></li>
+      </ul>`, 'Ver o que a SPX faz')}
+  </div>
 </section>
 <section class="sec wrap faq-central">
   <div class="faq-topo">
@@ -1289,13 +1343,12 @@ pagina({
   descricao: 'Regiões atendidas pela SPX Engenharia: capital paulista e Grande São Paulo, ' +
     'com obra corporativa, comercial, retrofit e manutenção predial.',
   h1: 'Onde a SPX atua',
+  lead: 'A base da SPX é São Paulo capital, e o atendimento cobre a cidade e a região ' +
+        'metropolitana. Obra corporativa exige engenheiro em campo com frequência. Por isso o ' +
+        'raio de atuação é definido pela distância que permite acompanhar de verdade, e não ' +
+        'por marketing.',
   trilha: [{ nome: 'Início', url: '/' }, { nome: 'Onde atuamos', url: '/atuacao' }],
   corpo: `
-<section class="sec wrap" data-reveal>
-  <p class="lead">A base da SPX é São Paulo capital, e o atendimento cobre a cidade e a região
-  metropolitana. Obra corporativa exige engenheiro em campo com frequência. Por isso o raio de
-  atuação é definido pela distância que permite acompanhar de verdade, e não por marketing.</p>
-</section>
 <section class="sec wrap mapa-secao">
   <h2>Onde essas obras acontecem</h2>
   <div class="mapa-grid">
@@ -1373,7 +1426,11 @@ pagina({
   trilha: [{ nome: 'Início', url: '/' }, { nome: 'Contato', url: '/contato' }],
   schema: [{ '@type': 'ContactPage', name: 'Contato', mainEntity: { '@id': idEmpresa } }],
   corpo: `
-<section class="sec wrap">
+<section class="sec wrap contato-bloco" data-adiar>
+  <div class="cb-foto" aria-hidden="true">
+    <img data-fonte="/img/banheiro-marmore-960.webp" width="${dim('banheiro-marmore')[0]}"
+         height="${dim('banheiro-marmore')[1]}" alt="" loading="lazy" decoding="async">
+  </div>
   <div class="contato-grid">
     <div data-reveal>
       <p class="lead">A avaliação é feita no local. Um engenheiro visita, mede e levanta as

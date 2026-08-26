@@ -862,12 +862,19 @@ b,strong{font-weight:600}
 /* a foto sangra até as bordas mesmo com o conteúdo dentro do .wrap */
 .topo-interno.com-foto .hero-fundo,
 .topo-interno.com-foto .hero-veu{left:calc(50% - 50vw);width:100vw;right:auto}
-/* o mesmo véu do topo da home: a foto aparece, o texto continua legível, e a
-   página não fica com cara de escurecida */
+/* A foto tem que aparecer. Em vez de um véu uniforme por cima de tudo, a
+   sombra fica concentrada onde o texto está: uma mancha embaixo à esquerda,
+   uma faixa fina sob o menu, e o resto da imagem quase limpo. */
 .topo-interno.com-foto .hero-veu{
   background:
-    linear-gradient(90deg,rgba(0,0,0,.86) 0%,rgba(0,0,0,.5) 48%,rgba(0,0,0,.68) 100%),
-    linear-gradient(180deg,rgba(0,0,0,.7) 0%,rgba(0,0,0,.14) 30%,rgba(0,0,0,.34) 66%,var(--bg-pagina,#000) 100%)}
+    radial-gradient(120% 90% at 8% 100%,rgba(0,0,0,.9) 0%,rgba(0,0,0,.55) 34%,transparent 68%),
+    linear-gradient(180deg,rgba(0,0,0,.62) 0%,rgba(0,0,0,.05) 24%,transparent 52%),
+    linear-gradient(180deg,transparent 62%,var(--bg-pagina,#000) 100%)}
+/* a foto entra com mais presença: menos escurecida e sem lavar a cor */
+.topo-interno.com-foto .hero-fundo img{filter:none}
+/* o título ganha uma sombra própria, para não depender só do véu */
+.topo-interno.com-foto h1,
+.topo-interno.com-foto .migalhas{text-shadow:0 2px 18px rgba(0,0,0,.75),0 1px 3px rgba(0,0,0,.5)}
 /* a última parada do véu é a cor da própria página, para emendar sem costura */
 body{--bg-pagina:var(--bg)}
 .topo-interno.com-foto + .sec,
@@ -962,6 +969,86 @@ body{--bg-pagina:var(--bg)}
 }
 @media (prefers-reduced-motion:reduce){
   .peca3d > span{animation:none;transform:rotateX(-22deg) rotateY(24deg)}
+}
+
+/* ------------------------- carrossel em profundidade (página de projetos) -- */
+.capa3d-bloco{padding-top:var(--e6);padding-bottom:var(--e6);overflow:hidden}
+.capa3d{position:relative;margin-top:var(--e5);
+  height:clamp(420px,62vh,560px);perspective:1400px}
+.capa3d-palco{position:absolute;inset:0;transform-style:preserve-3d}
+.capa3d-item{
+  position:absolute;left:50%;top:50%;width:clamp(250px,26vw,340px);
+  height:clamp(380px,56vh,500px);margin:0;
+  background:var(--bg-2);border:1px solid var(--linha);border-radius:4px;
+  overflow:hidden;transform-origin:50% 50%;
+  /* o JavaScript escreve a transformação; aqui só o tempo e a curva */
+  transform:translate3d(-50%,-50%,0);
+  transition:transform .62s cubic-bezier(.24,.72,.24,1),opacity .5s ease,
+             filter .5s ease,box-shadow .5s ease;
+  will-change:transform}
+.capa3d-item img{position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;display:block;background:var(--bg-2)}
+/* enquanto a foto não chegou, o cartão é um retângulo neutro, não um
+   ícone de imagem quebrada */
+.capa3d-item img[data-fonte]{opacity:0}
+/* escurece de baixo para cima, para o texto do cartão da frente ser lido */
+.capa3d-item::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,.5) 0%,transparent 26%,
+             rgba(0,0,0,.45) 52%,rgba(0,0,0,.92) 100%)}
+.capa3d-etiqueta{position:absolute;top:14px;right:14px;z-index:2;
+  font-family:var(--display);font-weight:600;font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;color:#F4F4F1;
+  background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.24);
+  border-radius:999px;padding:6px 11px;backdrop-filter:blur(6px)}
+.capa3d-corpo{position:absolute;left:0;right:0;bottom:0;z-index:2;
+  padding:0 var(--e3) var(--e3);text-align:center;color:#F5F5F2;
+  opacity:0;transform:translateY(12px);transition:opacity .4s ease .1s,transform .4s ease .1s}
+.capa3d-corpo h3{font-size:clamp(19px,2.2vw,26px);line-height:1.05}
+.capa3d-corpo h3 span{display:block;margin-top:5px;font-size:.62em;color:#CBD4DC;
+  letter-spacing:.02em}
+.capa3d-corpo h3::after{content:"";display:block;width:46px;height:1px;
+  background:var(--acc-2);margin:12px auto 0}
+.capa3d-corpo p{margin:12px 0 0;font-size:13px;line-height:1.5;color:#C7CDD3;
+  max-width:34ch;margin-inline:auto}
+.capa3d-corpo .btn{margin-top:var(--e3);font-size:11px;padding:11px 18px}
+/* só o cartão da frente mostra o texto e recebe foco */
+.capa3d-item.frente .capa3d-corpo{opacity:1;transform:none}
+.capa3d-item.frente{box-shadow:0 34px 80px rgba(0,0,0,.6);border-color:var(--linha-forte)}
+.capa3d-item:not(.frente){filter:saturate(.55) brightness(.5)}
+.capa3d-item:not(.frente)::after{background:rgba(0,0,0,.35)}
+
+.capa3d-seta{position:absolute;top:50%;transform:translateY(-50%);z-index:4;
+  width:46px;height:46px;border-radius:50%;display:grid;place-items:center;
+  background:var(--sup);border:1px solid var(--linha-forte);color:var(--txt);
+  cursor:pointer;transition:background .22s,border-color .22s,transform .22s}
+.capa3d-seta svg{width:19px;height:19px;fill:none;stroke:currentColor;
+  stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.capa3d-seta.ant{left:clamp(6px,3vw,44px)}
+.capa3d-seta.prox{right:clamp(6px,3vw,44px)}
+.capa3d-seta:hover,.capa3d-seta:focus-visible{background:var(--acc);border-color:var(--acc-2);
+  color:#F4F4F1}
+.capa3d-seta:focus-visible{outline:2px solid var(--acc-2);outline-offset:3px}
+
+.capa3d-pontos{display:flex;justify-content:center;gap:2px;margin-top:var(--e3)}
+/* o ponto é pequeno de propósito, mas o alvo do dedo precisa de 24 px:
+   o recheio transparente cresce a área clicável sem engordar o desenho */
+.capa3d-pontos button{width:24px;height:24px;padding:8px;box-sizing:border-box;
+  border-radius:999px;background:var(--linha-forte);background-clip:content-box;
+  border:none;cursor:pointer;
+  transition:width .32s cubic-bezier(.24,.72,.24,1),background .24s}
+.capa3d-pontos button[aria-selected="true"]{width:46px;background:var(--acc-2);
+  background-clip:content-box}
+.capa3d-pontos button:focus-visible{outline:2px solid var(--acc-2);outline-offset:3px}
+
+@media (max-width:700px){
+  .capa3d{height:clamp(400px,72vh,520px);perspective:900px}
+  .capa3d-item{width:min(78vw,300px);height:clamp(360px,64vh,460px)}
+  .capa3d-seta{width:40px;height:40px}
+  .capa3d-corpo p{display:none}
+}
+/* sem animação: os cartões param de girar, só trocam */
+@media (prefers-reduced-motion:reduce){
+  .capa3d-item{transition:opacity .2s ease}
 }
 
 /* ------------------------------- central de dúvidas: busca e temas -------- */

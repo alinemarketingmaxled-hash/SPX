@@ -25,7 +25,7 @@
 <link rel="icon" type="image/png" href="/img/favicon.png">
 <link rel="preload" as="image" href="/img/capa-recepcao-marmore-1280.webp"
       imagesrcset="/img/capa-recepcao-marmore-768.webp 768w, /img/capa-recepcao-marmore-1280.webp 1280w" imagesizes="100vw" fetchpriority="high">
-<link rel="stylesheet" href="/assets/css/spx.min.css?v=6ab53321">
+<link rel="stylesheet" href="/assets/css/spx.min.css?v=873d417d">
 <script>
 /* aplica o tema antes da pintura para não piscar */
 (function(){try{var t=localStorage.getItem('spx-tema')||'escuro';document.documentElement.setAttribute('data-tema',t);}catch(e){}})();
@@ -247,18 +247,192 @@
 
 <section class="sec wrap" data-reveal>
   <p class="lead">Obras conduzidas pela SPX em São Paulo. Cada uma começa numa planta e
-  termina num espaço em operação — e é essa travessia que a engenharia organiza.</p>
+  termina num espaço em operação, e é essa travessia que a engenharia organiza.</p>
 </section>
 
 
-<section class="sec esteira-bloco">
+<section class="sec capa3d-bloco" aria-labelledby="acervoTitulo">
   <div class="wrap centro" data-reveal>
-    <p class="eyebrow centro">Do executivo à inauguração</p>
-    <h2 style="margin-top:20px">O projeto sai da planta<br>e vira realidade.</h2>
+    <p class="eyebrow centro">Arquivo SPX</p>
+    <h2 id="acervoTitulo" style="margin-top:20px">Obras que saíram<br>da planta.</h2>
   </div>
-  <div class="beamwrap" id="beamwrap">
-    <div class="beam" aria-hidden="true"><span class="rot esq">Projeto</span><span class="rot dir">Entregue</span></div>
-    <div class="track" id="track"></div>
+
+  <div class="capa3d" data-capa3d>
+    <button class="capa3d-seta ant" type="button" data-capa3d-ant aria-label="Obra anterior">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+
+    <div class="capa3d-palco" data-capa3d-palco>
+      
+      <!-- As fotos entram por data-fonte, e só quando a seção se aproxima da
+           tela. O lazy do navegador começava a baixá-las cedo demais: os oito
+           cartões somavam centenas de KB competindo com a foto do topo, que é
+           o maior elemento pintado, e custavam meio segundo de LCP. Ficam em
+           480w porque no cartão de 340 px a variante maior não aparece. -->
+      <article class="capa3d-item" data-capa3d-item aria-roledescription="slide"
+               aria-label="1 de 8">
+        <img data-fonte="/img/sala-reuniao-azul-480.webp"
+             sizes="(max-width:700px) 78vw, 340px"
+             width="480" height="681"
+             alt="Sala de reunião, parede em azul profundo, obra executada pela SPX Engenharia"
+             decoding="async" fetchpriority="low">
+        <span class="capa3d-etiqueta">Obra corporativa</span>
+        <div class="capa3d-corpo">
+          <h3>Sala de reunião<span>Parede em azul profundo</span></h3>
+          <p>Marcenaria sob medida na parede de fundo, forro com iluminação embutida e persiana horizontal em toda a fachada.</p>
+          <a class="btn btn-acc" href="/contato" tabindex="-1">Falar sobre uma obra assim ↗</a>
+        </div>
+      </article>
+      <!-- As fotos entram por data-fonte, e só quando a seção se aproxima da
+           tela. O lazy do navegador começava a baixá-las cedo demais: os oito
+           cartões somavam centenas de KB competindo com a foto do topo, que é
+           o maior elemento pintado, e custavam meio segundo de LCP. Ficam em
+           480w porque no cartão de 340 px a variante maior não aparece. -->
+      <article class="capa3d-item" data-capa3d-item aria-roledescription="slide"
+               aria-label="2 de 8">
+        <img data-fonte="/img/recepcao-marmore-480.webp"
+             sizes="(max-width:700px) 78vw, 340px"
+             width="480" height="320"
+             alt="Recepção, balcão em mármore, obra executada pela SPX Engenharia"
+             decoding="async" fetchpriority="low">
+        <span class="capa3d-etiqueta">Obra corporativa</span>
+        <div class="capa3d-corpo">
+          <h3>Recepção<span>Balcão em mármore</span></h3>
+          <p>Balcão em pedra natural, parede de acento em bordô e marcenaria de apoio alinhada ao piso vinílico.</p>
+          <a class="btn btn-acc" href="/contato" tabindex="-1">Falar sobre uma obra assim ↗</a>
+        </div>
+      </article>
+      <!-- As fotos entram por data-fonte, e só quando a seção se aproxima da
+           tela. O lazy do navegador começava a baixá-las cedo demais: os oito
+           cartões somavam centenas de KB competindo com a foto do topo, que é
+           o maior elemento pintado, e custavam meio segundo de LCP. Ficam em
+           480w porque no cartão de 340 px a variante maior não aparece. -->
+      <article class="capa3d-item" data-capa3d-item aria-roledescription="slide"
+               aria-label="3 de 8">
+        <img data-fonte="/img/lounge-recepcao-480.webp"
+             sizes="(max-width:700px) 78vw, 340px"
+             width="480" height="720"
+             alt="Lounge de espera, balcão em pedra, obra executada pela SPX Engenharia"
+             decoding="async" fetchpriority="low">
+        <span class="capa3d-etiqueta">Obra corporativa</span>
+        <div class="capa3d-corpo">
+          <h3>Lounge de espera<span>Balcão em pedra</span></h3>
+          <p>Área de espera com balcão em pedra, revestimento texturizado e iluminação rebaixada no forro.</p>
+          <a class="btn btn-acc" href="/contato" tabindex="-1">Falar sobre uma obra assim ↗</a>
+        </div>
+      </article>
+      <!-- As fotos entram por data-fonte, e só quando a seção se aproxima da
+           tela. O lazy do navegador começava a baixá-las cedo demais: os oito
+           cartões somavam centenas de KB competindo com a foto do topo, que é
+           o maior elemento pintado, e custavam meio segundo de LCP. Ficam em
+           480w porque no cartão de 340 px a variante maior não aparece. -->
+      <article class="capa3d-item" data-capa3d-item aria-roledescription="slide"
+               aria-label="4 de 8">
+        <img data-fonte="/img/estante-espinha-peixe-480.webp"
+             sizes="(max-width:700px) 78vw, 340px"
+             width="480" height="640"
+             alt="Escritório, piso espinha de peixe, obra executada pela SPX Engenharia"
+             decoding="async" fetchpriority="low">
+        <span class="capa3d-etiqueta">Obra corporativa</span>
+        <div class="capa3d-corpo">
+          <h3>Escritório<span>Piso espinha de peixe</span></h3>
+          <p>Estante sob medida do piso ao teto e piso em espinha de peixe assentado no padrão contínuo da sala.</p>
+          <a class="btn btn-acc" href="/contato" tabindex="-1">Falar sobre uma obra assim ↗</a>
+        </div>
+      </article>
+      <!-- As fotos entram por data-fonte, e só quando a seção se aproxima da
+           tela. O lazy do navegador começava a baixá-las cedo demais: os oito
+           cartões somavam centenas de KB competindo com a foto do topo, que é
+           o maior elemento pintado, e custavam meio segundo de LCP. Ficam em
+           480w porque no cartão de 340 px a variante maior não aparece. -->
+      <article class="capa3d-item" data-capa3d-item aria-roledescription="slide"
+               aria-label="5 de 8">
+        <img data-fonte="/img/mesa-vista-sp-480.webp"
+             sizes="(max-width:700px) 78vw, 340px"
+             width="480" height="640"
+             alt="Sala de reunião, vista são paulo, obra executada pela SPX Engenharia"
+             decoding="async" fetchpriority="low">
+        <span class="capa3d-etiqueta">Obra corporativa</span>
+        <div class="capa3d-corpo">
+          <h3>Sala de reunião<span>Vista São Paulo</span></h3>
+          <p>Mesa de reunião em madeira, luminária pendente linear e cortina em trilho ao longo de toda a esquadria.</p>
+          <a class="btn btn-acc" href="/contato" tabindex="-1">Falar sobre uma obra assim ↗</a>
+        </div>
+      </article>
+      <!-- As fotos entram por data-fonte, e só quando a seção se aproxima da
+           tela. O lazy do navegador começava a baixá-las cedo demais: os oito
+           cartões somavam centenas de KB competindo com a foto do topo, que é
+           o maior elemento pintado, e custavam meio segundo de LCP. Ficam em
+           480w porque no cartão de 340 px a variante maior não aparece. -->
+      <article class="capa3d-item" data-capa3d-item aria-roledescription="slide"
+               aria-label="6 de 8">
+        <img data-fonte="/img/restaurante-fachada-480.webp"
+             sizes="(max-width:700px) 78vw, 340px"
+             width="480" height="853"
+             alt="Restaurante, salão e fachada, obra executada pela SPX Engenharia"
+             decoding="async" fetchpriority="low">
+        <span class="capa3d-etiqueta">Varejo e alimentação</span>
+        <div class="capa3d-corpo">
+          <h3>Restaurante<span>Salão e fachada</span></h3>
+          <p>Salão com fachada em vidro, iluminação cênica e acabamento aplicado dentro da janela de obra do imóvel.</p>
+          <a class="btn btn-acc" href="/contato" tabindex="-1">Falar sobre uma obra assim ↗</a>
+        </div>
+      </article>
+      <!-- As fotos entram por data-fonte, e só quando a seção se aproxima da
+           tela. O lazy do navegador começava a baixá-las cedo demais: os oito
+           cartões somavam centenas de KB competindo com a foto do topo, que é
+           o maior elemento pintado, e custavam meio segundo de LCP. Ficam em
+           480w porque no cartão de 340 px a variante maior não aparece. -->
+      <article class="capa3d-item" data-capa3d-item aria-roledescription="slide"
+               aria-label="7 de 8">
+        <img data-fonte="/img/restaurante-salao-480.webp"
+             sizes="(max-width:700px) 78vw, 340px"
+             width="480" height="853"
+             alt="Salão, ambiente principal, obra executada pela SPX Engenharia"
+             decoding="async" fetchpriority="low">
+        <span class="capa3d-etiqueta">Varejo e alimentação</span>
+        <div class="capa3d-corpo">
+          <h3>Salão<span>Ambiente principal</span></h3>
+          <p>Layout de mesas, forro acústico e pontos elétricos distribuídos conforme a operação do salão.</p>
+          <a class="btn btn-acc" href="/contato" tabindex="-1">Falar sobre uma obra assim ↗</a>
+        </div>
+      </article>
+      <!-- As fotos entram por data-fonte, e só quando a seção se aproxima da
+           tela. O lazy do navegador começava a baixá-las cedo demais: os oito
+           cartões somavam centenas de KB competindo com a foto do topo, que é
+           o maior elemento pintado, e custavam meio segundo de LCP. Ficam em
+           480w porque no cartão de 340 px a variante maior não aparece. -->
+      <article class="capa3d-item" data-capa3d-item aria-roledescription="slide"
+               aria-label="8 de 8">
+        <img data-fonte="/img/lavabo-terracota-480.webp"
+             sizes="(max-width:700px) 78vw, 340px"
+             width="480" height="640"
+             alt="Lavabo, terracota e porcelanato, obra executada pela SPX Engenharia"
+             decoding="async" fetchpriority="low">
+        <span class="capa3d-etiqueta">Reforma</span>
+        <div class="capa3d-corpo">
+          <h3>Lavabo<span>Terracota e porcelanato</span></h3>
+          <p>Revestimento em terracota, cuba esculpida e instalação hidráulica refeita no ponto original.</p>
+          <a class="btn btn-acc" href="/contato" tabindex="-1">Falar sobre uma obra assim ↗</a>
+        </div>
+      </article>
+    </div>
+
+    <button class="capa3d-seta prox" type="button" data-capa3d-prox aria-label="Próxima obra">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+
+  <div class="capa3d-pontos" data-capa3d-pontos role="tablist" aria-label="Escolher obra">
+    <button type="button" role="tab" data-capa3d-ponto
+      aria-label="Sala de reunião, Parede em azul profundo" aria-selected="true"></button><button type="button" role="tab" data-capa3d-ponto
+      aria-label="Recepção, Balcão em mármore"></button><button type="button" role="tab" data-capa3d-ponto
+      aria-label="Lounge de espera, Balcão em pedra"></button><button type="button" role="tab" data-capa3d-ponto
+      aria-label="Escritório, Piso espinha de peixe"></button><button type="button" role="tab" data-capa3d-ponto
+      aria-label="Sala de reunião, Vista São Paulo"></button><button type="button" role="tab" data-capa3d-ponto
+      aria-label="Restaurante, Salão e fachada"></button><button type="button" role="tab" data-capa3d-ponto
+      aria-label="Salão, Ambiente principal"></button><button type="button" role="tab" data-capa3d-ponto
+      aria-label="Lavabo, Terracota e porcelanato"></button>
   </div>
 </section>
 
@@ -268,15 +442,15 @@
   <p class="lead">Obra que não deixa registro não vira referência para a próxima. O que fica
   arquivado ao fim de cada uma:</p>
   <ul class="marcada">
-    <li><b>As built</b> — a planta do que foi realmente construído, com as alterações de campo</li>
-    <li><b>Memorial de acabamentos</b> — o que foi aplicado, onde, de qual fornecedor</li>
-    <li><b>Manuais e garantias</b> — de cada equipamento e sistema instalado</li>
-    <li><b>Registro fotográfico semanal</b> — o antes, o durante e o depois de cada frente</li>
-    <li><b>Cronograma medido</b> — o previsto contra o realizado, semana a semana</li>
-    <li><b>Lista de pendências fechada</b> — assinada na vistoria conjunta de entrega</li>
+    <li><b>As built</b>: a planta do que foi realmente construído, com as alterações de campo</li>
+    <li><b>Memorial de acabamentos</b>: o que foi aplicado, onde, de qual fornecedor</li>
+    <li><b>Manuais e garantias</b>: de cada equipamento e sistema instalado</li>
+    <li><b>Registro fotográfico semanal</b>: o antes, o durante e o depois de cada frente</li>
+    <li><b>Cronograma medido</b>: o previsto contra o realizado, semana a semana</li>
+    <li><b>Lista de pendências fechada</b>: assinada na vistoria conjunta de entrega</li>
   </ul></section>
 
-<section class="sec wrap "><h2>Tipos de obra no portfólio</h2><ul class="grade-servicos"><li><a href="/servicos/obras-corporativas"><b>Obras corporativas</b><span>Escritórios, sedes e espaços administrativos executados com cronograma físico-financeiro e responsável técnico nomeado antes da assinatura.</span></a></li><li><a href="/servicos/obras-comerciais"><b>Obras comerciais e varejo</b><span>Lojas, flagships, restaurantes e quiosques, em rua e em shopping, com prazo de inauguração tratado como data de contrato.</span></a></li><li><a href="/servicos/retrofit"><b>Retrofit</b><span>Atualizar um imóvel antigo — instalações, layout, acabamento e norma — sem esvaziar o prédio.</span></a></li><li><a href="/servicos/reformas"><b>Reformas</b><span>Escopo delimitado, prazo curto e o mesmo rigor de uma obra completa: proposta discriminada, cronograma e medição.</span></a></li><li><a href="/servicos/gerenciamento-de-obras"><b>Gerenciamento de obras</b><span>Planejar, coordenar e medir a obra — inclusive quando quem executa é outro.</span></a></li><li><a href="/servicos/manutencao-predial"><b>Manutenção predial</b><span>Preventiva com plano e registro, corretiva com prazo de atendimento definido.</span></a></li></ul></section>
+<section class="sec wrap "><h2>Tipos de obra no portfólio</h2><ul class="grade-servicos"><li><a href="/servicos/obras-corporativas"><b>Obras corporativas</b><span>Escritórios, sedes e espaços administrativos executados com cronograma físico-financeiro e responsável técnico nomeado antes da assinatura.</span></a></li><li><a href="/servicos/obras-comerciais"><b>Obras comerciais e varejo</b><span>Lojas, flagships, restaurantes e quiosques, em rua e em shopping, com prazo de inauguração tratado como data de contrato.</span></a></li><li><a href="/servicos/retrofit"><b>Retrofit</b><span>Atualizar um imóvel antigo, nas instalações, no layout, no acabamento e na norma, sem esvaziar o prédio.</span></a></li><li><a href="/servicos/reformas"><b>Reformas</b><span>Escopo delimitado, prazo curto e o mesmo rigor de uma obra completa: proposta discriminada, cronograma e medição.</span></a></li><li><a href="/servicos/gerenciamento-de-obras"><b>Gerenciamento de obras</b><span>Planejar, coordenar e medir a obra, inclusive quando quem executa é outro.</span></a></li><li><a href="/servicos/manutencao-predial"><b>Manutenção predial</b><span>Preventiva com plano e registro, corretiva com prazo de atendimento definido.</span></a></li></ul></section>
 
 <section class="sec wrap claro"><h2>Onde essas obras acontecem</h2>
   <p class="lead">A maior parte do portfólio está na capital, nos polos corporativos e nos
@@ -323,6 +497,6 @@
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 12a8.5 8.5 0 1 1-4.2-7.3L21 3.5l-1.2 4.6A8.4 8.4 0 0 1 20.5 12Z"/><path d="M9 9.4c.5 2.2 2.4 4.1 4.6 4.6l1.1-1.2 1.8.8-.5 1.6c-3.4.5-7.2-3.3-6.7-6.7l1.6-.5.8 1.8z"/></svg>
   <span>Falar no WhatsApp</span>
 </a>
-<script src="/assets/js/spx.min.js?v=29e23f1b" defer></script>
+<script src="/assets/js/spx.min.js?v=07950e41" defer></script>
 </body>
 </html>

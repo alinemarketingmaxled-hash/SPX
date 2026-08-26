@@ -932,4 +932,111 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
   campo.addEventListener('search', filtra);
 })();
 
+/* ------------------------- carrossel em profundidade (página de projetos) -- */
+(function capa3d(){
+  var caixa = $('[data-capa3d]');
+  if(!caixa) return;
+  var itens = $$('[data-capa3d-item]');
+  /* as fotos só entram quando a seção chega perto: baixadas na carga, elas
+     disputavam banda com a foto do topo e atrasavam o maior elemento pintado */
+  aoAproximar(caixa, function(){
+    $$('img[data-fonte]', caixa).forEach(function(im){
+      im.src = im.dataset.fonte;
+      im.srcset = im.dataset.fonte + ' 480w';
+      im.removeAttribute('data-fonte');
+    });
+  });
+  var pontos = $$('[data-capa3d-ponto]');
+  if(itens.length < 2) return;
+  var atual = 0, relogio = null;
+
+  /* Quanto cada cartão se afasta, encolhe e gira conforme a distância até o
+     centro. Fora do terceiro vizinho ele sai de cena: manter tudo na tela
+     custa composição à toa e ninguém vê. */
+  function coloca(){
+    var largura = itens[0].offsetWidth;
+    itens.forEach(function(el, i){
+      var d = i - atual;
+      var meta = itens.length;
+      if(d > meta / 2) d -= meta;              /* dá a volta pelo caminho curto */
+      if(d < -meta / 2) d += meta;
+      var longe = Math.abs(d);
+      var frente = longe === 0;
+      el.classList.toggle('frente', frente);
+      el.setAttribute('aria-hidden', frente ? 'false' : 'true');
+      var link = el.querySelector('a');
+      if(link) link.tabIndex = frente ? 0 : -1;
+      if(longe > 2){
+        el.style.opacity = '0';
+        el.style.pointerEvents = 'none';
+        el.style.transform = 'translate3d(-50%,-50%,-620px)';
+        return;
+      }
+      var desloc = d * largura * 0.62;
+      var recuo = longe * -170;
+      var giro = d === 0 ? 0 : (d > 0 ? -26 : 26);
+      var escala = 1 - longe * 0.1;
+      el.style.opacity = frente ? '1' : (longe === 1 ? '.7' : '.32');
+      el.style.pointerEvents = frente ? 'auto' : 'none';
+      el.style.zIndex = String(10 - longe);
+      el.style.transform = 'translate3d(calc(-50% + ' + desloc + 'px),-50%,' + recuo + 'px)' +
+                           ' rotateY(' + giro + 'deg) scale(' + escala + ')';
+    });
+    pontos.forEach(function(b, i){
+      if(i === atual) b.setAttribute('aria-selected', 'true');
+      else b.removeAttribute('aria-selected');
+    });
+  }
+
+  function vai(i){
+    atual = (i + itens.length) % itens.length;
+    coloca();
+  }
+  function anda(passo){ vai(atual + passo); reinicia(); }
+
+  /* troca sozinho, mas para assim que a pessoa assume o controle */
+  function reinicia(){
+    if(reduz) return;
+    clearInterval(relogio);
+    relogio = setInterval(function(){ vai(atual + 1); }, 5200);
+  }
+  function pausa(){ clearInterval(relogio); }
+
+  $('[data-capa3d-ant]').addEventListener('click', function(){ anda(-1); });
+  $('[data-capa3d-prox]').addEventListener('click', function(){ anda(1); });
+  pontos.forEach(function(b, i){ b.addEventListener('click', function(){ vai(i); reinicia(); }); });
+
+  caixa.addEventListener('mouseenter', pausa);
+  caixa.addEventListener('mouseleave', reinicia);
+  caixa.addEventListener('focusin', pausa);
+
+  /* setas do teclado quando o carrossel está em foco */
+  caixa.addEventListener('keydown', function(e){
+    if(e.key === 'ArrowLeft'){ e.preventDefault(); anda(-1); }
+    if(e.key === 'ArrowRight'){ e.preventDefault(); anda(1); }
+  });
+
+  /* arrastar com o dedo */
+  var x0 = null;
+  caixa.addEventListener('touchstart', function(e){
+    x0 = e.touches[0].clientX; pausa();
+  }, {passive:true});
+  caixa.addEventListener('touchend', function(e){
+    if(x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0;
+    if(Math.abs(dx) > 42) anda(dx < 0 ? 1 : -1);
+    else reinicia();
+    x0 = null;
+  }, {passive:true});
+
+  /* clicar num cartão lateral traz ele para a frente */
+  itens.forEach(function(el, i){
+    el.addEventListener('click', function(){ if(i !== atual){ vai(i); reinicia(); } });
+  });
+
+  window.addEventListener('resize', coloca);
+  coloca();
+  reinicia();
+})();
+
 })();

@@ -117,7 +117,7 @@ export const servicos = [
   {
     slug: 'obras-corporativas',
     pergunta: 'O que é uma obra corporativa?',
-    resposta: 'Obra corporativa é a construção ou reforma completa de um espaço de trabalho — layout, divisórias, forro, piso, instalações elétricas e de dados, climatização, iluminação, marcenaria e acabamento. A SPX Engenharia executa obras corporativas em São Paulo e região metropolitana, com engenharia própria do levantamento à entrega.',
+    resposta: 'Obra corporativa é a construção ou reforma completa de um espaço de trabalho: layout, divisórias, forro, piso, instalações elétricas e de dados, climatização, iluminação, marcenaria e acabamento. A SPX Engenharia executa obras corporativas em São Paulo e região metropolitana, com engenharia própria do levantamento à entrega.',
     fatos: [
       'O prazo sai do cronograma físico-financeiro entregue junto com a proposta.',
       'A obra pode ser executada com o escritório em funcionamento, dividida em frentes por setor.',
@@ -209,7 +209,7 @@ export const servicos = [
   {
     slug: 'retrofit',
     pergunta: 'O que é retrofit e dá para fazer com o prédio ocupado?',
-    resposta: 'Retrofit é modernizar um imóvel existente — trocar instalações no fim da vida útil, adequar o prédio a normas que mudaram e atualizar o acabamento — sem demolir. A SPX executa retrofit em ambiente ocupado em São Paulo, com a obra dividida em frentes e a área em serviço isolada.',
+    resposta: 'Retrofit é modernizar um imóvel existente sem demolir: trocar instalações no fim da vida útil, adequar o prédio a normas que mudaram e atualizar o acabamento. A SPX executa retrofit em ambiente ocupado em São Paulo, com a obra dividida em frentes e a área em serviço isolada.',
     fatos: [
       'A diferença para uma reforma é a profundidade: retrofit chega até a instalação.',
       'Serviços mais invasivos são programados para fora do horário comercial e para o fim de semana.',
@@ -220,7 +220,7 @@ export const servicos = [
     title: 'Retrofit em ambiente ocupado em São Paulo | SPX Engenharia',
     descricao: 'Retrofit de escritórios e edifícios em São Paulo, executado com o imóvel ' +
       'ocupado e a operação do cliente funcionando.',
-    resumo: 'Atualizar um imóvel antigo — instalações, layout, acabamento e norma — sem ' +
+    resumo: 'Atualizar um imóvel antigo, nas instalações, no layout, no acabamento e na norma, sem ' +
       'esvaziar o prédio.',
     oQueE: 'Retrofit é modernizar o que já existe em vez de demolir: trocar instalações que ' +
       'chegaram ao fim da vida útil, adequar o prédio a normas que mudaram desde a construção, ' +
@@ -268,7 +268,7 @@ export const servicos = [
       'fechado, cronograma e responsável técnico.',
     resumo: 'Escopo delimitado, prazo curto e o mesmo rigor de uma obra completa: proposta ' +
       'discriminada, cronograma e medição.',
-    oQueE: 'Reforma é a intervenção de escopo delimitado — um andar, um setor, uma área — que ' +
+    oQueE: 'Reforma é a intervenção de escopo delimitado, um andar, um setor, uma área, que ' +
       'não mexe na estrutura nem troca todas as instalações do prédio. Escopo menor não ' +
       'significa controle menor: é justamente na reforma de prazo curto que a falta de ' +
       'planejamento aparece mais rápido.',
@@ -302,14 +302,14 @@ export const servicos = [
     fatos: [
       'A medição é conferida em obra, não aceita no papel.',
       'O desvio é reportado enquanto ainda dá para corrigir, não no fechamento.',
-      'Na concorrência, o mesmo escopo vai para todos os concorrentes — comparar escopos diferentes é comparar coisas diferentes.',
+      'Na concorrência, o mesmo escopo vai para todos os concorrentes. Comparar escopos diferentes é comparar coisas diferentes.',
     ],
     nome: 'Gerenciamento de obras',
     h1: 'Gerenciamento de obras em São Paulo',
     title: 'Gerenciamento de obras em São Paulo | SPX Engenharia',
     descricao: 'Gerenciamento de obras em São Paulo: planejamento, coordenação de ' +
       'fornecedores, controle de cronograma e medição, com ou sem execução pela SPX.',
-    resumo: 'Planejar, coordenar e medir a obra — inclusive quando quem executa é outro.',
+    resumo: 'Planejar, coordenar e medir a obra, inclusive quando quem executa é outro.',
     oQueE: 'Gerenciamento é a função de engenharia que existe entre o contratante e quem ' +
       'levanta a parede: montar o cronograma, coordenar as disciplinas, conferir medição, ' +
       'controlar desvio e responder tecnicamente pelo andamento. Pode ser contratado junto ' +
@@ -348,7 +348,7 @@ export const servicos = [
     resposta: 'Sim. A SPX Engenharia presta manutenção predial preventiva e corretiva para empresas em São Paulo, com plano por sistema, registro de cada intervenção e prazo de atendimento acordado em contrato.',
     fatos: [
       'Não é necessário ter feito a obra com a SPX: a manutenção começa por um levantamento das condições atuais.',
-      'Preventiva evita a falha; corretiva conserta depois — sempre mais cara e na hora errada.',
+      'Preventiva evita a falha. Corretiva conserta depois, sempre mais cara e na hora errada.',
       'Cada intervenção é registrada, formando o histórico do imóvel.',
     ],
     nome: 'Manutenção predial',
@@ -378,7 +378,7 @@ export const servicos = [
        'Não. A manutenção pode começar com um levantamento das condições atuais do imóvel.'],
       ['O que é preventiva e o que é corretiva?',
        'Preventiva é a intervenção programada que evita a falha. Corretiva é a que conserta ' +
-       'depois que ela aconteceu — sempre mais cara e sempre na hora errada.'],
+       'depois que ela aconteceu, sempre mais cara e sempre na hora errada.'],
     ],
     cta: 'Solicite uma avaliação do seu imóvel.',
   },
@@ -415,7 +415,7 @@ export const servicos = [
                    'As built entregue com a obra, e não meses depois'],
     faq: [
       ['Fazem projeto sem executar a obra?',
-       'Sim. E também executam projeto de terceiros — as duas coisas são contratáveis separadamente.'],
+       'Sim. E também executam projeto de terceiros. As duas coisas são contratáveis separadamente.'],
       ['O que é as built?',
        'É a planta do que foi realmente construído, com as alterações que aconteceram durante ' +
        'a obra. Sem ela, a próxima intervenção começa às cegas.'],
@@ -444,7 +444,7 @@ export const servicos = [
     resumo: 'Parecer de engenheiro para decidir antes de contratar obra.',
     oQueE: 'Nem toda pergunta de engenharia vira obra. Avaliar se um imóvel serve antes de ' +
       'assinar a locação, entender por que a infiltração volta, saber o que a norma exige ' +
-      'antes do auto de vistoria — tudo isso é decisão que se toma com laudo, e sai muito ' +
+      'antes do auto de vistoria. Tudo isso é decisão que se toma com laudo, e sai muito ' +
       'mais barato do que descobrir depois.',
     paraQuem: ['Quem vai locar ou comprar imóvel comercial', 'Contratantes com patologia recorrente',
                'Empresas em processo de adequação de norma', 'Quem precisa de parecer independente sobre obra em andamento'],
@@ -546,7 +546,7 @@ export const duvidas = [
    'isolamento da área em serviço e os serviços mais invasivos programados para fora do ' +
    'horário comercial.'],
   ['A SPX executa reforma de escritório?',
-   'Sim. Reformas de escopo delimitado — um andar, um setor — recebem o mesmo tratamento de ' +
+   'Sim. Reformas de escopo delimitado, um andar ou um setor, recebem o mesmo tratamento de ' +
    'uma obra completa: proposta discriminada, cronograma e medição.'],
   ['A SPX faz gerenciamento de obras?',
    'Sim, inclusive de obra executada por terceiros. O gerenciamento cobre cronograma, ' +
@@ -571,13 +571,47 @@ export const duvidas = [
    'restrições do condomínio ou da administração. Nenhuma obra é orçada sem essa visita.'],
   ['Quanto tempo demora uma obra?',
    'Depende do escopo e da área. O prazo sai do cronograma físico-financeiro montado na ' +
-   'proposta, com as frentes amarradas entre si e o caminho crítico identificado — não de ' +
+   'proposta, com as frentes amarradas entre si e o caminho crítico identificado, e não de ' +
    'uma média por metro quadrado.'],
   ['A obra pode ser feita com o imóvel ocupado?',
    'Sim. É a situação mais comum nas obras da SPX. O trabalho é fatiado em frentes, com ' +
    'isolamento físico, controle de poeira e ruído e serviços críticos fora do horário comercial.'],
   ['Quem responde tecnicamente pela obra?',
    'Um engenheiro responsável nomeado antes da assinatura do contrato, com ART emitida para a obra.'],
+];
+
+/**
+ * ACERVO — os cartões do carrossel da página de projetos.
+ *
+ * O texto descreve o que está na foto, não afirma nada sobre obra específica:
+ * enquanto os projetos não forem confirmados, descrever a imagem é honesto e
+ * afirmar autoria de um trabalho não é.
+ */
+export const acervo = [
+  { foto: 'sala-reuniao-azul', etiqueta: 'Obra corporativa', titulo: 'Sala de reunião',
+    linha: 'Parede em azul profundo',
+    texto: 'Marcenaria sob medida na parede de fundo, forro com iluminação embutida e persiana horizontal em toda a fachada.' },
+  { foto: 'recepcao-marmore', etiqueta: 'Obra corporativa', titulo: 'Recepção',
+    linha: 'Balcão em mármore',
+    texto: 'Balcão em pedra natural, parede de acento em bordô e marcenaria de apoio alinhada ao piso vinílico.' },
+  { foto: 'lounge-recepcao', etiqueta: 'Obra corporativa', titulo: 'Lounge de espera',
+    linha: 'Balcão em pedra',
+    texto: 'Área de espera com balcão em pedra, revestimento texturizado e iluminação rebaixada no forro.' },
+  { foto: 'estante-espinha-peixe', etiqueta: 'Obra corporativa', titulo: 'Escritório',
+    linha: 'Piso espinha de peixe',
+    texto: 'Estante sob medida do piso ao teto e piso em espinha de peixe assentado no padrão contínuo da sala.' },
+  { foto: 'mesa-vista-sp', etiqueta: 'Obra corporativa', titulo: 'Sala de reunião',
+    linha: 'Vista São Paulo',
+    texto: 'Mesa de reunião em madeira, luminária pendente linear e cortina em trilho ao longo de toda a esquadria.' },
+  { foto: 'restaurante-fachada', etiqueta: 'Varejo e alimentação', titulo: 'Restaurante',
+    linha: 'Salão e fachada',
+    texto: 'Salão com fachada em vidro, iluminação cênica e acabamento aplicado dentro da janela de obra do imóvel.' },
+  { foto: 'restaurante-salao', etiqueta: 'Varejo e alimentação', titulo: 'Salão',
+    linha: 'Ambiente principal',
+    texto: 'Layout de mesas, forro acústico e pontos elétricos distribuídos conforme a operação do salão.' },
+  { foto: 'lavabo-terracota', etiqueta: 'Reforma', titulo: 'Lavabo',
+    linha: 'Terracota e porcelanato',
+    texto: 'Revestimento em terracota, cuba esculpida e instalação hidráulica refeita no ponto original.' },
 ];
 
 /** As perguntas agrupadas por assunto, para a página de dúvidas ter índice. */

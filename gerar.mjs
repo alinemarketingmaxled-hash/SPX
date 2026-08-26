@@ -18,7 +18,7 @@
 import { mkdirSync, writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { empresa, responsavel, numeros, processo, servicos, projetos,
-         duvidas, temas, chamadas, regioes, falta } from './conteudo/dados.mjs';
+         duvidas, temas, acervo, chamadas, regioes, falta } from './conteudo/dados.mjs';
 
 const SITE = empresa.dominio.replace(/\/+$/, '');
 /* proporções das fotos usadas como fundo, para declarar width e height e o
@@ -380,6 +380,56 @@ const esteira = (eyebrow, titulo) => `
   </div>
 </section>`;
 
+/* Carrossel em profundidade: o cartão do meio fica de frente e inteiro, os
+   dos lados giram para dentro e recuam. Setas, marcadores e arraste no dedo.
+   Cada cartão é um <article> de verdade, então quem usa leitor de tela recebe
+   a lista completa mesmo sem enxergar o efeito. */
+const carrossel = (eyebrow, titulo) => `
+<section class="sec capa3d-bloco" aria-labelledby="acervoTitulo">
+  <div class="wrap centro" data-reveal>
+    <p class="eyebrow centro">${esc(eyebrow)}</p>
+    <h2 id="acervoTitulo" style="margin-top:20px">${titulo}</h2>
+  </div>
+
+  <div class="capa3d" data-capa3d>
+    <button class="capa3d-seta ant" type="button" data-capa3d-ant aria-label="Obra anterior">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+
+    <div class="capa3d-palco" data-capa3d-palco>
+      ${acervo.map((o, i) => `
+      <!-- As fotos entram por data-fonte, e só quando a seção se aproxima da
+           tela. O lazy do navegador começava a baixá-las cedo demais: os oito
+           cartões somavam centenas de KB competindo com a foto do topo, que é
+           o maior elemento pintado, e custavam meio segundo de LCP. Ficam em
+           480w porque no cartão de 340 px a variante maior não aparece. -->
+      <article class="capa3d-item" data-capa3d-item aria-roledescription="slide"
+               aria-label="${i + 1} de ${acervo.length}">
+        <img data-fonte="/img/${o.foto}-480.webp"
+             sizes="(max-width:700px) 78vw, 340px"
+             width="480" height="${Math.round(480 * dim(o.foto)[1] / dim(o.foto)[0])}"
+             alt="${esc(o.titulo)}, ${esc(o.linha.toLowerCase())}, obra executada pela SPX Engenharia"
+             decoding="async" fetchpriority="low">
+        <span class="capa3d-etiqueta">${esc(o.etiqueta)}</span>
+        <div class="capa3d-corpo">
+          <h3>${esc(o.titulo)}<span>${esc(o.linha)}</span></h3>
+          <p>${esc(o.texto)}</p>
+          <a class="btn btn-acc" href="/contato" tabindex="-1">Falar sobre uma obra assim ↗</a>
+        </div>
+      </article>`).join('')}
+    </div>
+
+    <button class="capa3d-seta prox" type="button" data-capa3d-prox aria-label="Próxima obra">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+
+  <div class="capa3d-pontos" data-capa3d-pontos role="tablist" aria-label="Escolher obra">
+    ${acervo.map((o, i) => `<button type="button" role="tab" data-capa3d-ponto
+      aria-label="${esc(o.titulo)}, ${esc(o.linha)}"${i === 0 ? ' aria-selected="true"' : ''}></button>`).join('')}
+  </div>
+</section>`;
+
 const perguntas = (pares) =>
   `<div class="faq-lista">${pares.map(([p, r]) =>
     `<details class="q-item"><summary>${esc(p)}</summary><p>${esc(r)}</p></details>`).join('')}</div>`;
@@ -462,12 +512,12 @@ ${secao('Como trabalhamos', `<ol class="etapas">${processo.map((e) =>
   `<li><span class="etapa-n">${e.n}</span><b>${esc(e.nome)}</b><p>${esc(e.texto)}</p></li>`).join('')}</ol>`, 'claro')}
 
 ${secao('O que vem junto, em qualquer serviço', `<ul class="marcada">
-  <li><b>Visita técnica antes do orçamento</b> — nenhuma obra é orçada por telefone</li>
-  <li><b>Proposta discriminada</b> — serviço a serviço, com quantidade e critério de medição</li>
-  <li><b>Cronograma físico-financeiro</b> — entregue junto da proposta, não depois de assinar</li>
-  <li><b>Responsável técnico nomeado</b> — com ART emitida para a obra</li>
-  <li><b>Relatório semanal</b> — avanço medido contra o previsto, com registro fotográfico</li>
-  <li><b>As built e manuais na entrega</b> — para a próxima intervenção não começar às cegas</li></ul>`)}
+  <li><b>Visita técnica antes do orçamento</b>: nenhuma obra é orçada por telefone</li>
+  <li><b>Proposta discriminada</b>: serviço a serviço, com quantidade e critério de medição</li>
+  <li><b>Cronograma físico-financeiro</b>: entregue junto da proposta, não depois de assinar</li>
+  <li><b>Responsável técnico nomeado</b>: com ART emitida para a obra</li>
+  <li><b>Relatório semanal</b>: avanço medido contra o previsto, com registro fotográfico</li>
+  <li><b>As built e manuais na entrega</b>: para a próxima intervenção não começar às cegas</li></ul>`)}
 
 ${chamada(chamadas.orcamento)}`,
   visual: 'pag-servicos',
@@ -514,7 +564,7 @@ ${opcional('A solução', p.solucao)}
 ${opcional('Resultado', p.resultado)}
 ${secao('Registro da obra', `<div class="galeria-obra">${p.fotos.map((f) =>
   `<img src="/img/${f}-960.webp" srcset="/img/${f}-480.webp 480w, /img/${f}-640.webp 640w, /img/${f}-960.webp 960w"
-    sizes="(max-width:700px) 100vw, 33vw" alt="${esc(p.nome)} — ${esc(falta(p.tipo) ? 'obra' : p.tipo.toLowerCase())} executada pela SPX Engenharia ${esc(p.regiao)}, São Paulo"
+    sizes="(max-width:700px) 100vw, 33vw" alt="${esc(p.nome)}, ${esc(falta(p.tipo) ? 'obra' : p.tipo.toLowerCase())} executada pela SPX Engenharia ${esc(p.regiao)}, São Paulo"
     loading="lazy" decoding="async" width="960" height="1363">`).join('')}</div>`)}
 ${chamada(chamadas.projeto)}`,
   });
@@ -533,10 +583,10 @@ pagina({
   corpo: `
 <section class="sec wrap" data-reveal>
   <p class="lead">Obras conduzidas pela SPX em São Paulo. Cada uma começa numa planta e
-  termina num espaço em operação — e é essa travessia que a engenharia organiza.</p>
+  termina num espaço em operação, e é essa travessia que a engenharia organiza.</p>
 </section>
 
-${esteira('Do executivo à inauguração', 'O projeto sai da planta<br>e vira realidade.')}
+${carrossel('Arquivo SPX', 'Obras que saíram<br>da planta.')}
 
 ${projetosPublicaveis.length
   ? secao('Obras', `<ul class="grade-obras">${projetosPublicaveis.map((p) =>
@@ -547,12 +597,12 @@ ${secao('O que a SPX documenta em toda obra', `
   <p class="lead">Obra que não deixa registro não vira referência para a próxima. O que fica
   arquivado ao fim de cada uma:</p>
   <ul class="marcada">
-    <li><b>As built</b> — a planta do que foi realmente construído, com as alterações de campo</li>
-    <li><b>Memorial de acabamentos</b> — o que foi aplicado, onde, de qual fornecedor</li>
-    <li><b>Manuais e garantias</b> — de cada equipamento e sistema instalado</li>
-    <li><b>Registro fotográfico semanal</b> — o antes, o durante e o depois de cada frente</li>
-    <li><b>Cronograma medido</b> — o previsto contra o realizado, semana a semana</li>
-    <li><b>Lista de pendências fechada</b> — assinada na vistoria conjunta de entrega</li>
+    <li><b>As built</b>: a planta do que foi realmente construído, com as alterações de campo</li>
+    <li><b>Memorial de acabamentos</b>: o que foi aplicado, onde, de qual fornecedor</li>
+    <li><b>Manuais e garantias</b>: de cada equipamento e sistema instalado</li>
+    <li><b>Registro fotográfico semanal</b>: o antes, o durante e o depois de cada frente</li>
+    <li><b>Cronograma medido</b>: o previsto contra o realizado, semana a semana</li>
+    <li><b>Lista de pendências fechada</b>: assinada na vistoria conjunta de entrega</li>
   </ul>`, 'claro')}
 
 ${secao('Tipos de obra no portfólio', `<ul class="grade-servicos">${servicos.slice(0, 6).map((s) =>
@@ -629,9 +679,9 @@ ${secao('Posicionamento', `
   <p class="lead">Engenharia, gestão e execução são três coisas diferentes, e a maioria dos
   problemas de obra nasce quando estão em mãos diferentes. Na SPX estão na mesma: quem levanta
   é quem orça, quem orça é quem planeja, quem planeja é quem executa e responde.</p>
-  <ul class="marcada"><li><b>Engenharia</b> — o que fazer, como fazer e o que a norma exige</li>
-  <li><b>Gestão</b> — cronograma, coordenação, medição e controle de desvio</li>
-  <li><b>Execução</b> — equipe em campo, com responsável técnico nomeado</li></ul>`, 'vidro faixa-vidro')}
+  <ul class="marcada"><li><b>Engenharia</b>: o que fazer, como fazer e o que a norma exige</li>
+  <li><b>Gestão</b>: cronograma, coordenação, medição e controle de desvio</li>
+  <li><b>Execução</b>: equipe em campo, com responsável técnico nomeado</li></ul>`, 'vidro faixa-vidro')}
 
 ${numerosValidados.length ? secao('A SPX em números',
   `<div class="numeros-grade">${numerosValidados.map((n) =>
@@ -672,7 +722,7 @@ pagina({
   corpo: `
 <section class="sec wrap" data-reveal>
   <p class="lead">Projeto bom executado por quem não entende de projeto vira outra coisa. A SPX
-  trabalha com escritórios de arquitetura executando o que foi desenhado — e apontando, antes
+  trabalha com escritórios de arquitetura executando o que foi desenhado, e apontando antes
   da obra começar, o que não vai caber.</p>
 </section>
 
@@ -683,7 +733,7 @@ ${secao('O que a SPX faz com o seu projeto', `<ol class="etapas">
   elétrica, hidráulica, climatização e incêndio. As divergências voltam para você antes de
   virarem improviso em campo.</p></li>
   <li><span class="etapa-n">03</span><b>Orçamento</b><p>Proposta discriminada por serviço, com
-  quantidade e critério de medição — dá para comparar linha a linha.</p></li>
+  quantidade e critério de medição, então dá para comparar linha a linha.</p></li>
   <li><span class="etapa-n">04</span><b>Planejamento</b><p>Cronograma físico-financeiro com o
   caminho crítico identificado e as entregas de fornecedor amarradas.</p></li>
   <li><span class="etapa-n">05</span><b>Execução</b><p>Equipe coordenada pela mesma engenharia
@@ -780,7 +830,7 @@ pagina({
   corpo: `
 <section class="sec wrap" data-reveal>
   <p class="lead">A base da SPX é São Paulo capital, e o atendimento cobre a cidade e a região
-  metropolitana. Obra corporativa exige engenheiro em campo com frequência — por isso o raio de
+  metropolitana. Obra corporativa exige engenheiro em campo com frequência. Por isso o raio de
   atuação é definido pela distância que permite acompanhar de verdade, e não por marketing.</p>
 </section>
 ${Object.entries(regioes).map(([grupo, nomes], i) =>
@@ -980,7 +1030,7 @@ Página: ${SITE}/servicos/${s.slug}
 Executa: ${s.executa.join('; ')}.`).join('\n\n')}
 
 ## Como a SPX conduz uma obra
-${processo.map((e) => `${Number(e.n)}. ${e.nome} — ${e.texto}`).join('\n')}
+${processo.map((e) => `${Number(e.n)}. ${e.nome}: ${e.texto}`).join('\n')}
 
 ## Regiões atendidas
 ${Object.entries(regioes).map(([g, n]) => `- ${g}: ${n.join(', ')}`).join('\n')}

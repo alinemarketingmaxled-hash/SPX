@@ -508,9 +508,13 @@ planta ao fundo. O que muda é o ritmo. Cada página gerada recebe uma classe no
 ### Cabeçalho com foto, e as capas recortadas
 
 Toda página abre com o cabeçalho fotográfico, igual ao topo da home: as obras
-se revezam ao fundo e um véu garante a leitura do título. O véu é **o mesmo da
-home** — mais escuro que isso e a página inteira parece apagada, que foi
-exatamente o erro da primeira tentativa.
+se revezam ao fundo e um véu garante a leitura do título.
+
+O véu **não é uniforme**. Um véu cobrindo tudo por igual apaga a foto, que foi
+o erro das duas primeiras tentativas. Aqui a sombra é concentrada onde o texto
+está: uma mancha embaixo à esquerda, uma faixa fina sob o menu, e o resto da
+imagem quase limpo. O título ainda carrega uma sombra própria, para não
+depender só disso.
 
 Reaproveita `.hero-fundo` e `.hero-veu`, então o mesmo módulo de JavaScript faz
 as fotos passarem aqui também — a lista da página vem no `data-fotos`.
@@ -552,6 +556,27 @@ preserve-3d` **não podem ficar na mesma caixa** — o 3D achata e o cubo vira u
 quadrado. A perspectiva fica no pai, o giro no filho.
 
 Com `prefers-reduced-motion` as peças param numa posição fixa em vez de girar.
+
+### Carrossel em profundidade (página de projetos)
+
+A página de projetos abre com um carrossel onde o cartão do meio fica de
+frente e inteiro, e os dos lados giram para dentro e recuam. Setas, marcadores,
+teclado, arraste no dedo e troca automática que para assim que a pessoa assume
+o controle.
+
+O JavaScript calcula a transformação de cada cartão pela distância até o
+centro; o CSS só cuida do tempo e da curva. Fora do segundo vizinho o cartão
+sai de cena, porque manter tudo composto custa à toa.
+
+Cada cartão é um `<article>` de verdade com título e texto, então quem usa
+leitor de tela recebe a lista completa mesmo sem enxergar o efeito. Só o
+cartão da frente recebe foco de teclado.
+
+**As fotos entram por `data-fonte`, e só quando a seção se aproxima.** O lazy
+do navegador começava a baixá-las cedo demais: os oito cartões competiam com a
+foto do topo, que é o maior elemento pintado, e custavam meio segundo de LCP
+(nota 95 para 90). Ficam travadas em 480w porque num cartão de 340 px a
+variante maior não aparece na tela, só na conta.
 
 ### A esteira de fotos
 

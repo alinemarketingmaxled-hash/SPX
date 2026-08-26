@@ -597,19 +597,48 @@ Os blocos não ficam dentro de uma caixa: cada cartão tem a sua própria borda 
 a barra de chamada é uma faixa solta logo abaixo. Moldura em volta de conteúdo
 que já tem borda cria duas bordas concêntricas e aperta tudo por dentro.
 
-### Painéis da página de serviços
+### Blocos da página de serviços
 
-Nos modelos, cada assunto é um **painel fechado**: a grade ou a lista dentro de
-uma moldura, com a barra de chamada colada embaixo. Isso amarra o conteúdo à
-pergunta que vem logo depois dele, em vez de deixar o botão solto na página.
+Cada assunto é um bloco **sem moldura**: o conteúdo respira na página e a barra
+de chamada vem logo abaixo, amarrada ao assunto que acabou de ser lido. A
+moldura fechada existiu por um tempo e saiu — apertava a leitura e disputava
+atenção com os cartões que já têm borda própria.
 
 | Componente | O que é |
 | --- | --- |
-| `.painel` + `barraCta()` | moldura com a chamada colada no rodapé |
+| `barraCta()` | faixa com a pergunta à esquerda e o botão à direita |
 | `blocoDuplo()` | conteúdo à esquerda, arte técnica à direita |
-| `listaNumerada()` | linhas com número, ícone, título e texto |
-| `predioFio()` | prédio em fio de arame sobre grade de planta |
-| `diagramaSPX()` | círculos concêntricos com a marca no centro e as três camadas em volta |
+| `listaNumerada()` | linhas com número, ícone fino e um fio embaixo — sem caixa |
+| `predioFio()` | prédio isométrico em fio de arame sobre grade de planta |
+| `orbitaSPX()` | a marca no centro e as três camadas em volta, clicáveis |
+| `faixaDupla()` | duas tiras cruzadas com a marca passando em sentidos opostos |
+
+**`orbitaSPX()` é um `tablist` de verdade.** As três bolas — Engenharia, Gestão
+e Execução — são `role="tab"`, e o painel ao lado é o `tabpanel`. Clicar numa
+bola mostra só as etapas do processo daquela camada; as setas percorrem as
+bolas e trocam o painel no foco. Quem decide qual etapa entra em qual camada é
+o campo `camada` de cada item de `processo`, em `conteudo/dados.mjs` — o
+diagrama não tem lista própria.
+
+A numeração não fica contínua dentro de cada camada (Engenharia mostra 01, 02 e
+04) e isso é proposital: as camadas se cruzam ao longo da obra em vez de
+acontecerem uma depois da outra, e esconder isso seria desenhar um processo que
+não é o que acontece.
+
+**As bolas não giram.** Só o anel tracejado gira. Alvo que se mexe é alvo que
+não se acerta, ainda mais no dedo — e no `prefers-reduced-motion` até o anel
+para.
+
+**`predioFio()`: só a cobertura aparece inteira.** Nos pavimentos intermediários
+desenha-se apenas a aresta da frente. Com o losango completo em todos os
+andares o desenho vira uma pilha de chevrons, não um volume fechado.
+
+**`faixaDupla()`: a marca entra invertida em relação ao menu.** No menu a marca
+fica sobre a cápsula clara, então usa a tinta preta (`logo-spx.webp`). Na faixa
+o fundo é escuro no tema escuro, então quem entra é a de tinta clara
+(`logo-spx-negativa.webp`). Trocar isso deixa a marca invisível — já aconteceu.
+As duas tiras são `aria-hidden`: quem não enxerga já ouviu o nome da empresa no
+topo e no rodapé, e repetir vinte vezes só atrapalha.
 
 O vão entre seções nas páginas internas é menor que na home (`--e6` no lugar
 de `--e8`). A home respira mais porque cada bloco dela é uma peça inteira;

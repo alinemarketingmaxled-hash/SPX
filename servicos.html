@@ -25,7 +25,7 @@
 <link rel="icon" type="image/png" href="/img/favicon.png">
 <link rel="preload" as="image" href="/img/capa-estante-espinha-peixe-1280.webp"
       imagesrcset="/img/capa-estante-espinha-peixe-768.webp 768w, /img/capa-estante-espinha-peixe-1280.webp 1280w" imagesizes="100vw" fetchpriority="high">
-<link rel="stylesheet" href="/assets/css/spx.min.css?v=3f0b1c42">
+<link rel="stylesheet" href="/assets/css/spx.min.css?v=f71657ed">
 <script>
 /* aplica o tema antes da pintura para não piscar */
 (function(){try{var t=localStorage.getItem('spx-tema')||'escuro';document.documentElement.setAttribute('data-tema',t);}catch(e){}})();
@@ -461,58 +461,108 @@
 
 <section class="sec wrap" data-reveal>
   <h2>Como <em>trabalhamos</em></h2>
-  <div class="bloco-duplo">
-  <div class="bd-txt"><ol class="lista-num">
-  <li><span class="ln-n">01</span>
-    <span class="ln-ico"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
-    <span class="ln-txt"><b>Levantamento</b><span>Visita ao local, medição, registro das condições existentes e das restrições do condomínio ou do shopping. Nada é orçado sem ver a obra de perto.</span></span>
-  </li>
-  <li><span class="ln-n">02</span>
-    <span class="ln-ico"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M8 7h6a2.5 2.5 0 0 1 0 5h-4a2.5 2.5 0 0 0 0 5h6"/></svg></span>
-    <span class="ln-txt"><b>Orçamento</b><span>Proposta técnica com todos os serviços discriminados, quantidades e critérios de medição. Sem verba aberta e sem &quot;a definir&quot;.</span></span>
-  </li>
-  <li><span class="ln-n">03</span>
-    <span class="ln-ico"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5M4 19h16"/><path d="M8 15h3v4H8zM13 9h3v10h-3z"/></svg></span>
-    <span class="ln-txt"><b>Planejamento</b><span>Cronograma físico-financeiro com as frentes amarradas entre si, caminho crítico identificado e desembolso previsto por etapa.</span></span>
-  </li>
-  <li><span class="ln-n">04</span>
-    <span class="ln-ico"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="12" r="5.5"/><circle cx="15" cy="12" r="5.5"/></svg></span>
-    <span class="ln-txt"><b>Coordenação</b><span>Compatibilização entre arquitetura, estrutura, elétrica, hidráulica, climatização e incêndio antes de a equipe subir, para o conflito aparecer no papel e não na parede.</span></span>
-  </li>
-  <li><span class="ln-n">05</span>
-    <span class="ln-ico"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M6 21v-8h4v8M14 21V7h4v14"/><path d="m6 13 4-4 4 4"/></svg></span>
-    <span class="ln-txt"><b>Execução</b><span>Equipe própria e fornecedores coordenados pela mesma engenharia que orçou e planejou, com responsável técnico nomeado.</span></span>
-  </li>
-  <li><span class="ln-n">06</span>
-    <span class="ln-ico"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="2.8"/></svg></span>
-    <span class="ln-txt"><b>Controle</b><span>Medição semanal do avanço contra o cronograma, registro fotográfico e relatório de desvio enquanto ainda dá para corrigir.</span></span>
-  </li>
-  <li><span class="ln-n">07</span>
-    <span class="ln-ico"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5 9 17.5 20 6.5"/></svg></span>
-    <span class="ln-txt"><b>Entrega</b><span>Vistoria conjunta, lista de pendências fechada, as built e manuais das instalações.</span></span>
-  </li></ol></div>
-  <div class="bd-arte" aria-hidden="true">
-<div class="arte-diagrama">
-  <svg viewBox="0 0 360 360" role="img" aria-hidden="true">
-    <g fill="none" stroke="currentColor">
-      <circle cx="180" cy="180" r="150" opacity=".16"/>
-      <circle cx="180" cy="180" r="112" opacity=".26"/>
-      <circle cx="180" cy="180" r="74" opacity=".4"/>
-      <g opacity=".3" stroke-dasharray="3 6">
-        <path d="M180 30v300M30 180h300"/>
+  <p class="sub-secao">Toque numa das camadas para ver as etapas que ela responde.</p>
+  
+<div class="orbita" data-orbita>
+  <div class="orbita-palco">
+    <svg class="orbita-fio" viewBox="0 0 320 320" aria-hidden="true">
+      <g fill="none" stroke="currentColor">
+        <circle cx="160" cy="160" r="109" opacity=".14"/>
+        <circle cx="160" cy="160" r="109" opacity=".34" stroke-dasharray="2 9" class="orbita-anel"/>
+        <circle cx="160" cy="160" r="78" opacity=".1"/>
+        <path class="orbita-raio" data-raio="-90" opacity=".22"
+                d="M160 160L160.0 51.2"/>
+        <path class="orbita-raio" data-raio="30" opacity=".22"
+                d="M160 160L254.2 214.4"/>
+        <path class="orbita-raio" data-raio="150" opacity=".22"
+                d="M160 160L65.8 214.4"/>
       </g>
-      <path d="M254 180h76M180 106V30M180 254v76" opacity=".45"/>
-    </g>
-    <circle cx="180" cy="180" r="52" fill="var(--acc)" opacity=".9"/>
-    <circle cx="180" cy="180" r="52" fill="none" stroke="currentColor" opacity=".7"/>
-    <text x="180" y="188" text-anchor="middle" class="dg-marca">SPX</text>
-  </svg>
-  <ul class="dg-legenda">
-    <li><b>Engenharia</b><span>O que fazer</span></li>
-    <li><b>Gestão</b><span>Como fazer</span></li>
-    <li><b>Execução</b><span>Fazer acontecer</span></li>
-  </ul>
-</div></div>
+    </svg>
+
+    <span class="orbita-nucleo" aria-hidden="true">SPX</span>
+
+    <div class="orbita-bolas" role="tablist" aria-label="As três camadas do trabalho da SPX">
+      
+      <button class="orbita-bola" type="button" role="tab" data-orbita-bola
+              id="camada-engenharia" aria-controls="painel-camada" data-raio="-90"
+              style="left:50.00%;top:16.00%"
+              data-nome="Engenharia" data-papel="O que fazer"
+              aria-selected="true" tabindex="0">
+        <span class="ob-ico"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M4 9h16M9 9v11M13 13h7M13 17h7"/></svg></span>
+        <b>Engenharia</b>
+      </button>
+      <button class="orbita-bola" type="button" role="tab" data-orbita-bola
+              id="camada-gestao" aria-controls="painel-camada" data-raio="30"
+              style="left:79.44%;top:67.00%"
+              data-nome="Gestão" data-papel="Como fazer"
+              aria-selected="false" tabindex="-1">
+        <span class="ob-ico"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M7 14h5M7 17h8"/></svg></span>
+        <b>Gestão</b>
+      </button>
+      <button class="orbita-bola" type="button" role="tab" data-orbita-bola
+              id="camada-execucao" aria-controls="painel-camada" data-raio="150"
+              style="left:20.56%;top:67.00%"
+              data-nome="Execução" data-papel="Fazer acontecer"
+              aria-selected="false" tabindex="-1">
+        <span class="ob-ico"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M6 21v-8h4v8M14 21V7h4v14"/><path d="m6 13 4-4 4 4"/></svg></span>
+        <b>Execução</b>
+      </button>
+    </div>
+  </div>
+
+  <div class="orbita-painel" id="painel-camada" role="tabpanel"
+       aria-labelledby="camada-engenharia" tabindex="0">
+    
+    <div class="orbita-parte" data-orbita-parte="engenharia">
+      <p class="orbita-papel"><b>Engenharia</b><span>O que fazer</span></p>
+      <p class="orbita-resumo">Define o escopo antes de existir preço: o que está lá hoje, o que vai ser feito e como as disciplinas se encaixam entre si.</p>
+      <ol class="orbita-etapas">
+        
+        <li><span class="oe-n">01</span>
+          <span class="oe-ico" aria-hidden="true"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
+          <span class="oe-txt"><b>Levantamento</b><span>Visita ao local, medição, registro das condições existentes e das restrições do condomínio ou do shopping. Nada é orçado sem ver a obra de perto.</span></span>
+        </li>
+        <li><span class="oe-n">02</span>
+          <span class="oe-ico" aria-hidden="true"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M8 7h6a2.5 2.5 0 0 1 0 5h-4a2.5 2.5 0 0 0 0 5h6"/></svg></span>
+          <span class="oe-txt"><b>Orçamento</b><span>Proposta técnica com todos os serviços discriminados, quantidades e critérios de medição. Sem verba aberta e sem &quot;a definir&quot;.</span></span>
+        </li>
+        <li><span class="oe-n">04</span>
+          <span class="oe-ico" aria-hidden="true"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="12" r="5.5"/><circle cx="15" cy="12" r="5.5"/></svg></span>
+          <span class="oe-txt"><b>Coordenação</b><span>Compatibilização entre arquitetura, estrutura, elétrica, hidráulica, climatização e incêndio antes de a equipe subir, para o conflito aparecer no papel e não na parede.</span></span>
+        </li>
+      </ol>
+    </div>
+    <div class="orbita-parte" data-orbita-parte="gestao" hidden>
+      <p class="orbita-papel"><b>Gestão</b><span>Como fazer</span></p>
+      <p class="orbita-resumo">Amarra prazo e desembolso e mede o avanço contra o previsto enquanto ainda dá tempo de corrigir.</p>
+      <ol class="orbita-etapas">
+        
+        <li><span class="oe-n">03</span>
+          <span class="oe-ico" aria-hidden="true"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5M4 19h16"/><path d="M8 15h3v4H8zM13 9h3v10h-3z"/></svg></span>
+          <span class="oe-txt"><b>Planejamento</b><span>Cronograma físico-financeiro com as frentes amarradas entre si, caminho crítico identificado e desembolso previsto por etapa.</span></span>
+        </li>
+        <li><span class="oe-n">06</span>
+          <span class="oe-ico" aria-hidden="true"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="2.8"/></svg></span>
+          <span class="oe-txt"><b>Controle</b><span>Medição semanal do avanço contra o cronograma, registro fotográfico e relatório de desvio enquanto ainda dá para corrigir.</span></span>
+        </li>
+      </ol>
+    </div>
+    <div class="orbita-parte" data-orbita-parte="execucao" hidden>
+      <p class="orbita-papel"><b>Execução</b><span>Fazer acontecer</span></p>
+      <p class="orbita-resumo">Põe a equipe em obra sob a mesma engenharia que orçou e planejou, e fecha a entrega documentada.</p>
+      <ol class="orbita-etapas">
+        
+        <li><span class="oe-n">05</span>
+          <span class="oe-ico" aria-hidden="true"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M6 21v-8h4v8M14 21V7h4v14"/><path d="m6 13 4-4 4 4"/></svg></span>
+          <span class="oe-txt"><b>Execução</b><span>Equipe própria e fornecedores coordenados pela mesma engenharia que orçou e planejou, com responsável técnico nomeado.</span></span>
+        </li>
+        <li><span class="oe-n">07</span>
+          <span class="oe-ico" aria-hidden="true"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5 9 17.5 20 6.5"/></svg></span>
+          <span class="oe-txt"><b>Entrega</b><span>Vistoria conjunta, lista de pendências fechada, as built e manuais das instalações.</span></span>
+        </li>
+      </ol>
+    </div>
+  </div>
 </div>
   
 <div class="barra-cta">
@@ -521,9 +571,82 @@
 </div>
 </section>
 
+
+<section class="faixa-dupla" aria-hidden="true">
+  <div class="fd-tira fd-ida">
+    <div class="fd-corre"><span class="fd-peca">
+    <img class="fd-marca so-escuro" src="/img/logo-spx-negativa.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <img class="fd-marca so-claro" src="/img/logo-spx.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <i>Engenharia · Gestão · Execução</i>
+  </span><span class="fd-peca">
+    <img class="fd-marca so-escuro" src="/img/logo-spx-negativa.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <img class="fd-marca so-claro" src="/img/logo-spx.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <i>Engenharia · Gestão · Execução</i>
+  </span><span class="fd-peca">
+    <img class="fd-marca so-escuro" src="/img/logo-spx-negativa.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <img class="fd-marca so-claro" src="/img/logo-spx.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <i>Engenharia · Gestão · Execução</i>
+  </span><span class="fd-peca">
+    <img class="fd-marca so-escuro" src="/img/logo-spx-negativa.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <img class="fd-marca so-claro" src="/img/logo-spx.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <i>Engenharia · Gestão · Execução</i>
+  </span><span class="fd-peca">
+    <img class="fd-marca so-escuro" src="/img/logo-spx-negativa.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <img class="fd-marca so-claro" src="/img/logo-spx.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <i>Engenharia · Gestão · Execução</i>
+  </span><span class="fd-peca">
+    <img class="fd-marca so-escuro" src="/img/logo-spx-negativa.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <img class="fd-marca so-claro" src="/img/logo-spx.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <i>Engenharia · Gestão · Execução</i>
+  </span><span class="fd-peca">
+    <img class="fd-marca so-escuro" src="/img/logo-spx-negativa.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <img class="fd-marca so-claro" src="/img/logo-spx.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <i>Engenharia · Gestão · Execução</i>
+  </span><span class="fd-peca">
+    <img class="fd-marca so-escuro" src="/img/logo-spx-negativa.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <img class="fd-marca so-claro" src="/img/logo-spx.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <i>Engenharia · Gestão · Execução</i>
+  </span></div>
+  </div>
+  <div class="fd-tira fd-volta">
+    <div class="fd-corre"><span class="fd-peca">
+    <img class="fd-marca so-escuro" src="/img/logo-spx-negativa.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <img class="fd-marca so-claro" src="/img/logo-spx.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <i>Engenharia · Gestão · Execução</i>
+  </span><span class="fd-peca">
+    <img class="fd-marca so-escuro" src="/img/logo-spx-negativa.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <img class="fd-marca so-claro" src="/img/logo-spx.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <i>Engenharia · Gestão · Execução</i>
+  </span><span class="fd-peca">
+    <img class="fd-marca so-escuro" src="/img/logo-spx-negativa.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <img class="fd-marca so-claro" src="/img/logo-spx.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <i>Engenharia · Gestão · Execução</i>
+  </span><span class="fd-peca">
+    <img class="fd-marca so-escuro" src="/img/logo-spx-negativa.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <img class="fd-marca so-claro" src="/img/logo-spx.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <i>Engenharia · Gestão · Execução</i>
+  </span><span class="fd-peca">
+    <img class="fd-marca so-escuro" src="/img/logo-spx-negativa.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <img class="fd-marca so-claro" src="/img/logo-spx.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <i>Engenharia · Gestão · Execução</i>
+  </span><span class="fd-peca">
+    <img class="fd-marca so-escuro" src="/img/logo-spx-negativa.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <img class="fd-marca so-claro" src="/img/logo-spx.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <i>Engenharia · Gestão · Execução</i>
+  </span><span class="fd-peca">
+    <img class="fd-marca so-escuro" src="/img/logo-spx-negativa.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <img class="fd-marca so-claro" src="/img/logo-spx.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <i>Engenharia · Gestão · Execução</i>
+  </span><span class="fd-peca">
+    <img class="fd-marca so-escuro" src="/img/logo-spx-negativa.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <img class="fd-marca so-claro" src="/img/logo-spx.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <i>Engenharia · Gestão · Execução</i>
+  </span></div>
+  </div>
+</section>
+
 <section class="sec wrap" data-reveal>
-  <p class="eyebrow">Compromisso SPX</p>
-  <h2 style="margin-top:18px">O que vem junto,<br>em qualquer <em>serviço</em>.</h2>
+  <h2>O que vem junto,<br>em qualquer <em>serviço</em>.</h2>
   <div class="bloco-duplo">
   <div class="bd-txt"><ol class="lista-num">
   <li><span class="ln-n">01</span>
@@ -551,27 +674,109 @@
     <span class="ln-txt"><b>As built e manuais na entrega</b><span>Para a próxima intervenção não começar às cegas.</span></span>
   </li></ol></div>
   <div class="bd-arte" aria-hidden="true">
-<svg class="arte-predio" viewBox="0 0 320 380" role="img" aria-hidden="true">
-  <g fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round">
-    <g opacity=".28"><path d="M0 8h320"/><path d="M4 0v380"/><path d="M0 52h320"/><path d="M44 0v380"/><path d="M0 96h320"/><path d="M84 0v380"/><path d="M0 140h320"/><path d="M124 0v380"/><path d="M0 184h320"/><path d="M164 0v380"/><path d="M0 228h320"/><path d="M204 0v380"/><path d="M0 272h320"/><path d="M244 0v380"/><path d="M0 316h320"/><path d="M284 0v380"/><path d="M0 360h320"/><path d="M324 0v380"/></g>
-    <path d="M70 340V120l90-58 90 58v220" opacity=".85"/>
-    <path d="M70 120l90 58 90-58M160 178v162" opacity=".7"/>
-    <path d="M70 150l90 58 90-58" opacity=".42"/>
-              <path d="M70 150v-0M250 150v-0"/><path d="M70 184l90 58 90-58" opacity=".42"/>
-              <path d="M70 184v-0M250 184v-0"/><path d="M70 218l90 58 90-58" opacity=".42"/>
-              <path d="M70 218v-0M250 218v-0"/><path d="M70 252l90 58 90-58" opacity=".42"/>
-              <path d="M70 252v-0M250 252v-0"/><path d="M70 286l90 58 90-58" opacity=".42"/>
-              <path d="M70 286v-0M250 286v-0"/><path d="M70 320l90 58 90-58" opacity=".42"/>
-              <path d="M70 320v-0M250 320v-0"/>
-    <path d="M70 340h180" opacity=".85"/>
-    <g opacity=".55">
-      <path d="M96 214v96M124 232v78M196 232v78M224 214v96"/>
-    </g>
+<svg class="arte-predio" viewBox="0 0 320 400" role="img" aria-hidden="true">
+  <defs>
+    <linearGradient id="pf-fio" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="currentColor" stop-opacity="1"/>
+      <stop offset=".5" stop-color="currentColor" stop-opacity=".7"/>
+      <stop offset="1" stop-color="currentColor" stop-opacity=".34"/>
+    </linearGradient>
+    <linearGradient id="pf-face" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="currentColor" stop-opacity=".14"/>
+      <stop offset="1" stop-color="currentColor" stop-opacity=".02"/>
+    </linearGradient>
+    <radialGradient id="pf-fade" cx="50%" cy="44%" r="60%">
+      <stop offset="0" stop-color="#fff" stop-opacity=".85"/>
+      <stop offset=".6" stop-color="#fff" stop-opacity=".3"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="pf-malha"><rect width="320" height="400" fill="url(#pf-fade)"/></mask>
+    <radialGradient id="pf-brilho" cx="50%" cy="24%" r="44%">
+      <stop offset="0" stop-color="currentColor" stop-opacity=".22"/>
+      <stop offset="1" stop-color="currentColor" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <ellipse cx="160" cy="140" rx="146" ry="126" fill="url(#pf-brilho)"/>
+
+  <!-- malha de prancha, apagando para fora pela máscara -->
+  <g fill="none" stroke="currentColor" stroke-width=".7" opacity=".5" mask="url(#pf-malha)">
+    <path d="M0 0h320"/><path d="M0 0v400"/>
+    <path d="M0 40h320"/><path d="M32 0v400"/>
+    <path d="M0 80h320"/><path d="M64 0v400"/>
+    <path d="M0 120h320"/><path d="M96 0v400"/>
+    <path d="M0 160h320"/><path d="M128 0v400"/>
+    <path d="M0 200h320"/><path d="M160 0v400"/>
+    <path d="M0 240h320"/><path d="M192 0v400"/>
+    <path d="M0 280h320"/><path d="M224 0v400"/>
+    <path d="M0 320h320"/><path d="M256 0v400"/>
+    <path d="M0 360h320"/><path d="M288 0v400"/>
+    <path d="M0 400h320"/><path d="M320 0v400"/>
   </g>
-  <g fill="currentColor" opacity=".5">
-    <circle cx="70" cy="120" r="2.6"/><circle cx="160" cy="62" r="2.6"/>
-    <circle cx="250" cy="120" r="2.6"/><circle cx="160" cy="178" r="2.6"/>
-    <circle cx="70" cy="340" r="2.6"/><circle cx="250" cy="340" r="2.6"/>
+
+  <!-- implantação: o lote em volta do prédio, tracejado, como em planta -->
+  <path d="M160 265L284 327L160 389L36 327Z"
+        fill="none" stroke="currentColor" stroke-width=".8" opacity=".26" stroke-dasharray="4 6"/>
+
+  <!-- as duas faces visíveis, com preenchimento quase nulo só para dar volume -->
+  <path d="M76 96L160 138L160 327L76 285Z"
+        fill="url(#pf-face)" stroke="none"/>
+  <path d="M244 96L160 138L160 327L244 285Z"
+        fill="url(#pf-face)" stroke="none" opacity=".55"/>
+
+  <g fill="none" stroke="url(#pf-fio)" stroke-width="1.1" stroke-linejoin="round">
+    <path d="M160 54L244 96L160 138L76 96Z"/>
+    <!-- pavimentos: só a aresta da frente -->
+    <path d="M76 123L160 165L244 123"/>
+    <path d="M76 150L160 192L244 150"/>
+    <path d="M76 177L160 219L244 177"/>
+    <path d="M76 204L160 246L244 204"/>
+    <path d="M76 231L160 273L244 231"/>
+    <path d="M76 258L160 300L244 258"/>
+    <path d="M76 285L160 327L244 285"/>
+    <!-- as três prumadas que se enxergam do volume -->
+    <path d="M76 96v189M244 96v189"/>
+    <path d="M160 138v189"/>
+  </g>
+
+  <g fill="none" stroke="currentColor" stroke-width=".8" opacity=".38">
+    <path d="M132.0 124.0v189"/>
+    <path d="M188.0 124.0v189"/>
+    <path d="M104.0 110.0v189"/>
+    <path d="M216.0 110.0v189"/>
+  </g>
+
+  <!-- casa de máquinas na cobertura: o detalhe que dá escala ao volume -->
+  <g fill="none" stroke="currentColor" stroke-width=".9" opacity=".7">
+    <path d="M160 34L190 49L160 64L130 49Z"/>
+    <path d="M130 49v15M190 49v15M160 64v15"/>
+    <path d="M130 64L160 79L190 64"/>
+  </g>
+
+  <!-- cota de altura à esquerda, com marca em cada pavimento -->
+  <g fill="none" stroke="currentColor" stroke-width=".8" opacity=".4">
+    <path d="M30 96v189"/>
+    <path d="M25 96h10M25 285h10"/>
+    <path d="M27 123h6"/>
+    <path d="M27 150h6"/>
+    <path d="M27 177h6"/>
+    <path d="M27 204h6"/>
+    <path d="M27 231h6"/>
+    <path d="M27 258h6"/>
+  </g>
+
+  <!-- terreno -->
+  <path d="M16 327h288" fill="none" stroke="currentColor"
+        stroke-width="1" opacity=".5"/>
+
+  <g fill="currentColor" opacity=".7">
+    <circle cx="160" cy="54" r="2.3"/>
+    <circle cx="76" cy="96" r="2.3"/>
+    <circle cx="244" cy="96" r="2.3"/>
+    <circle cx="160" cy="138" r="2.3"/>
+    <circle cx="76" cy="285" r="2.3"/>
+    <circle cx="244" cy="285" r="2.3"/>
+    <circle cx="160" cy="327" r="2.3"/>
   </g>
 </svg></div>
 </div>
@@ -617,6 +822,6 @@
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 12a8.5 8.5 0 1 1-4.2-7.3L21 3.5l-1.2 4.6A8.4 8.4 0 0 1 20.5 12Z"/><path d="M9 9.4c.5 2.2 2.4 4.1 4.6 4.6l1.1-1.2 1.8.8-.5 1.6c-3.4.5-7.2-3.3-6.7-6.7l1.6-.5.8 1.8z"/></svg>
   <span>Falar no WhatsApp</span>
 </a>
-<script src="/assets/js/spx.min.js?v=5a363dfd" defer></script>
+<script src="/assets/js/spx.min.js?v=10ec3116" defer></script>
 </body>
 </html>

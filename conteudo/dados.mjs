@@ -83,26 +83,46 @@ export const numeros = [
 
 /** Etapas do processo. É o que diferencia engenharia de mão de obra. */
 export const processo = [
-  { icone: 'visita', n: '01', nome: 'Levantamento',
+  { icone: 'visita', camada: 'engenharia', n: '01', nome: 'Levantamento',
     texto: 'Visita ao local, medição, registro das condições existentes e das restrições do ' +
            'condomínio ou do shopping. Nada é orçado sem ver a obra de perto.' },
-  { icone: 'orcamento', n: '02', nome: 'Orçamento',
+  { icone: 'orcamento', camada: 'engenharia', n: '02', nome: 'Orçamento',
     texto: 'Proposta técnica com todos os serviços discriminados, quantidades e critérios de ' +
            'medição. Sem verba aberta e sem "a definir".' },
-  { icone: 'planejamento', n: '03', nome: 'Planejamento',
+  { icone: 'planejamento', camada: 'gestao', n: '03', nome: 'Planejamento',
     texto: 'Cronograma físico-financeiro com as frentes amarradas entre si, caminho crítico ' +
            'identificado e desembolso previsto por etapa.' },
-  { icone: 'compat', n: '04', nome: 'Coordenação',
+  { icone: 'compat', camada: 'engenharia', n: '04', nome: 'Coordenação',
     texto: 'Compatibilização entre arquitetura, estrutura, elétrica, hidráulica, climatização ' +
            'e incêndio antes de a equipe subir, para o conflito aparecer no papel e não na parede.' },
-  { icone: 'execucao', n: '05', nome: 'Execução',
+  { icone: 'execucao', camada: 'execucao', n: '05', nome: 'Execução',
     texto: 'Equipe própria e fornecedores coordenados pela mesma engenharia que orçou e ' +
            'planejou, com responsável técnico nomeado.' },
-  { icone: 'acompanha', n: '06', nome: 'Controle',
+  { icone: 'acompanha', camada: 'gestao', n: '06', nome: 'Controle',
     texto: 'Medição semanal do avanço contra o cronograma, registro fotográfico e relatório ' +
            'de desvio enquanto ainda dá para corrigir.' },
-  { icone: 'entrega', n: '07', nome: 'Entrega',
+  { icone: 'entrega', camada: 'execucao', n: '07', nome: 'Entrega',
     texto: 'Vistoria conjunta, lista de pendências fechada, as built e manuais das instalações.' },
+];
+
+/**
+ * As três camadas do trabalho. Cada etapa do processo acima pertence a uma
+ * delas pelo campo `camada` — é assim que o diagrama da página de serviços
+ * sabe o que mostrar quando alguém clica numa das bolas. A numeração não fica
+ * contínua dentro de cada camada (engenharia é 01, 02 e 04) e isso é
+ * proposital: mostra que as camadas se cruzam ao longo da obra em vez de
+ * acontecerem uma depois da outra.
+ */
+export const camadas = [
+  { id: 'engenharia', nome: 'Engenharia', papel: 'O que fazer', icone: 'projeto',
+    texto: 'Define o escopo antes de existir preço: o que está lá hoje, o que vai ser feito e ' +
+           'como as disciplinas se encaixam entre si.' },
+  { id: 'gestao', nome: 'Gestão', papel: 'Como fazer', icone: 'cronograma',
+    texto: 'Amarra prazo e desembolso e mede o avanço contra o previsto enquanto ainda dá ' +
+           'tempo de corrigir.' },
+  { id: 'execucao', nome: 'Execução', papel: 'Fazer acontecer', icone: 'execucao',
+    texto: 'Põe a equipe em obra sob a mesma engenharia que orçou e planejou, e fecha a ' +
+           'entrega documentada.' },
 ];
 
 /**

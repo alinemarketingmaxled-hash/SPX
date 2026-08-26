@@ -1001,31 +1001,117 @@ h2 em{font-style:normal;color:var(--acc-2)}
 .bd-arte{color:var(--acc-2);display:grid;place-items:center}
 .bd-arte svg{width:100%;height:auto;max-height:400px;display:block}
 
-/* lista numerada em linhas */
-.lista-num{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-.lista-num li{background:var(--sup);border:1px solid var(--linha);border-radius:3px;
-  display:grid;grid-template-columns:auto auto 1fr;align-items:center;gap:var(--e3);
-  padding:var(--e3);transition:background .24s,border-color .24s,transform .24s}
-.lista-num li:hover{background:var(--sup-2);border-color:var(--acc-2);transform:translateX(4px)}
-.ln-n{font-family:var(--display);font-weight:700;font-size:11px;letter-spacing:.06em;
-  color:#F4F4F1;background:var(--acc);border-radius:3px;padding:6px 8px;min-width:30px;
-  text-align:center}
-.ln-ico{display:grid;place-items:center}
+/* lista numerada: sem moldura, só um fio embaixo de cada linha. O número
+   perde o bloco cheio e vira texto no acento — é o que sobra quando se tira a
+   caixa sem tirar a hierarquia. */
+.lista-num{list-style:none;margin:0;padding:0;display:grid}
+.lista-num li{display:grid;grid-template-columns:auto auto 1fr;align-items:start;
+  gap:var(--e3);padding:var(--e3) 2px;border-bottom:1px solid var(--linha);
+  transition:border-color .24s,padding-left .24s}
+.lista-num li:last-child{border-bottom:0}
+.lista-num li:hover{border-bottom-color:var(--acc-2);padding-left:8px}
+.ln-n{font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.06em;
+  color:var(--acc-2);min-width:22px;line-height:1.5}
+/* ícone minimalista: traço fino, sem preenchimento, discreto ao lado do texto */
+.ln-ico{display:grid;place-items:center;color:var(--acc-2);opacity:.62}
+.ln-ico svg{width:17px;height:17px;stroke-width:1.1}
+.lista-num li:hover .ln-ico{opacity:1}
 .ln-txt b{display:block;font-family:var(--display);font-size:12.5px;letter-spacing:.1em;
   text-transform:uppercase;color:var(--txt);margin-bottom:4px}
 .ln-txt > span{display:block;color:var(--txt-3);font-size:13.5px;line-height:1.5}
 
-/* diagrama concêntrico com as três camadas */
-.arte-diagrama{display:grid;gap:var(--e3);justify-items:center;width:100%}
-.arte-diagrama svg{max-width:300px}
-.dg-marca{font-family:var(--display);font-weight:700;font-size:30px;letter-spacing:.06em;
-  fill:#F4F4F1}
-.dg-legenda{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:var(--e3);
-  justify-content:center}
-.dg-legenda li{text-align:center}
-.dg-legenda b{display:block;font-family:var(--display);font-size:11px;letter-spacing:.14em;
+/* ÓRBITA · a marca no centro, as três camadas em volta, as etapas ao lado.
+   As bolas ficam paradas de propósito: o anel é que gira. Alvo que se mexe é
+   alvo que não se acerta, ainda mais no dedo. */
+.orbita{display:grid;grid-template-columns:.9fr 1.1fr;gap:var(--e5);
+  align-items:center;margin-top:var(--e4)}
+.orbita-palco{position:relative;width:100%;max-width:340px;margin-inline:auto;
+  aspect-ratio:1;color:var(--acc-2)}
+.orbita-fio{position:absolute;inset:0;width:100%;height:100%}
+.orbita-anel{transform-origin:160px 160px;animation:orbitagira 46s linear infinite}
+@keyframes orbitagira{to{transform:rotate(360deg)}}
+.orbita-raio{transition:opacity .3s,stroke-width .3s}
+.orbita-raio.aceso{opacity:.75;stroke-width:1.4}
+
+.orbita-nucleo{position:absolute;left:50%;top:50%;translate:-50% -50%;z-index:1;
+  width:31%;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;
+  background:var(--acc);border:1px solid var(--acc-2);color:#F4F4F1;
+  font-family:var(--display);font-weight:700;font-size:clamp(19px,4.6vw,27px);
+  letter-spacing:.06em;box-shadow:0 0 0 8px var(--acc-suave)}
+
+.orbita-bolas{position:absolute;inset:0;z-index:2}
+/* cada bola é posta no anel pelo seu ângulo, e desgirada para o texto
+   continuar em pé */
+/* left/top vêm do gerador, em % do palco; o translate só recentra a bola */
+.orbita-bola{position:absolute;width:96px;translate:-50% -50%;
+  display:grid;justify-items:center;gap:6px;padding:0;cursor:pointer;
+  background:none;border:0;color:var(--txt-2);
+  transition:color var(--transicao)}
+.ob-ico{width:52px;height:52px;display:grid;place-items:center;border-radius:50%;
+  background:var(--sup);border:1px solid var(--linha);color:var(--acc-2);
+  transition:background var(--transicao),border-color var(--transicao),
+             box-shadow var(--transicao),transform var(--transicao)}
+.ob-ico svg{width:21px;height:21px;stroke-width:1.2}
+.orbita-bola b{font-family:var(--display);font-weight:600;font-size:10.5px;
+  letter-spacing:.14em;text-transform:uppercase;text-align:center}
+.orbita-bola:hover .ob-ico{border-color:var(--acc-2);transform:translateY(-2px)}
+.orbita-bola[aria-selected="true"]{color:var(--txt)}
+.orbita-bola[aria-selected="true"] .ob-ico{background:var(--acc);color:#F4F4F1;
+  border-color:var(--acc-2);box-shadow:0 0 0 6px var(--acc-suave)}
+
+.orbita-painel{min-height:1px}
+.orbita-painel:focus-visible{outline:2px solid var(--acc-2);outline-offset:6px}
+.orbita-papel{margin:0;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.orbita-papel b{font-family:var(--display);font-size:13px;letter-spacing:.16em;
   text-transform:uppercase;color:var(--acc-2)}
-.dg-legenda span{display:block;margin-top:3px;color:var(--txt-3);font-size:12px}
+.orbita-papel span{font-size:12.5px;color:var(--txt-3)}
+.orbita-resumo{margin:10px 0 var(--e3);color:var(--txt-2);font-size:14.5px;line-height:1.6}
+.orbita-etapas{list-style:none;margin:0;padding:0;display:grid}
+.orbita-etapas li{display:grid;grid-template-columns:auto auto 1fr;align-items:start;
+  gap:var(--e3);padding:var(--e3) 2px;border-bottom:1px solid var(--linha)}
+.orbita-etapas li:last-child{border-bottom:0}
+.oe-n{font-family:var(--display);font-weight:700;font-size:12px;color:var(--acc-2);
+  min-width:22px;line-height:1.5}
+.oe-ico{display:grid;place-items:center;color:var(--acc-2);opacity:.62}
+.oe-ico svg{width:17px;height:17px;stroke-width:1.1}
+.oe-txt b{display:block;font-family:var(--display);font-size:12.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--txt);margin-bottom:4px}
+.oe-txt > span{display:block;color:var(--txt-3);font-size:13.5px;line-height:1.5}
+
+/* FAIXA DUPLA · duas tiras cruzadas com a marca passando em sentidos opostos.
+   Sai da margem do .wrap de propósito: é um respiro de página inteira. */
+/* a margem é pequena de propósito: a caixa de 196px já é quase toda ar em
+   volta das tiras inclinadas, e somar var(--e6) abria um vão morto */
+.faixa-dupla{position:relative;margin:var(--e2) 0;height:196px;overflow:hidden;
+  --sangra:calc(50% - 50vw)}
+.fd-tira{position:absolute;left:var(--sangra);width:104vw;padding:14px 0;
+  overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+/* a de trás fica no fundo e apagada; a da frente é opaca e tem sombra, para a
+   sobreposição ler como duas tiras e não como uma bagunça */
+.fd-ida{top:46px;transform:rotate(-3.2deg);z-index:1;
+  background:var(--sup);border-block:1px solid var(--linha);opacity:.55}
+.fd-volta{top:98px;transform:rotate(3.2deg);z-index:2;
+  background:var(--sup-2);border-block:1px solid var(--linha-forte);
+  box-shadow:var(--sombra-suave)}
+.fd-corre{display:flex;width:max-content;align-items:center;
+  animation:fdcorre 46s linear infinite}
+.fd-volta .fd-corre{animation-direction:reverse;animation-duration:58s}
+@keyframes fdcorre{to{transform:translateX(-50%)}}
+.fd-peca{flex:0 0 auto;display:flex;align-items:center;gap:26px;padding-right:26px}
+.fd-marca{height:24px;width:auto;display:block;flex:0 0 auto}
+.fd-ida .fd-marca{opacity:.7}
+.fd-peca i{font-style:normal;font-family:var(--display);font-weight:500;
+  font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--txt-3);
+  white-space:nowrap}
+.fd-volta .fd-peca i{color:var(--acc-2)}
+
+/* quem pediu menos movimento no sistema não recebe anel girando nem faixa
+   correndo — a peça continua legível, só para de se mexer */
+@media (prefers-reduced-motion:reduce){
+  .orbita-anel,.fd-corre{animation:none}
+}
 
 @media (max-width:900px){
   .bloco-duplo{grid-template-columns:1fr;gap:var(--e4)}
@@ -1035,6 +1121,28 @@ h2 em{font-style:normal;color:var(--acc-2)}
   .ln-ico{display:none}
   .barra-cta{padding:var(--e3)}
   .barra-cta p{font-size:12px}
+
+  /* a órbita empilha: primeiro as bolas, depois as etapas que elas abrem */
+  .orbita{grid-template-columns:1fr;gap:var(--e4)}
+  .orbita-palco{max-width:290px}
+  .orbita-etapas li{grid-template-columns:auto 1fr;gap:var(--e2) var(--e3)}
+  .oe-ico{display:none}
+  .faixa-dupla{height:158px;margin:var(--e1) 0}
+  .fd-ida{top:34px}
+  .fd-volta{top:80px}
+}
+@media (max-width:520px){
+  .orbita-palco{max-width:246px}
+  .orbita-bola{width:76px}
+  .ob-ico{width:44px;height:44px}
+  .ob-ico svg{width:18px;height:18px}
+  .orbita-bola b{font-size:9.5px;letter-spacing:.1em}
+  .faixa-dupla{height:132px}
+  .fd-ida{top:26px}
+  .fd-volta{top:66px}
+  .fd-peca{gap:16px;padding-right:16px}
+  .fd-marca{height:19px}
+  .fd-peca i{font-size:9.5px;letter-spacing:.16em}
 }
 
 /* ---- grade de tipos de obra, com fotos que abrem ao clicar ---- */

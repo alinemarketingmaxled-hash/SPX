@@ -17,7 +17,7 @@
  */
 import { mkdirSync, writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { dirname } from 'node:path';
-import { empresa, responsavel, numeros, processo, servicos, projetos,
+import { empresa, responsavel, numeros, processo, camadas, servicos, projetos,
          duvidas, temas, acervo, chamadas, regioes, falta } from './conteudo/dados.mjs';
 
 const SITE = empresa.dominio.replace(/\/+$/, '');
@@ -452,55 +452,197 @@ const barraCta = (pergunta, rotulo, url = '/contato') => `
   <a class="btn btn-acc" href="${url}">${esc(rotulo)} ↗</a>
 </div>`;
 
-/* Prédio em fio de arame: o mesmo desenho de planta que já aparece no fundo,
-   agora como peça de conteúdo. */
-const predioFio = () => `
-<svg class="arte-predio" viewBox="0 0 320 380" role="img" aria-hidden="true">
-  <g fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round">
-    <g opacity=".28">${Array.from({ length: 9 }, (_, i) =>
-      `<path d="M0 ${i * 44 + 8}h320"/><path d="M${i * 40 + 4} 0v380"/>`).join('')}</g>
-    <path d="M70 340V120l90-58 90 58v220" opacity=".85"/>
-    <path d="M70 120l90 58 90-58M160 178v162" opacity=".7"/>
-    ${Array.from({ length: 6 }, (_, i) => {
-      const y = 150 + i * 34;
-      return `<path d="M70 ${y}l90 58 90-58" opacity=".42"/>
-              <path d="M70 ${y}v-0M250 ${y}v-0"/>`;
-    }).join('')}
-    <path d="M70 340h180" opacity=".85"/>
-    <g opacity=".55">
-      <path d="M96 214v96M124 232v78M196 232v78M224 214v96"/>
-    </g>
+/* Prédio em fio de arame, isométrico de verdade. O truque que faltava: só a
+   laje de cobertura aparece inteira; nos pavimentos intermediários desenha-se
+   apenas a aresta da frente, senão o desenho vira uma pilha de chevrons em vez
+   de um volume fechado. O degradê escurece da cobertura para a base e a malha
+   some para as bordas por máscara, em vez de terminar cortada. */
+const predioFio = () => {
+  const CX = 160, TOPO = 96, LAJE = 84, MEIA = 42, ANDAR = 27, PAVS = 7;
+  const BASE = TOPO + PAVS * ANDAR;
+  /* laje inteira: losango de 2:1 */
+  const laje = (y) => `M${CX} ${y - MEIA}L${CX + LAJE} ${y}L${CX} ${y + MEIA}L${CX - LAJE} ${y}Z`;
+  /* só as duas arestas da frente, que é o que se enxerga de um volume fechado */
+  const frente = (y) => `M${CX - LAJE} ${y}L${CX} ${y + MEIA}L${CX + LAJE} ${y}`;
+  /* montantes de fachada: dois por face, nas divisões de terço */
+  const montante = (t, lado) => {
+    const x = (CX + lado * (LAJE * t / 3)).toFixed(1);
+    const y = (TOPO + MEIA * (1 - t / 3)).toFixed(1);
+    return `<path d="M${x} ${y}v${PAVS * ANDAR}"/>`;
+  };
+  return `
+<svg class="arte-predio" viewBox="0 0 320 400" role="img" aria-hidden="true">
+  <defs>
+    <linearGradient id="pf-fio" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="currentColor" stop-opacity="1"/>
+      <stop offset=".5" stop-color="currentColor" stop-opacity=".7"/>
+      <stop offset="1" stop-color="currentColor" stop-opacity=".34"/>
+    </linearGradient>
+    <linearGradient id="pf-face" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="currentColor" stop-opacity=".14"/>
+      <stop offset="1" stop-color="currentColor" stop-opacity=".02"/>
+    </linearGradient>
+    <radialGradient id="pf-fade" cx="50%" cy="44%" r="60%">
+      <stop offset="0" stop-color="#fff" stop-opacity=".85"/>
+      <stop offset=".6" stop-color="#fff" stop-opacity=".3"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="pf-malha"><rect width="320" height="400" fill="url(#pf-fade)"/></mask>
+    <radialGradient id="pf-brilho" cx="50%" cy="24%" r="44%">
+      <stop offset="0" stop-color="currentColor" stop-opacity=".22"/>
+      <stop offset="1" stop-color="currentColor" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <ellipse cx="${CX}" cy="140" rx="146" ry="126" fill="url(#pf-brilho)"/>
+
+  <!-- malha de prancha, apagando para fora pela máscara -->
+  <g fill="none" stroke="currentColor" stroke-width=".7" opacity=".5" mask="url(#pf-malha)">
+    ${Array.from({ length: 11 }, (_, k) =>
+      `<path d="M0 ${k * 40}h320"/><path d="M${k * 32} 0v400"/>`).join('\n    ')}
   </g>
-  <g fill="currentColor" opacity=".5">
-    <circle cx="70" cy="120" r="2.6"/><circle cx="160" cy="62" r="2.6"/>
-    <circle cx="250" cy="120" r="2.6"/><circle cx="160" cy="178" r="2.6"/>
-    <circle cx="70" cy="340" r="2.6"/><circle cx="250" cy="340" r="2.6"/>
+
+  <!-- implantação: o lote em volta do prédio, tracejado, como em planta -->
+  <path d="M${CX} ${BASE + MEIA - 62}L${CX + 124} ${BASE + MEIA}L${CX} ${BASE + MEIA + 62}L${CX - 124} ${BASE + MEIA}Z"
+        fill="none" stroke="currentColor" stroke-width=".8" opacity=".26" stroke-dasharray="4 6"/>
+
+  <!-- as duas faces visíveis, com preenchimento quase nulo só para dar volume -->
+  <path d="M${CX - LAJE} ${TOPO}L${CX} ${TOPO + MEIA}L${CX} ${BASE + MEIA}L${CX - LAJE} ${BASE}Z"
+        fill="url(#pf-face)" stroke="none"/>
+  <path d="M${CX + LAJE} ${TOPO}L${CX} ${TOPO + MEIA}L${CX} ${BASE + MEIA}L${CX + LAJE} ${BASE}Z"
+        fill="url(#pf-face)" stroke="none" opacity=".55"/>
+
+  <g fill="none" stroke="url(#pf-fio)" stroke-width="1.1" stroke-linejoin="round">
+    <path d="${laje(TOPO)}"/>
+    <!-- pavimentos: só a aresta da frente -->
+    ${Array.from({ length: PAVS }, (_, k) =>
+      `<path d="${frente(TOPO + (k + 1) * ANDAR)}"/>`).join('\n    ')}
+    <!-- as três prumadas que se enxergam do volume -->
+    <path d="M${CX - LAJE} ${TOPO}v${PAVS * ANDAR}M${CX + LAJE} ${TOPO}v${PAVS * ANDAR}"/>
+    <path d="M${CX} ${TOPO + MEIA}v${PAVS * ANDAR}"/>
+  </g>
+
+  <g fill="none" stroke="currentColor" stroke-width=".8" opacity=".38">
+    ${[1, 2].flatMap((t) => [-1, 1].map((lado) => montante(t, lado))).join('\n    ')}
+  </g>
+
+  <!-- casa de máquinas na cobertura: o detalhe que dá escala ao volume -->
+  <g fill="none" stroke="currentColor" stroke-width=".9" opacity=".7">
+    <path d="M${CX} ${TOPO - MEIA - 20}L${CX + 30} ${TOPO - MEIA - 5}L${CX} ${TOPO - MEIA + 10}L${CX - 30} ${TOPO - MEIA - 5}Z"/>
+    <path d="M${CX - 30} ${TOPO - MEIA - 5}v15M${CX + 30} ${TOPO - MEIA - 5}v15M${CX} ${TOPO - MEIA + 10}v15"/>
+    <path d="M${CX - 30} ${TOPO - MEIA + 10}L${CX} ${TOPO - MEIA + 25}L${CX + 30} ${TOPO - MEIA + 10}"/>
+  </g>
+
+  <!-- cota de altura à esquerda, com marca em cada pavimento -->
+  <g fill="none" stroke="currentColor" stroke-width=".8" opacity=".4">
+    <path d="M30 ${TOPO}v${PAVS * ANDAR}"/>
+    <path d="M25 ${TOPO}h10M25 ${BASE}h10"/>
+    ${Array.from({ length: PAVS - 1 }, (_, k) =>
+      `<path d="M27 ${TOPO + (k + 1) * ANDAR}h6"/>`).join('\n    ')}
+  </g>
+
+  <!-- terreno -->
+  <path d="M16 ${BASE + MEIA}h288" fill="none" stroke="currentColor"
+        stroke-width="1" opacity=".5"/>
+
+  <g fill="currentColor" opacity=".7">
+    ${[[CX, TOPO - MEIA], [CX - LAJE, TOPO], [CX + LAJE, TOPO], [CX, TOPO + MEIA],
+       [CX - LAJE, BASE], [CX + LAJE, BASE], [CX, BASE + MEIA]]
+      .map(([x, y]) => `<circle cx="${x}" cy="${y}" r="2.3"/>`).join('\n    ')}
   </g>
 </svg>`;
+};
 
-/* Diagrama concêntrico: SPX no meio, as três camadas em volta. */
-const diagramaSPX = () => `
-<div class="arte-diagrama">
-  <svg viewBox="0 0 360 360" role="img" aria-hidden="true">
-    <g fill="none" stroke="currentColor">
-      <circle cx="180" cy="180" r="150" opacity=".16"/>
-      <circle cx="180" cy="180" r="112" opacity=".26"/>
-      <circle cx="180" cy="180" r="74" opacity=".4"/>
-      <g opacity=".3" stroke-dasharray="3 6">
-        <path d="M180 30v300M30 180h300"/>
+/* Órbita: a SPX no centro e as três camadas girando em volta. Clicar numa
+   delas mostra, ao lado, só as etapas do processo daquela camada — o campo
+   `camada` em conteudo/dados.mjs é quem faz a divisão, então mexer lá muda o
+   diagrama sozinho. São abas de verdade (tablist/tabpanel): quem navega por
+   teclado percorre as bolas com as setas, e o leitor de tela anuncia qual
+   camada abriu. A primeira já vem aberta, para o bloco nunca ficar vazio. */
+const orbitaSPX = () => {
+  const grupos = camadas.map((c) => ({ ...c, etapas: processo.filter((e) => e.camada === c.id) }));
+  /* as três posições no anel. A conta sai daqui e vira left/top em % do palco:
+     porcentagem dentro de `translate` resolveria contra a própria bola, que é
+     pequena, e as três acabariam empilhadas em cima da marca. */
+  const ANG = [-90, 30, 150]; /* topo, direita-baixo, esquerda-baixo */
+  const RAIO = 0.34;          /* fração do lado do palco, do centro à bola */
+  const pos = (a) => {
+    const r = (a * Math.PI) / 180;
+    return { x: (50 + RAIO * 100 * Math.cos(r)).toFixed(2),
+             y: (50 + RAIO * 100 * Math.sin(r)).toFixed(2) };
+  };
+  return `
+<div class="orbita" data-orbita>
+  <div class="orbita-palco">
+    <svg class="orbita-fio" viewBox="0 0 320 320" aria-hidden="true">
+      <g fill="none" stroke="currentColor">
+        <circle cx="160" cy="160" r="${(RAIO * 320).toFixed(0)}" opacity=".14"/>
+        <circle cx="160" cy="160" r="${(RAIO * 320).toFixed(0)}" opacity=".34" stroke-dasharray="2 9" class="orbita-anel"/>
+        <circle cx="160" cy="160" r="78" opacity=".1"/>
+        ${ANG.map((a) => {
+          const { x, y } = pos(a);
+          return `<path class="orbita-raio" data-raio="${a}" opacity=".22"
+                d="M160 160L${(x * 3.2).toFixed(1)} ${(y * 3.2).toFixed(1)}"/>`;
+        }).join('\n        ')}
       </g>
-      <path d="M254 180h76M180 106V30M180 254v76" opacity=".45"/>
-    </g>
-    <circle cx="180" cy="180" r="52" fill="var(--acc)" opacity=".9"/>
-    <circle cx="180" cy="180" r="52" fill="none" stroke="currentColor" opacity=".7"/>
-    <text x="180" y="188" text-anchor="middle" class="dg-marca">SPX</text>
-  </svg>
-  <ul class="dg-legenda">
-    <li><b>Engenharia</b><span>O que fazer</span></li>
-    <li><b>Gestão</b><span>Como fazer</span></li>
-    <li><b>Execução</b><span>Fazer acontecer</span></li>
-  </ul>
+    </svg>
+
+    <span class="orbita-nucleo" aria-hidden="true">SPX</span>
+
+    <div class="orbita-bolas" role="tablist" aria-label="As três camadas do trabalho da SPX">
+      ${grupos.map((c, i) => `
+      <button class="orbita-bola" type="button" role="tab" data-orbita-bola
+              id="camada-${c.id}" aria-controls="painel-camada" data-raio="${ANG[i]}"
+              style="left:${pos(ANG[i]).x}%;top:${pos(ANG[i]).y}%"
+              data-nome="${esc(c.nome)}" data-papel="${esc(c.papel)}"
+              aria-selected="${i === 0 ? 'true' : 'false'}" tabindex="${i === 0 ? '0' : '-1'}">
+        <span class="ob-ico">${icone(c.icone)}</span>
+        <b>${esc(c.nome)}</b>
+      </button>`).join('')}
+    </div>
+  </div>
+
+  <div class="orbita-painel" id="painel-camada" role="tabpanel"
+       aria-labelledby="camada-${grupos[0].id}" tabindex="0">
+    ${grupos.map((c, i) => `
+    <div class="orbita-parte" data-orbita-parte="${c.id}"${i ? ' hidden' : ''}>
+      <p class="orbita-papel"><b>${esc(c.nome)}</b><span>${esc(c.papel)}</span></p>
+      <p class="orbita-resumo">${esc(c.texto)}</p>
+      <ol class="orbita-etapas">
+        ${c.etapas.map((e) => `
+        <li><span class="oe-n">${e.n}</span>
+          <span class="oe-ico" aria-hidden="true">${icone(e.icone)}</span>
+          <span class="oe-txt"><b>${esc(e.nome)}</b><span>${esc(e.texto)}</span></span>
+        </li>`).join('')}
+      </ol>
+    </div>`).join('')}
+  </div>
 </div>`;
+};
+
+/* Faixa dupla: duas tiras cruzadas com a marca passando, uma para cada lado.
+   Serve de respiro entre seções, e é a única peça da página em que a marca
+   aparece grande. As duas tiras são inertes para leitor de tela: quem não
+   enxerga já ouviu o nome da empresa no topo e no rodapé, repetir vinte vezes
+   só atrapalha. */
+const faixaDupla = () => {
+  /* a tira é escura no tema escuro, então quem entra é a marca de tinta clara.
+     Invertido em relação ao menu, onde a marca fica sobre a cápsula clara. */
+  const peca = `<span class="fd-peca">
+    <img class="fd-marca so-escuro" src="/img/logo-spx-negativa.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <img class="fd-marca so-claro" src="/img/logo-spx.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <i>Engenharia · Gestão · Execução</i>
+  </span>`;
+  /* dobrado: a animação anda 50% e volta ao começo sem emenda visível */
+  const tira = (dir) => `<div class="fd-tira fd-${dir}">
+    <div class="fd-corre">${peca.repeat(8)}</div>
+  </div>`;
+  return `
+<section class="faixa-dupla" aria-hidden="true">
+  ${tira('ida')}
+  ${tira('volta')}
+</section>`;
+};
 
 /* Grade de serviços onde clicar num cartão abre as fotos daquele tipo de obra
    logo abaixo. São abas de verdade (tablist/tabpanel), então quem navega por
@@ -709,14 +851,15 @@ pagina({
 
 <section class="sec wrap" data-reveal>
   <h2>Como <em>trabalhamos</em></h2>
-  ${blocoDuplo(listaNumerada(processo.map((e) => ({
-    icone: e.icone, titulo: e.nome, texto: e.texto }))), diagramaSPX())}
+  <p class="sub-secao">Toque numa das camadas para ver as etapas que ela responde.</p>
+  ${orbitaSPX()}
   ${barraCta('Pronto para dar o próximo passo?', 'Agendar conversa')}
 </section>
 
+${faixaDupla()}
+
 <section class="sec wrap" data-reveal>
-  <p class="eyebrow">Compromisso SPX</p>
-  <h2 style="margin-top:18px">O que vem junto,<br>em qualquer <em>serviço</em>.</h2>
+  <h2>O que vem junto,<br>em qualquer <em>serviço</em>.</h2>
   ${blocoDuplo(listaNumerada([
     { icone: 'visita', titulo: 'Visita técnica antes do orçamento', texto: 'Nenhuma obra é orçada por telefone.' },
     { icone: 'proposta', titulo: 'Proposta discriminada', texto: 'Serviço a serviço, com quantidade e critério de medição.' },

@@ -1105,4 +1105,52 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
   });
 })();
 
+/* ÓRBITA · as três camadas girando em volta da marca. Clicar numa bola troca
+   as etapas mostradas ao lado. É um tablist de verdade: as setas percorrem as
+   bolas e a troca acontece no foco, como manda o padrão para aba automática.
+   Uma camada fica sempre aberta — não há estado vazio para cair. */
+(function orbita(){
+  $$('[data-orbita]').forEach(function(caixa){
+    var bolas = $$('[data-orbita-bola]', caixa);
+    var partes = $$('[data-orbita-parte]', caixa);
+    var painel = $('#painel-camada', caixa);
+    var raios = $$('.orbita-raio', caixa);
+    if(bolas.length !== partes.length || !painel) return;
+
+    function abre(bola, focar){
+      var id = bola.id.replace('camada-', '');
+      bolas.forEach(function(b){
+        var seu = b === bola;
+        b.setAttribute('aria-selected', String(seu));
+        b.tabIndex = seu ? 0 : -1;
+      });
+      partes.forEach(function(pt){ pt.hidden = pt.dataset.orbitaParte !== id; });
+      painel.setAttribute('aria-labelledby', bola.id);
+      /* o raio que liga o centro à bola escolhida acende junto */
+      raios.forEach(function(r){
+        r.classList.toggle('aceso', r.dataset.raio === bola.dataset.raio);
+      });
+      if(focar) bola.focus();
+    }
+
+    bolas.forEach(function(bola, i){
+      bola.addEventListener('click', function(){ abre(bola, false); });
+      bola.addEventListener('keydown', function(e){
+        var passo = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1
+                  : e.key === 'ArrowLeft'  || e.key === 'ArrowUp'   ? -1 : 0;
+        if(passo){
+          e.preventDefault();
+          abre(bolas[(i + passo + bolas.length) % bolas.length], true);
+          return;
+        }
+        if(e.key === 'Home' || e.key === 'End'){
+          e.preventDefault();
+          abre(bolas[e.key === 'Home' ? 0 : bolas.length - 1], true);
+        }
+      });
+    });
+    abre(bolas[0], false);
+  });
+})();
+
 })();

@@ -84,7 +84,7 @@ function menu(atual) {
     <a href="/" class="navlogo" aria-label="${esc(empresa.nome)} · início">
       <img class="marca" src="/img/logo-spx.webp" width="300" height="72" alt="" aria-hidden="true"></a>
     ${MENU.map(item).join('\n    ')}
-    <a href="/contato" class="cta">Visita técnica</a>
+    <a href="/contato" class="cta">Contato</a>
     <button class="nav-btn nav-menu" type="button" data-acao="menu" aria-expanded="false" aria-controls="gaveta" aria-label="Abrir menu">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
     </button>
@@ -259,7 +259,7 @@ const schemaTrilha = (trilha) => ({
 
 /* --------------------------------------------------------------- moldura */
 function pagina({ url, arquivo, title, descricao, h1, trilha = [], corpo, schema = [],
-                 visual = '', fundo = null, h1b = '', lead = '' }) {
+                 visual = '', fundo = null, h1b = '', lead = '', ladoTopo = '' }) {
   const grafo = [schemaOrganizacao(), ...schema].filter(Boolean);
   if (trilha.length > 1) grafo.push(schemaTrilha(trilha));
   const migalhasHTML = trilha.length > 1
@@ -310,11 +310,14 @@ ${JSON.stringify({ '@context': 'https://schema.org', '@graph': grafo }, null, 1)
 ${menu(trilha[1] ? trilha[1].url : url)}
 <main id="conteudo">
 <header class="topo-interno${fundo ? ' com-foto' : ''}">
-  <div class="wrap topo-in">
+${ladoTopo ? '  <div class="wrap topo-duplo">' : ''}
+  <div class="${ladoTopo ? '' : 'wrap '}topo-in">
 ${migalhasHTML}
     <h1>${esc(h1)}${h1b ? `<em>${esc(h1b)}</em>` : ''}</h1>
 ${lead ? `    <p class="lead topo-lead">${esc(lead)}</p>` : ''}
   </div>
+${ladoTopo ? `  <div class="topo-lado">${ladoTopo}</div>
+  </div>` : ''}
 ${fundo ? `  <div class="topo-foto" aria-hidden="true">
     <div class="hero-fundo" id="heroFundo" data-fotos="${fotos(fundo).join(',')}">
       <img class="ativa" src="/img/${fundo}-640.webp"
@@ -396,6 +399,42 @@ const linhaTempo = (etapas) => `<ol class="linha-tempo">${etapas.map((e) => `
     <span class="lt-marca">${icone(e.icone)}<b>${e.n}</b></span>
     <div class="lt-txt"><h3>${esc(e.nome)}</h3><p>${esc(e.texto)}</p></div>
   </li>`).join('')}</ol>`;
+
+/* Verso do cartão de serviço: infográfico, não parágrafo. Tudo o que aparece
+   aqui é dado que já existe — o escopo é a lista `executa` do próprio serviço,
+   a trilha é o processo de sete etapas, e os prazos são os compromissos que o
+   site já assume em toda página. Nenhuma porcentagem inventada: sem número
+   medido, gráfico de pizza é desenho bonito mentindo. */
+const infografico = (s) => {
+  const frentes = s.executa.length;
+  return `
+<span class="ig">
+  <span class="ig-bloco">
+    <span class="ig-rot">O que entra <b>${frentes} frente${frentes > 1 ? 's' : ''}</b></span>
+    <span class="ig-barras" aria-hidden="true">${
+      Array.from({ length: frentes }, (_, k) =>
+        `<i style="--i:${k}"></i>`).join('')}</span>
+    <span class="ig-lista">${s.executa.slice(0, 4).map((e) =>
+      `<i>${esc(e)}</i>`).join('')}${frentes > 4 ? `<i class="ig-mais">+${frentes - 4}</i>` : ''}</span>
+  </span>
+
+  <span class="ig-bloco">
+    <span class="ig-rot">Como anda <b>${processo.length} etapas</b></span>
+    <span class="ig-trilha" aria-hidden="true">${processo.map((e) =>
+      `<i><u>${e.n}</u></i>`).join('')}</span>
+    <span class="ig-pe">Do levantamento à entrega, com medição semanal do avanço.</span>
+  </span>
+
+  <span class="ig-bloco">
+    <span class="ig-rot">Prazos que a SPX assume</span>
+    <span class="ig-chips">
+      <i><b>5</b><u>dias úteis · orçamento preliminar</u></i>
+      <i><b>10</b><u>dias úteis · proposta detalhada</u></i>
+      <i><b>ART</b><u>emitida antes de assinar</u></i>
+    </span>
+  </span>
+</span>`;
+};
 
 /* Cartão que vira. As duas faces existem no HTML o tempo todo — o giro é
    `rotateY` com `backface-visibility`, e não troca de conteúdo — então quem
@@ -941,45 +980,21 @@ for (const s of servicosPublicaveis) {
     arquivo: `servicos/${s.slug}.html`,
     title: s.title, descricao: s.descricao, h1: s.h1, trilha,
     visual: 'pag-servico servico-' + s.slug,
-    fundo: FUNDOS_SERVICO[servicos.indexOf(s) % FUNDOS_SERVICO.length],
+    /* sem foto de topo: o lado direito do cabeçalho é do cartão que vira */
+    ladoTopo: cartaoVira(`
+      <span class="vira-tipo">Tipo de obra</span>
+      <span class="vira-nome">${esc(s.nome)}</span>
+      <span class="vira-foto"><img src="/img/${s.fotos[0]}-640.webp" width="640"
+        height="${Math.round(640 * dim(s.fotos[0])[1] / dim(s.fotos[0])[0])}"
+        sizes="(max-width:999px) 92vw, 460px" alt="" loading="lazy" decoding="async"></span>`,
+      infografico(s), `Ver o que é ${s.nome.toLowerCase()}`),
     schema: [schemaServico(s), schemaPerguntas([[s.pergunta, s.resposta], ...s.faq]),
              { '@type': 'WebPage', '@id': `${SITE}/servicos/${s.slug}#pagina`,
                name: s.h1, speakable: FALADO, about: { '@id': idEmpresa } }],
     corpo: `
-<section class="sec wrap" data-reveal>
-  <div class="meio-a-meio">
-    <div class="resposta-direta">
-      <h2>${esc(s.pergunta)}</h2>
-      <p>${esc(s.resposta)}</p>
-      ${s.fatos.length ? `<ul class="fatos">${s.fatos.map((f) => `<li>${esc(f)}</li>`).join('')}</ul>` : ''}
-    </div>
-    ${cartaoVira(`
-      <span class="vira-tipo">Tipo de obra</span>
-      <span class="vira-nome">${esc(s.nome)}</span>
-      <span class="vira-resumo">${esc(s.resumo)}</span>
-      <span class="vira-marcas">
-        ${s.executa.slice(0, 3).map((e) => `<span>${icone(s.icone)}<i>${esc(e)}</i></span>`).join('')}
-      </span>
-      <span class="vira-foto"><img src="/img/${s.fotos[0]}-480.webp" width="480"
-        height="${Math.round(480 * dim(s.fotos[0])[1] / dim(s.fotos[0])[0])}" alt=""
-        loading="lazy" decoding="async"></span>`, `
-      <span class="vira-titulo">O que é</span>
-      <p class="vira-texto">${esc(s.oQueE)}</p>
-      <span class="vira-titulo">Para quem é</span>
-      <ul class="vira-lista">${s.paraQuem.slice(0, 3).map((q) => `<li>${esc(q)}</li>`).join('')}</ul>
-      <span class="vira-titulo">Diferenciais</span>
-      <ul class="vira-lista">${s.diferenciais.slice(0, 3).map((d) => `<li>${esc(d)}</li>`).join('')}</ul>`,
-      `Ver o que é ${s.nome.toLowerCase()}`)}
-  </div>
-</section>
-
-${secao('O que a SPX executa', `<ul class="grade-servicos">${lista(s.executa)}</ul>`, 'claro')}
-
-${secao('Como funciona', linhaTempo(processo), 'claro')}
-
-${secao('Diferenciais', `<ul class="marcada">${lista(s.diferenciais)}</ul>`)}
-
-${secao('Dúvidas sobre ' + s.nome.toLowerCase(), perguntas(s.faq), 'claro')}
+${secao('Dúvidas sobre ' + s.nome.toLowerCase(), perguntas(s.faq) +
+  cartaoChamada('Ainda tem dúvida?', 'Fale direto com o engenheiro responsável.',
+    'Enviar pergunta', '/contato', 'conversa'), 'claro')}
 
 ${secao('Outros serviços', `<ul class="grade-servicos">${relacionados.map((o) =>
   `<li><a href="/servicos/${o.slug}"><b>${esc(o.nome)}</b><span>${esc(o.resumo)}</span></a></li>`).join('')}</ul>`)}
@@ -1424,7 +1439,8 @@ if (!formulario) throw new Error('não achei o formulário em index.html');
 
 pagina({
   url: '/contato', arquivo: 'contato.html',
-  fundo: 'banheiro-marmore',
+  /* sem foto no topo: a mesma foto já está atrás do formulário logo abaixo,
+     e duas cópias da mesma imagem na primeira tela é uma a mais */
   title: `Contato e visita técnica | ${empresa.nome}`,
   descricao: 'Solicite a visita técnica da SPX Engenharia. Orçamento preliminar em até cinco ' +
     'dias úteis depois da visita ao local, em São Paulo e região.',

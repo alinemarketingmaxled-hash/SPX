@@ -1078,6 +1078,23 @@ h2 em{font-style:normal;color:var(--acc-2)}
   background:var(--linha-forte)}
 .fluxo li[data-lig="fim"]::after{display:none}
 
+/* ------------------------------------- cabeçalho com peça ao lado do título */
+/* Nas páginas de serviço o lado direito do cabeçalho não é foto: é o cartão.
+   Mesma grade do resto — título à esquerda, peça à direita — e empilha no
+   celular, título em cima e cartão embaixo. */
+.topo-interno:has(.topo-duplo){display:block;
+  padding-top:calc(var(--nav-altura) + var(--e4));padding-bottom:var(--e5)}
+/* os dois lados dividem o mesmo container: fora dele o cartão passava da
+   margem do site e encostava na borda da tela */
+.topo-duplo{display:grid;grid-template-columns:1.05fr .95fr;gap:var(--e5);
+  align-items:center}
+.topo-duplo .topo-in{width:100%}
+.topo-duplo h1{max-width:none}
+.topo-lado{min-width:0}
+@media (max-width:999px){
+  .topo-duplo{grid-template-columns:1fr;gap:var(--e4)}
+}
+
 /* ------------------------------------------------------- cartão que vira */
 /* A perspectiva fica no pai e o giro no filho: na mesma caixa o 3D achata e o
    cartão vira um retângulo que troca de cor. As duas faces ficam empilhadas
@@ -1098,7 +1115,7 @@ h2 em{font-style:normal;color:var(--acc-2)}
 .vira-btn:hover i{transform:rotate(180deg)}
 .vira-btn:focus-visible{outline:2px solid var(--acc-2);outline-offset:4px}
 .vira-face{position:absolute;inset:0;display:grid;align-content:center;gap:var(--e3);
-  padding:var(--e4);border:1px solid var(--linha);border-radius:var(--raio);
+  padding:var(--e4);border:1px solid var(--linha);border-radius:18px;
   background:var(--sup);text-align:left;
   -webkit-backface-visibility:hidden;backface-visibility:hidden;overflow:hidden}
 .vira-frente{background:
@@ -1122,10 +1139,12 @@ h2 em{font-style:normal;color:var(--acc-2)}
   .vira-caixa{transition:none}
 }
 
-/* frente do cartão nas páginas de serviço: tipo, nome, resumo, três marcas e
-   a foto sangrando no pé */
+/* frente do cartão nas páginas de serviço: o tipo, o nome e a foto. Só isso —
+   o resto vai para o verso, que é onde o infográfico mora. */
+.topo-lado .vira-caixa{aspect-ratio:1.06}
 .vira-frente:has(.vira-foto){place-items:stretch;text-align:left;
   align-content:start;gap:var(--e2);padding-bottom:0}
+.vira-frente:has(.vira-foto) .vira-nome{font-size:clamp(24px,3vw,34px);margin-top:4px}
 .vira-tipo{font-family:var(--display);font-size:10.5px;letter-spacing:.2em;
   text-transform:uppercase;color:var(--acc-2)}
 .vira-nome{font-family:var(--display);font-weight:700;font-size:clamp(19px,2.2vw,25px);
@@ -1135,7 +1154,8 @@ h2 em{font-style:normal;color:var(--acc-2)}
 .vira-marcas > span{display:grid;grid-template-columns:auto 1fr;gap:9px;align-items:start}
 .vira-marcas svg{width:15px;height:15px;stroke-width:1.2;color:var(--acc-2);margin-top:2px}
 .vira-marcas i{font-style:normal;font-size:12px;color:var(--txt-2);line-height:1.4}
-.vira-foto{display:block;margin:auto calc(-1 * var(--e4)) 0;height:38%;overflow:hidden;
+.vira-foto{display:block;margin:auto calc(-1 * var(--e4)) calc(-1 * var(--e4));height:52%;
+  overflow:hidden;
   -webkit-mask-image:linear-gradient(180deg,transparent,#000 34%);
   mask-image:linear-gradient(180deg,transparent,#000 34%)}
 .vira-foto img{width:100%;height:100%;object-fit:cover;display:block;opacity:.85}
@@ -1147,12 +1167,56 @@ h2 em{font-style:normal;color:var(--acc-2)}
   border:1px solid var(--acc-2);transform:rotate(45deg)}
 .vira-verso:has(.vira-lista){align-content:start;gap:8px;overflow-y:auto}
 
+/* --------------------------------------------- infográfico do verso do cartão */
+/* Barras, trilha e chips — nada de pizza. Sem número medido por serviço, um
+   gráfico de fatia seria desenho bonito afirmando o que ninguém contou. O que
+   está aqui é contagem real: quantas frentes o serviço cobre, quantas etapas o
+   processo tem, e os prazos que o site assume em toda página. */
+.vira-verso:has(.ig){align-content:start;gap:0;padding:var(--e3) var(--e4)}
+.ig{display:grid;gap:var(--e3);align-content:start}
+.ig-bloco{display:grid;gap:8px;padding-bottom:var(--e3);
+  border-bottom:1px solid var(--linha)}
+.ig-bloco:last-child{border-bottom:0;padding-bottom:0}
+/* --txt-3 dá 4,33 sobre o fundo do verso, e a norma pede 4,5 para texto
+   pequeno. Sobe um degrau — é rótulo de 10px, não dá para contar com tamanho
+   grande para relaxar a régua. */
+.ig-rot{font-family:var(--display);font-size:10px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--txt-2);display:flex;gap:8px;align-items:baseline}
+.ig-rot b{color:var(--acc-2);font-size:11px;letter-spacing:.12em}
+.ig-barras{display:flex;gap:4px;height:7px}
+.ig-barras i{flex:1;background:var(--acc-2);opacity:.28;border-radius:2px;
+  animation:igsobe .5s cubic-bezier(.2,.8,.2,1) backwards;
+  animation-delay:calc(var(--i) * 55ms + 320ms)}
+@keyframes igsobe{from{transform:scaleY(.2);opacity:0}to{transform:scaleY(1);opacity:.28}}
+.vira[data-virado] .ig-barras i:nth-child(-n+3){opacity:.75}
+.ig-lista{display:flex;flex-wrap:wrap;gap:5px}
+.ig-lista i{font-style:normal;font-size:11px;line-height:1.3;color:var(--txt-2);
+  border:1px solid var(--linha);border-radius:20px;padding:4px 9px}
+.ig-lista .ig-mais{color:var(--acc-2);border-color:var(--acc-2)}
+.ig-trilha{display:flex;align-items:center;gap:3px}
+.ig-trilha i{flex:1;height:22px;display:grid;place-items:center;border-radius:3px;
+  background:var(--acc-suave);border:1px solid var(--linha)}
+.ig-trilha u{text-decoration:none;font-family:var(--display);font-weight:700;
+  font-size:9.5px;letter-spacing:.04em;color:var(--acc-2)}
+.ig-pe{font-size:11.5px;color:var(--txt-2);line-height:1.4}
+.ig-chips{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.ig-chips i{font-style:normal;display:grid;gap:3px;padding:9px 10px;
+  background:var(--acc-suave);border:1px solid var(--linha);border-radius:6px}
+.ig-chips b{font-family:var(--display);font-weight:700;font-size:18px;line-height:1;
+  color:var(--txt)}
+.ig-chips u{text-decoration:none;font-size:10px;line-height:1.3;color:var(--txt-2)}
+
 /* ------------------------------------------- contato: foto atrás do vidro */
 /* A foto vai atrás do bloco inteiro e o formulário fica translúcido por cima.
    `backdrop-filter` desfoca o que passa por baixo dele — sem isso o texto do
    formulário disputava legibilidade com o azulejo da foto. */
 .contato-bloco{position:relative;isolation:isolate}
-.cb-foto{position:absolute;top:calc(-1 * var(--e5));bottom:0;
+/* sem foto no cabeçalho desta página, o bloco sobe até o menu.
+   Altura fixa, e não `bottom:0`: presa à altura do bloco, ela era
+   redimensionada quando a fonte trocava e o Lighthouse contava isso como
+   deslocamento de layout, mesmo sendo uma peça decorativa que não empurra
+   nada. Com altura própria, a troca de fonte não a alcança. */
+.cb-foto{position:absolute;top:calc(-1 * var(--e7));height:min(940px,104vh);
   left:calc(50% - 50vw);width:100vw;z-index:-1;overflow:hidden;
   -webkit-mask-image:linear-gradient(90deg,transparent 8%,#000 46%),
                      linear-gradient(180deg,#000 0,#000 62%,transparent 100%);

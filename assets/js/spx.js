@@ -170,7 +170,20 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
   var fotos = $$('img', caixa);
   if(!fotos.length) return;
   var atual = 0;
+  var painel = caixa.parentElement;
+
+  /* o vão entre o título e a foto é preenchido pela própria imagem, esticada e
+     apagada por trás. Aponta para `currentSrc`, o arquivo que o navegador já
+     escolheu e baixou para o <img>: vira `background-image` sem custar um
+     pedido novo. Antes de a imagem resolver, `currentSrc` vem vazio — daí a
+     repetição no `load`. */
+  function pinta(){
+    var im = fotos[atual], url = im && (im.currentSrc || im.src);
+    if(painel && url) painel.style.setProperty('--capa', 'url("' + url + '")');
+  }
   fotos[0].classList.add('ativa');
+  pinta();
+  window.addEventListener('load', pinta);
   if(reduz) return;
 
   /* As outras fotos do rodízio só entram depois que a página carregou. Elas
@@ -188,6 +201,7 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
     fotos[atual].classList.remove('ativa');
     atual = (i + fotos.length) % fotos.length;
     fotos[atual].classList.add('ativa');
+    pinta();
   }
   function anda(passo){
     mostra(atual + passo);

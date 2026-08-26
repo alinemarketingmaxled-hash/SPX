@@ -855,7 +855,6 @@ pagina({
   <h2>Como <em>trabalhamos</em></h2>
   <p class="sub-secao">Toque numa das camadas para ver as etapas que ela responde.</p>
   ${orbitaSPX()}
-  ${barraCta('Pronto para dar o próximo passo?', 'Agendar conversa')}
 </section>
 
 ${faixaDupla()}

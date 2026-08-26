@@ -540,6 +540,22 @@ original, porque ampliar foto de obra não acrescenta detalhe nenhum, só peso. 
 de 768 entrou com este cabeçalho: no tamanho do painel, num aparelho de tela
 densa, 640 fica mole e 960 pesa o dobro à toa.
 
+**O vão entre o título e a foto é preenchido pela própria imagem.** Uma foto em
+pé só cresce até onde a altura do cabeçalho deixa, então alargar o painel não
+alarga a foto — o que preenche aquele trecho é a mesma imagem esticada por trás,
+borrada forte e sumindo para a esquerda antes de chegar no título. Nítida, ela
+entrava em desalinho com a da frente e o cabeçalho virava imagem dupla; borrada,
+sobra a luz e a cor daquela obra ocupando o vão.
+
+A URL do fundo vem do JavaScript e é exatamente a que o `<img>` já baixou
+(`currentSrc`), então vira `background-image` **sem custar um pedido novo à
+rede**. Antes de a imagem resolver, `currentSrc` vem vazio — daí a repetição no
+`load`.
+
+A foto nítida tem teto de largura (`max-width:min(46vw,540px)`). O painel é
+largo por causa do fundo borrado, mas sem o teto a recepção em mármore, que é
+deitada, chegava a 760px e passava por cima do título.
+
 **O `sizes` de cada `<img>` bate com a largura do painel em cada faixa do CSS**,
 e os números não são estéticos: 290 no celular e 380 no tablet são os maiores
 valores que ainda fazem o navegador escolher a variante de 768 em vez da de 960.

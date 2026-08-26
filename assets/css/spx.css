@@ -859,7 +859,7 @@ b,strong{font-weight:600}
    inteira, e o texto não depende de véu nenhum para ser lido. */
 .topo-interno.com-foto{
   position:relative;overflow:hidden;
-  min-height:clamp(300px,42vh,440px);display:flex;align-items:center;
+  min-height:clamp(320px,48vh,510px);display:flex;align-items:center;
   padding-top:calc(var(--nav-altura) + var(--e3));padding-bottom:var(--e4);
   margin-bottom:var(--e5)}
 .topo-interno.com-foto .topo-in{position:relative;z-index:2;width:100%}
@@ -871,8 +871,25 @@ b,strong{font-weight:600}
 /* sobe por baixo do menu: a pílula flutua e é opaca, então a foto pode
    encostar no topo da tela como nos modelos, em vez de começar abaixo dela */
 .topo-foto{position:absolute;right:0;top:calc(var(--nav-altura) * -1);bottom:0;
-  z-index:1;pointer-events:none;width:min(44vw,500px)}
+  z-index:1;pointer-events:none;width:min(72vw,1000px)}
 .topo-foto .hero-fundo{position:absolute;inset:0}
+
+/* O vão entre o título e a foto era preto puro. Uma foto em pé só cresce até
+   onde a altura do cabeçalho deixa, então alargar o painel não a alarga — o
+   que preenche esse trecho é a própria imagem ao fundo, esticada, apagada e
+   sumindo para a esquerda antes de chegar no título. A URL vem do JavaScript,
+   e é exatamente a que o <img> já baixou: nenhum pedido novo à rede. */
+/* Desfocado de propósito, e forte. Nítida, a mesma foto esticada por trás
+   entrava em desalinho com a da frente e o cabeçalho virava imagem dupla.
+   Borrada, sobra o que interessa: a luz e a cor daquela obra ocupando o vão.
+   A caixa passa das bordas para o borrão não deixar franja, e o painel corta
+   o que sobrar. */
+.topo-foto::before{content:"";position:absolute;inset:-80px;
+  background:var(--capa,none) center/cover no-repeat;
+  filter:blur(40px) brightness(.72) saturate(.85);opacity:.55;
+  /* o degradê chega a zero antes do título: nada de clarão por trás da letra */
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,transparent 34%,#000 74%);
+  mask-image:linear-gradient(90deg,transparent 0,transparent 34%,#000 74%)}
 /* A foto define a própria largura: altura cheia, largura pela proporção dela,
    encostada à direita. É o que faz a máscara funcionar — presa ao painel, ela
    apagava sempre a mesma faixa, e numa foto estreita a fatia apagada caía
@@ -880,7 +897,11 @@ b,strong{font-weight:600}
    degradê sempre começa na borda dela, seja qual for a proporção. */
 .topo-foto .hero-fundo img{
   position:absolute;top:0;bottom:0;right:0;left:auto;
-  height:100%;width:auto;max-width:100%;
+  height:100%;width:auto;
+  /* teto de largura: o painel é largo por causa do fundo borrado, mas a foto
+     nítida não pode crescer até encostar no título. A recepção em mármore é
+     deitada e, sem esse teto, chegava a 760px e passava por cima da letra. */
+  max-width:min(46vw,540px);
   object-fit:contain;object-position:right center;filter:none;
   -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 54%,#000 100%);
   mask-image:linear-gradient(90deg,transparent 0,#000 54%,#000 100%)}
@@ -903,6 +924,8 @@ body{--bg-pagina:var(--bg)}
   /* a largura fica presa porque é ela que decide qual variante da foto o
      navegador baixa: acima disso, tela densa pula para a de 960 à toa.
      Encostada à direita, e não centralizada, para não ficar boiando. */
+  /* empilhada não sobra vão nenhum para preencher: o fundo esticado sai */
+  .topo-foto::before{display:none}
   .topo-foto{position:relative;right:auto;top:auto;width:min(100%,290px);
     margin:var(--e4) 0 0 auto;height:min(40vh,300px)}
   /* empilhada, a foto some por baixo em vez de pela esquerda */

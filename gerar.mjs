@@ -735,7 +735,7 @@ const orbitaSPX = () => {
    aparece grande. As duas tiras são inertes para leitor de tela: quem não
    enxerga já ouviu o nome da empresa no topo e no rodapé, repetir vinte vezes
    só atrapalha. */
-const faixaDupla = () => {
+const faixaDupla = (classe = '') => {
   /* a tira é escura no tema escuro, então quem entra é a marca de tinta clara.
      Invertido em relação ao menu, onde a marca fica sobre a cápsula clara. */
   const peca = `<span class="fd-peca">
@@ -747,7 +747,7 @@ const faixaDupla = () => {
     <div class="fd-corre">${peca.repeat(8)}</div>
   </div>`;
   return `
-<section class="faixa-dupla" aria-hidden="true">
+<section class="faixa-dupla${classe ? ' ' + classe : ''}" aria-hidden="true">
   ${tira('ida')}
   ${tira('volta')}
 </section>`;
@@ -1478,7 +1478,7 @@ pagina({
   </div>
 </section>
 
-${faixaDupla()}`,
+${faixaDupla('pequena')}`,
   visual: 'pag-contato',
 });
 

@@ -1417,6 +1417,21 @@ h2 em{font-style:normal;color:var(--acc-2)}
    um fio de 1px. Meia altura porque as tiras ficam centradas na caixa — o
    resto dela é a folga que a inclinação pede. */
 .sec.claro + .faixa-dupla{margin-top:calc(var(--fx-h) / -2)}
+/* e o claro não termina em corte reto: dissolve no escuro por baixo das
+   tiras. Com a borda dura, o que se via era um fio atravessando a peça — uma
+   seção acabando, não uma virando na outra. */
+.sec.claro:has(+ .faixa-dupla)::before{
+  -webkit-mask-image:linear-gradient(180deg,#000 calc(100% - 150px),transparent 100%);
+  mask-image:linear-gradient(180deg,#000 calc(100% - 150px),transparent 100%)}
+
+/* modelo menor, para as faixas que abrem e fecham a página */
+.faixa-dupla.pequena{--fx-h:120px}
+.faixa-dupla.pequena .fd-tira{padding:9px 0}
+.faixa-dupla.pequena .fd-ida{top:26px}
+.faixa-dupla.pequena .fd-volta{top:58px}
+.faixa-dupla.pequena .fd-marca{height:17px}
+.faixa-dupla.pequena .fd-peca{gap:17px;padding-right:17px}
+.faixa-dupla.pequena .fd-peca i{font-size:9.5px;letter-spacing:.18em}
 /* e a seção seguinte perde o fio do topo: seriam dois cortes no mesmo lugar */
 .faixa-dupla + .sec-linha{border-top:0}
 .fd-tira{position:absolute;left:var(--sangra);width:104vw;padding:14px 0;

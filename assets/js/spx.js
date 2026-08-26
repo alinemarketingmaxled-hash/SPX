@@ -391,7 +391,7 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
   if(!caixa) return;
   var itens = [
     ['Na proposta','Cronograma físico-financeiro, memorial descritivo e composição de BDI aberta acompanham toda proposta, antes de qualquer assinatura.'],
-    ['Na execução','Engenheiro responsável com ART registrada no CREA-SP, nomeado na proposta e presente em obra do início ao fim.'],
+    ['Na execução','Engenheiro responsável com ART emitida para a obra, nomeado na proposta e presente em obra do início ao fim.'],
     ['Na entrega','Relatório semanal com registro fotográfico e avanço físico por disciplina, mais as-built e manuais no dia da vistoria.']
   ];
   caixa.innerHTML = itens.map(function(c,i){
@@ -402,19 +402,34 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
 
 /* ---------------------------------------------- dúvidas (FAQ) */
 (function faq(){
-  var A = $('#faqA'), B = $('#faqB');
-  if(!A || !B) return;
-  aoAproximar(A.parentElement, monta);
+  var lista = $('#faqLista');
+  if(!lista) return;
+  aoAproximar(lista.parentElement, monta);
 
   function monta(){
+  /* As perguntas são curtas de propósito: numa coluna dessa largura, título de
+     duas linhas deixa o cartão mais alto que os vizinhos e a fileira inteira
+     cresce junto. A resposta é que carrega o detalhe.
+     Nada aqui é invenção — cada resposta repete um compromisso que já está no
+     processo, nos serviços ou nas garantias descritas no resto do site. */
   var perguntas = [
-    ['Vocês executam com a loja ou o escritório funcionando?','Sim. É o nosso escopo principal. Trabalhamos em janela noturna ou de fim de semana, com isolamento acústico provisório, controle de poeira e liberação da área limpa antes da abertura.'],
+    ['Executam com o escritório funcionando?','Sim. É o nosso escopo principal. Trabalhamos em janela noturna ou de fim de semana, com isolamento acústico provisório, controle de poeira e liberação da área limpa antes da abertura.'],
     ['Como funciona a concorrência de preço?','Enviamos proposta com cronograma físico-financeiro, memorial e composição de BDI aberta. Se houver equalização com outros concorrentes, participamos da rodada técnica sem custo.'],
-    ['Dá para começar antes do contrato assinado?','Dá, com ordem de início por e-mail do responsável e escopo delimitado. Mobilizamos canteiro e compras de prazo longo enquanto o jurídico fecha, e o que for executado entra integralmente na medição.'],
-    ['Qual o prazo para receber um orçamento?','Orçamento preliminar em até 5 dias úteis a partir da visita técnica. Proposta detalhada com projeto executivo em mãos: 10 dias úteis.'],
+    ['Dá para começar antes do contrato?','Dá, com ordem de início por e-mail do responsável e escopo delimitado. Mobilizamos canteiro e compras de prazo longo enquanto o jurídico fecha, e o que for executado entra integralmente na medição.'],
+    ['Qual o prazo de um orçamento?','Orçamento preliminar em até 5 dias úteis a partir da visita técnica. Proposta detalhada com projeto executivo em mãos: 10 dias úteis.'],
+    ['Vocês orçam obra por telefone?','Não. Nenhuma obra é orçada sem visita ao local, com medição e registro das condições existentes e das restrições do condomínio ou do shopping.'],
+    ['A proposta vem discriminada?','Serviço a serviço, com quantidades e critérios de medição. Sem verba aberta e sem "a definir".'],
+    ['O cronograma vem com a proposta?','Vem junto dela, não depois de assinar: cronograma físico-financeiro com as frentes amarradas entre si, caminho crítico identificado e desembolso previsto por etapa.'],
     ['Vocês fazem o projeto ou só executam?','Executamos projeto de terceiros e também desenvolvemos o executivo com nossos projetistas parceiros. Compatibilização de disciplinas está sempre incluída.'],
-    ['Quem responde tecnicamente pela obra?','Engenheiro responsável com ART registrada no CREA-SP, presente em obra e nomeado na proposta. Você sabe o nome antes de assinar.'],
+    ['Quem coordena as disciplinas?','A compatibilização entre arquitetura, estrutura, elétrica, hidráulica, climatização e incêndio é feita antes de a equipe subir, para o conflito aparecer no papel e não na parede.'],
+    ['A equipe é própria ou terceirizada?','Equipe própria e fornecedores coordenados pela mesma engenharia que orçou e planejou, com responsável técnico nomeado.'],
+    ['Quem responde tecnicamente pela obra?','Engenheiro responsável com ART emitida para a obra, presente em obra e nomeado na proposta. Você sabe o nome antes de assinar.'],
+    ['Como é medido o avanço da obra?','Medição semanal do avanço contra o cronograma, com registro fotográfico e relatório de desvio enquanto ainda dá para corrigir.'],
+    ['O que é entregue no fim da obra?','Vistoria conjunta, lista de pendências fechada, as built e manuais das instalações — para a próxima intervenção não começar às cegas.'],
     ['Como é a garantia depois da entrega?','Cinco anos para estrutura e impermeabilização, um ano para acabamentos e instalações, conforme norma. Chamado de garantia é atendido em até 48 horas.'],
+    ['Fazem manutenção depois da obra?','Fazemos, em contrato recorrente: preventiva e corretiva, laudos e adequação de norma, com prazo de atendimento fechado e relatório por ativo.'],
+    ['Vocês trabalham com arquitetos?','Trabalhamos com escritórios de arquitetura executando o que foi desenhado, e apontando antes de a obra começar o que não vai caber.'],
+    ['Vocês atendem fora da capital?','Atendemos São Paulo e a região metropolitana.'],
     ['E se a obra atrasar?','Multa por dia de atraso prevista em contrato, com as hipóteses de suspensão de prazo listadas de forma fechada, sem cláusula genérica de caso fortuito.']
   ];
   perguntas.forEach(function(q,i){
@@ -424,7 +439,7 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
     el.innerHTML = '<h3><button type="button" aria-expanded="false" aria-controls="' + id + '">' +
       '<span>' + q[0] + '</span><span class="sinal" aria-hidden="true">+</span></button></h3>' +
       '<div class="resp" id="' + id + '" role="region"><p>' + q[1] + '</p></div>';
-    (i % 2 === 0 ? A : B).appendChild(el);
+    lista.appendChild(el);
   });
   $$('.q button').forEach(function(b){
     b.addEventListener('click', function(){

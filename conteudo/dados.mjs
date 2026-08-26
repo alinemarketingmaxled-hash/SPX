@@ -1,7 +1,7 @@
 /**
  * FONTE ÚNICA DE VERDADE DO SITE.
  *
- * Todo fato sobre a SPX vive aqui: nome, CREA, serviços, projetos, números.
+ * Todo fato sobre a SPX vive aqui: nome, CNPJ, serviços, projetos, números.
  * As páginas são geradas a partir deste arquivo por `node gerar.mjs`, e os
  * dados estruturados que o Google e as IAs leem saem daqui também. Mudou aqui,
  * mudou no site inteiro — página, rodapé, schema e sitemap.
@@ -13,7 +13,7 @@
  * inventa: campo que está `FALTA` simplesmente não aparece na página, e o
  * build lista tudo que falta no fim. Preencha e rode `node gerar.mjs`.
  *
- * Números e credenciais só entram no ar depois de conferidos. Errar CREA ou
+ * Números e credenciais só entram no ar depois de conferidos. Errar CNPJ ou
  * CNPJ numa página pública é problema sério; deixar de fora não é.
  * ---------------------------------------------------------------------------
  */
@@ -51,7 +51,6 @@ export const empresa = {
 export const responsavel = {
   nome: FALTA,                   // nome completo do engenheiro responsável
   titulo: 'Engenheiro civil',
-  crea: FALTA,                   // número completo, com a UF: "CREA-SP 1234567890"
   formacao: FALTA,               // curso e instituição
   anosExperiencia: 9,            // confirmado: experiência profissional, não idade da empresa
   especialidades: FALTA,         // lista, ex.: ['Obra corporativa', 'Retrofit em ambiente ocupado']

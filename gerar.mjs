@@ -12,7 +12,7 @@
  * costurados nela também, para nunca divergirem.
  *
  * REGRA QUE NÃO SE QUEBRA: campo marcado como FALTA não vira texto. Some da
- * página e entra no relatório do fim. Inventar dado de obra, CREA ou CNPJ é o
+ * página e entra no relatório do fim. Inventar dado de obra ou CNPJ é o
  * tipo de erro que custa contrato.
  */
 import { mkdirSync, writeFileSync, readFileSync, existsSync } from 'node:fs';
@@ -132,8 +132,6 @@ function rodape() {
 
   /* a linha final só afirma o que está confirmado */
   const selo = [`© <span data-ano>2026</span> ${esc(empresa.nome)}`];
-  if (!falta(responsavel.crea)) selo.push(esc(responsavel.crea));
-  else anota('Rodapé', 'número do CREA do responsável técnico');
   if (!falta(empresa.cnpj)) selo.push('CNPJ ' + esc(empresa.cnpj));
   else anota('Rodapé', 'CNPJ');
   selo.push(esc(empresa.base));
@@ -218,10 +216,6 @@ function schemaPessoa() {
   if (!falta(responsavel.foto)) p.image = SITE + '/img/' + responsavel.foto;
   if (!falta(responsavel.formacao)) p.alumniOf = responsavel.formacao;
   if (!falta(responsavel.especialidades)) p.knowsAbout = responsavel.especialidades;
-  if (!falta(responsavel.crea)) {
-    p.hasCredential = { '@type': 'EducationalOccupationalCredential',
-                        credentialCategory: 'Registro profissional', name: responsavel.crea };
-  }
   return p;
 }
 
@@ -983,11 +977,11 @@ ${chamada(chamadas.projeto)}`,
 /* ------------------------------------------------------------------ sobre */
 const blocoResponsavel = () => {
   if (falta(responsavel.nome)) {
-    anota('Página /sobre', 'seção do responsável técnico inteira — nome, formação, CREA, ' +
+    anota('Página /sobre', 'seção do responsável técnico inteira — nome, formação, ' +
       'especialidades, resumo e foto. É o que sustenta a autoridade técnica do site.');
     return '';
   }
-  const linhas = [['Formação', responsavel.formacao], ['Registro', responsavel.crea],
+  const linhas = [['Formação', responsavel.formacao],
                   ['Experiência', `${responsavel.anosExperiencia} anos em engenharia civil`],
                   ['Especialidades', falta(responsavel.especialidades) ? null : responsavel.especialidades.join(', ')]]
     .filter(([, v]) => !falta(v));
@@ -1009,7 +1003,7 @@ const dadosInstitucionais = () => {
                   ['proposta', 'CNPJ', empresa.cnpj], ['projeto', 'Segmento', empresa.segmento],
                   ['local', 'Base', empresa.base], ['local', 'Área de atuação', empresa.atuacao],
                   ['local', 'Endereço', empresa.endereco],
-                  ['art', 'Responsável técnico', responsavel.nome], ['art', 'Registro', responsavel.crea],
+                  ['art', 'Responsável técnico', responsavel.nome],
                   ['telefone', 'Telefone', empresa.telefone], ['email', 'E-mail', empresa.email],
                   ['relogio', 'Atendimento', empresa.horario]].filter(([, , v]) => !falta(v));
   /* dentro de <dl>, o <div> só pode conter <dt> e <dd>; envolver os dois num
@@ -1231,6 +1225,10 @@ for (const arquivo of ['index.html', '404.html', 'servicos-e-regioes.html']) {
                       '<!--MENU-->\n' + menu(atual) + '\n<!--/MENU-->');
   html = html.replace(/<!--RODAPE-->[\s\S]*?<!--\/RODAPE-->/,
                       '<!--RODAPE-->\n' + rodape() + '\n<!--/RODAPE-->');
+  /* a faixa dupla da marca também sai daqui: é a mesma peça da página de
+     serviços, e escrever de novo à mão seria duas versões para divergir */
+  html = html.replace(/<!--FAIXA-->[\s\S]*?<!--\/FAIXA-->/,
+                      '<!--FAIXA-->\n' + faixaDupla() + '\n<!--/FAIXA-->');
   /* carimba a versão dos assets também aqui, senão a home continua pedindo a
      folha antiga e o navegador de quem já visitou serve a que está em cache */
   html = html.replace(/spx\.min\.css\?v=[a-z0-9]+/g, 'spx.min.css?v=' + VERSAO_CSS)
@@ -1403,7 +1401,7 @@ ${empresa.proposta}
 - Telefone: ${empresa.telefone}
 - E-mail: ${empresa.email}
 - Site: ${SITE}/
-${falta(responsavel.nome) ? '' : `- Responsável técnico: ${responsavel.nome}${falta(responsavel.crea) ? '' : ` (${responsavel.crea})`}\n`}
+${falta(responsavel.nome) ? '' : `- Responsável técnico: ${responsavel.nome}\n`}
 ## Serviços
 ${servicos.map((s) => `### ${s.nome}
 ${s.pergunta ? `**${s.pergunta}** ${s.resposta}` : s.resumo}

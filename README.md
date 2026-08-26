@@ -79,12 +79,12 @@ um byte, muda a URL, o navegador busca de novo. Não tem como esquecer.
 
 ### conteudo/dados.mjs é a fonte da verdade
 
-Nome da empresa, CNPJ, CREA, serviços, projetos, números, regiões, perguntas
+Nome da empresa, CNPJ, serviços, projetos, números, regiões, perguntas
 frequentes: tudo mora nesse arquivo. Mudou lá, mudou no site inteiro — página,
 menu, rodapé, dados estruturados e sitemap.
 
 **Campo marcado como `FALTA` não vira texto.** O gerador omite e lista a
-pendência no fim do build. Nunca inventa. Isso é proposital: número de CREA,
+pendência no fim do build. Nunca inventa. Isso é proposital: CNPJ,
 CNPJ ou metragem de obra errados numa página pública custam mais caro que a
 ausência deles. Um projeto sem tipo, atuação e foto nem chega a virar página.
 
@@ -719,6 +719,25 @@ meio da tela.
 
 Os caminhos das imagens montadas em JavaScript são **absolutos** (`/img/...`).
 Relativos apontariam para `/servicos/img/...` nas páginas dentro de pastas.
+
+### Dúvidas na home: uma grade, não duas colunas
+
+As perguntas da home ficam numa grade de duas colunas, não em dois blocos
+soltos lado a lado. Em blocos separados, uma pergunta que quebrava em duas
+linhas empurrava a coluna inteira para baixo e as duas paravam de casar. Na
+grade, cada fileira tem a altura da mais alta e as duas colunas terminam
+juntas.
+
+As perguntas são curtas de propósito: nessa largura de coluna, título de duas
+linhas engorda a fileira inteira. O detalhe vai na resposta.
+
+**São dezoito, e o número não é solto:** dezoito perguntas dão nove fileiras, e
+nove fileiras com o vão de 18px fecham na mesma altura do painel ao lado (693px
+contra 692px, medido). Acrescentar ou tirar pergunta desencontra os dois de
+novo — se mexer no número, ajuste o vão do `.faq-cols` junto.
+
+As respostas não inventam nada: cada uma repete um compromisso que já está no
+processo, nos serviços ou nas garantias descritas no resto do site.
 
 ### Central de dúvidas
 

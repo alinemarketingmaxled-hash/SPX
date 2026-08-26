@@ -430,6 +430,78 @@ const convite = (titulo, apoio, rotulo, url = '/contato', ic = 'conversa') => `
   </div>
 </section>`;
 
+/* Bloco de duas colunas: conteúdo à esquerda, arte técnica à direita. É o
+   arranjo dos três modelos da página de serviços. */
+const blocoDuplo = (esquerda, direita, invertido = false) =>
+  `<div class="bloco-duplo${invertido ? ' invertido' : ''}">
+  <div class="bd-txt">${esquerda}</div>
+  <div class="bd-arte" aria-hidden="true">${direita}</div>
+</div>`;
+
+/* Lista numerada em linhas escuras, com ícone e número à esquerda. */
+const listaNumerada = (itens) => `<ol class="lista-num">${itens.map((i, k) => `
+  <li><span class="ln-n">${String(k + 1).padStart(2, '0')}</span>
+    <span class="ln-ico">${icone(i.icone)}</span>
+    <span class="ln-txt"><b>${esc(i.titulo)}</b><span>${esc(i.texto)}</span></span>
+  </li>`).join('')}</ol>`;
+
+/* Barra de chamada colada no bloco de cima, como nos modelos. */
+const barraCta = (pergunta, rotulo, url = '/contato') => `
+<div class="barra-cta">
+  <p>${esc(pergunta)}</p>
+  <a class="btn btn-acc" href="${url}">${esc(rotulo)} ↗</a>
+</div>`;
+
+/* Prédio em fio de arame: o mesmo desenho de planta que já aparece no fundo,
+   agora como peça de conteúdo. */
+const predioFio = () => `
+<svg class="arte-predio" viewBox="0 0 320 380" role="img" aria-hidden="true">
+  <g fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round">
+    <g opacity=".28">${Array.from({ length: 9 }, (_, i) =>
+      `<path d="M0 ${i * 44 + 8}h320"/><path d="M${i * 40 + 4} 0v380"/>`).join('')}</g>
+    <path d="M70 340V120l90-58 90 58v220" opacity=".85"/>
+    <path d="M70 120l90 58 90-58M160 178v162" opacity=".7"/>
+    ${Array.from({ length: 6 }, (_, i) => {
+      const y = 150 + i * 34;
+      return `<path d="M70 ${y}l90 58 90-58" opacity=".42"/>
+              <path d="M70 ${y}v-0M250 ${y}v-0"/>`;
+    }).join('')}
+    <path d="M70 340h180" opacity=".85"/>
+    <g opacity=".55">
+      <path d="M96 214v96M124 232v78M196 232v78M224 214v96"/>
+    </g>
+  </g>
+  <g fill="currentColor" opacity=".5">
+    <circle cx="70" cy="120" r="2.6"/><circle cx="160" cy="62" r="2.6"/>
+    <circle cx="250" cy="120" r="2.6"/><circle cx="160" cy="178" r="2.6"/>
+    <circle cx="70" cy="340" r="2.6"/><circle cx="250" cy="340" r="2.6"/>
+  </g>
+</svg>`;
+
+/* Diagrama concêntrico: SPX no meio, as três camadas em volta. */
+const diagramaSPX = () => `
+<div class="arte-diagrama">
+  <svg viewBox="0 0 360 360" role="img" aria-hidden="true">
+    <g fill="none" stroke="currentColor">
+      <circle cx="180" cy="180" r="150" opacity=".16"/>
+      <circle cx="180" cy="180" r="112" opacity=".26"/>
+      <circle cx="180" cy="180" r="74" opacity=".4"/>
+      <g opacity=".3" stroke-dasharray="3 6">
+        <path d="M180 30v300M30 180h300"/>
+      </g>
+      <path d="M254 180h76M180 106V30M180 254v76" opacity=".45"/>
+    </g>
+    <circle cx="180" cy="180" r="52" fill="var(--acc)" opacity=".9"/>
+    <circle cx="180" cy="180" r="52" fill="none" stroke="currentColor" opacity=".7"/>
+    <text x="180" y="188" text-anchor="middle" class="dg-marca">SPX</text>
+  </svg>
+  <ul class="dg-legenda">
+    <li><b>Engenharia</b><span>O que fazer</span></li>
+    <li><b>Gestão</b><span>Como fazer</span></li>
+    <li><b>Execução</b><span>Fazer acontecer</span></li>
+  </ul>
+</div>`;
+
 const secao = (titulo, dentro, classe = '') =>
   `<section class="sec wrap ${classe}"><h2>${esc(titulo)}</h2>${dentro}</section>`;
 
@@ -577,23 +649,42 @@ pagina({
   decide o que fazer, a gestão que mantém o prazo e a execução que entrega.</p>
 </section>
 
-${secao('O que executamos', cartoesIcone(servicosPublicaveis.map((s) => ({
-  icone: s.icone, titulo: s.nome, texto: s.resumo, url: '/servicos/' + s.slug })), 4))}
+<section class="sec wrap" data-reveal>
+  <h2>O que <em>executamos</em></h2>
+  <p class="sub-secao">Soluções completas para cada tipo de necessidade.</p>
+  <div class="painel">
+    ${cartoesIcone(servicosPublicaveis.map((s) => ({
+      icone: s.icone, titulo: s.nome, texto: s.resumo, url: '/servicos/' + s.slug })), 4)}
+    ${barraCta('Qual desses serviços faz sentido para o seu projeto?', 'Solicitar avaliação')}
+  </div>
+</section>
 
 ${esteira('Do executivo à inauguração', 'O que sai da planta<br>e vira obra entregue.')}
 
-${secao('Como trabalhamos', linhaTempo(processo), 'claro')}
+<section class="sec wrap" data-reveal>
+  <h2>Como <em>trabalhamos</em></h2>
+  <div class="painel">
+    ${blocoDuplo(listaNumerada(processo.map((e) => ({
+      icone: e.icone, titulo: e.nome, texto: e.texto }))), diagramaSPX())}
+    ${barraCta('Pronto para dar o próximo passo?', 'Agendar conversa')}
+  </div>
+</section>
 
-${secao('O que vem junto, em qualquer serviço', cartoesIcone([
-  { icone: 'visita', titulo: 'Visita técnica antes do orçamento', texto: 'Nenhuma obra é orçada por telefone.' },
-  { icone: 'proposta', titulo: 'Proposta discriminada', texto: 'Serviço a serviço, com quantidade e critério de medição.' },
-  { icone: 'cronograma', titulo: 'Cronograma físico-financeiro', texto: 'Entregue junto da proposta, não depois de assinar.' },
-  { icone: 'art', titulo: 'Responsável técnico nomeado', texto: 'Com ART emitida para a obra.' },
-  { icone: 'relatorio', titulo: 'Relatório semanal', texto: 'Avanço medido contra o previsto, com registro fotográfico.' },
-  { icone: 'asbuilt', titulo: 'As built e manuais na entrega', texto: 'Para a próxima intervenção não começar às cegas.' },
-], 3))}
-
-${chamada(chamadas.orcamento)}`,
+<section class="sec wrap" data-reveal>
+  <p class="eyebrow">Compromisso SPX</p>
+  <h2 style="margin-top:18px">O que vem junto,<br>em qualquer <em>serviço</em>.</h2>
+  <div class="painel">
+    ${blocoDuplo(listaNumerada([
+      { icone: 'visita', titulo: 'Visita técnica antes do orçamento', texto: 'Nenhuma obra é orçada por telefone.' },
+      { icone: 'proposta', titulo: 'Proposta discriminada', texto: 'Serviço a serviço, com quantidade e critério de medição.' },
+      { icone: 'cronograma', titulo: 'Cronograma físico-financeiro', texto: 'Entregue junto da proposta, não depois de assinar.' },
+      { icone: 'art', titulo: 'Responsável técnico nomeado', texto: 'Com ART emitida para a obra.' },
+      { icone: 'relatorio', titulo: 'Relatório semanal', texto: 'Avanço medido contra o previsto, com registro fotográfico.' },
+      { icone: 'asbuilt', titulo: 'As built e manuais na entrega', texto: 'Para a próxima intervenção não começar às cegas.' },
+    ]), predioFio())}
+    ${barraCta('Vamos começar o seu projeto?', 'Solicitar visita técnica')}
+  </div>
+</section>`,
   visual: 'pag-servicos',
 });
 

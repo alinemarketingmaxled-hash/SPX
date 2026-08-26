@@ -30,7 +30,9 @@
   --linha-forte:#33414D;
   --txt:#F2F1EE;
   --txt-2:#A5AAAF;
-  --txt-3:#6D7780;
+  /* calculado para 4,6 no fundo mais claro em que aparece (#070C11, o painel
+     e a faixa de vidro), e não só no preto puro: em #6D7780 dava 4,3 ali */
+  --txt-3:#717C85;
   --acc:#3A5570;
   --acc-2:#6E90AE;
   --acc-suave:rgba(110,144,174,.13);
@@ -971,6 +973,73 @@ body{--bg-pagina:var(--bg)}
   .peca3d > span{animation:none;transform:rotateX(-22deg) rotateY(24deg)}
 }
 
+/* ============ painéis da página de serviços ============================== */
+/* Nos modelos, cada assunto é um painel fechado: a grade ou a lista dentro de
+   uma moldura, com a barra de chamada colada embaixo. Isso amarra o conteúdo
+   e a pergunta que vem depois dele. */
+.painel{margin-top:var(--e4);border:1px solid var(--linha);border-radius:4px;
+  overflow:hidden;background:var(--bg-2)}
+.painel > .cartoes-icone{margin:0;background:var(--linha)}
+.painel > .cartoes-icone li{background:var(--bg-2)}
+.painel > .cartoes-icone a:hover,.painel > .cartoes-icone a:focus-visible{background:var(--sup)}
+/* subtítulo curto sob o h2, como nos modelos */
+.sub-secao{margin:10px 0 0;color:var(--acc-2);font-family:var(--display);
+  font-size:12.5px;letter-spacing:.14em;text-transform:uppercase}
+/* a palavra em destaque no título fica na cor do acento */
+h2 em{font-style:normal;color:var(--acc-2)}
+
+/* barra de chamada colada no painel */
+.barra-cta{display:flex;align-items:center;justify-content:space-between;gap:var(--e3);
+  flex-wrap:wrap;padding:var(--e3) var(--e4);
+  background:var(--acc-suave);border-top:1px solid var(--linha)}
+.barra-cta p{margin:0;font-family:var(--display);font-size:13.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--txt)}
+.barra-cta .btn{flex:0 0 auto}
+
+/* duas colunas: conteúdo e arte técnica */
+.bloco-duplo{display:grid;grid-template-columns:1.15fr .85fr;gap:var(--e5);
+  align-items:center;padding:var(--e4)}
+.bloco-duplo.invertido{direction:rtl}
+.bloco-duplo.invertido > *{direction:ltr}
+.bd-arte{color:var(--acc-2);display:grid;place-items:center}
+.bd-arte svg{width:100%;height:auto;max-height:400px;display:block}
+
+/* lista numerada em linhas */
+.lista-num{list-style:none;margin:0;padding:0;display:grid;gap:1px;background:var(--linha)}
+.lista-num li{background:var(--bg);display:grid;
+  grid-template-columns:auto auto 1fr;align-items:center;gap:var(--e3);
+  padding:var(--e3);transition:background .24s}
+.lista-num li:hover{background:var(--sup)}
+.ln-n{font-family:var(--display);font-weight:700;font-size:11px;letter-spacing:.06em;
+  color:#F4F4F1;background:var(--acc);border-radius:3px;padding:6px 8px;min-width:30px;
+  text-align:center}
+.ln-ico{display:grid;place-items:center}
+.ln-txt b{display:block;font-family:var(--display);font-size:12.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--txt);margin-bottom:4px}
+.ln-txt > span{display:block;color:var(--txt-3);font-size:13.5px;line-height:1.5}
+
+/* diagrama concêntrico com as três camadas */
+.arte-diagrama{display:grid;gap:var(--e3);justify-items:center;width:100%}
+.arte-diagrama svg{max-width:300px}
+.dg-marca{font-family:var(--display);font-weight:700;font-size:30px;letter-spacing:.06em;
+  fill:#F4F4F1}
+.dg-legenda{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:var(--e3);
+  justify-content:center}
+.dg-legenda li{text-align:center}
+.dg-legenda b{display:block;font-family:var(--display);font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--acc-2)}
+.dg-legenda span{display:block;margin-top:3px;color:var(--txt-3);font-size:12px}
+
+@media (max-width:900px){
+  .bloco-duplo{grid-template-columns:1fr;gap:var(--e4);padding:var(--e3)}
+  .bd-arte{order:-1;max-width:260px;margin-inline:auto}
+  .bd-arte svg{max-height:250px}
+  .lista-num li{grid-template-columns:auto 1fr;gap:var(--e2) var(--e3)}
+  .ln-ico{display:none}
+  .barra-cta{padding:var(--e3)}
+  .barra-cta p{font-size:12px}
+}
+
 /* ============ componentes dos modelos de referência ====================== */
 /* ícone técnico padrão: traço fino, sem preenchimento, na cor do acento */
 .ico-tec{width:22px;height:22px;flex:0 0 auto;fill:none;stroke:var(--acc-2);
@@ -1286,6 +1355,15 @@ body{--bg-pagina:var(--bg)}
 .fatos li{position:relative;padding-left:22px;color:var(--txt-3);font-size:14.5px;line-height:1.55}
 .fatos li::before{content:"";position:absolute;left:0;top:.58em;width:9px;height:9px;
   border:1px solid var(--acc-2);transform:rotate(45deg)}
+
+/* Vão menor entre seções nas páginas internas. A home respira mais porque
+   cada bloco dela é uma peça inteira; aqui o conteúdo é denso e o vão grande
+   fazia a página parecer vazia entre um assunto e outro. */
+[class*="pag-"] .sec{padding-top:var(--e6);padding-bottom:var(--e6)}
+[class*="pag-"] .sec.claro,[class*="pag-"] .sec.vidro{
+  padding-top:var(--e7);padding-bottom:var(--e7)}
+[class*="pag-"] .esteira-bloco,[class*="pag-"] .capa3d-bloco{
+  padding-top:var(--e5);padding-bottom:var(--e5)}
 
 /* ------------------- cada página interna tem um tratamento próprio ------- */
 /* A identidade é a mesma: preto, cinza esbranquiçado, azul-cimento, trama de

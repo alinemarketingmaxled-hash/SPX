@@ -557,6 +557,25 @@ quadrado. A perspectiva fica no pai, o giro no filho.
 
 Com `prefers-reduced-motion` as peças param numa posição fixa em vez de girar.
 
+### Painéis da página de serviços
+
+Nos modelos, cada assunto é um **painel fechado**: a grade ou a lista dentro de
+uma moldura, com a barra de chamada colada embaixo. Isso amarra o conteúdo à
+pergunta que vem logo depois dele, em vez de deixar o botão solto na página.
+
+| Componente | O que é |
+| --- | --- |
+| `.painel` + `barraCta()` | moldura com a chamada colada no rodapé |
+| `blocoDuplo()` | conteúdo à esquerda, arte técnica à direita |
+| `listaNumerada()` | linhas com número, ícone, título e texto |
+| `predioFio()` | prédio em fio de arame sobre grade de planta |
+| `diagramaSPX()` | círculos concêntricos com a marca no centro e as três camadas em volta |
+
+O vão entre seções nas páginas internas é menor que na home (`--e6` no lugar
+de `--e8`). A home respira mais porque cada bloco dela é uma peça inteira;
+aqui o conteúdo é denso, e o vão grande fazia a página parecer vazia entre um
+assunto e outro.
+
 ### Componentes vindos das referências
 
 Os modelos que a SPX enviou repetiam alguns padrões nos três conjuntos. Os que

@@ -116,6 +116,7 @@ export const processo = [
 export const servicos = [
   {
     slug: 'obras-corporativas',
+    fotos: ['sala-reuniao-azul', 'recepcao-marmore', 'lounge-recepcao', 'mesa-vista-sp', 'estante-espinha-peixe'],
     icone: 'corporativa',
     pergunta: 'O que é uma obra corporativa?',
     resposta: 'Obra corporativa é a construção ou reforma completa de um espaço de trabalho: layout, divisórias, forro, piso, instalações elétricas e de dados, climatização, iluminação, marcenaria e acabamento. A SPX Engenharia executa obras corporativas em São Paulo e região metropolitana, com engenharia própria do levantamento à entrega.',
@@ -166,6 +167,7 @@ export const servicos = [
   },
   {
     slug: 'obras-comerciais',
+    fotos: ['restaurante-fachada', 'restaurante-salao', 'restaurante-cozinha', 'restaurante-pratos', 'restaurante-bar'],
     icone: 'varejo',
     pergunta: 'A SPX executa obra de loja em shopping?',
     resposta: 'Sim. A SPX Engenharia executa obras de varejo em rua e em shopping center em São Paulo, dentro da janela de horário liberada pela administração e com o projeto aprovado antes da mobilização.',
@@ -210,6 +212,7 @@ export const servicos = [
   },
   {
     slug: 'retrofit',
+    fotos: ['banheiro-marmore', 'lavabo-azul', 'lavabo-bordo', 'cozinha-marcenaria'],
     icone: 'retrofit',
     pergunta: 'O que é retrofit e dá para fazer com o prédio ocupado?',
     resposta: 'Retrofit é modernizar um imóvel existente sem demolir: trocar instalações no fim da vida útil, adequar o prédio a normas que mudaram e atualizar o acabamento. A SPX executa retrofit em ambiente ocupado em São Paulo, com a obra dividida em frentes e a área em serviço isolada.',
@@ -257,6 +260,7 @@ export const servicos = [
   },
   {
     slug: 'reformas',
+    fotos: ['lavabo-terracota', 'lavabo-bordo', 'banheiro-marmore', 'cozinha-marcenaria'],
     icone: 'reforma',
     pergunta: 'Quanto tempo leva para receber um orçamento de reforma?',
     resposta: 'O orçamento preliminar da SPX Engenharia sai em até cinco dias úteis depois da visita técnica ao local. Nenhuma reforma é orçada sem essa visita.',
@@ -301,6 +305,7 @@ export const servicos = [
   },
   {
     slug: 'gerenciamento-de-obras',
+    fotos: ['recepcao-marmore', 'restaurante-salao', 'estante-espinha-peixe', 'mesa-vista-sp'],
     icone: 'gerencia',
     pergunta: 'Dá para contratar só o gerenciamento da obra?',
     resposta: 'Sim. A SPX Engenharia gerencia obras executadas por terceiros em São Paulo, cobrindo cronograma, coordenação de fornecedores, conferência de medição em campo e controle de desvio, com responsável técnico nomeado.',
@@ -349,6 +354,7 @@ export const servicos = [
   },
   {
     slug: 'manutencao-predial',
+    fotos: ['lounge-recepcao', 'banheiro-marmore', 'recepcao-marmore', 'lavabo-azul'],
     icone: 'manutencao',
     pergunta: 'A SPX faz manutenção predial para empresas?',
     resposta: 'Sim. A SPX Engenharia presta manutenção predial preventiva e corretiva para empresas em São Paulo, com plano por sistema, registro de cada intervenção e prazo de atendimento acordado em contrato.',
@@ -390,6 +396,7 @@ export const servicos = [
   },
   {
     slug: 'projetos',
+    fotos: ['sala-reuniao-azul', 'estante-espinha-peixe', 'mesa-vista-sp', 'lounge-recepcao'],
     icone: 'projeto',
     pergunta: 'A SPX faz projeto sem executar a obra?',
     resposta: 'Sim. A SPX Engenharia desenvolve projetos de engenharia, levantamento técnico, as built e compatibilização entre disciplinas em São Paulo, contratáveis separadamente da execução.',
@@ -436,6 +443,7 @@ export const servicos = [
   },
   {
     slug: 'consultoria-em-engenharia',
+    fotos: ['restaurante-fachada', 'banheiro-marmore', 'recepcao-marmore', 'lavabo-terracota'],
     icone: 'laudo',
     pergunta: 'Preciso de laudo antes de alugar uma sala comercial?',
     resposta: 'É a hora mais barata de descobrir problema. A SPX Engenharia emite laudo técnico e vistoria de imóvel comercial em São Paulo, com registro fotográfico, conclusão objetiva e ART.',

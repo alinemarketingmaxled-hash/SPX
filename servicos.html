@@ -25,7 +25,7 @@
 <link rel="icon" type="image/png" href="/img/favicon.png">
 <link rel="preload" as="image" href="/img/capa-estante-espinha-peixe-1280.webp"
       imagesrcset="/img/capa-estante-espinha-peixe-768.webp 768w, /img/capa-estante-espinha-peixe-1280.webp 1280w" imagesizes="100vw" fetchpriority="high">
-<link rel="stylesheet" href="/assets/css/spx.min.css?v=6eb709b5">
+<link rel="stylesheet" href="/assets/css/spx.min.css?v=3f0b1c42">
 <script>
 /* aplica o tema antes da pintura para não piscar */
 (function(){try{var t=localStorage.getItem('spx-tema')||'escuro';document.documentElement.setAttribute('data-tema',t);}catch(e){}})();
@@ -366,72 +366,102 @@
 <section class="sec wrap" data-reveal>
   <h2>O que <em>executamos</em></h2>
   <p class="sub-secao">Soluções completas para cada tipo de necessidade.</p>
-  <div class="painel">
-    <ul class="cartoes-icone" style="--colunas:4">
-  <li><a href="/servicos/obras-corporativas">
-    <svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M5 21V6h9v15M14 21V10h5v11"/><path d="M8 9h3M8 13h3M8 17h3"/></svg>
-    <b>Obras corporativas</b>
-    <span>Escritórios, sedes e espaços administrativos executados com cronograma físico-financeiro e responsável técnico nomeado antes da assinatura.</span>
-  </a></li>
-  <li><a href="/servicos/obras-comerciais">
-    <svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h18l-1.4-4.2a1 1 0 0 0-1-.8H5.4a1 1 0 0 0-1 .8L3 9Z"/><path d="M5 9v11h14V9M10 20v-6h4v6"/></svg>
-    <b>Obras comerciais e varejo</b>
-    <span>Lojas, flagships, restaurantes e quiosques, em rua e em shopping, com prazo de inauguração tratado como data de contrato.</span>
-  </a></li>
-  <li><a href="/servicos/retrofit">
-    <svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21h16M6 21V8l6-4 6 4v13"/><path d="M9 21v-5h6v5M9 11h2M13 11h2"/></svg>
-    <b>Retrofit</b>
-    <span>Atualizar um imóvel antigo, nas instalações, no layout, no acabamento e na norma, sem esvaziar o prédio.</span>
-  </a></li>
-  <li><a href="/servicos/reformas">
-    <svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 6.5 3 3M3 21l3.5-1 11-11-2.5-2.5-11 11L3 21Z"/><path d="M17 3.5 20.5 7"/></svg>
-    <b>Reformas</b>
-    <span>Escopo delimitado, prazo curto e o mesmo rigor de uma obra completa: proposta discriminada, cronograma e medição.</span>
-  </a></li>
-  <li><a href="/servicos/gerenciamento-de-obras">
-    <svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.5 2"/></svg>
-    <b>Gerenciamento de obras</b>
-    <span>Planejar, coordenar e medir a obra, inclusive quando quem executa é outro.</span>
-  </a></li>
-  <li><a href="/servicos/manutencao-predial">
-    <svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 1 5 5l-9 9-5-5 9-9Z"/><path d="m5 19 2-2"/></svg>
-    <b>Manutenção predial</b>
-    <span>Preventiva com plano e registro, corretiva com prazo de atendimento definido.</span>
-  </a></li>
-  <li><a href="/servicos/projetos">
-    <svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M4 9h16M9 9v11M13 13h7M13 17h7"/></svg>
-    <b>Projetos de engenharia</b>
-    <span>O desenho que a obra vai seguir, compatibilizado antes de a equipe subir.</span>
-  </a></li>
-  <li><a href="/servicos/consultoria-em-engenharia">
-    <svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5M9 11h4M11 9v4"/></svg>
-    <b>Consultoria e laudos</b>
-    <span>Parecer de engenheiro para decidir antes de contratar obra.</span>
-  </a></li></ul>
+  
+<div class="obras-abas" data-obras>
+  <div class="obras-grade" role="tablist" aria-label="Tipos de obra">
     
+    <button class="obra-cartao" type="button" role="tab" data-obra-aba
+            id="aba-obras-corporativas" aria-controls="painel-obras" aria-selected="false"
+            data-fotos="sala-reuniao-azul,recepcao-marmore,lounge-recepcao,mesa-vista-sp,estante-espinha-peixe" data-nome="Obras corporativas"
+            data-url="/servicos/obras-corporativas" tabindex="0">
+      <span class="obra-ico"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M5 21V6h9v15M14 21V10h5v11"/><path d="M8 9h3M8 13h3M8 17h3"/></svg></span>
+      <b>Obras corporativas</b>
+      <span class="obra-txt">Escritórios, sedes e espaços administrativos executados com cronograma físico-financeiro e responsável técnico nomeado antes da assinatura.</span>
+      <span class="obra-ver">Ver obras<i aria-hidden="true">+</i></span>
+    </button>
+    <button class="obra-cartao" type="button" role="tab" data-obra-aba
+            id="aba-obras-comerciais" aria-controls="painel-obras" aria-selected="false"
+            data-fotos="restaurante-fachada,restaurante-salao,restaurante-cozinha,restaurante-pratos,restaurante-bar" data-nome="Obras comerciais e varejo"
+            data-url="/servicos/obras-comerciais" tabindex="-1">
+      <span class="obra-ico"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h18l-1.4-4.2a1 1 0 0 0-1-.8H5.4a1 1 0 0 0-1 .8L3 9Z"/><path d="M5 9v11h14V9M10 20v-6h4v6"/></svg></span>
+      <b>Obras comerciais e varejo</b>
+      <span class="obra-txt">Lojas, flagships, restaurantes e quiosques, em rua e em shopping, com prazo de inauguração tratado como data de contrato.</span>
+      <span class="obra-ver">Ver obras<i aria-hidden="true">+</i></span>
+    </button>
+    <button class="obra-cartao" type="button" role="tab" data-obra-aba
+            id="aba-retrofit" aria-controls="painel-obras" aria-selected="false"
+            data-fotos="banheiro-marmore,lavabo-azul,lavabo-bordo,cozinha-marcenaria" data-nome="Retrofit"
+            data-url="/servicos/retrofit" tabindex="-1">
+      <span class="obra-ico"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21h16M6 21V8l6-4 6 4v13"/><path d="M9 21v-5h6v5M9 11h2M13 11h2"/></svg></span>
+      <b>Retrofit</b>
+      <span class="obra-txt">Atualizar um imóvel antigo, nas instalações, no layout, no acabamento e na norma, sem esvaziar o prédio.</span>
+      <span class="obra-ver">Ver obras<i aria-hidden="true">+</i></span>
+    </button>
+    <button class="obra-cartao" type="button" role="tab" data-obra-aba
+            id="aba-reformas" aria-controls="painel-obras" aria-selected="false"
+            data-fotos="lavabo-terracota,lavabo-bordo,banheiro-marmore,cozinha-marcenaria" data-nome="Reformas"
+            data-url="/servicos/reformas" tabindex="-1">
+      <span class="obra-ico"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 6.5 3 3M3 21l3.5-1 11-11-2.5-2.5-11 11L3 21Z"/><path d="M17 3.5 20.5 7"/></svg></span>
+      <b>Reformas</b>
+      <span class="obra-txt">Escopo delimitado, prazo curto e o mesmo rigor de uma obra completa: proposta discriminada, cronograma e medição.</span>
+      <span class="obra-ver">Ver obras<i aria-hidden="true">+</i></span>
+    </button>
+    <button class="obra-cartao" type="button" role="tab" data-obra-aba
+            id="aba-gerenciamento-de-obras" aria-controls="painel-obras" aria-selected="false"
+            data-fotos="recepcao-marmore,restaurante-salao,estante-espinha-peixe,mesa-vista-sp" data-nome="Gerenciamento de obras"
+            data-url="/servicos/gerenciamento-de-obras" tabindex="-1">
+      <span class="obra-ico"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.5 2"/></svg></span>
+      <b>Gerenciamento de obras</b>
+      <span class="obra-txt">Planejar, coordenar e medir a obra, inclusive quando quem executa é outro.</span>
+      <span class="obra-ver">Ver obras<i aria-hidden="true">+</i></span>
+    </button>
+    <button class="obra-cartao" type="button" role="tab" data-obra-aba
+            id="aba-manutencao-predial" aria-controls="painel-obras" aria-selected="false"
+            data-fotos="lounge-recepcao,banheiro-marmore,recepcao-marmore,lavabo-azul" data-nome="Manutenção predial"
+            data-url="/servicos/manutencao-predial" tabindex="-1">
+      <span class="obra-ico"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 1 5 5l-9 9-5-5 9-9Z"/><path d="m5 19 2-2"/></svg></span>
+      <b>Manutenção predial</b>
+      <span class="obra-txt">Preventiva com plano e registro, corretiva com prazo de atendimento definido.</span>
+      <span class="obra-ver">Ver obras<i aria-hidden="true">+</i></span>
+    </button>
+    <button class="obra-cartao" type="button" role="tab" data-obra-aba
+            id="aba-projetos" aria-controls="painel-obras" aria-selected="false"
+            data-fotos="sala-reuniao-azul,estante-espinha-peixe,mesa-vista-sp,lounge-recepcao" data-nome="Projetos de engenharia"
+            data-url="/servicos/projetos" tabindex="-1">
+      <span class="obra-ico"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M4 9h16M9 9v11M13 13h7M13 17h7"/></svg></span>
+      <b>Projetos de engenharia</b>
+      <span class="obra-txt">O desenho que a obra vai seguir, compatibilizado antes de a equipe subir.</span>
+      <span class="obra-ver">Ver obras<i aria-hidden="true">+</i></span>
+    </button>
+    <button class="obra-cartao" type="button" role="tab" data-obra-aba
+            id="aba-consultoria-em-engenharia" aria-controls="painel-obras" aria-selected="false"
+            data-fotos="restaurante-fachada,banheiro-marmore,recepcao-marmore,lavabo-terracota" data-nome="Consultoria e laudos"
+            data-url="/servicos/consultoria-em-engenharia" tabindex="-1">
+      <span class="obra-ico"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5M9 11h4M11 9v4"/></svg></span>
+      <b>Consultoria e laudos</b>
+      <span class="obra-txt">Parecer de engenheiro para decidir antes de contratar obra.</span>
+      <span class="obra-ver">Ver obras<i aria-hidden="true">+</i></span>
+    </button>
+  </div>
+  <div class="obras-painel" id="painel-obras" role="tabpanel" data-obra-painel hidden>
+    <div class="obras-cab">
+      <p><b data-obra-titulo></b><span>Ambientes desse tipo, do arquivo da SPX.</span></p>
+      <a class="btn" data-obra-link href="/servicos">Ver o serviço ↗</a>
+      <button class="obras-fechar" type="button" data-obra-fechar aria-label="Fechar fotos">×</button>
+    </div>
+    <div class="obras-fotos" data-obra-fotos></div>
+  </div>
+</div>
+  
 <div class="barra-cta">
   <p>Qual desses serviços faz sentido para o seu projeto?</p>
   <a class="btn btn-acc" href="/contato">Solicitar avaliação ↗</a>
 </div>
-  </div>
-</section>
-
-
-<section class="sec esteira-bloco">
-  <div class="wrap centro" data-reveal>
-    <p class="eyebrow centro">Do executivo à inauguração</p>
-    <h2 style="margin-top:20px">O que sai da planta<br>e vira obra entregue.</h2>
-  </div>
-  <div class="beamwrap" id="beamwrap">
-    <div class="beam" aria-hidden="true"><span class="rot esq">Projeto</span><span class="rot dir">Entregue</span></div>
-    <div class="track" id="track"></div>
-  </div>
 </section>
 
 <section class="sec wrap" data-reveal>
   <h2>Como <em>trabalhamos</em></h2>
-  <div class="painel">
-    <div class="bloco-duplo">
+  <div class="bloco-duplo">
   <div class="bd-txt"><ol class="lista-num">
   <li><span class="ln-n">01</span>
     <span class="ln-ico"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
@@ -484,19 +514,17 @@
   </ul>
 </div></div>
 </div>
-    
+  
 <div class="barra-cta">
   <p>Pronto para dar o próximo passo?</p>
   <a class="btn btn-acc" href="/contato">Agendar conversa ↗</a>
 </div>
-  </div>
 </section>
 
 <section class="sec wrap" data-reveal>
   <p class="eyebrow">Compromisso SPX</p>
   <h2 style="margin-top:18px">O que vem junto,<br>em qualquer <em>serviço</em>.</h2>
-  <div class="painel">
-    <div class="bloco-duplo">
+  <div class="bloco-duplo">
   <div class="bd-txt"><ol class="lista-num">
   <li><span class="ln-n">01</span>
     <span class="ln-ico"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
@@ -547,12 +575,11 @@
   </g>
 </svg></div>
 </div>
-    
+  
 <div class="barra-cta">
   <p>Vamos começar o seu projeto?</p>
   <a class="btn btn-acc" href="/contato">Solicitar visita técnica ↗</a>
 </div>
-  </div>
 </section>
 </main>
 <footer class="wrap rodape">
@@ -590,6 +617,6 @@
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 12a8.5 8.5 0 1 1-4.2-7.3L21 3.5l-1.2 4.6A8.4 8.4 0 0 1 20.5 12Z"/><path d="M9 9.4c.5 2.2 2.4 4.1 4.6 4.6l1.1-1.2 1.8.8-.5 1.6c-3.4.5-7.2-3.3-6.7-6.7l1.6-.5.8 1.8z"/></svg>
   <span>Falar no WhatsApp</span>
 </a>
-<script src="/assets/js/spx.min.js?v=16d855e0" defer></script>
+<script src="/assets/js/spx.min.js?v=5a363dfd" defer></script>
 </body>
 </html>

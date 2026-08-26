@@ -1048,4 +1048,61 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
   });
 })();
 
+/* -------------------- tipos de obra: clicar no cartão abre as fotos daquele */
+(function abasDeObra(){
+  $$('[data-obras]').forEach(function(caixa){
+    var abas = $$('[data-obra-aba]', caixa);
+    var painel = $('[data-obra-painel]', caixa);
+    var fotos = $('[data-obra-fotos]', caixa);
+    var titulo = $('[data-obra-titulo]', caixa);
+    var link = $('[data-obra-link]', caixa);
+    var fechar = $('[data-obra-fechar]', caixa);
+    if(!abas.length || !painel) return;
+    var aberta = null;
+    var legendas = {};
+    OBRAS.forEach(function(o){ legendas[o[0]] = o[1]; });
+
+    function apaga(){
+      abas.forEach(function(a){ a.setAttribute('aria-selected', 'false'); });
+      painel.hidden = true;
+      aberta = null;
+    }
+    function abre(aba){
+      if(aberta === aba){ apaga(); return; }
+      aberta = aba;
+      abas.forEach(function(a){ a.setAttribute('aria-selected', String(a === aba)); });
+      painel.setAttribute('aria-labelledby', aba.id);
+      titulo.textContent = aba.dataset.nome;
+      link.href = aba.dataset.url;
+      /* as fotos entram só quando a aba abre: nenhuma delas é baixada à toa */
+      fotos.innerHTML = aba.dataset.fotos.split(',').map(function(f){
+        return '<figure><img src="/img/' + f + '-480.webp" width="480" height="640"' +
+               ' alt="' + (legendas[f] || '') + ', do arquivo da SPX Engenharia"' +
+               ' loading="lazy" decoding="async"><figcaption>' +
+               (legendas[f] || '') + '</figcaption></figure>';
+      }).join('');
+      painel.hidden = false;
+    }
+
+    abas.forEach(function(aba, i){
+      aba.addEventListener('click', function(){ abre(aba); });
+      /* setas percorrem as abas, como manda o padrão de tablist */
+      aba.addEventListener('keydown', function(e){
+        var passo = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if(!passo) return;
+        e.preventDefault();
+        var alvo = abas[(i + passo + abas.length) % abas.length];
+        abas.forEach(function(a){ a.tabIndex = -1; });
+        alvo.tabIndex = 0;
+        alvo.focus();
+      });
+    });
+    if(fechar) fechar.addEventListener('click', function(){
+      var voltar = aberta;
+      apaga();
+      if(voltar) voltar.focus();
+    });
+  });
+})();
+
 })();

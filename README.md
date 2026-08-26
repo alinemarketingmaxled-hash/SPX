@@ -576,6 +576,27 @@ pintado. Medido em `/obras`: 95 caía para 92 sem isso.
 
 Usado no carrossel e no mosaico de fotos.
 
+### Tipos de obra com fotos que abrem ao clicar
+
+Na página de serviços, clicar num cartão abre as fotos daquele tipo de obra
+logo abaixo da grade. São **abas de verdade** (`tablist` / `tabpanel`), com
+setas do teclado percorrendo os cartões, então quem navega sem mouse entende o
+que abriu e onde.
+
+As fotos são montadas só no momento em que a aba abre: nenhuma delas é baixada
+antes de alguém pedir.
+
+A atribuição de foto a serviço segue o **tipo de espaço que a imagem mostra**.
+Um restaurante entra em obras comerciais porque é isso que se vê; nenhuma foto
+é apresentada como sendo de um projeto específico, porque isso não foi
+confirmado.
+
+### Sem moldura externa
+
+Os blocos não ficam dentro de uma caixa: cada cartão tem a sua própria borda e
+a barra de chamada é uma faixa solta logo abaixo. Moldura em volta de conteúdo
+que já tem borda cria duas bordas concêntricas e aperta tudo por dentro.
+
 ### Painéis da página de serviços
 
 Nos modelos, cada assunto é um **painel fechado**: a grade ou a lista dentro de

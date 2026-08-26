@@ -502,6 +502,33 @@ const diagramaSPX = () => `
   </ul>
 </div>`;
 
+/* Grade de serviços onde clicar num cartão abre as fotos daquele tipo de obra
+   logo abaixo. São abas de verdade (tablist/tabpanel), então quem navega por
+   teclado ou leitor de tela entende o que abriu e onde. */
+const cartoesObra = (itens) => `
+<div class="obras-abas" data-obras>
+  <div class="obras-grade" role="tablist" aria-label="Tipos de obra">
+    ${itens.map((s, i) => `
+    <button class="obra-cartao" type="button" role="tab" data-obra-aba
+            id="aba-${s.slug}" aria-controls="painel-obras" aria-selected="false"
+            data-fotos="${s.fotos.join(',')}" data-nome="${esc(s.nome)}"
+            data-url="/servicos/${s.slug}" tabindex="${i === 0 ? '0' : '-1'}">
+      <span class="obra-ico">${icone(s.icone)}</span>
+      <b>${esc(s.nome)}</b>
+      <span class="obra-txt">${esc(s.resumo)}</span>
+      <span class="obra-ver">Ver obras<i aria-hidden="true">+</i></span>
+    </button>`).join('')}
+  </div>
+  <div class="obras-painel" id="painel-obras" role="tabpanel" data-obra-painel hidden>
+    <div class="obras-cab">
+      <p><b data-obra-titulo></b><span>Ambientes desse tipo, do arquivo da SPX.</span></p>
+      <a class="btn" data-obra-link href="/servicos">Ver o serviço ↗</a>
+      <button class="obras-fechar" type="button" data-obra-fechar aria-label="Fechar fotos">×</button>
+    </div>
+    <div class="obras-fotos" data-obra-fotos></div>
+  </div>
+</div>`;
+
 /* Mosaico de fotos em faixas, como a coluna direita do modelo: as imagens
    empilhadas ocupam a altura da lista ao lado. */
 const mosaicoFotos = (nomes) => `
@@ -676,38 +703,29 @@ pagina({
 <section class="sec wrap" data-reveal>
   <h2>O que <em>executamos</em></h2>
   <p class="sub-secao">Soluções completas para cada tipo de necessidade.</p>
-  <div class="painel">
-    ${cartoesIcone(servicosPublicaveis.map((s) => ({
-      icone: s.icone, titulo: s.nome, texto: s.resumo, url: '/servicos/' + s.slug })), 4)}
-    ${barraCta('Qual desses serviços faz sentido para o seu projeto?', 'Solicitar avaliação')}
-  </div>
+  ${cartoesObra(servicosPublicaveis)}
+  ${barraCta('Qual desses serviços faz sentido para o seu projeto?', 'Solicitar avaliação')}
 </section>
-
-${esteira('Do executivo à inauguração', 'O que sai da planta<br>e vira obra entregue.')}
 
 <section class="sec wrap" data-reveal>
   <h2>Como <em>trabalhamos</em></h2>
-  <div class="painel">
-    ${blocoDuplo(listaNumerada(processo.map((e) => ({
-      icone: e.icone, titulo: e.nome, texto: e.texto }))), diagramaSPX())}
-    ${barraCta('Pronto para dar o próximo passo?', 'Agendar conversa')}
-  </div>
+  ${blocoDuplo(listaNumerada(processo.map((e) => ({
+    icone: e.icone, titulo: e.nome, texto: e.texto }))), diagramaSPX())}
+  ${barraCta('Pronto para dar o próximo passo?', 'Agendar conversa')}
 </section>
 
 <section class="sec wrap" data-reveal>
   <p class="eyebrow">Compromisso SPX</p>
   <h2 style="margin-top:18px">O que vem junto,<br>em qualquer <em>serviço</em>.</h2>
-  <div class="painel">
-    ${blocoDuplo(listaNumerada([
-      { icone: 'visita', titulo: 'Visita técnica antes do orçamento', texto: 'Nenhuma obra é orçada por telefone.' },
-      { icone: 'proposta', titulo: 'Proposta discriminada', texto: 'Serviço a serviço, com quantidade e critério de medição.' },
-      { icone: 'cronograma', titulo: 'Cronograma físico-financeiro', texto: 'Entregue junto da proposta, não depois de assinar.' },
-      { icone: 'art', titulo: 'Responsável técnico nomeado', texto: 'Com ART emitida para a obra.' },
-      { icone: 'relatorio', titulo: 'Relatório semanal', texto: 'Avanço medido contra o previsto, com registro fotográfico.' },
-      { icone: 'asbuilt', titulo: 'As built e manuais na entrega', texto: 'Para a próxima intervenção não começar às cegas.' },
-    ]), predioFio())}
-    ${barraCta('Vamos começar o seu projeto?', 'Solicitar visita técnica')}
-  </div>
+  ${blocoDuplo(listaNumerada([
+    { icone: 'visita', titulo: 'Visita técnica antes do orçamento', texto: 'Nenhuma obra é orçada por telefone.' },
+    { icone: 'proposta', titulo: 'Proposta discriminada', texto: 'Serviço a serviço, com quantidade e critério de medição.' },
+    { icone: 'cronograma', titulo: 'Cronograma físico-financeiro', texto: 'Entregue junto da proposta, não depois de assinar.' },
+    { icone: 'art', titulo: 'Responsável técnico nomeado', texto: 'Com ART emitida para a obra.' },
+    { icone: 'relatorio', titulo: 'Relatório semanal', texto: 'Avanço medido contra o previsto, com registro fotográfico.' },
+    { icone: 'asbuilt', titulo: 'As built e manuais na entrega', texto: 'Para a próxima intervenção não começar às cegas.' },
+  ]), predioFio())}
+  ${barraCta('Vamos começar o seu projeto?', 'Solicitar visita técnica')}
 </section>`,
   visual: 'pag-servicos',
 });
@@ -785,26 +803,21 @@ ${projetosPublicaveis.length
 <section class="sec wrap" data-reveal>
   <h2>O que a SPX <em>documenta</em><br>em toda obra</h2>
   <p class="sub-secao">Obra que não deixa registro não vira referência para a próxima.</p>
-  <div class="painel">
-    ${blocoDuplo(listaNumerada([
+  ${blocoDuplo(listaNumerada([
       { icone: 'asbuilt', titulo: 'As built', texto: 'A planta do que foi realmente construído, com as alterações de campo.' },
       { icone: 'proposta', titulo: 'Memorial de acabamentos', texto: 'O que foi aplicado, onde, de qual fornecedor.' },
       { icone: 'relatorio', titulo: 'Manuais e garantias', texto: 'De cada equipamento e sistema instalado.' },
       { icone: 'acompanha', titulo: 'Registro fotográfico semanal', texto: 'O antes, o durante e o depois de cada frente.' },
       { icone: 'cronograma', titulo: 'Cronograma medido', texto: 'O previsto contra o realizado, semana a semana.' },
       { icone: 'entrega', titulo: 'Lista de pendências fechada', texto: 'Assinada na vistoria conjunta de entrega.' },
-    ]), mosaicoFotos(['estante-espinha-peixe', 'banheiro-marmore', 'restaurante-salao']))}
-    ${barraCta('Quer ver o arquivo de uma obra parecida com a sua?', 'Falar com a SPX')}
-  </div>
+  ]), mosaicoFotos(['estante-espinha-peixe', 'banheiro-marmore', 'restaurante-salao']))}
+  ${barraCta('Quer ver o arquivo de uma obra parecida com a sua?', 'Falar com a SPX')}
 </section>
 
 <section class="sec wrap" data-reveal>
   <h2>Tipos de obra <em>no portfólio</em></h2>
-  <div class="painel">
-    ${cartoesIcone(servicos.slice(0, 8).map((s) => ({
-      icone: s.icone, titulo: s.nome, texto: s.resumo, url: '/servicos/' + s.slug })), 4)}
-    ${barraCta('Qual desses se parece com o seu projeto?', 'Solicitar avaliação')}
-  </div>
+  ${cartoesObra(servicos.slice(0, 8))}
+  ${barraCta('Qual desses se parece com o seu projeto?', 'Solicitar avaliação')}
 </section>
 
 <section class="sec wrap" data-reveal>

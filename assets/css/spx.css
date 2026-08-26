@@ -977,11 +977,8 @@ body{--bg-pagina:var(--bg)}
 /* Nos modelos, cada assunto é um painel fechado: a grade ou a lista dentro de
    uma moldura, com a barra de chamada colada embaixo. Isso amarra o conteúdo
    e a pergunta que vem depois dele. */
-.painel{margin-top:var(--e4);border:1px solid var(--linha);border-radius:4px;
-  overflow:hidden;background:var(--bg-2)}
-.painel > .cartoes-icone{margin:0;background:var(--linha)}
-.painel > .cartoes-icone li{background:var(--bg-2)}
-.painel > .cartoes-icone a:hover,.painel > .cartoes-icone a:focus-visible{background:var(--sup)}
+/* Sem moldura externa: o conteúdo respira na página e cada cartão tem a sua
+   própria borda. A barra de chamada continua logo abaixo, como faixa solta. */
 /* subtítulo curto sob o h2, como nos modelos */
 .sub-secao{margin:10px 0 0;color:var(--acc-2);font-family:var(--display);
   font-size:12.5px;letter-spacing:.14em;text-transform:uppercase}
@@ -990,26 +987,26 @@ h2 em{font-style:normal;color:var(--acc-2)}
 
 /* barra de chamada colada no painel */
 .barra-cta{display:flex;align-items:center;justify-content:space-between;gap:var(--e3);
-  flex-wrap:wrap;padding:var(--e3) var(--e4);
-  background:var(--acc-suave);border-top:1px solid var(--linha)}
+  flex-wrap:wrap;margin-top:var(--e4);padding:var(--e3) var(--e4);
+  background:var(--acc-suave);border:1px solid var(--linha);border-radius:3px}
 .barra-cta p{margin:0;font-family:var(--display);font-size:13.5px;letter-spacing:.1em;
   text-transform:uppercase;color:var(--txt)}
 .barra-cta .btn{flex:0 0 auto}
 
 /* duas colunas: conteúdo e arte técnica */
 .bloco-duplo{display:grid;grid-template-columns:1.15fr .85fr;gap:var(--e5);
-  align-items:center;padding:var(--e4)}
+  align-items:center;margin-top:var(--e4)}
 .bloco-duplo.invertido{direction:rtl}
 .bloco-duplo.invertido > *{direction:ltr}
 .bd-arte{color:var(--acc-2);display:grid;place-items:center}
 .bd-arte svg{width:100%;height:auto;max-height:400px;display:block}
 
 /* lista numerada em linhas */
-.lista-num{list-style:none;margin:0;padding:0;display:grid;gap:1px;background:var(--linha)}
-.lista-num li{background:var(--bg);display:grid;
-  grid-template-columns:auto auto 1fr;align-items:center;gap:var(--e3);
-  padding:var(--e3);transition:background .24s}
-.lista-num li:hover{background:var(--sup)}
+.lista-num{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.lista-num li{background:var(--sup);border:1px solid var(--linha);border-radius:3px;
+  display:grid;grid-template-columns:auto auto 1fr;align-items:center;gap:var(--e3);
+  padding:var(--e3);transition:background .24s,border-color .24s,transform .24s}
+.lista-num li:hover{background:var(--sup-2);border-color:var(--acc-2);transform:translateX(4px)}
 .ln-n{font-family:var(--display);font-weight:700;font-size:11px;letter-spacing:.06em;
   color:#F4F4F1;background:var(--acc);border-radius:3px;padding:6px 8px;min-width:30px;
   text-align:center}
@@ -1031,7 +1028,7 @@ h2 em{font-style:normal;color:var(--acc-2)}
 .dg-legenda span{display:block;margin-top:3px;color:var(--txt-3);font-size:12px}
 
 @media (max-width:900px){
-  .bloco-duplo{grid-template-columns:1fr;gap:var(--e4);padding:var(--e3)}
+  .bloco-duplo{grid-template-columns:1fr;gap:var(--e4)}
   .bd-arte{order:-1;max-width:260px;margin-inline:auto}
   .bd-arte svg{max-height:250px}
   .lista-num li{grid-template-columns:auto 1fr;gap:var(--e2) var(--e3)}
@@ -1040,7 +1037,65 @@ h2 em{font-style:normal;color:var(--acc-2)}
   .barra-cta p{font-size:12px}
 }
 
-/* ---- mosaico de fotos ao lado de uma lista ---- */
+/* ---- grade de tipos de obra, com fotos que abrem ao clicar ---- */
+.obras-abas{margin-top:var(--e4)}
+.obras-grade{display:grid;gap:8px;
+  grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr))}
+.obra-cartao{display:grid;gap:9px;justify-items:start;text-align:left;
+  padding:var(--e3);background:var(--sup);border:1px solid var(--linha);
+  border-radius:3px;cursor:pointer;color:inherit;
+  transition:background .24s,border-color .24s,transform .24s}
+.obra-cartao:hover{background:var(--sup-2);border-color:var(--acc-2);transform:translateY(-2px)}
+.obra-cartao:focus-visible{outline:2px solid var(--acc-2);outline-offset:2px}
+.obra-cartao[aria-selected="true"]{background:var(--acc-suave);border-color:var(--acc-2)}
+/* o ícone mora numa caixinha, como no modelo */
+.obra-ico{display:grid;place-items:center;width:38px;height:38px;
+  background:var(--acc-suave);border:1px solid var(--linha);border-radius:3px}
+.obra-cartao b{font-family:var(--display);font-size:13px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--txt);line-height:1.25}
+.obra-txt{color:var(--txt-3);font-size:13px;line-height:1.5}
+.obra-ver{display:flex;align-items:center;gap:7px;margin-top:2px;
+  font-family:var(--display);font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--acc-2)}
+.obra-ver i{font-style:normal;display:grid;place-items:center;width:17px;height:17px;
+  border:1px solid var(--acc-2);border-radius:50%;font-size:12px;line-height:1;
+  transition:transform .3s ease}
+.obra-cartao[aria-selected="true"] .obra-ver i{transform:rotate(45deg)}
+
+/* painel de fotos que abre embaixo da grade */
+.obras-painel{margin-top:8px;border:1px solid var(--acc-2);border-radius:3px;
+  background:var(--bg-2);overflow:hidden;animation:abreObras .4s cubic-bezier(.24,.72,.24,1)}
+@keyframes abreObras{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+.obras-cab{display:flex;align-items:center;gap:var(--e3);flex-wrap:wrap;
+  padding:var(--e3);border-bottom:1px solid var(--linha)}
+.obras-cab p{margin:0;flex:1 1 240px}
+.obras-cab b{display:block;font-family:var(--display);font-size:14px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--txt)}
+.obras-cab span{display:block;margin-top:3px;color:var(--txt-3);font-size:13px}
+.obras-fechar{width:34px;height:34px;flex:0 0 auto;border-radius:50%;
+  background:transparent;border:1px solid var(--linha);color:var(--txt-2);
+  font-size:19px;line-height:1;cursor:pointer;transition:background .2s,color .2s}
+.obras-fechar:hover{background:var(--sup);color:var(--txt)}
+.obras-fotos{display:grid;gap:2px;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr))}
+.obras-fotos figure{margin:0;position:relative;overflow:hidden}
+.obras-fotos img{width:100%;height:clamp(180px,22vw,260px);object-fit:cover;display:block;
+  transition:transform .5s cubic-bezier(.24,.72,.24,1)}
+.obras-fotos figure:hover img{transform:scale(1.05)}
+.obras-fotos figcaption{position:absolute;left:0;right:0;bottom:0;
+  padding:26px 12px 10px;font-family:var(--display);font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;color:#F4F4F1;
+  background:linear-gradient(transparent,rgba(0,0,0,.86))}
+@media (max-width:700px){
+  .obras-fotos img{height:150px}
+  .obras-cab{padding:var(--e2) var(--e3)}
+}
+@media (prefers-reduced-motion:reduce){
+  .obras-painel{animation:none}
+  .obras-fotos figure:hover img{transform:none}
+}
+
+/* ---- mosaico de fotos ao lado de uma lista ---- *//* ---- mosaico de fotos ao lado de uma lista ---- */
 /* Faixas empilhadas com um leve desencontro: preenche a altura da lista sem
    virar galeria, que roubaria a atenção do texto ao lado. */
 .mosaico{display:grid;gap:6px;width:100%}

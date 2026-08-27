@@ -56,7 +56,7 @@ const larguras = (arq) => [480, 640, 768, 960].filter((w) => w < dim(arq)[0])
    por acaso: 290 no celular e 380 no tablet são os maiores valores que ainda
    fazem o navegador escolher a variante de 768 em vez da de 960 nas telas
    densas daquele tamanho. A de 960 pesa o dobro sem mostrar mais nitidez. */
-const TAM_TOPO = '(min-width:1000px) min(44vw, 500px), (min-width:700px) 380px, 290px';
+const TAM_TOPO = '(min-width:1000px) min(44vw, 500px), 100vw';
 /* a foto da página abre o rodízio, seguida de outras três da mesma família */
 const fotos = (arq) => {
   const todas = Object.keys(DIMENSOES);

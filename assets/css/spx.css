@@ -753,7 +753,11 @@ b,strong{font-weight:600}
 .migalhas{display:flex;flex-wrap:wrap;align-items:center;gap:9px;
   padding-top:calc(var(--nav-altura) + var(--e4));font-family:var(--display);
   font-size:var(--t-micro);letter-spacing:.14em;text-transform:uppercase;color:var(--txt-3)}
-.migalhas a{color:var(--txt-3);text-decoration:none;transition:color .2s}
+/* alvo de toque: o link tinha 16px de altura, abaixo dos 24 que a norma pede
+   para o dedo. O recheio cresce a área sem mexer no desenho, e a margem
+   negativa devolve o espaço que ele ocuparia na linha. */
+.migalhas a{color:var(--txt-3);text-decoration:none;transition:color .2s;
+  display:inline-block;padding-block:5px;margin-block:-5px}
 .migalhas a:hover,.migalhas a:focus-visible{color:var(--acc-2)}
 .migalhas i{font-style:normal;color:var(--linha-forte)}
 .migalhas [aria-current]{color:var(--txt)}
@@ -969,33 +973,37 @@ body{--bg-pagina:var(--bg)}
   .topo-interno.com-foto h1{max-width:min(45%,22ch)}
 }
 @media (max-width:999px){
-  /* empilha: título primeiro, foto inteira logo abaixo. O respiro sob o menu
-     encolhe porque aqui não há foto atrás do título para preencher */
-  .topo-interno.com-foto{display:block;min-height:0;padding-bottom:0;
-    padding-top:calc(var(--nav-altura) + var(--e2));margin-bottom:var(--e4)}
-  /* a largura fica presa porque é ela que decide qual variante da foto o
-     navegador baixa: acima disso, tela densa pula para a de 960 à toa.
-     Encostada à direita, e não centralizada, para não ficar boiando. */
-  /* empilhada não sobra vão nenhum para preencher: o fundo esticado sai */
+  /* No celular a foto não é um cartão ao lado do título: é o fundo da primeira
+     tela. Cartão de 290px ali ficava boiando no meio do preto, e o título
+     sobrava com uma faixa vazia em cima. Como fundo, a obra é a primeira coisa
+     que aparece e o título assenta em cima dela. */
+  .topo-interno.com-foto{position:relative;display:flex;align-items:flex-end;
+    overflow:hidden;min-height:clamp(340px,64vh,540px);
+    padding-top:calc(var(--nav-altura) + var(--e3));padding-bottom:var(--e4);
+    margin-bottom:var(--e4)}
+  .topo-interno.com-foto .topo-in{position:relative;z-index:2;width:100%}
+  /* o título ganha sombra própria: véu sozinho não garante leitura sobre
+     qualquer foto, e as obras variam de claridade entre si */
+  .topo-interno.com-foto h1,
+  .topo-interno.com-foto .migalhas,
+  .topo-interno.com-foto .topo-lead{
+    text-shadow:0 2px 16px rgba(0,0,0,.8),0 1px 3px rgba(0,0,0,.6)}
+  .topo-foto{position:absolute;inset:0;left:calc(50% - 50vw);width:100vw;
+    height:auto;margin:0;z-index:0}
   .topo-foto::before{display:none}
-  .topo-foto{position:relative;left:auto;right:auto;top:auto;width:min(100%,290px);
-    margin:var(--e4) 0 0 auto;height:min(40vh,300px)}
-  /* empilhada, a foto some pelos lados e por baixo */
-  .topo-foto .hero-fundo img{object-position:center;left:0;right:0;width:100%;
-    max-width:100%;
-    -webkit-mask-image:
-      linear-gradient(90deg,transparent 0,#000 8%,#000 92%,transparent 100%),
-      linear-gradient(180deg,#000 0,#000 70%,transparent 100%);
-    mask-image:
-      linear-gradient(90deg,transparent 0,#000 8%,#000 92%,transparent 100%),
-      linear-gradient(180deg,#000 0,#000 70%,transparent 100%);
-    -webkit-mask-composite:source-in;
-    mask-composite:intersect}
-  .topo-foto .hero-veu{background:none}
-}
-@media (min-width:700px) and (max-width:999px){
-  /* no tablet cabe mais foto, e 380 ainda cai na variante de 768 */
-  .topo-foto{width:min(100%,380px);height:min(44vh,380px)}
+  .topo-foto .hero-fundo{position:absolute;inset:0}
+  /* de fundo a foto preenche tudo: sem máscara, sem teto de largura e sem o
+     realce que fazia sentido quando ela era peça ao lado do texto */
+  .topo-foto .hero-fundo img{position:absolute;inset:0;left:0;right:0;top:0;bottom:0;
+    width:100%;height:100%;max-width:none;object-fit:cover;object-position:center;
+    filter:none;-webkit-mask-image:none;mask-image:none}
+  /* O véu escurece onde o texto assenta sem apagar a foto. A primeira versão
+     fechava em preto puro no último terço e a obra virava uma tarja no topo:
+     aqui ele para em 0,88 e só emenda na cor da página nos últimos 4%. */
+  .topo-foto .hero-veu{position:absolute;inset:0;background:
+    linear-gradient(180deg,rgba(0,0,0,.58) 0%,rgba(0,0,0,.12) 24%,
+      rgba(0,0,0,.55) 52%,rgba(0,0,0,.8) 72%,rgba(0,0,0,.92) 90%,
+      var(--bg-pagina,#000) 100%)}
 }
 
 }
@@ -2202,3 +2210,24 @@ h2 em{font-style:normal;color:var(--acc-2)}
 
 /* ajuste: o botão do acordeão vive dentro de um h3 semântico */
 .q h3{margin:0;font-family:inherit;font-size:inherit;font-weight:inherit;letter-spacing:normal;text-transform:none;line-height:inherit}
+
+
+/* ----------------------------------------------- piso de tamanho no celular */
+/* Rótulo de 9,5px é legível numa tela de 27 polegadas e não numa de bolso. No
+   celular tudo que estava abaixo de 11px sobe para 11 — mesmo valor do
+   --t-micro, então nada foge do sistema.
+
+   Este bloco fica no fim do arquivo de propósito: as consultas de mídia não
+   somam especificidade, quem vem depois ganha. No meio do arquivo ele perdia
+   para as regras de 520px e 900px que reduzem tamanho. */
+@media (max-width:560px){
+  .selo,.obra-ver,.capa3d-etiqueta,.vira-legenda,.vira-tipo,.ig-rot,
+  .fd-peca i,.fx-n,.pf-n,.proc-faixa b,.fluxo b,.ig-chips u,.ig-trilha u,
+  .orbita-bola b,.oe-n,.ln-n,.hi-n,.vira-btn,.fn-rot,.cc-apoio,
+  .ig-lista i,.dir-indice a,.migalhas,.migalhas a,.campo label,
+  .beam .rot,.frame .tag,.hub .lbl,.numeros div span,.folha-selo span,
+  .folha-tabela th,.folha-pe,.seg-nome,.capa3d-corpo h3 span,
+  .folha-tabela .tarefa,.folha-tabela .dur,.pill,.dep .etapa,
+  .faixa-dupla.pequena .fd-peca i,.ficha span,.pill i{font-size:11px}
+  .ig-chips u,.fn-rot,.ig-lista i,.hub .lbl{line-height:1.35}
+}

@@ -1053,8 +1053,8 @@ pagina({
   url: '/servicos', arquivo: 'servicos.html',
   fundo: 'estante-espinha-peixe',
   title: 'Serviços de engenharia e execução de obras | SPX Engenharia',
-  descricao: 'Obras corporativas e comerciais, retrofit, reformas, gerenciamento, manutenção, ' +
-    'projetos e laudos. Engenharia, gestão e execução pela mesma equipe, em São Paulo e região.',
+  descricao: 'Obras corporativas e comerciais, retrofit, reformas, gerenciamento, manutenção ' +
+    'e projetos. Engenharia, gestão e execução pela mesma equipe, em São Paulo.',
   h1: 'Serviços de engenharia, gestão e execução',
   lead: `${empresa.proposta} A SPX não vende mão de obra: vende a engenharia que decide o que ` +
         'fazer, a gestão que mantém o prazo e a execução que entrega.',
@@ -1147,9 +1147,8 @@ pagina({
   /* sem foto de topo: aqui quem abre a página é o carrossel, e uma foto grande
      antes dele empurrava o portfólio inteiro para baixo da dobra */
   title: 'Projetos e obras realizadas em São Paulo | SPX Engenharia',
-  descricao: 'Arquivo de obras corporativas e comerciais executadas pela SPX Engenharia em ' +
-    'São Paulo: escritórios, lojas, restaurantes e retrofit, com engenharia própria do ' +
-    'levantamento à entrega.',
+  descricao: 'Obras corporativas e comerciais executadas pela SPX Engenharia em São Paulo: ' +
+    'escritórios, lojas, restaurantes e retrofit, do levantamento à entrega.',
   h1: 'Projetos realizados',
   trilha: [{ nome: 'Início', url: '/' }, { nome: 'Projetos', url: '/obras' }],
   corpo: `
@@ -1242,7 +1241,10 @@ pagina({
   fundo: 'sala-reuniao-azul',
   visual: 'pag-sobre',
   title: `Sobre a ${empresa.nome} | Engenharia de obras corporativas em São Paulo`,
-  descricao: `${empresa.definicao} Quem somos, como trabalhamos, área de atuação e responsabilidade técnica.`,
+  /* A definição da empresa tem 137 caracteres sozinha: com a lista atrás dela a
+     description passava de 200 e o Google cortava no meio. Reescrita para caber. */
+  descricao: `A ${empresa.nome} planeja, gerencia e executa obras corporativas e comerciais em ` +
+    'São Paulo. Quem somos, como trabalhamos e quem responde tecnicamente pela obra.',
   h1: `Sobre a ${empresa.nome}`,
   lead: `${empresa.definicao} ${empresa.proposta}`,
   trilha: [{ nome: 'Início', url: '/' }, { nome: 'Sobre', url: '/sobre' }],

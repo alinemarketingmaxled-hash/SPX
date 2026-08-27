@@ -142,8 +142,9 @@ function rodape() {
     <div><h3>Serviços</h3><ul>${servicos.slice(0, 5).map((s) =>
       `<li><a href="/servicos/${s.slug}">${esc(s.nome)}</a></li>`).join('')}
       <li><a href="/servicos">Todos os serviços</a></li></ul></div>
-    <div><h3>Projetos</h3><ul>${projetos.map((p) =>
+    <div><h3>Projetos</h3><ul>${projetosPublicaveis.map((p) =>
       `<li><a href="/obras/${p.slug}">${esc(p.nome)}</a></li>`).join('')}
+      <li><a href="/obras">Todos os projetos</a></li>
       <li><a href="/atuacao">Onde atuamos</a></li></ul></div>
     <div><h3>Empresa</h3><ul>
       <li><a href="/sobre">Sobre a SPX</a></li>
@@ -986,6 +987,20 @@ const perguntas = (pares) =>
   `<div class="faq-lista">${pares.map(([p, r]) =>
     `<details class="q-item"><summary>${esc(p)}</summary><p>${esc(r)}</p></details>`).join('')}</div>`;
 
+/* --------------------------------------------------------------- projetos */
+const projetosPublicaveis = projetos.filter((p) => {
+  const minimo = ['tipo', 'atuacao'].filter((c) => falta(p[c]));
+  const semFoto = falta(p.fotos) || !p.fotos.length;
+  if (minimo.length || semFoto) {
+    anota(`Projeto ${p.nome}`,
+      [minimo.length ? 'faltam ' + minimo.join(' e ') : null,
+       semFoto ? 'faltam as fotos' : null].filter(Boolean).join('; ') +
+      ' — a página não é publicada enquanto isso');
+    return false;
+  }
+  return true;
+});
+
 /* ------------------------------------------------------ páginas de serviço */
 const servicosPublicaveis = servicos.filter((s) => {
   if (s.confirmar) anota(`Serviço "${s.nome}"`, s.confirmar);
@@ -1094,19 +1109,6 @@ ${faixaDupla()}
   visual: 'pag-servicos',
 });
 
-/* --------------------------------------------------------------- projetos */
-const projetosPublicaveis = projetos.filter((p) => {
-  const minimo = ['tipo', 'atuacao'].filter((c) => falta(p[c]));
-  const semFoto = falta(p.fotos) || !p.fotos.length;
-  if (minimo.length || semFoto) {
-    anota(`Projeto ${p.nome}`,
-      [minimo.length ? 'faltam ' + minimo.join(' e ') : null,
-       semFoto ? 'faltam as fotos' : null].filter(Boolean).join('; ') +
-      ' — a página não é publicada enquanto isso');
-    return false;
-  }
-  return true;
-});
 
 for (const p of projetosPublicaveis) {
   const trilha = [{ nome: 'Início', url: '/' }, { nome: 'Projetos', url: '/obras' },

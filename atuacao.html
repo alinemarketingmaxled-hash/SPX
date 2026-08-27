@@ -25,7 +25,7 @@
 <link rel="icon" type="image/png" href="/img/favicon.png">
 <link rel="preload" as="image" href="/img/restaurante-fachada-640.webp"
       imagesrcset="/img/restaurante-fachada-480.webp 480w, /img/restaurante-fachada-640.webp 640w" imagesizes="(min-width:1000px) min(44vw, 500px), 100vw" fetchpriority="high">
-<link rel="stylesheet" href="/assets/css/spx.min.css?v=d6279fc6">
+<link rel="stylesheet" href="/assets/css/spx.min.css?v=09c5b02e">
 <script>
 /* aplica o tema antes da pintura para não piscar */
 document.documentElement.setAttribute('data-tema','escuro');
@@ -297,7 +297,8 @@ document.documentElement.setAttribute('data-tema','escuro');
     "@type": "SpeakableSpecification",
     "cssSelector": [
      "h1",
-     ".resposta-direta p"
+     ".resposta-direta p",
+     ".mapa-txt .lead"
     ]
    },
    "about": {
@@ -699,15 +700,12 @@ document.documentElement.setAttribute('data-tema','escuro');
   </div>
 </header>
 
-
-<section class="sec wrap resposta-direta" data-reveal>
-  <h2>Quais regiões a SPX Engenharia atende?</h2>
-  <p>A SPX Engenharia atende São Paulo e região metropolitana: 16 regiões na capital e 10 cidades da Grande São Paulo, listadas abaixo. A avaliação é feita no local, com visita técnica antes de qualquer orçamento.</p>
-  <ul class="fatos"><li>O raio é definido pela distância que permite acompanhar a obra, não por área comercial.</li><li>Obra fora da lista é avaliada caso a caso, conforme porte e prazo.</li><li>Toda obra tem engenheiro responsável nomeado, com ART emitida antes da assinatura.</li></ul>
-</section>
-
 <section class="sec wrap mapa-secao">
-  <h2>Onde essas obras acontecem</h2>
+  <!-- O título é a pergunta e o primeiro parágrafo é a resposta: era isso que
+       o bloco de resposta direta fazia antes, acima do mapa. Ele saiu do
+       desenho, mas a pergunta e a resposta continuam na página — é o que o
+       Google recorta em destaque e o que uma IA copia. -->
+  <h2>Quais regiões a SPX Engenharia atende?</h2>
   <div class="mapa-grid">
     <div class="mapa-arte" aria-hidden="true">
 
@@ -803,8 +801,14 @@ document.documentElement.setAttribute('data-tema','escuro');
 </svg>
     </div>
     <div class="mapa-txt" data-reveal>
-      <p class="lead">A maior parte do portfólio está na capital, nos polos corporativos e nos
-      bairros de varejo de alto padrão.</p>
+      <p class="lead">A SPX Engenharia atende São Paulo e região metropolitana: 16
+      regiões na capital e 10 cidades da Grande São Paulo,
+      listadas abaixo. A avaliação é feita no local, com visita técnica antes de qualquer
+      orçamento, e o raio é definido pela distância que permite acompanhar a obra, não por área
+      comercial. A maior parte do portfólio está nos polos corporativos e nos bairros de varejo
+      de alto padrão. <a href="/servicos-e-regioes">Veja a lista completa de serviços por
+      região</a> — são 8 serviços cruzados com
+      26 regiões.</p>
       
       <h3 class="mapa-grupo">São Paulo capital</h3>
       <ul class="grade-regioes"><li>Avenida Paulista</li><li>Jardins</li><li>Faria Lima</li><li>Itaim Bibi</li><li>Vila Olímpia</li><li>Brooklin</li><li>Berrini</li><li>Chácara Santo Antônio</li><li>Pinheiros</li><li>Vila Madalena</li><li>Moema</li><li>Santo Amaro</li><li>Centro</li><li>Barra Funda</li><li>Lapa</li><li>Tatuapé</li></ul>
@@ -838,20 +842,17 @@ document.documentElement.setAttribute('data-tema','escuro');
     <span>Vistoria conjunta, lista de pendências fechada, as built e manuais das instalações.</span>
   </div></li></ul></section>
 
-<section class="sec wrap "><h2>Não achou a sua região?</h2><p class="lead">Obra fora dessa lista é avaliada caso a
-caso, conforme porte e prazo. <a href="/servicos-e-regioes">Veja a lista completa de serviços
-por região</a> — são 8 serviços cruzados com
-26 regiões — ou fale com a equipe.</p>
+<!-- Antes daqui saíam três blocos dizendo a mesma coisa: o título "Não achou a
+     sua região?", o parágrafo abaixo dele e ainda a barra genérica de visita
+     técnica. Sobrou um convite só, centrado numa faixa de vidro. -->
+<section class="sec wrap vidro cta-central" data-reveal>
 
 <div class="cartao-cta">
   <span class="cc-ico"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11Z"/><circle cx="12" cy="10" r="2.4"/></svg></span>
   <b>Sua obra fica fora dessa lista?</b>
-  <span class="cc-apoio">Conte onde é e o que precisa ser feito. A SPX responde se atende ou não.</span>
-  <a class="btn btn-acc" href="/contato">Entrar em contato sobre a obra ↗</a>
-</div></section>
-<section class="sec wrap cta-faixa" data-reveal>
-  <p class="cta-frase">Fale com a SPX sobre a sua obra.</p>
-  <a class="btn btn-acc" href="/contato">Solicitar visita técnica ↗</a>
+  <span class="cc-apoio">Obra fora da lista é avaliada caso a caso, conforme porte e prazo. Conte onde é e o que precisa ser feito: a SPX responde se atende ou não.</span>
+  <a class="btn btn-acc" href="/contato">Entrar em contato sobre a obra&nbsp;↗</a>
+</div>
 </section>
 </main>
 <footer class="wrap rodape">

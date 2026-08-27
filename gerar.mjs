@@ -270,7 +270,9 @@ const schemaProcesso = () => ({
    quando alguém pergunta o que a empresa faz */
 const FALADO = {
   '@type': 'SpeakableSpecification',
-  cssSelector: ['h1', '.resposta-direta p'],
+  /* .mapa-txt .lead entrou quando a /atuacao trocou o bloco de resposta
+     direta pelo texto ao lado do mapa: é lá que a resposta mora agora. */
+  cssSelector: ['h1', '.resposta-direta p', '.mapa-txt .lead'],
 };
 
 const schemaTrilha = (trilha) => ({
@@ -480,12 +482,15 @@ const cartaoVira = (frente, verso, rotulo = 'Ver as informações') => `
 /* Cartão de chamada do tamanho de um cartão da grade. Nos modelos ele ocupa a
    célula que sobra quando a lista tem número ímpar de itens — em vez de um
    retângulo vazio no canto, o convite entra ali. */
+/* O espaço antes da seta é rígido em todos os botões: quando o rótulo quebra
+   em duas linhas — 320px, cartão estreito — sem isso a seta descia sozinha na
+   segunda linha, lendo como um bullet solto. */
 const cartaoChamada = (titulo, apoio, rotulo, url = '/contato', ic = 'conversa') => `
 <div class="cartao-cta">
   <span class="cc-ico">${icone(ic)}</span>
   <b>${esc(titulo)}</b>
   <span class="cc-apoio">${esc(apoio)}</span>
-  <a class="btn btn-acc" href="${url}">${esc(rotulo)} ↗</a>
+  <a class="btn btn-acc" href="${url}">${esc(rotulo)}&nbsp;↗</a>
 </div>`;
 
 /* Grade de cartões com ícone: usada para serviços e para listas de garantia. */
@@ -572,7 +577,7 @@ const chamadaFoto = (foto, titulo, apoio, rotulo, url = '/contato') => `
     <div class="cf-txt">
       <p class="cf-titulo">${titulo}</p>
       <p class="cf-apoio">${esc(apoio)}</p>
-      <a class="btn btn-acc" href="${url}">${esc(rotulo)} ↗</a>
+      <a class="btn btn-acc" href="${url}">${esc(rotulo)}&nbsp;↗</a>
     </div>
   </div>
 </section>`;
@@ -581,7 +586,7 @@ const chamadaFoto = (foto, titulo, apoio, rotulo, url = '/contato') => `
 const barraCta = (pergunta, rotulo, url = '/contato') => `
 <div class="barra-cta">
   <p>${esc(pergunta)}</p>
-  <a class="btn btn-acc" href="${url}">${esc(rotulo)} ↗</a>
+  <a class="btn btn-acc" href="${url}">${esc(rotulo)}&nbsp;↗</a>
 </div>`;
 
 /* Prédio em fio de arame, isométrico de verdade. O truque que faltava: só a
@@ -926,7 +931,7 @@ const secao = (titulo, dentro, classe = '') =>
 const chamada = (texto, rotulo = 'Solicitar visita técnica') =>
   `<section class="sec wrap cta-faixa" data-reveal>
   <p class="cta-frase">${esc(texto)}</p>
-  <a class="btn btn-acc" href="/contato">${esc(rotulo)} ↗</a>
+  <a class="btn btn-acc" href="/contato">${esc(rotulo)}&nbsp;↗</a>
 </section>`;
 
 /* Carrossel em profundidade: o cartão do meio fica de frente e inteiro, os
@@ -1460,23 +1465,25 @@ pagina({
         item: { '@type': 'Place', name: n, containedInPlace:
           { '@type': 'AdministrativeArea', name: 'São Paulo, SP' } } })) } }],
   corpo: `
-${respostaDireta('Quais regiões a SPX Engenharia atende?',
-  `A SPX Engenharia atende ${empresa.atuacao}: ${regioes['São Paulo capital'].length} regiões na ` +
-  `capital e ${regioes['Grande São Paulo'].length} cidades da Grande São Paulo, listadas abaixo. ` +
-  'A avaliação é feita no local, com visita técnica antes de qualquer orçamento.',
-  ['O raio é definido pela distância que permite acompanhar a obra, não por área comercial.',
-   'Obra fora da lista é avaliada caso a caso, conforme porte e prazo.',
-   'Toda obra tem engenheiro responsável nomeado, com ART emitida antes da assinatura.'])}
-
 <section class="sec wrap mapa-secao">
-  <h2>Onde essas obras acontecem</h2>
+  <!-- O título é a pergunta e o primeiro parágrafo é a resposta: era isso que
+       o bloco de resposta direta fazia antes, acima do mapa. Ele saiu do
+       desenho, mas a pergunta e a resposta continuam na página — é o que o
+       Google recorta em destaque e o que uma IA copia. -->
+  <h2>Quais regiões a SPX Engenharia atende?</h2>
   <div class="mapa-grid">
     <div class="mapa-arte" aria-hidden="true">
 ${mapaSVG()}
     </div>
     <div class="mapa-txt" data-reveal>
-      <p class="lead">A maior parte do portfólio está na capital, nos polos corporativos e nos
-      bairros de varejo de alto padrão.</p>
+      <p class="lead">A SPX Engenharia atende ${empresa.atuacao}: ${regioes['São Paulo capital'].length}
+      regiões na capital e ${regioes['Grande São Paulo'].length} cidades da Grande São Paulo,
+      listadas abaixo. A avaliação é feita no local, com visita técnica antes de qualquer
+      orçamento, e o raio é definido pela distância que permite acompanhar a obra, não por área
+      comercial. A maior parte do portfólio está nos polos corporativos e nos bairros de varejo
+      de alto padrão. <a href="/servicos-e-regioes">Veja a lista completa de serviços por
+      região</a> — são ${servicosPublicaveis.length} serviços cruzados com
+      ${Object.values(regioes).flat().length} regiões.</p>
       ${Object.entries(regioes).map(([grupo, nomes]) => `
       <h3 class="mapa-grupo">${esc(grupo)}</h3>
       <ul class="grade-regioes">${lista(nomes)}</ul>`).join('')}
@@ -1497,14 +1504,15 @@ ${secao('O que significa atender uma região', `
       texto: 'Vistoria conjunta, lista de pendências fechada, as built e manuais das instalações.' },
   ], 4)}`, 'claro')}
 
-${secao('Não achou a sua região?', `<p class="lead">Obra fora dessa lista é avaliada caso a
-caso, conforme porte e prazo. <a href="/servicos-e-regioes">Veja a lista completa de serviços
-por região</a> — são ${servicosPublicaveis.length} serviços cruzados com
-${Object.values(regioes).flat().length} regiões — ou fale com a equipe.</p>
+<!-- Antes daqui saíam três blocos dizendo a mesma coisa: o título "Não achou a
+     sua região?", o parágrafo abaixo dele e ainda a barra genérica de visita
+     técnica. Sobrou um convite só, centrado numa faixa de vidro. -->
+<section class="sec wrap vidro cta-central" data-reveal>
 ${cartaoChamada('Sua obra fica fora dessa lista?',
-  'Conte onde é e o que precisa ser feito. A SPX responde se atende ou não.',
-  'Entrar em contato sobre a obra', '/contato', 'local')}`)}
-${chamada(chamadas.obra)}`,
+  'Obra fora da lista é avaliada caso a caso, conforme porte e prazo. Conte onde é e o que ' +
+  'precisa ser feito: a SPX responde se atende ou não.',
+  'Entrar em contato sobre a obra', '/contato', 'local')}
+</section>`,
 });
 
 /* ------------------------------------------- menu e rodapé na home também */

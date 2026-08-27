@@ -318,7 +318,10 @@ b,strong{font-weight:600}
   margin-top:calc(var(--nav-altura) * -1);  /* o menu flutua sobre a foto */
   overflow:hidden;color:var(--txt);isolation:isolate;
 }
-.hero-fundo{position:absolute;inset:0;z-index:0}
+/* overflow:hidden porque as fotos que não estão na vez ficam em scale(1.08):
+   sem o corte elas sobram 8% para fora da tela e, em 320px, aparecem como
+   barra de rolagem horizontal na home. */
+.hero-fundo{position:absolute;inset:0;z-index:0;overflow:hidden}
 .hero-fundo img{
   position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
   opacity:0;transform:scale(1.08);
@@ -863,7 +866,12 @@ b,strong{font-weight:600}
 .grade-regioes{list-style:none;margin:var(--e4) 0 0;padding:0;display:flex;flex-wrap:wrap;gap:7px}
 .grade-regioes li{font-family:var(--display);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
   color:var(--txt-2);border:1px solid var(--linha);border-radius:999px;padding:8px 14px}
-.canais{list-style:none;margin:var(--e3) 0 var(--e4);padding:0;display:grid;gap:1px;background:var(--linha)}
+/* grid-template-columns explícito com mínimo zero: sem isso a trilha herda
+   o min-content das linhas — 'contato@spxengenharia.com.br' inteiro — e a
+   lista fica mais larga que a coluna em telas de 320px. */
+.canais{list-style:none;margin:var(--e3) 0 var(--e4);padding:0;display:grid;
+  grid-template-columns:minmax(0,1fr);gap:1px;background:var(--linha)}
+.canais a span{overflow-wrap:anywhere;text-align:right}
 .canais a{display:flex;justify-content:space-between;align-items:baseline;gap:var(--e2);
   background:var(--bg);padding:var(--e3);text-decoration:none;color:var(--txt-2);transition:color .2s}
 .canais a b{font-family:var(--display);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--txt)}
@@ -1255,6 +1263,50 @@ h2 em{font-style:normal;color:var(--acc-2)}
    regra genérica `.cartoes-icone li span` ganha por especificidade. */
 .cartao-cta .cc-apoio{color:var(--txt-2);font-size:13.5px;line-height:1.5}
 .cartao-cta .btn{margin-top:auto}
+/* ---------------------------------------------- convite central em vidro */
+/* Na /atuacao o convite é a única coisa que sobrou depois do mapa, então ele
+   deixa de ser um cartão numa célula de grade e vira um painel de vidro no
+   meio da faixa. O vidro só existe porque a seção .vidro atrás tem gradiente e
+   trama para o blur pegar: sobre preto chapado isto leria como um retângulo
+   cinza. O mesmo raio de 18px dos cartões que viram, para não inventar uma
+   terceira borda no site. */
+.cta-central{display:grid;place-items:center}
+.cta-central .cartao-cta{
+  height:auto;width:min(100%,620px);justify-items:center;text-align:center;
+  gap:var(--e2);padding:clamp(26px,4vw,40px) clamp(20px,4vw,44px);
+  border-radius:18px;border:1px solid rgba(255,255,255,.16);
+  background:linear-gradient(155deg,rgba(255,255,255,.1),rgba(255,255,255,.028));
+  backdrop-filter:blur(18px) saturate(1.35);
+  -webkit-backdrop-filter:blur(18px) saturate(1.35);
+  box-shadow:0 26px 64px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.2);
+}
+/* o brilho que corre na borda de cima é o que faz ler como vidro e não como
+   caixa translúcida */
+.cta-central .cartao-cta::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(120% 70% at 50% -20%,rgba(255,255,255,.16),transparent 62%);
+}
+.cta-central .cartao-cta{position:relative;isolation:isolate}
+.cta-central .cc-ico{
+  width:44px;height:44px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06)}
+.cta-central .cc-ico svg{width:19px;height:19px}
+.cta-central .cartao-cta b{font-size:14px;max-width:22ch}
+.cta-central .cartao-cta .cc-apoio{max-width:46ch;font-size:14px}
+.cta-central .cartao-cta .btn{margin-top:var(--e2)}
+@media (max-width:560px){
+  /* o rótulo é longo: no padrão de 13px com 0,06em ele passa da largura do
+     cartão e a seta cai sozinha numa segunda linha. Aperta letra e recuo o
+     suficiente para caber inteiro, sem descer do piso de 11px. */
+  .cta-central .cartao-cta .btn{width:100%;justify-content:center;
+    font-size:12px;letter-spacing:.03em;padding:14px 12px;gap:7px}
+}
+/* quem pediu menos movimento não ganha o blur, que é caro em GPU */
+@media (prefers-reduced-transparency:reduce){
+  .cta-central .cartao-cta{backdrop-filter:none;-webkit-backdrop-filter:none;
+    background:rgba(255,255,255,.07)}
+}
+
 /* depois de uma lista de perguntas ele vira uma faixa larga, não um cartão */
 .faq-lista + .cartao-cta,.perguntas + .cartao-cta{
   margin-top:var(--e4);grid-template-columns:auto 1fr auto;align-items:center;
@@ -2062,7 +2114,13 @@ h2 em{font-style:normal;color:var(--acc-2)}
   :root{--nav-altura:70px}
 }
 @media(max-width:900px){
-  .hero-top,.hub-grid,.contato-grid{grid-template-columns:1fr;gap:var(--e5)}
+  /* minmax(0,1fr) e não 1fr: com 1fr o mínimo da coluna é o min-content do
+     conteúdo, e um e-mail ou um título comprido esticava a trilha para além
+     da tela — 55px de rolagem lateral na home em 320px. */
+  .hero-top,.hub-grid,.contato-grid{grid-template-columns:minmax(0,1fr);gap:var(--e5)}
+  .hero-top>*,.hub-grid>*,.contato-grid>*{min-width:0}
+  /* e o que não cabe quebra, em vez de empurrar */
+  .canal,.canal span,.garantias b{overflow-wrap:anywhere}
   .hero{min-height:auto;padding-top:calc(var(--nav-altura) + var(--e5));padding-bottom:var(--e4)}
   .hero-corpo{padding-top:var(--e4);padding-bottom:var(--e5)}
   .hero-base{flex-direction:column;align-items:stretch}

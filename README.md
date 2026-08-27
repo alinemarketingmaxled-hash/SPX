@@ -739,6 +739,49 @@ novo — se mexer no número, ajuste o vão do `.faq-cols` junto.
 As respostas não inventam nada: cada uma repete um compromisso que já está no
 processo, nos serviços ou nas garantias descritas no resto do site.
 
+### SEO e GEO: o que o site declara para as máquinas
+
+O site trabalha três coisas ao mesmo tempo, e vale separar porque elas pedem
+formatos diferentes:
+
+| Sigla | O que é | Como aparece aqui |
+| --- | --- | --- |
+| **SEO** | ranquear na lista de resultados | title, description, headings, texto de corpo, links internos, sitemap |
+| **AEO** | virar a resposta direta do topo | pergunta como `<h2>`, resposta na primeira frase, fatos citáveis |
+| **GEO** | ser citado por agente de IA | uma definição canônica repetida, um `@id` por entidade, `llms.txt` |
+
+**Toda página começa por uma pergunta respondida.** `respostaDireta()` põe a
+pergunta como `<h2>` e a resposta na primeira frase, seguida de fatos verificáveis
+em lista. É o formato que um agente consegue recortar e citar sem reescrever.
+
+**Densidade importa.** Página de 200 palavras não ranqueia para termo disputado,
+por melhor que seja o schema. As oito páginas de serviço chegaram a ficar com
+340 palavras depois de uma limpeza de layout, e foram reconstruídas para 545 a
+650 com a ficha do serviço — o que é, para quem, o que entra, diferenciais — sem
+voltar ao empilhamento de seções que saiu.
+
+**O grafo tem um `@id` por entidade e todas as páginas apontam para o mesmo.**
+`GeneralContractor` com `knowsAbout` (serviços + segmentos), `areaServed` com as
+26 regiões, `hasOfferCatalog` com os 8 serviços e a área de cada um, `slogan` e
+`foundingDate`. Por cima disso cada página soma o seu tipo: `Service`,
+`FAQPage`, `QAPage`, `CollectionPage`, `AboutPage`, `ContactPage`, `HowTo`,
+`BreadcrumbList`, `ItemList`.
+
+**`/servicos-e-regioes` era o buraco.** É a página mais densa do site, com 6.300
+palavras, e estava sem nenhum dado estruturado: para um agente, texto solto.
+Ganhou `CollectionPage` + `ItemList` declarando o que ela é — o cruzamento dos
+8 serviços com as 26 regiões.
+
+**`llms.txt` é o resumo em texto puro**, sem HTML no caminho. Leva identificação,
+definição em uma frase, especialidade, história, segmentos, compromissos, prazos,
+serviços com o que cada um executa, processo, regiões e as 14 perguntas
+frequentes com resposta.
+
+**Nada disso inventa número.** `foundingDate` é 2025 porque a empresa tem um ano,
+e os números de obras dizem que são da trajetória do responsável, não do CNPJ de
+um ano. Schema mentiroso é pior que schema ausente: o Google cruza com outras
+fontes.
+
 ### O mapa da atuação
 
 O mapa **não é cartografia**. É um diagrama de malha urbana, sem nome de rua e

@@ -18,7 +18,7 @@
 import { mkdirSync, writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { empresa, responsavel, numeros, processo, camadas, servicos, projetos,
-         duvidas, temas, acervo, chamadas, regioes, historia, falta } from './conteudo/dados.mjs';
+         duvidas, temas, acervo, chamadas, regioes, historia, segmentos, falta } from './conteudo/dados.mjs';
 
 const SITE = empresa.dominio.replace(/\/+$/, '');
 /* proporções das fotos usadas como fundo, para declarar width e height e o
@@ -182,9 +182,30 @@ function schemaOrganizacao() {
     telephone: empresa.telefone,
     email: empresa.email,
     areaServed: Object.values(regioes).flat().map((n) => ({ '@type': 'Place', name: n })),
-    knowsAbout: servicos.map((s) => s.nome),
+    /* serviços e segmentos juntos: é assim que um agente de busca liga "reforma
+       de clínica" ou "obra de restaurante" à SPX sem existir uma página só
+       para cada combinação */
+    knowsAbout: [...servicos.map((s) => s.nome), ...segmentos],
+    slogan: empresa.proposta,
+    /* a empresa tem um ano de operação, confirmado pela dona. O ano vem daí —
+       se a data exata for outra, corrigir aqui. */
+    foundingDate: '2025',
+    founder: falta(responsavel.nome) ? undefined : { '@id': idPessoa },
+    numberOfEmployees: undefined,
     openingHours: 'Mo-Fr 08:00-18:00',
+    /* catálogo completo: cada serviço com a área atendida, para a resposta de
+       um agente poder citar serviço e região na mesma frase */
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog', name: 'Serviços de engenharia da SPX',
+      itemListElement: servicos.map((sv) => ({
+        '@type': 'Offer',
+        itemOffered: { '@type': 'Service', name: sv.nome, description: sv.resumo,
+          url: `${SITE}/servicos/${sv.slug}`,
+          areaServed: { '@type': 'AdministrativeArea', name: empresa.atuacao } },
+      })),
+    },
   };
+  Object.keys(o).forEach((k) => o[k] === undefined && delete o[k]);
   if (!falta(empresa.razaoSocial)) o.legalName = empresa.razaoSocial;
   else anota('Schema Organization', 'razão social (legalName)');
   if (!falta(empresa.cnpj)) o.taxID = empresa.cnpj;
@@ -992,6 +1013,30 @@ for (const s of servicosPublicaveis) {
              { '@type': 'WebPage', '@id': `${SITE}/servicos/${s.slug}#pagina`,
                name: s.h1, speakable: FALADO, about: { '@id': idEmpresa } }],
     corpo: `
+${respostaDireta(s.pergunta, s.resposta, s.fatos)}
+
+<section class="sec wrap" data-reveal>
+  <h2>${esc(s.nome)}: <em>o que é</em>, para quem e o que entra</h2>
+  <div class="ficha-servico">
+    <div class="fs-texto">
+      <p class="lead">${esc(s.oQueE)}</p>
+      <h3>Para quem é</h3>
+      <ul class="marcada">${lista(s.paraQuem)}</ul>
+    </div>
+    <div class="fs-listas">
+      <h3>O que a SPX executa</h3>
+      <ul class="fs-itens">${lista(s.executa)}</ul>
+      <h3>Diferenciais</h3>
+      <ul class="marcada">${lista(s.diferenciais)}</ul>
+    </div>
+  </div>
+</section>
+
+${secao('Como a SPX conduz uma obra de ' + s.nome.toLowerCase(), `
+  <p class="sub-secao">As sete etapas valem para qualquer obra da SPX, e é o mesmo
+  engenheiro que responde por todas elas.</p>
+  ${faixaProcesso(processo)}`)}
+
 ${secao('Dúvidas sobre ' + s.nome.toLowerCase(), perguntas(s.faq) +
   cartaoChamada('Ainda tem dúvida?', 'Fale direto com o engenheiro responsável.',
     'Enviar pergunta', '/contato', 'conversa'), 'claro')}
@@ -1101,9 +1146,10 @@ pagina({
   url: '/obras', arquivo: 'obras.html',
   /* sem foto de topo: aqui quem abre a página é o carrossel, e uma foto grande
      antes dele empurrava o portfólio inteiro para baixo da dobra */
-  title: 'Projetos realizados | SPX Engenharia',
-  descricao: 'Obras corporativas e comerciais executadas pela SPX Engenharia em São Paulo: ' +
-    'Avenida Paulista, Jardins e Brooklin.',
+  title: 'Projetos e obras realizadas em São Paulo | SPX Engenharia',
+  descricao: 'Arquivo de obras corporativas e comerciais executadas pela SPX Engenharia em ' +
+    'São Paulo: escritórios, lojas, restaurantes e retrofit, com engenharia própria do ' +
+    'levantamento à entrega.',
   h1: 'Projetos realizados',
   trilha: [{ nome: 'Início', url: '/' }, { nome: 'Projetos', url: '/obras' }],
   corpo: `
@@ -1204,6 +1250,13 @@ pagina({
            { '@type': 'AboutPage', name: `Sobre a ${empresa.nome}`, speakable: FALADO,
              mainEntity: { '@id': idEmpresa } }].filter(Boolean),
   corpo: `
+${respostaDireta('O que é a SPX Engenharia?',
+  `${empresa.definicao} ${empresa.proposta} A empresa tem um ano de operação e é conduzida pelo ` +
+  'próprio engenheiro responsável, com nove anos de obra antes de abrir o CNPJ.',
+  ['Base em São Paulo, SP, com atuação em São Paulo e região metropolitana.',
+   'Especialidade: obra executada sem parar a operação do cliente.',
+   `Executa ${servicosPublicaveis.length} frentes, de obra corporativa a laudo e vistoria.`])}
+
 <section class="sec wrap" data-reveal>
   <ul class="marcas-fato">
     <li>${icone('local')}<span>Base em ${esc(empresa.base)}, com atuação em ${esc(empresa.atuacao)}.</span></li>
@@ -1223,6 +1276,22 @@ ${secao('Como a SPX começou', `
 ${blocoResponsavel()}
 
 ${secao('Como trabalhamos', faixaProcesso(processo))}
+
+${secao('O que a SPX executa', `
+  <p class="sub-secao">${servicosPublicaveis.length} frentes, conduzidas pela mesma engenharia
+  em ${esc(empresa.atuacao)}.</p>
+  <ul class="grade-servicos">${servicosPublicaveis.map((s) =>
+    `<li><a href="/servicos/${s.slug}"><b>${esc(s.nome)}</b><span>${esc(s.resumo)}</span></a></li>`).join('')}</ul>`, 'claro')}
+
+${secao('Engenharia, gestão e execução na mesma mão', `
+  <p class="lead">Engenharia, gestão e execução são três coisas diferentes, e a maioria dos
+  problemas de obra nasce quando estão em mãos diferentes. Na SPX estão na mesma: quem levanta
+  é quem orça, quem orça é quem planeja, quem planeja é quem executa e responde.</p>
+  ${cartoesIcone([
+    { icone: 'projeto', titulo: 'Engenharia', texto: 'O que fazer, como fazer e o que a norma exige.' },
+    { icone: 'cronograma', titulo: 'Gestão', texto: 'Cronograma, coordenação, medição e controle de desvio.' },
+    { icone: 'execucao', titulo: 'Execução', texto: 'Equipe em campo, com responsável técnico nomeado.' },
+  ], 3)}`)}
 
 ${secao('Dados institucionais', dadosInstitucionais())}
 
@@ -1252,6 +1321,14 @@ pagina({
      'engenharia da obra.'],
   ])],
   corpo: `
+${respostaDireta('A SPX executa projeto desenvolvido por outro arquiteto?',
+  'Sim. A SPX Engenharia lê, compatibiliza e executa projeto de terceiros em São Paulo e ' +
+  'região metropolitana, devolvendo as divergências ao autor do projeto antes do início da ' +
+  'obra. O escritório continua acompanhando a execução.',
+  ['A compatibilização entre arquitetura, estrutura, elétrica, hidráulica, climatização e incêndio é feita antes de a equipe subir.',
+   'A proposta é discriminada por serviço, com quantidade e critério de medição, para o escritório comparar linha a linha.',
+   'A SPX pode ser contratada pelo cliente final, com o escritório coordenando o projeto, ou diretamente pelo escritório.'])}
+
 ${secao('O que a SPX faz com o seu projeto', fluxoSerpente([
   { icone: 'leitura', n: '01', nome: 'Leitura',
     texto: 'Estudo do projeto e das intenções de detalhe, para entender o que não pode ser negociado no acabamento.' },
@@ -1370,7 +1447,23 @@ pagina({
         'raio de atuação é definido pela distância que permite acompanhar de verdade, e não ' +
         'por marketing.',
   trilha: [{ nome: 'Início', url: '/' }, { nome: 'Onde atuamos', url: '/atuacao' }],
+  schema: [{ '@type': 'CollectionPage', name: 'Regiões atendidas pela SPX Engenharia',
+    speakable: FALADO, about: { '@id': idEmpresa },
+    mainEntity: { '@type': 'ItemList', name: 'Regiões atendidas',
+      numberOfItems: Object.values(regioes).flat().length,
+      itemListElement: Object.values(regioes).flat().map((n, i) => ({
+        '@type': 'ListItem', position: i + 1,
+        item: { '@type': 'Place', name: n, containedInPlace:
+          { '@type': 'AdministrativeArea', name: 'São Paulo, SP' } } })) } }],
   corpo: `
+${respostaDireta('Quais regiões a SPX Engenharia atende?',
+  `A SPX Engenharia atende ${empresa.atuacao}: ${regioes['São Paulo capital'].length} regiões na ` +
+  `capital e ${regioes['Grande São Paulo'].length} cidades da Grande São Paulo, listadas abaixo. ` +
+  'A avaliação é feita no local, com visita técnica antes de qualquer orçamento.',
+  ['O raio é definido pela distância que permite acompanhar a obra, não por área comercial.',
+   'Obra fora da lista é avaliada caso a caso, conforme porte e prazo.',
+   'Toda obra tem engenheiro responsável nomeado, com ART emitida antes da assinatura.'])}
+
 <section class="sec wrap mapa-secao">
   <h2>Onde essas obras acontecem</h2>
   <div class="mapa-grid">
@@ -1386,9 +1479,27 @@ ${mapaSVG()}
     </div>
   </div>
 </section>
+${secao('O que significa atender uma região', `
+  <p class="sub-secao">Atender não é ter o nome do bairro numa lista. É o que a SPX faz em campo,
+  do primeiro contato à entrega.</p>
+  ${cartoesIcone([
+    { icone: 'visita', titulo: 'Visita antes do orçamento',
+      texto: 'Um engenheiro vai ao local, mede e levanta as restrições do prédio, do condomínio ou do shopping antes de qualquer número.' },
+    { icone: 'execucao', titulo: 'Engenheiro em campo',
+      texto: 'Obra corporativa exige presença com frequência. O raio de atuação é a distância que permite isso de verdade.' },
+    { icone: 'acompanha', titulo: 'Medição semanal',
+      texto: 'Avanço medido contra o cronograma, com registro fotográfico e relatório de desvio enquanto ainda dá para corrigir.' },
+    { icone: 'entrega', titulo: 'Entrega documentada',
+      texto: 'Vistoria conjunta, lista de pendências fechada, as built e manuais das instalações.' },
+  ], 4)}`, 'claro')}
+
 ${secao('Não achou a sua região?', `<p class="lead">Obra fora dessa lista é avaliada caso a
 caso, conforme porte e prazo. <a href="/servicos-e-regioes">Veja a lista completa de serviços
-por região</a> ou fale com a equipe.</p>`)}
+por região</a> — são ${servicosPublicaveis.length} serviços cruzados com
+${Object.values(regioes).flat().length} regiões — ou fale com a equipe.</p>
+${cartaoChamada('Sua obra fica fora dessa lista?',
+  'Conte onde é e o que precisa ser feito. A SPX responde se atende ou não.',
+  'Entrar em contato sobre a obra', '/contato', 'local')}`)}
 ${chamada(chamadas.obra)}`,
 });
 
@@ -1422,6 +1533,36 @@ for (const arquivo of ['index.html', '404.html', 'servicos-e-regioes.html']) {
       '@type': 'WebSite', '@id': SITE + '/#site', name: empresa.nome, url: SITE + '/',
       publisher: { '@id': idEmpresa }, inLanguage: 'pt-BR',
     }].filter(Boolean);
+    /* a página de serviços por região é a mais densa do site e estava sem
+       nenhum dado estruturado: para um agente de busca ela era só texto. Aqui
+       ela declara o que é — o cruzamento de cada serviço com cada região. */
+    if (arquivo === 'servicos-e-regioes.html') {
+      grafo.push({
+        '@type': 'CollectionPage', '@id': SITE + '/servicos-e-regioes#pagina',
+        name: 'Serviços de engenharia por região em São Paulo',
+        description: `Cruzamento dos ${servicosPublicaveis.length} serviços da SPX Engenharia ` +
+          `com as ${Object.values(regioes).flat().length} regiões atendidas em São Paulo e ` +
+          'região metropolitana.',
+        about: { '@id': idEmpresa }, inLanguage: 'pt-BR', speakable: FALADO,
+        mainEntity: {
+          '@type': 'ItemList', name: 'Serviços por região',
+          numberOfItems: servicosPublicaveis.length * Object.values(regioes).flat().length,
+          itemListElement: servicosPublicaveis.map((sv, i) => ({
+            '@type': 'ListItem', position: i + 1,
+            item: { '@type': 'Service', name: sv.nome, description: sv.resumo,
+              url: `${SITE}/servicos/${sv.slug}`, provider: { '@id': idEmpresa },
+              areaServed: Object.values(regioes).flat().map((n) => ({ '@type': 'Place', name: n })) },
+          })),
+        },
+      });
+      grafo.push({
+        '@type': 'BreadcrumbList',
+        itemListElement: [{ nome: 'Início', url: '/' },
+                          { nome: 'Serviços por região', url: '/servicos-e-regioes' }]
+          .map((t, i) => ({ '@type': 'ListItem', position: i + 1, name: t.nome,
+                            item: SITE + t.url })),
+      });
+    }
     html = html.replace(/<!--SCHEMA-->[\s\S]*?<!--\/SCHEMA-->/,
       '<!--SCHEMA-->\n<script type="application/ld+json">\n' +
       JSON.stringify({ '@context': 'https://schema.org', '@graph': grafo }, null, 1) +
@@ -1441,7 +1582,7 @@ pagina({
   url: '/contato', arquivo: 'contato.html',
   /* sem foto no topo: a mesma foto já está atrás do formulário logo abaixo,
      e duas cópias da mesma imagem na primeira tela é uma a mais */
-  title: `Contato e visita técnica | ${empresa.nome}`,
+  title: `Contato e visita técnica em São Paulo | ${empresa.nome}`,
   descricao: 'Solicite a visita técnica da SPX Engenharia. Orçamento preliminar em até cinco ' +
     'dias úteis depois da visita ao local, em São Paulo e região.',
   h1: 'Envie o contexto da obra.',
@@ -1491,7 +1632,7 @@ if (falta(empresa.razaoSocial) || falta(empresa.cnpj)) {
 pagina({
   url: '/privacidade', arquivo: 'privacidade.html',
   fundo: 'lavabo-azul',
-  title: `Política de privacidade | ${empresa.nome}`,
+  title: `Política de privacidade e tratamento de dados | ${empresa.nome}`,
   descricao: 'Como a SPX Engenharia trata os dados enviados pelo site, para que servem, ' +
     'por quanto tempo ficam e como exercer os direitos previstos na LGPD.',
   h1: 'Política de privacidade',
@@ -1586,7 +1727,37 @@ ${empresa.proposta}
 - Telefone: ${empresa.telefone}
 - E-mail: ${empresa.email}
 - Site: ${SITE}/
+- Tempo de operação: um ano (empresa aberta em 2025)
+- Experiência do responsável técnico: ${responsavel.anosExperiencia} anos em engenharia civil
 ${falta(responsavel.nome) ? '' : `- Responsável técnico: ${responsavel.nome}\n`}
+## O que a SPX é, em uma frase
+${empresa.definicao} ${empresa.proposta}
+
+## Especialidade
+Obra executada sem parar a operação do cliente: loja aberta, escritório ocupado,
+prédio em funcionamento. A SPX trabalha na janela que a operação permite, com
+controle de poeira e ruído e a área liberada limpa a cada turno.
+
+## História
+${historia.map((h) => `${Number(h.n)}. ${h.titulo}: ${h.texto}`).join('\n')}
+
+## Segmentos atendidos
+${segmentos.map((g) => `- ${g}`).join('\n')}
+
+## Compromissos que valem para toda obra
+- Visita técnica ao local antes de qualquer orçamento. Nenhuma obra é orçada por telefone.
+- Proposta discriminada serviço a serviço, com quantidade e critério de medição.
+- Cronograma físico-financeiro entregue junto da proposta, não depois de assinar.
+- Engenheiro responsável nomeado, com ART emitida para a obra, antes da assinatura.
+- Relatório semanal com avanço medido contra o previsto e registro fotográfico.
+- As built e manuais das instalações na entrega, com vistoria conjunta.
+
+## Prazos
+- Orçamento preliminar: até 5 dias úteis a partir da visita técnica.
+- Proposta detalhada com projeto executivo em mãos: 10 dias úteis.
+- Chamado de garantia: atendimento em até 48 horas.
+- Garantia: 5 anos para estrutura e impermeabilização, 1 ano para acabamentos e instalações.
+
 ## Serviços
 ${servicos.map((s) => `### ${s.nome}
 ${s.pergunta ? `**${s.pergunta}** ${s.resposta}` : s.resumo}
@@ -1599,6 +1770,11 @@ ${processo.map((e) => `${Number(e.n)}. ${e.nome}: ${e.texto}`).join('\n')}
 
 ## Regiões atendidas
 ${Object.entries(regioes).map(([g, n]) => `- ${g}: ${n.join(', ')}`).join('\n')}
+
+O raio de atuação é definido pela distância que permite ao engenheiro acompanhar
+a obra em campo com frequência, e não por área comercial. Obra fora dessa lista é
+avaliada caso a caso, conforme porte e prazo.
+Lista completa de serviços cruzados com regiões: ${SITE}/servicos-e-regioes
 
 ## Páginas
 ${todas.map((p) => `- ${SITE}${p.url}`).join('\n')}

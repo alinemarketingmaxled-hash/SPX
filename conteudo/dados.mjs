@@ -47,6 +47,18 @@ export const historia = [
            'cada turno.' },
 ];
 
+/**
+ * Segmentos atendidos. Entram no `knowsAbout` da empresa: é o que faz um
+ * agente de busca entender que "reforma de clínica" e "obra de restaurante"
+ * são coisas que a SPX faz, mesmo sem uma página só para cada uma.
+ */
+export const segmentos = [
+  'Escritórios corporativos', 'Comércio e varejo', 'Restaurantes e cafés',
+  'Clínicas e laboratórios', 'Data center e CPD', 'Hotelaria e hospedagem',
+  'Educação e treinamento', 'Áreas comuns de condomínio',
+  'Retrofit em ambiente ocupado', 'Manutenção predial',
+];
+
 export const empresa = {
   nome: 'SPX Engenharia',
   razaoSocial: FALTA,            // razão social do contrato social

@@ -25,7 +25,7 @@
 <link rel="icon" type="image/png" href="/img/favicon.png">
 <link rel="preload" as="image" href="/img/restaurante-fachada-640.webp"
       imagesrcset="/img/restaurante-fachada-480.webp 480w, /img/restaurante-fachada-640.webp 640w" imagesizes="(min-width:1000px) min(44vw, 500px), 100vw" fetchpriority="high">
-<link rel="stylesheet" href="/assets/css/spx.min.css?v=1fffdf81">
+<link rel="stylesheet" href="/assets/css/spx.min.css?v=d6279fc6">
 <script>
 /* aplica o tema antes da pintura para não piscar */
 document.documentElement.setAttribute('data-tema','escuro');
@@ -158,14 +158,469 @@ document.documentElement.setAttribute('data-tema','escuro');
     "Gerenciamento de obras",
     "Manutenção predial",
     "Projetos de engenharia",
-    "Consultoria e laudos"
+    "Consultoria e laudos",
+    "Escritórios corporativos",
+    "Comércio e varejo",
+    "Restaurantes e cafés",
+    "Clínicas e laboratórios",
+    "Data center e CPD",
+    "Hotelaria e hospedagem",
+    "Educação e treinamento",
+    "Áreas comuns de condomínio",
+    "Retrofit em ambiente ocupado",
+    "Manutenção predial"
    ],
+   "slogan": "Engenharia, gestão e execução conduzidas pela mesma equipe, do levantamento à entrega.",
+   "foundingDate": "2025",
    "openingHours": "Mo-Fr 08:00-18:00",
+   "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Serviços de engenharia da SPX",
+    "itemListElement": [
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Obras corporativas",
+       "description": "Escritórios, sedes e espaços administrativos executados com cronograma físico-financeiro e responsável técnico nomeado antes da assinatura.",
+       "url": "https://spxengenharia.com.br/servicos/obras-corporativas",
+       "areaServed": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo e região metropolitana"
+       }
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Obras comerciais e varejo",
+       "description": "Lojas, flagships, restaurantes e quiosques, em rua e em shopping, com prazo de inauguração tratado como data de contrato.",
+       "url": "https://spxengenharia.com.br/servicos/obras-comerciais",
+       "areaServed": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo e região metropolitana"
+       }
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Retrofit",
+       "description": "Atualizar um imóvel antigo, nas instalações, no layout, no acabamento e na norma, sem esvaziar o prédio.",
+       "url": "https://spxengenharia.com.br/servicos/retrofit",
+       "areaServed": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo e região metropolitana"
+       }
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Reformas",
+       "description": "Escopo delimitado, prazo curto e o mesmo rigor de uma obra completa: proposta discriminada, cronograma e medição.",
+       "url": "https://spxengenharia.com.br/servicos/reformas",
+       "areaServed": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo e região metropolitana"
+       }
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Gerenciamento de obras",
+       "description": "Planejar, coordenar e medir a obra, inclusive quando quem executa é outro.",
+       "url": "https://spxengenharia.com.br/servicos/gerenciamento-de-obras",
+       "areaServed": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo e região metropolitana"
+       }
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Manutenção predial",
+       "description": "Preventiva com plano e registro, corretiva com prazo de atendimento definido.",
+       "url": "https://spxengenharia.com.br/servicos/manutencao-predial",
+       "areaServed": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo e região metropolitana"
+       }
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Projetos de engenharia",
+       "description": "O desenho que a obra vai seguir, compatibilizado antes de a equipe subir.",
+       "url": "https://spxengenharia.com.br/servicos/projetos",
+       "areaServed": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo e região metropolitana"
+       }
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Consultoria e laudos",
+       "description": "Parecer de engenheiro para decidir antes de contratar obra.",
+       "url": "https://spxengenharia.com.br/servicos/consultoria-em-engenharia",
+       "areaServed": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo e região metropolitana"
+       }
+      }
+     }
+    ]
+   },
    "address": {
     "@type": "PostalAddress",
     "addressLocality": "São Paulo",
     "addressRegion": "SP",
     "addressCountry": "BR"
+   }
+  },
+  {
+   "@type": "CollectionPage",
+   "name": "Regiões atendidas pela SPX Engenharia",
+   "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [
+     "h1",
+     ".resposta-direta p"
+    ]
+   },
+   "about": {
+    "@id": "https://spxengenharia.com.br/#organizacao"
+   },
+   "mainEntity": {
+    "@type": "ItemList",
+    "name": "Regiões atendidas",
+    "numberOfItems": 26,
+    "itemListElement": [
+     {
+      "@type": "ListItem",
+      "position": 1,
+      "item": {
+       "@type": "Place",
+       "name": "Avenida Paulista",
+       "containedInPlace": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo, SP"
+       }
+      }
+     },
+     {
+      "@type": "ListItem",
+      "position": 2,
+      "item": {
+       "@type": "Place",
+       "name": "Jardins",
+       "containedInPlace": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo, SP"
+       }
+      }
+     },
+     {
+      "@type": "ListItem",
+      "position": 3,
+      "item": {
+       "@type": "Place",
+       "name": "Faria Lima",
+       "containedInPlace": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo, SP"
+       }
+      }
+     },
+     {
+      "@type": "ListItem",
+      "position": 4,
+      "item": {
+       "@type": "Place",
+       "name": "Itaim Bibi",
+       "containedInPlace": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo, SP"
+       }
+      }
+     },
+     {
+      "@type": "ListItem",
+      "position": 5,
+      "item": {
+       "@type": "Place",
+       "name": "Vila Olímpia",
+       "containedInPlace": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo, SP"
+       }
+      }
+     },
+     {
+      "@type": "ListItem",
+      "position": 6,
+      "item": {
+       "@type": "Place",
+       "name": "Brooklin",
+       "containedInPlace": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo, SP"
+       }
+      }
+     },
+     {
+      "@type": "ListItem",
+      "position": 7,
+      "item": {
+       "@type": "Place",
+       "name": "Berrini",
+       "containedInPlace": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo, SP"
+       }
+      }
+     },
+     {
+      "@type": "ListItem",
+      "position": 8,
+      "item": {
+       "@type": "Place",
+       "name": "Chácara Santo Antônio",
+       "containedInPlace": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo, SP"
+       }
+      }
+     },
+     {
+      "@type": "ListItem",
+      "position": 9,
+      "item": {
+       "@type": "Place",
+       "name": "Pinheiros",
+       "containedInPlace": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo, SP"
+       }
+      }
+     },
+     {
+      "@type": "ListItem",
+      "position": 10,
+      "item": {
+       "@type": "Place",
+       "name": "Vila Madalena",
+       "containedInPlace": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo, SP"
+       }
+      }
+     },
+     {
+      "@type": "ListItem",
+      "position": 11,
+      "item": {
+       "@type": "Place",
+       "name": "Moema",
+       "containedInPlace": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo, SP"
+       }
+      }
+     },
+     {
+      "@type": "ListItem",
+      "position": 12,
+      "item": {
+       "@type": "Place",
+       "name": "Santo Amaro",
+       "containedInPlace": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo, SP"
+       }
+      }
+     },
+     {
+      "@type": "ListItem",
+      "position": 13,
+      "item": {
+       "@type": "Place",
+       "name": "Centro",
+       "containedInPlace": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo, SP"
+       }
+      }
+     },
+     {
+      "@type": "ListItem",
+      "position": 14,
+      "item": {
+       "@type": "Place",
+       "name": "Barra Funda",
+       "containedInPlace": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo, SP"
+       }
+      }
+     },
+     {
+      "@type": "ListItem",
+      "position": 15,
+      "item": {
+       "@type": "Place",
+       "name": "Lapa",
+       "containedInPlace": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo, SP"
+       }
+      }
+     },
+     {
+      "@type": "ListItem",
+      "position": 16,
+      "item": {
+       "@type": "Place",
+       "name": "Tatuapé",
+       "containedInPlace": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo, SP"
+       }
+      }
+     },
+     {
+      "@type": "ListItem",
+      "position": 17,
+      "item": {
+       "@type": "Place",
+       "name": "Alphaville",
+       "containedInPlace": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo, SP"
+       }
+      }
+     },
+     {
+      "@type": "ListItem",
+      "position": 18,
+      "item": {
+       "@type": "Place",
+       "name": "Barueri",
+       "containedInPlace": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo, SP"
+       }
+      }
+     },
+     {
+      "@type": "ListItem",
+      "position": 19,
+      "item": {
+       "@type": "Place",
+       "name": "Osasco",
+       "containedInPlace": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo, SP"
+       }
+      }
+     },
+     {
+      "@type": "ListItem",
+      "position": 20,
+      "item": {
+       "@type": "Place",
+       "name": "Guarulhos",
+       "containedInPlace": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo, SP"
+       }
+      }
+     },
+     {
+      "@type": "ListItem",
+      "position": 21,
+      "item": {
+       "@type": "Place",
+       "name": "São Bernardo do Campo",
+       "containedInPlace": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo, SP"
+       }
+      }
+     },
+     {
+      "@type": "ListItem",
+      "position": 22,
+      "item": {
+       "@type": "Place",
+       "name": "Santo André",
+       "containedInPlace": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo, SP"
+       }
+      }
+     },
+     {
+      "@type": "ListItem",
+      "position": 23,
+      "item": {
+       "@type": "Place",
+       "name": "São Caetano do Sul",
+       "containedInPlace": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo, SP"
+       }
+      }
+     },
+     {
+      "@type": "ListItem",
+      "position": 24,
+      "item": {
+       "@type": "Place",
+       "name": "Diadema",
+       "containedInPlace": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo, SP"
+       }
+      }
+     },
+     {
+      "@type": "ListItem",
+      "position": 25,
+      "item": {
+       "@type": "Place",
+       "name": "Cotia",
+       "containedInPlace": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo, SP"
+       }
+      }
+     },
+     {
+      "@type": "ListItem",
+      "position": 26,
+      "item": {
+       "@type": "Place",
+       "name": "Taboão da Serra",
+       "containedInPlace": {
+        "@type": "AdministrativeArea",
+        "name": "São Paulo, SP"
+       }
+      }
+     }
+    ]
    }
   },
   {
@@ -243,6 +698,13 @@ document.documentElement.setAttribute('data-tema','escuro');
     <div class="hero-veu"></div>
   </div>
 </header>
+
+
+<section class="sec wrap resposta-direta" data-reveal>
+  <h2>Quais regiões a SPX Engenharia atende?</h2>
+  <p>A SPX Engenharia atende São Paulo e região metropolitana: 16 regiões na capital e 10 cidades da Grande São Paulo, listadas abaixo. A avaliação é feita no local, com visita técnica antes de qualquer orçamento.</p>
+  <ul class="fatos"><li>O raio é definido pela distância que permite acompanhar a obra, não por área comercial.</li><li>Obra fora da lista é avaliada caso a caso, conforme porte e prazo.</li><li>Toda obra tem engenheiro responsável nomeado, com ART emitida antes da assinatura.</li></ul>
+</section>
 
 <section class="sec wrap mapa-secao">
   <h2>Onde essas obras acontecem</h2>
@@ -351,9 +813,42 @@ document.documentElement.setAttribute('data-tema','escuro');
     </div>
   </div>
 </section>
+<section class="sec wrap claro"><h2>O que significa atender uma região</h2>
+  <p class="sub-secao">Atender não é ter o nome do bairro numa lista. É o que a SPX faz em campo,
+  do primeiro contato à entrega.</p>
+  <ul class="cartoes-icone" style="--colunas:4">
+  <li><div>
+    <svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>
+    <b>Visita antes do orçamento</b>
+    <span>Um engenheiro vai ao local, mede e levanta as restrições do prédio, do condomínio ou do shopping antes de qualquer número.</span>
+  </div></li>
+  <li><div>
+    <svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M6 21v-8h4v8M14 21V7h4v14"/><path d="m6 13 4-4 4 4"/></svg>
+    <b>Engenheiro em campo</b>
+    <span>Obra corporativa exige presença com frequência. O raio de atuação é a distância que permite isso de verdade.</span>
+  </div></li>
+  <li><div>
+    <svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="2.8"/></svg>
+    <b>Medição semanal</b>
+    <span>Avanço medido contra o cronograma, com registro fotográfico e relatório de desvio enquanto ainda dá para corrigir.</span>
+  </div></li>
+  <li><div>
+    <svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5 9 17.5 20 6.5"/></svg>
+    <b>Entrega documentada</b>
+    <span>Vistoria conjunta, lista de pendências fechada, as built e manuais das instalações.</span>
+  </div></li></ul></section>
+
 <section class="sec wrap "><h2>Não achou a sua região?</h2><p class="lead">Obra fora dessa lista é avaliada caso a
 caso, conforme porte e prazo. <a href="/servicos-e-regioes">Veja a lista completa de serviços
-por região</a> ou fale com a equipe.</p></section>
+por região</a> — são 8 serviços cruzados com
+26 regiões — ou fale com a equipe.</p>
+
+<div class="cartao-cta">
+  <span class="cc-ico"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11Z"/><circle cx="12" cy="10" r="2.4"/></svg></span>
+  <b>Sua obra fica fora dessa lista?</b>
+  <span class="cc-apoio">Conte onde é e o que precisa ser feito. A SPX responde se atende ou não.</span>
+  <a class="btn btn-acc" href="/contato">Entrar em contato sobre a obra ↗</a>
+</div></section>
 <section class="sec wrap cta-faixa" data-reveal>
   <p class="cta-frase">Fale com a SPX sobre a sua obra.</p>
   <a class="btn btn-acc" href="/contato">Solicitar visita técnica ↗</a>

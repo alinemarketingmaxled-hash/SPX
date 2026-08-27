@@ -1270,6 +1270,28 @@ h2 em{font-style:normal;color:var(--acc-2)}
 .topo-lead{margin-top:var(--e3);max-width:min(52%,54ch)}
 @media (max-width:999px){ .topo-lead{max-width:none} }
 
+/* ------------------------------------------------- ficha do tipo de serviço */
+/* Duas colunas de leitura, não uma pilha de seções. O conteúdo é o mesmo que
+   as buscas precisam para entender do que a página trata — o que é, para quem
+   e o que entra — num arranjo que cabe numa tela em vez de três. */
+.ficha-servico{display:grid;grid-template-columns:1fr 1fr;gap:var(--e5);
+  margin-top:var(--e4);align-items:start}
+.ficha-servico h3{font-family:var(--display);font-size:12px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--acc-2);margin:var(--e4) 0 var(--e2);
+  padding-top:var(--e3);border-top:1px solid var(--linha)}
+.ficha-servico .fs-texto > h3:first-of-type,
+.ficha-servico .fs-listas > h3:first-child{margin-top:0;padding-top:0;border-top:0}
+.fs-itens{list-style:none;margin:0;padding:0;display:grid;gap:7px}
+.fs-itens li{color:var(--txt-2);font-size:14px;line-height:1.5;
+  padding-left:16px;position:relative}
+.fs-itens li::before{content:"";position:absolute;left:0;top:8px;width:6px;height:1px;
+  background:var(--acc-2)}
+@media (max-width:900px){
+  .ficha-servico{grid-template-columns:1fr;gap:var(--e4)}
+  .ficha-servico .fs-listas > h3:first-child{margin-top:var(--e3);padding-top:var(--e3);
+    border-top:1px solid var(--linha)}
+}
+
 /* ------------------------------------------------------ história da empresa */
 /* Quatro marcos em linha, com o número grande fazendo o papel de eixo. Não é
    linha do tempo com data: a empresa tem um ano, e datar quatro momentos num

@@ -25,7 +25,7 @@
 <link rel="icon" type="image/png" href="/img/favicon.png">
 <link rel="preload" as="image" href="/img/sala-reuniao-azul-640.webp"
       imagesrcset="/img/sala-reuniao-azul-480.webp 480w, /img/sala-reuniao-azul-640.webp 640w, /img/sala-reuniao-azul-768.webp 768w, /img/sala-reuniao-azul-960.webp 960w" imagesizes="(min-width:1000px) min(44vw, 500px), 100vw" fetchpriority="high">
-<link rel="stylesheet" href="/assets/css/spx.min.css?v=09c5b02e">
+<link rel="stylesheet" href="/assets/css/spx.min.css?v=7b52031d">
 <script>
 /* aplica o tema antes da pintura para não piscar */
 document.documentElement.setAttribute('data-tema','escuro');
@@ -355,7 +355,8 @@ document.documentElement.setAttribute('data-tema','escuro');
     "cssSelector": [
      "h1",
      ".resposta-direta p",
-     ".mapa-txt .lead"
+     ".mapa-txt .lead",
+     ".topo-lead"
     ]
    },
    "mainEntity": {
@@ -419,12 +420,24 @@ document.documentElement.setAttribute('data-tema','escuro');
   </div>
 </div>
 <main id="conteudo">
-<header class="topo-interno com-foto">
+<header class="topo-interno com-foto foto-fundo topo-centrado">
 
   <div class="wrap topo-in">
 <nav class="migalhas" aria-label="Você está em"><a href="/">Início</a><i aria-hidden="true">/</i><span aria-current="page">Sobre</span></nav>
     <h1>Sobre a SPX Engenharia</h1>
-    <p class="lead topo-lead">A SPX Engenharia é uma empresa de engenharia civil com base em São Paulo, que planeja, gerencia e executa obras corporativas e comerciais. Engenharia, gestão e execução conduzidas pela mesma equipe, do levantamento à entrega.</p>
+
+
+    <h2 class="topo-pergunta">O que é a SPX Engenharia?</h2>
+    <p class="lead topo-lead">A SPX Engenharia é uma empresa de engenharia civil com base em São Paulo, que planeja, gerencia e executa obras corporativas e comerciais. Engenharia, gestão e execução conduzidas pela mesma equipe, do levantamento à entrega.
+    A empresa tem um ano de operação e é conduzida pelo próprio engenheiro
+    responsável, com nove anos de obra antes de abrir o CNPJ.</p>
+    <ul class="fatos fatos-centro">
+      <li>Base em São Paulo, SP, com atuação em São Paulo e região metropolitana.</li>
+      <li>Especialidade: obra executada sem parar a operação do cliente.</li>
+      <li>Cronograma físico-financeiro entregue junto da proposta, não depois de assinar.</li>
+      <li>Engenheiro responsável nomeado, com ART emitida antes da assinatura.</li>
+      <li>Executa 8 frentes, de obra corporativa a laudo e vistoria.</li>
+    </ul>
   </div>
 
   <div class="topo-foto" aria-hidden="true">
@@ -438,19 +451,7 @@ document.documentElement.setAttribute('data-tema','escuro');
   </div>
 </header>
 
-
-<section class="sec wrap resposta-direta" data-reveal>
-  <h2>O que é a SPX Engenharia?</h2>
-  <p>A SPX Engenharia é uma empresa de engenharia civil com base em São Paulo, que planeja, gerencia e executa obras corporativas e comerciais. Engenharia, gestão e execução conduzidas pela mesma equipe, do levantamento à entrega. A empresa tem um ano de operação e é conduzida pelo próprio engenheiro responsável, com nove anos de obra antes de abrir o CNPJ.</p>
-  <ul class="fatos"><li>Base em São Paulo, SP, com atuação em São Paulo e região metropolitana.</li><li>Especialidade: obra executada sem parar a operação do cliente.</li><li>Executa 8 frentes, de obra corporativa a laudo e vistoria.</li></ul>
-</section>
-
 <section class="sec wrap" data-reveal>
-  <ul class="marcas-fato">
-    <li><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11Z"/><circle cx="12" cy="10" r="2.4"/></svg><span>Base em São Paulo, SP, com atuação em São Paulo e região metropolitana.</span></li>
-    <li><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M7 14h5M7 17h8"/></svg><span>Cronograma físico-financeiro entregue junto da proposta, não depois de assinar.</span></li>
-    <li><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6v6c0 4.4 3.4 8.5 8 9.5 4.6-1 8-5.1 8-9.5V6l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg><span>Engenheiro responsável nomeado, com ART emitida para a obra, antes da assinatura.</span></li>
-  </ul>
   
 <div class="faixa-num">
   <div>

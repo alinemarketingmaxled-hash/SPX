@@ -1111,6 +1111,91 @@ h2 em{font-style:normal;color:var(--acc-2)}
   .topo-duplo{grid-template-columns:1fr;gap:var(--e4)}
 }
 
+/* ------------------------------------------- foto como fundo da abertura */
+/* Mesmo tratamento que o celular já dava, agora disponível em qualquer
+   largura: a obra deixa de ser um painel ao lado do texto e passa a ser o
+   fundo da primeira tela. Três classes de especificidade, então ganha das
+   regras de .topo-interno.com-foto sem depender de ordem no arquivo. */
+.topo-interno.com-foto.foto-fundo{
+  display:flex;align-items:center;overflow:hidden;
+  min-height:clamp(420px,72vh,720px);
+  padding-top:calc(var(--nav-altura) + var(--e5));padding-bottom:var(--e5);
+  margin-bottom:var(--e5)}
+.foto-fundo .topo-in,.foto-fundo .topo-duplo{position:relative;z-index:2;width:100%}
+/* sombra própria no texto: o véu sozinho não garante leitura sobre qualquer
+   obra, e a claridade das fotos varia bastante entre elas */
+.foto-fundo h1,.foto-fundo .migalhas,.foto-fundo .topo-lead,
+.foto-fundo .topo-pergunta,.foto-fundo .fatos li{
+  text-shadow:0 2px 16px rgba(0,0,0,.82),0 1px 3px rgba(0,0,0,.6)}
+/* especificidade acima de `.topo-interno.com-foto h1` e da regra de min-width
+   que limita o título a 45% da largura: aquele teto existe para deixar espaço
+   ao painel da foto à direita, e aqui não há painel nenhum. */
+.topo-interno.com-foto.foto-fundo h1,
+.topo-interno.com-foto.foto-fundo .migalhas{max-width:none}
+.topo-interno.com-foto.topo-centrado h1{max-width:24ch;margin-inline:auto}
+.foto-fundo .topo-foto{position:absolute;inset:0;left:calc(50% - 50vw);width:100vw;
+  height:auto;margin:0;z-index:0}
+.foto-fundo .topo-foto::before{display:none}
+.foto-fundo .topo-foto .hero-fundo{position:absolute;inset:0}
+/* de fundo a foto preenche tudo: sem máscara, sem teto de largura e sem o
+   realce que existia quando ela era peça ao lado do texto */
+.foto-fundo .topo-foto .hero-fundo img{
+  position:absolute;inset:0;width:100%;height:100%;max-width:none;
+  object-fit:cover;object-position:center;
+  filter:none;-webkit-mask-image:none;mask-image:none}
+/* Duas camadas: uma vinheta que escurece exatamente onde o texto assenta e o
+   degradê vertical que emenda a base da foto na cor da página. Só com o
+   degradê o título caía em cima das persianas claras da sala de reunião e
+   ficava ilegível na metade da largura. */
+.foto-fundo .topo-foto .hero-veu{position:absolute;inset:0;background:
+  radial-gradient(76% 66% at 50% 54%,rgba(0,0,0,.78) 0%,rgba(0,0,0,.5) 52%,transparent 82%),
+  linear-gradient(180deg,rgba(0,0,0,.74) 0%,rgba(0,0,0,.5) 20%,
+    rgba(0,0,0,.6) 50%,rgba(0,0,0,.82) 78%,rgba(0,0,0,.94) 93%,
+    var(--bg-pagina,#000) 100%)}
+
+/* Sobre foto o texto sobe um degrau de claridade. Medido no pixel: o lead em
+   --txt-2 sobre a parte clara da recepção dava 3,4:1 no celular e a pergunta
+   em --acc-2 dava 2,5:1 — os dois abaixo dos 4,5 que a norma pede para texto
+   pequeno. Escurecer o véu até resolver apagava a obra; clarear o texto
+   resolve sem esconder a foto. */
+.foto-fundo .topo-lead{color:var(--txt)}
+.foto-fundo .fatos li{color:var(--txt-2)}
+.foto-fundo .topo-pergunta{color:#CBDCEC}
+@media (max-width:999px){
+  /* e no celular o véu ainda ganha um degrau: a área de texto é quase a tela
+     inteira, então não dá para contar com um trecho escuro da foto */
+  .foto-fundo .topo-foto .hero-veu{background:
+    radial-gradient(96% 62% at 50% 52%,rgba(0,0,0,.7) 0%,rgba(0,0,0,.42) 60%,transparent 88%),
+    linear-gradient(180deg,rgba(0,0,0,.76) 0%,rgba(0,0,0,.6) 16%,
+      rgba(0,0,0,.7) 46%,rgba(0,0,0,.85) 74%,rgba(0,0,0,.95) 92%,
+      var(--bg-pagina,#000) 100%)}
+}
+
+/* a pergunta que abria o bloco de resposta direta vira subtítulo do cabeçalho:
+   continua sendo um h2 com a resposta na primeira frase logo abaixo */
+.topo-pergunta{margin-top:var(--e3);font-size:clamp(15px,1.7vw,19px);
+  letter-spacing:.1em;text-transform:uppercase;color:var(--acc-2)}
+
+/* abertura centrada: usada na /sobre, onde não há peça ao lado do título */
+.topo-centrado{text-align:center}
+.topo-centrado .topo-in{max-width:78ch;margin-inline:auto}
+.topo-centrado .migalhas{justify-content:center}
+.topo-centrado h1{max-width:24ch;margin-inline:auto}
+.topo-centrado .topo-lead{max-width:66ch;margin-inline:auto}
+.fatos-centro{max-width:76ch;margin-inline:auto;text-align:left;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));
+  gap:var(--e2) var(--e4);margin-top:var(--e4)}
+@media (max-width:640px){
+  .topo-centrado .topo-in{text-align:left}
+  .topo-centrado .migalhas{justify-content:flex-start}
+  .topo-centrado h1,.topo-centrado .topo-lead{margin-inline:0}
+  .fatos-centro{grid-template-columns:1fr}
+}
+/* na /duvidas os dois lados da abertura fecham na mesma altura: o texto para
+   onde o cartão para, em vez de descer além dele */
+.pag-duvidas .foto-fundo .topo-duplo{align-items:center}
+.pag-duvidas .foto-fundo .topo-lead{max-width:none}
+
 /* ------------------------------------------------------- cartão que vira */
 /* A perspectiva fica no pai e o giro no filho: na mesma caixa o 3D achata e o
    cartão vira um retângulo que troca de cor. As duas faces ficam empilhadas

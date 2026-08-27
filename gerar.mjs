@@ -272,7 +272,9 @@ const FALADO = {
   '@type': 'SpeakableSpecification',
   /* .mapa-txt .lead entrou quando a /atuacao trocou o bloco de resposta
      direta pelo texto ao lado do mapa: é lá que a resposta mora agora. */
-  cssSelector: ['h1', '.resposta-direta p', '.mapa-txt .lead'],
+  /* .topo-lead entrou quando /sobre e /duvidas passaram a abrir com a
+     resposta dentro do próprio cabeçalho, em vez de num bloco abaixo. */
+  cssSelector: ['h1', '.resposta-direta p', '.mapa-txt .lead', '.topo-lead'],
 };
 
 const schemaTrilha = (trilha) => ({
@@ -282,8 +284,12 @@ const schemaTrilha = (trilha) => ({
 });
 
 /* --------------------------------------------------------------- moldura */
+/* fundoCheio: a foto deixa de ser o painel à direita e vira o fundo da
+   primeira tela, como já acontecia no celular. topoCentrado empilha tudo no
+   meio. topoExtra é o que entra logo abaixo do lead, dentro do cabeçalho. */
 function pagina({ url, arquivo, title, descricao, h1, trilha = [], corpo, schema = [],
-                 visual = '', fundo = null, h1b = '', lead = '', ladoTopo = '' }) {
+                 visual = '', fundo = null, h1b = '', lead = '', ladoTopo = '',
+                 fundoCheio = false, topoCentrado = false, topoExtra = '' }) {
   const grafo = [schemaOrganizacao(), ...schema].filter(Boolean);
   if (trilha.length > 1) grafo.push(schemaTrilha(trilha));
   const migalhasHTML = trilha.length > 1
@@ -333,12 +339,13 @@ ${JSON.stringify({ '@context': 'https://schema.org', '@graph': grafo }, null, 1)
 <div class="hatch" aria-hidden="true"></div>
 ${menu(trilha[1] ? trilha[1].url : url)}
 <main id="conteudo">
-<header class="topo-interno${fundo ? ' com-foto' : ''}">
+<header class="topo-interno${fundo ? ' com-foto' : ''}${fundoCheio ? ' foto-fundo' : ''}${topoCentrado ? ' topo-centrado' : ''}">
 ${ladoTopo ? '  <div class="wrap topo-duplo">' : ''}
   <div class="${ladoTopo ? '' : 'wrap '}topo-in">
 ${migalhasHTML}
     <h1>${esc(h1)}${h1b ? `<em>${esc(h1b)}</em>` : ''}</h1>
 ${lead ? `    <p class="lead topo-lead">${esc(lead)}</p>` : ''}
+${topoExtra}
   </div>
 ${ladoTopo ? `  <div class="topo-lado">${ladoTopo}</div>
   </div>` : ''}
@@ -1253,25 +1260,30 @@ pagina({
   descricao: `A ${empresa.nome} planeja, gerencia e executa obras corporativas e comerciais em ` +
     'São Paulo. Quem somos, como trabalhamos e quem responde tecnicamente pela obra.',
   h1: `Sobre a ${empresa.nome}`,
-  lead: `${empresa.definicao} ${empresa.proposta}`,
+  /* A foto vira o fundo da primeira tela e tudo assenta centrado em cima dela.
+     Antes o mesmo texto aparecia duas vezes seguidas — no lead do cabeçalho e
+     na resposta direta logo abaixo, palavra por palavra. Agora é um só, e a
+     pergunta que abria o segundo bloco virou o subtítulo daqui: continua sendo
+     um <h2> com a resposta na primeira frase, que é o que o Google recorta. */
+  fundoCheio: true, topoCentrado: true,
+  topoExtra: `
+    <h2 class="topo-pergunta">O que é a ${esc(empresa.nome)}?</h2>
+    <p class="lead topo-lead">${esc(empresa.definicao)} ${esc(empresa.proposta)}
+    A empresa tem um ano de operação e é conduzida pelo próprio engenheiro
+    responsável, com nove anos de obra antes de abrir o CNPJ.</p>
+    <ul class="fatos fatos-centro">
+      <li>Base em ${esc(empresa.base)}, com atuação em ${esc(empresa.atuacao)}.</li>
+      <li>Especialidade: obra executada sem parar a operação do cliente.</li>
+      <li>Cronograma físico-financeiro entregue junto da proposta, não depois de assinar.</li>
+      <li>Engenheiro responsável nomeado, com ART emitida antes da assinatura.</li>
+      <li>Executa ${servicosPublicaveis.length} frentes, de obra corporativa a laudo e vistoria.</li>
+    </ul>`,
   trilha: [{ nome: 'Início', url: '/' }, { nome: 'Sobre', url: '/sobre' }],
   schema: [schemaPessoa(), schemaProcesso(),
            { '@type': 'AboutPage', name: `Sobre a ${empresa.nome}`, speakable: FALADO,
              mainEntity: { '@id': idEmpresa } }].filter(Boolean),
   corpo: `
-${respostaDireta('O que é a SPX Engenharia?',
-  `${empresa.definicao} ${empresa.proposta} A empresa tem um ano de operação e é conduzida pelo ` +
-  'próprio engenheiro responsável, com nove anos de obra antes de abrir o CNPJ.',
-  ['Base em São Paulo, SP, com atuação em São Paulo e região metropolitana.',
-   'Especialidade: obra executada sem parar a operação do cliente.',
-   `Executa ${servicosPublicaveis.length} frentes, de obra corporativa a laudo e vistoria.`])}
-
 <section class="sec wrap" data-reveal>
-  <ul class="marcas-fato">
-    <li>${icone('local')}<span>Base em ${esc(empresa.base)}, com atuação em ${esc(empresa.atuacao)}.</span></li>
-    <li>${icone('cronograma')}<span>Cronograma físico-financeiro entregue junto da proposta, não depois de assinar.</span></li>
-    <li>${icone('art')}<span>Engenheiro responsável nomeado, com ART emitida para a obra, antes da assinatura.</span></li>
-  </ul>
   ${numerosValidados.length ? faixaNumeros(numerosValidados) : ''}
 </section>
 
@@ -1392,20 +1404,11 @@ pagina({
     'técnica, prazo, orçamento, obra em ambiente ocupado e responsabilidade técnica.',
   h1: 'Dúvidas frequentes.',
   h1b: 'Respondidas pela engenharia.',
-  trilha: [{ nome: 'Início', url: '/' }, { nome: 'Dúvidas', url: '/duvidas' }],
-  schema: [schemaPerguntas(duvidas), { '@type': 'QAPage', speakable: FALADO,
-           about: { '@id': idEmpresa } }],
-  corpo: `
-<section class="sec wrap" data-reveal>
-  <div class="meio-a-meio">
-    <div class="resposta-direta">
-      <h2>O que a SPX Engenharia faz?</h2>
-      <p>${esc(empresa.definicao + ' ' + empresa.proposta)}</p>
-      <p class="lead" style="margin-top:var(--e3)">As perguntas que mais chegam, respondidas de
-      forma direta. Para obra com prazo crítico, concorrência ou adequação de norma, envie o
-      contexto completo.</p>
-    </div>
-    ${cartaoVira(`
+  /* O cartão subiu para o lado do título e a foto virou o fundo da primeira
+     tela. Antes ele ficava numa seção abaixo do cabeçalho, com a foto num
+     painel à direita: eram dois blocos disputando a mesma faixa da tela. */
+  fundoCheio: true,
+  ladoTopo: cartaoVira(`
       <span class="vira-marca">
         <img src="/img/logo-negativa.webp" width="723" height="304" alt="" loading="lazy" decoding="async">
         <span class="vira-legenda">Engenharia · Gestão · Execução</span>
@@ -1415,9 +1418,16 @@ pagina({
         <li>${icone('local')}<span>Atua em São Paulo capital e na região metropolitana.</span></li>
         <li>${icone('execucao')}<span>Executa obra corporativa, comercial, retrofit, reforma, gerenciamento, manutenção, projeto e laudo.</span></li>
         <li>${icone('art')}<span>Cada obra tem engenheiro responsável nomeado, com ART, antes da assinatura do contrato.</span></li>
-      </ul>`, 'Ver o que a SPX faz')}
-  </div>
-</section>
+      </ul>`, 'Ver o que a SPX faz'),
+  topoExtra: `
+    <h2 class="topo-pergunta">O que a ${esc(empresa.nome)} faz?</h2>
+    <p class="lead topo-lead">${esc(empresa.definicao)} ${esc(empresa.proposta)}
+    As perguntas que mais chegam estão respondidas de forma direta abaixo. Para obra com prazo
+    crítico, concorrência ou adequação de norma, envie o contexto completo.</p>`,
+  trilha: [{ nome: 'Início', url: '/' }, { nome: 'Dúvidas', url: '/duvidas' }],
+  schema: [schemaPerguntas(duvidas), { '@type': 'QAPage', speakable: FALADO,
+           about: { '@id': idEmpresa } }],
+  corpo: `
 <section class="sec wrap faq-central">
   <div class="faq-topo">
     <h2>Perguntas e respostas</h2>

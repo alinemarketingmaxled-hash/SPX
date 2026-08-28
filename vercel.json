@@ -6,6 +6,13 @@
   "outputDirectory": ".",
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/servicos-e-regioes",
+      "destination": "/atuacao",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/api/(.*)",

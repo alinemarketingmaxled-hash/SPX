@@ -136,7 +136,6 @@ Executa: Vistoria técnica de imóvel antes da locação; Laudo de patologia con
 O raio de atuação é definido pela distância que permite ao engenheiro acompanhar
 a obra em campo com frequência, e não por área comercial. Obra fora dessa lista é
 avaliada caso a caso, conforme porte e prazo.
-Lista completa de serviços cruzados com regiões: https://spxengenharia.com.br/servicos-e-regioes
 
 ## Páginas
 - https://spxengenharia.com.br/
@@ -156,7 +155,6 @@ Lista completa de serviços cruzados com regiões: https://spxengenharia.com.br/
 - https://spxengenharia.com.br/atuacao
 - https://spxengenharia.com.br/contato
 - https://spxengenharia.com.br/privacidade
-- https://spxengenharia.com.br/servicos-e-regioes
 
 ## Perguntas frequentes
 ### O que a SPX Engenharia faz?

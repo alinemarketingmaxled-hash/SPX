@@ -151,7 +151,6 @@ function rodape() {
       <li><a href="/sobre">Sobre a SPX</a></li>
       <li><a href="/para-arquitetos">Para arquitetos</a></li>
       <li><a href="/duvidas">Dúvidas frequentes</a></li>
-      <li><a href="/servicos-e-regioes">Serviços por região</a></li>
       <li><a href="/contato">Contato</a></li></ul></div>
 
     <div class="wordmark" id="wordmark" aria-hidden="true">
@@ -1781,9 +1780,7 @@ ${mapaSVG()}
       listadas abaixo. A avaliação é feita no local, com visita técnica antes de qualquer
       orçamento, e o raio é definido pela distância que permite acompanhar a obra, não por área
       comercial. A maior parte do portfólio está nos polos corporativos e nos bairros de varejo
-      de alto padrão. <a href="/servicos-e-regioes">Veja a lista completa de serviços por
-      região</a> — são ${servicosPublicaveis.length} serviços cruzados com
-      ${Object.values(regioes).flat().length} regiões.</p>
+      de alto padrão.</p>
       ${Object.entries(regioes).map(([grupo, nomes]) => `
       <h3 class="mapa-grupo">${esc(grupo)}</h3>
       <ul class="grade-regioes">${lista(nomes)}</ul>`).join('')}
@@ -1819,7 +1816,7 @@ ${cartaoChamada('Sua obra fica fora dessa lista?',
 /* A home é escrita à mão, mas menu e rodapé saem daqui. Os marcadores
    <!--MENU--> e <!--RODAPE--> dizem onde costurar, para as três coisas nunca
    divergirem. O mesmo vale para as outras páginas escritas à mão. */
-for (const arquivo of ['index.html', '404.html', 'servicos-e-regioes.html']) {
+for (const arquivo of ['index.html', '404.html']) {
   if (!existsSync(arquivo)) continue;
   let html = readFileSync(arquivo, 'utf8');
   if (!html.includes('<!--MENU-->') && !html.includes('<!--RODAPE-->')) continue;
@@ -1859,36 +1856,6 @@ for (const arquivo of ['index.html', '404.html', 'servicos-e-regioes.html']) {
       '@type': 'WebSite', '@id': SITE + '/#site', name: empresa.nome, url: SITE + '/',
       publisher: { '@id': idEmpresa }, inLanguage: 'pt-BR',
     }].filter(Boolean);
-    /* a página de serviços por região é a mais densa do site e estava sem
-       nenhum dado estruturado: para um agente de busca ela era só texto. Aqui
-       ela declara o que é — o cruzamento de cada serviço com cada região. */
-    if (arquivo === 'servicos-e-regioes.html') {
-      grafo.push({
-        '@type': 'CollectionPage', '@id': SITE + '/servicos-e-regioes#pagina',
-        name: 'Serviços de engenharia por região em São Paulo',
-        description: `Cruzamento dos ${servicosPublicaveis.length} serviços da SPX Engenharia ` +
-          `com as ${Object.values(regioes).flat().length} regiões atendidas em São Paulo e ` +
-          'região metropolitana.',
-        about: { '@id': idEmpresa }, inLanguage: 'pt-BR', speakable: FALADO,
-        mainEntity: {
-          '@type': 'ItemList', name: 'Serviços por região',
-          numberOfItems: servicosPublicaveis.length * Object.values(regioes).flat().length,
-          itemListElement: servicosPublicaveis.map((sv, i) => ({
-            '@type': 'ListItem', position: i + 1,
-            item: { '@type': 'Service', name: sv.nome, description: sv.resumo,
-              url: `${SITE}/servicos/${sv.slug}`, provider: { '@id': idEmpresa },
-              areaServed: Object.values(regioes).flat().map((n) => ({ '@type': 'Place', name: n })) },
-          })),
-        },
-      });
-      grafo.push({
-        '@type': 'BreadcrumbList',
-        itemListElement: [{ nome: 'Início', url: '/' },
-                          { nome: 'Serviços por região', url: '/servicos-e-regioes' }]
-          .map((t, i) => ({ '@type': 'ListItem', position: i + 1, name: t.nome,
-                            item: SITE + t.url })),
-      });
-    }
     html = html.replace(/<!--SCHEMA-->[\s\S]*?<!--\/SCHEMA-->/,
       '<!--SCHEMA-->\n<script type="application/ld+json">\n' +
       JSON.stringify({ '@context': 'https://schema.org', '@graph': grafo }, null, 1) +
@@ -2023,7 +1990,6 @@ const todas = [
             .map((p) => ({ url: p.url, prioridade: p.url.includes('/') && p.url.split('/').length > 2 ? '0.7' : '0.8',
                            frequencia: 'monthly' })),
   { url: '/privacidade', prioridade: '0.2', frequencia: 'yearly' },
-  { url: '/servicos-e-regioes', prioridade: '0.5', frequencia: 'monthly' },
 ];
 const hoje = new Date().toISOString().slice(0, 10);
 writeFileSync('sitemap.xml',
@@ -2100,7 +2066,6 @@ ${Object.entries(regioes).map(([g, n]) => `- ${g}: ${n.join(', ')}`).join('\n')}
 O raio de atuação é definido pela distância que permite ao engenheiro acompanhar
 a obra em campo com frequência, e não por área comercial. Obra fora dessa lista é
 avaliada caso a caso, conforme porte e prazo.
-Lista completa de serviços cruzados com regiões: ${SITE}/servicos-e-regioes
 
 ## Páginas
 ${todas.map((p) => `- ${SITE}${p.url}`).join('\n')}

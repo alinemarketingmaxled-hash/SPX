@@ -25,7 +25,7 @@
 <link rel="icon" type="image/png" href="/img/favicon.png">
 <link rel="preload" as="image" href="/img/mesa-vista-sp-640.webp"
       imagesrcset="/img/mesa-vista-sp-480.webp 480w, /img/mesa-vista-sp-640.webp 640w, /img/mesa-vista-sp-768.webp 768w" imagesizes="(min-width:1000px) min(44vw, 500px), 100vw" fetchpriority="high">
-<link rel="stylesheet" href="/assets/css/spx.min.css?v=d274a615">
+<link rel="stylesheet" href="/assets/css/spx.min.css?v=68464bc8">
 <script>
 /* aplica o tema antes da pintura para não piscar */
 document.documentElement.setAttribute('data-tema','escuro');
@@ -398,6 +398,10 @@ document.documentElement.setAttribute('data-tema','escuro');
   o que costuma decidir a obra, e não o que fica bonito na apresentação.</p>
   
 <div class="cc" data-corte>
+  <!-- A coluna existe só para segurar a lista grudada. Sem ela o navegador
+       deixa a lista descer até o fim do bloco inteiro, e não até o fim da
+       linha da grade: ela passava por cima dos tópicos. -->
+  <div class="cc-col">
   <div class="cc-lista" role="tablist" aria-orientation="vertical" aria-label="Tipos de ambiente">
     
     <button class="cc-aba" type="button" role="tab" data-cc-aba="corporativo"
@@ -424,7 +428,12 @@ document.documentElement.setAttribute('data-tema','escuro');
       <span class="cc-ico"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 6.5 3 3M3 21l3.5-1 11-11-2.5-2.5-11 11L3 21Z"/><path d="M17 3.5 20.5 7"/></svg></span>
       <span class="cc-rot"><b>Clínica e laboratório</b><span>Consultórios, espera e as exigências de norma que decidem o layout antes da estética.</span></span>
     </button>
-    <a class="cc-link" href="/servicos">Ver todos os serviços ↗</a>
+  </div>
+  <!-- fora da lista de propósito: dentro dela o link virava o último item da
+       tira que rola de lado no celular, e só aparecia para quem rolasse até o
+       fim. E uma tablist só deve conter abas: um link ali confunde o leitor de
+       tela, que anuncia cinco abas e uma delas não abre nada. -->
+  <a class="cc-link" href="/servicos">Ver todos os serviços ↗</a>
   </div>
 
   <div class="cc-palco">

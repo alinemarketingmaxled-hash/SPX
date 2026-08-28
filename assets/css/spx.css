@@ -1250,6 +1250,11 @@ h2 em{font-style:normal;color:var(--acc-2)}
 .cc{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);
   gap:var(--e5);align-items:start;margin-top:var(--e4)}
 
+/* `position:sticky` num item de grade: o navegador não limita a viagem à
+   célula, e sim ao bloco inteiro — a lista descia por cima dos tópicos, que
+   ficam na linha de baixo. A coluna resolve: ela é que é o item da grade, é
+   esticada até a altura do palco, e a lista gruda dentro dela. */
+.cc-col{align-self:stretch;min-width:0}
 .cc-lista{display:grid;gap:10px;align-content:start;position:sticky;top:calc(var(--nav-altura) + 16px)}
 .cc-aba{display:grid;grid-template-columns:auto 1fr;gap:var(--e3);align-items:start;
   text-align:left;padding:var(--e3);background:var(--sup);border:1px solid var(--linha);
@@ -1264,7 +1269,8 @@ h2 em{font-style:normal;color:var(--acc-2)}
 .cc-rot b{display:block;font-family:var(--display);font-size:13px;letter-spacing:.08em;
   text-transform:uppercase;color:var(--txt);line-height:1.35}
 .cc-rot span{display:block;margin-top:5px;font-size:13.5px;line-height:1.5;color:var(--txt-2)}
-.cc-link{margin-top:6px;font-family:var(--display);font-size:12px;letter-spacing:.12em;
+.cc-link{display:inline-block;margin-top:var(--e3);
+  font-family:var(--display);font-size:12px;letter-spacing:.12em;
   text-transform:uppercase;color:var(--acc-2)}
 
 /* o palco tem altura própria: sem ela, trocar de ambiente muda a altura da

@@ -853,6 +853,10 @@ const pinoDoAndar = (k) => isoPonto(10.6, 3.2, 1.2, CC.ox, CC.oy + k * CC.subida
    do teclado andam pela lista e o leitor de tela anuncia qual ambiente abriu. */
 const casaCorte = (ambientes) => `
 <div class="cc" data-corte>
+  <!-- A coluna existe só para segurar a lista grudada. Sem ela o navegador
+       deixa a lista descer até o fim do bloco inteiro, e não até o fim da
+       linha da grade: ela passava por cima dos tópicos. -->
+  <div class="cc-col">
   <div class="cc-lista" role="tablist" aria-orientation="vertical" aria-label="Tipos de ambiente">
     ${ambientes.map((a, i) => `
     <button class="cc-aba" type="button" role="tab" data-cc-aba="${a.id}"
@@ -861,7 +865,12 @@ const casaCorte = (ambientes) => `
       <span class="cc-ico">${icone(servicos.find((s) => s.slug === a.servico).icone)}</span>
       <span class="cc-rot"><b>${esc(a.nome)}</b><span>${esc(a.resumo)}</span></span>
     </button>`).join('')}
-    <a class="cc-link" href="/servicos">Ver todos os serviços ↗</a>
+  </div>
+  <!-- fora da lista de propósito: dentro dela o link virava o último item da
+       tira que rola de lado no celular, e só aparecia para quem rolasse até o
+       fim. E uma tablist só deve conter abas: um link ali confunde o leitor de
+       tela, que anuncia cinco abas e uma delas não abre nada. -->
+  <a class="cc-link" href="/servicos">Ver todos os serviços ↗</a>
   </div>
 
   <div class="cc-palco">

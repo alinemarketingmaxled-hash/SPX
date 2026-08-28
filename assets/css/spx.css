@@ -1161,6 +1161,12 @@ h2 em{font-style:normal;color:var(--acc-2)}
 .foto-fundo .topo-lead{color:var(--txt)}
 .foto-fundo .fatos li{color:var(--txt-2)}
 .foto-fundo .topo-pergunta{color:#CBDCEC}
+/* A migalha também: medida no pixel, ela dava 2,07:1 sobre a parte clara da
+   foto — o texto mais apagado da página em cima do fundo mais imprevisível
+   dela. Passou a usar a cor de texto normal, com a mesma sombra do resto. */
+.foto-fundo .migalhas,.foto-fundo .migalhas a,
+.foto-fundo .migalhas [aria-current]{color:var(--txt)}
+.foto-fundo .migalhas i{color:var(--txt-2)}
 @media (max-width:999px){
   /* e no celular o véu ainda ganha um degrau: a área de texto é quase a tela
      inteira, então não dá para contar com um trecho escuro da foto */
@@ -1169,6 +1175,13 @@ h2 em{font-style:normal;color:var(--acc-2)}
     linear-gradient(180deg,rgba(0,0,0,.76) 0%,rgba(0,0,0,.6) 16%,
       rgba(0,0,0,.7) 46%,rgba(0,0,0,.85) 74%,rgba(0,0,0,.95) 92%,
       var(--bg-pagina,#000) 100%)}
+}
+
+/* o botão do cabeçalho: respiro em cima e nada de largura cheia no desktop,
+   senão ele vira uma barra e perde a leitura de botão */
+.topo-acoes{margin:var(--e4) 0 0}
+@media (max-width:560px){
+  .topo-acoes .btn{width:100%;justify-content:center}
 }
 
 /* a pergunta que abria o bloco de resposta direta vira subtítulo do cabeçalho:

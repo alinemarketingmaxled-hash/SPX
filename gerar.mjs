@@ -1533,22 +1533,18 @@ pagina({
   descricao: 'A SPX executa o projeto do arquiteto: leitura, compatibilização, orçamento ' +
     'discriminado, planejamento, execução e acompanhamento, em São Paulo e região.',
   h1: 'Você cria o projeto. A SPX cuida da execução.',
-  /* O bloco de resposta direta ficava logo abaixo do cabeçalho e repetia a
-     mesma ideia do lead. Saiu do corpo, mas a pergunta e a resposta não saíram
-     da página: viraram o subtítulo daqui, que continua sendo um h2 com a
-     resposta na primeira frase — é o que o Google recorta em destaque e o que
-     uma IA copia quando alguém pergunta. */
+  /* A foto vira o fundo da primeira tela e o texto encurta: cabeçalho é para
+     dizer o que é e abrir caminho, não para explicar tudo. A pergunta continua
+     sendo um h2 com a resposta na primeira frase — é o que o Google recorta em
+     destaque — e os três fatos que estavam aqui não sumiram da página: a
+     compatibilização está no fluxo do projeto e a proposta discriminada, nos
+     cartões logo abaixo. */
+  fundoCheio: true,
   topoExtra: `
     <h2 class="topo-pergunta">A SPX executa projeto de outro arquiteto?</h2>
-    <p class="lead topo-lead">Sim. A SPX Engenharia lê, compatibiliza e executa projeto de
-    terceiros em São Paulo e região metropolitana, devolvendo as divergências ao autor do
-    projeto antes do início da obra. Projeto bom executado por quem não entende de projeto vira
-    outra coisa — e o escritório continua acompanhando a execução.</p>
-    <ul class="fatos">
-      <li>A compatibilização entre arquitetura, estrutura, elétrica, hidráulica, climatização e incêndio é feita antes de a equipe subir.</li>
-      <li>A proposta é discriminada por serviço, com quantidade e critério de medição, para o escritório comparar linha a linha.</li>
-      <li>A SPX pode ser contratada pelo cliente final, com o escritório coordenando o projeto, ou diretamente pelo escritório.</li>
-    </ul>`,
+    <p class="lead topo-lead">Sim. A SPX lê, compatibiliza e executa projeto de terceiros em
+    São Paulo e região, e devolve as divergências ao autor antes de a equipe subir.</p>
+    <p class="topo-acoes"><a class="btn btn-acc" href="/contato">Falar com a SPX sobre um projeto&nbsp;↗</a></p>`,
   trilha: [{ nome: 'Início', url: '/' }, { nome: 'Para arquitetos', url: '/para-arquitetos' }],
   schema: [schemaPerguntas([
     ['A SPX executa projeto desenvolvido por outro arquiteto?',

@@ -1217,9 +1217,13 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
     var pinos = $$('[data-cc-pino]', caixa);
     var tpcs  = $$('[data-cc-topicos]', caixa);
     var painelTpc = $('.cc-topicos', caixa);
+    var saindo;   /* temporizador do fechamento por hover, declarado aqui porque
+                     fechaDicas() o cancela e roda antes do resto */
     if(!abas.length || abas.length !== cenas.length) return;
 
     function fechaDicas(){
+      clearTimeout(saindo);
+      caixa.removeAttribute('data-preso');
       pinos.forEach(function(p){
         p.setAttribute('aria-expanded', 'false');
         var d = document.getElementById(p.getAttribute('aria-controls'));
@@ -1261,28 +1265,71 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
       });
     });
 
+    /* Abre a dica de um alfinete. `fixa` distingue quem chegou pelo mouse de
+       quem clicou: passar o mouse abre e sair fecha; clicar prende, e só outro
+       clique, Esc ou um clique fora soltam. Sem essa diferença, quem clica
+       para ler com calma perde o balão no primeiro movimento do mouse. */
+    function abreDica(pino, fixa){
+      var dica = document.getElementById(pino.getAttribute('aria-controls'));
+      if(!dica) return;
+      fechaDicas();
+      pino.setAttribute('aria-expanded', 'true');
+      dica.hidden = false;
+      if(fixa) caixa.setAttribute('data-preso', '');
+      /* a foto só é baixada quando a dica abre pela primeira vez: são sete
+         fotos na página para mostrar, no máximo, uma de cada vez */
+      var im = $('img[data-fonte]', dica);
+      if(im){ im.src = im.dataset.fonte; im.removeAttribute('data-fonte'); }
+      /* acende a coluna de tópicos do mesmo pavimento: o alfinete conta o
+         detalhe de uma área e a coluna conta o que ela tem de diferente */
+      var cena = pino.closest('[data-cc-cena]');
+      var painel = cena && $('[data-cc-topicos="' + cena.dataset.ccCena + '"]', caixa);
+      var col = painel && $('[data-cc-tpc-col="' + pino.dataset.ccAndar + '"]', painel);
+      if(col && painelTpc){
+        painelTpc.setAttribute('data-foco', '');
+        col.classList.add('aceso');
+      }
+    }
+
+    /* Só quem tem ponteiro fino ganha o hover. No toque não existe passar o
+       mouse: o primeiro toque viraria hover e o segundo, clique — e a pessoa
+       precisaria tocar duas vezes para abrir. */
+    var temMouse = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+
     pinos.forEach(function(pino){
       var dica = document.getElementById(pino.getAttribute('aria-controls'));
       if(!dica) return;
+
       pino.addEventListener('click', function(){
         var aberta = pino.getAttribute('aria-expanded') === 'true';
+        var presa = caixa.hasAttribute('data-preso');
         fechaDicas();
-        if(aberta) return;
-        pino.setAttribute('aria-expanded', 'true');
-        dica.hidden = false;
-        /* a foto só é baixada quando a dica abre pela primeira vez: são sete
-           fotos na página para mostrar, no máximo, uma de cada vez */
-        var im = $('img[data-fonte]', dica);
-        if(im){ im.src = im.dataset.fonte; im.removeAttribute('data-fonte'); }
-        /* acende a coluna de tópicos do mesmo pavimento: o alfinete conta o
-           detalhe de uma área e a coluna conta o que ela tem de diferente */
-        var cena = pino.closest('[data-cc-cena]');
-        var painel = cena && $('[data-cc-topicos="' + cena.dataset.ccCena + '"]', caixa);
-        var col = painel && $('[data-cc-tpc-col="' + pino.dataset.ccAndar + '"]', painel);
-        if(col && painelTpc){
-          painelTpc.setAttribute('data-foco', '');
-          col.classList.add('aceso');
-        }
+        /* clicar no alfinete de uma dica já presa fecha; se ela só estava
+           aberta por hover, o clique prende */
+        if(aberta && presa) return;
+        abreDica(pino, true);
+      });
+
+      /* o teclado abre no foco, como o mouse abre no hover */
+      pino.addEventListener('focus', function(){
+        if(!caixa.hasAttribute('data-preso')) abreDica(pino, false);
+      });
+
+      if(!temMouse) return;
+
+      [pino, dica].forEach(function(alvo){
+        alvo.addEventListener('mouseenter', function(){
+          clearTimeout(saindo);
+          if(caixa.hasAttribute('data-preso')) return;
+          if(pino.getAttribute('aria-expanded') !== 'true') abreDica(pino, false);
+        });
+        /* o atraso existe porque entre o alfinete e o balão há um vão: sem ele
+           a dica fechava no meio do caminho e piscava */
+        alvo.addEventListener('mouseleave', function(){
+          if(caixa.hasAttribute('data-preso')) return;
+          clearTimeout(saindo);
+          saindo = setTimeout(fechaDicas, 160);
+        });
       });
     });
 

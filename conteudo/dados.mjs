@@ -756,6 +756,8 @@ export const ambientes = [
     andares: [
       {
         nome: 'Salas de reunião',
+        foto: 'sala-reuniao-azul',
+        legenda: 'Sala de reunião com parede em azul profundo, obra corporativa da SPX.',
         dica: 'Divisória de vidro com perfil de alumínio, forro acústico e ponto de lógica em cada sala. O que costuma travar a entrega é o vidro: prazo de fábrica longo, e por isso entra no cronograma como caminho crítico.',
         topicos: [
           'Divisória de vidro com perfil de alumínio e porta pivotante',
@@ -784,6 +786,8 @@ export const ambientes = [
       },
       {
         nome: 'Laje corrida',
+        foto: 'estante-espinha-peixe',
+        legenda: 'Escritório com estante sob medida e piso em espinha de peixe, obra da SPX.',
         dica: 'Bancadas em fileira, forro modular e piso elevado quando há cabeamento por baixo. Elétrica e lógica sobem juntas: refazer ponto depois do forro fechado custa duas vezes.',
         topicos: [
           'Bancada corrida com calha de energia e dados por baixo',
@@ -812,6 +816,8 @@ export const ambientes = [
       },
       {
         nome: 'Recepção',
+        foto: 'lounge-recepcao',
+        legenda: 'Lounge de espera com balcão em pedra, obra corporativa da SPX.',
         dica: 'Balcão em marcenaria sob medida, iluminação embutida e a comunicação visual da marca. É a primeira área que o cliente vê pronta e a última que a SPX libera.',
         topicos: [
           'Balcão em marcenaria sob medida, com nicho de iluminação',
@@ -844,6 +850,8 @@ export const ambientes = [
     andares: [
       {
         nome: 'Estoque e apoio',
+        foto: FALTA,   // não há foto de estoque de loja no acervo
+        legenda: FALTA,
         dica: 'Prateleira metálica, iluminação simples e ponto de força para o carregamento. Área que ninguém vê e que decide se a loja opera bem depois de aberta.',
         topicos: [
           'Prateleira metálica modulada pela caixa do produto',
@@ -863,6 +871,8 @@ export const ambientes = [
       },
       {
         nome: 'Provadores',
+        foto: FALTA,   // não há foto de provador no acervo
+        legenda: FALTA,
         dica: 'Cabines em drywall com bandeira e espelho, e o forro recortado para a iluminação de prova. Cada cabine precisa do seu circuito: luz de prova puxada de emenda derruba o disjuntor no primeiro sábado.',
         topicos: [
           'Cabine em drywall com bandeira e reforço para o espelho',
@@ -884,6 +894,8 @@ export const ambientes = [
       },
       {
         nome: 'Vitrine e vendas',
+        foto: 'restaurante-fachada',
+        legenda: 'Fachada e salão de restaurante executados pela SPX. A obra de loja segue o mesmo tipo de fachada e vitrine.',
         dica: 'Fachada, comunicação visual e o caixa. Em shopping, a obra acontece na janela de horário do condomínio — e a documentação de acesso entra no cronograma antes do primeiro dia.',
         topicos: [
           'Fachada e vitrine com projeto aprovado pelo shopping',
@@ -914,6 +926,8 @@ export const ambientes = [
     andares: [
       {
         nome: 'Casa de máquinas',
+        foto: FALTA,   // ninguém fotografa casa de máquinas, e é o que decide o projeto
+        legenda: FALTA,
         dica: 'Exaustão, ar-condicionado e caixa d\'água. É o pavimento que define o projeto inteiro do restaurante: se o duto de exaustão não tem por onde subir, a cozinha muda de lugar.',
         topicos: [
           'Prumada de exaustão da coifa até acima da cobertura',
@@ -934,6 +948,8 @@ export const ambientes = [
       },
       {
         nome: 'Salão',
+        foto: 'restaurante-salao',
+        legenda: 'Salão de restaurante executado pela SPX.',
         dica: 'Mesas, forro e a iluminação que define a cara da casa. O ponto crítico é o conforto acústico: salão bonito e barulhento esvazia, e tratamento acústico se resolve no forro, antes de fechar.',
         topicos: [
           'Tratamento acústico dentro do forro, antes de fechar',
@@ -962,6 +978,8 @@ export const ambientes = [
       },
       {
         nome: 'Cozinha',
+        foto: 'restaurante-cozinha',
+        legenda: 'Cozinha de restaurante executada pela SPX.',
         dica: 'Cozinha industrial, câmara fria e ponto de gás. Piso, ralo e caimento são o que a vigilância olha primeiro — e refazer piso com a cozinha montada é obra duas vezes.',
         topicos: [
           'Piso monolítico com caimento e ralo linear conferidos na obra',
@@ -991,6 +1009,8 @@ export const ambientes = [
     andares: [
       {
         nome: 'Administrativo',
+        foto: FALTA,   // não há foto de área administrativa de clínica no acervo
+        legenda: FALTA,
         dica: 'Área de apoio, arquivo e sala técnica. Aqui entra o quadro elétrico dedicado: equipamento de diagnóstico costuma exigir circuito e aterramento próprios.',
         topicos: [
           'Quadro dedicado com circuito e aterramento para diagnóstico',
@@ -1014,6 +1034,8 @@ export const ambientes = [
       },
       {
         nome: 'Consultórios',
+        foto: FALTA,   // não há foto de consultório no acervo
+        legenda: FALTA,
         dica: 'Divisórias com desempenho acústico, lavatório em cada sala e porta com vão livre de norma. A largura de porta e de corredor vem da acessibilidade, não do desenho: é o primeiro item que a compatibilização confere.',
         topicos: [
           'Divisória com lã e placa dupla, para o áudio não vazar de sala em sala',
@@ -1036,6 +1058,8 @@ export const ambientes = [
       },
       {
         nome: 'Recepção e espera',
+        foto: 'recepcao-marmore',
+        legenda: 'Recepção com balcão em mármore, obra corporativa da SPX. A espera de clínica usa o mesmo tipo de balcão.',
         dica: 'Balcão, espera e circulação. Piso lavável, quina arredondada e iluminação sem ofuscamento — detalhes que a norma pede e que só aparecem no orçamento de quem já executou clínica.',
         topicos: [
           'Balcão com trecho rebaixado para atendimento sentado',

@@ -858,6 +858,19 @@ const casaCorte = (ambientes) => `
            cima do prédio assim que qualquer medida do desenho mudava. */
         const [ax, ay] = pinoDoAndar(k);
         const pos = `--px:${(ax / 660 * 100).toFixed(2)}%;--py:${(ay / 630 * 100).toFixed(2)}%`;
+        /* A foto entra por data-fonte, e o JavaScript só a baixa quando a dica
+           abre. Com src direto seriam sete fotos baixadas em toda visita à
+           página para mostrar, no máximo, uma. */
+        let foto = '';
+        if (falta(andar.foto)) {
+          anota(`Ambiente "${a.nome}"`, `falta a foto de obra do pavimento "${andar.nome}" — ` +
+            'a dica abre só com o texto até existir uma foto real desse tipo de ambiente');
+        } else {
+          const dm = dim(andar.foto);
+          foto = `<img class="cc-foto" data-fonte="/img/${andar.foto}-480.webp"
+             width="480" height="${Math.round(480 * dm[1] / dm[0])}"
+             alt="${esc(andar.legenda)}" loading="lazy" decoding="async">`;
+        }
         return `
       <button class="cc-pino" type="button" data-cc-pino data-cc-andar="${k}" style="${pos}"
               aria-expanded="false" aria-controls="cc-dica-${a.id}-${k}">
@@ -865,6 +878,7 @@ const casaCorte = (ambientes) => `
       </button>
       <div class="cc-dica" id="cc-dica-${a.id}-${k}" role="region"
            aria-labelledby="cc-tit-${a.id}-${k}" style="${pos}" hidden>
+        ${foto}
         <b id="cc-tit-${a.id}-${k}">${esc(andar.nome)}</b>
         <p>${esc(andar.dica)}</p>
       </div>`;

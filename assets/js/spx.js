@@ -1270,6 +1270,10 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
         if(aberta) return;
         pino.setAttribute('aria-expanded', 'true');
         dica.hidden = false;
+        /* a foto só é baixada quando a dica abre pela primeira vez: são sete
+           fotos na página para mostrar, no máximo, uma de cada vez */
+        var im = $('img[data-fonte]', dica);
+        if(im){ im.src = im.dataset.fonte; im.removeAttribute('data-fonte'); }
         /* acende a coluna de tópicos do mesmo pavimento: o alfinete conta o
            detalhe de uma área e a coluna conta o que ela tem de diferente */
         var cena = pino.closest('[data-cc-cena]');

@@ -140,7 +140,7 @@ function rodape() {
       <p style="max-width:34ch;font-size:15px">${esc(empresa.definicao)}</p>
       <div class="soc">${social.join('')}</div>
     </div>
-    <div><h3>Serviços</h3><ul>${servicos.slice(0, 5).map((s) =>
+    <div><h3>Serviços</h3><ul>${servicos.map((s) =>
       `<li><a href="/servicos/${s.slug}">${esc(s.nome)}</a></li>`).join('')}
       <li><a href="/servicos">Todos os serviços</a></li></ul></div>
     <div><h3>Projetos</h3><ul>${projetosPublicaveis.map((p) =>
@@ -321,11 +321,20 @@ function pagina({ url, arquivo, title, descricao, h1, trilha = [], corpo, schema
 <meta property="og:site_name" content="${esc(empresa.nome)}">
 <meta property="og:locale" content="pt_BR">
 <meta name="twitter:card" content="summary_large_image">
+<!-- a medida da imagem declarada deixa o WhatsApp e o LinkedIn montarem o
+     cartão antes de terminar de baixar a foto; sem ela o link aparece sem
+     imagem no primeiro segundo, que às vezes é o único que a pessoa dá -->
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="${esc(empresa.nome)} — obras corporativas e comerciais em São Paulo">
 <meta name="twitter:title" content="${esc(title)}">
 <meta name="twitter:image" content="${SITE}/img/og.jpg">
 <meta name="geo.region" content="BR-SP">
 <meta name="geo.placename" content="São Paulo">
 <link rel="icon" type="image/png" href="/img/favicon.png">
+<!-- sem isto, quem salva o site na tela de início do iPhone recebe um
+     print da página no lugar do ícone -->
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
 ${(fundo || preloadFoto) ? `<link rel="preload" as="image" href="/img/${fundo || preloadFoto}-640.webp"
       imagesrcset="${larguras(fundo || preloadFoto)}" imagesizes="${TAM_TOPO}" fetchpriority="high">\n` : ''}<link rel="stylesheet" href="/assets/css/spx.min.css?v=${VERSAO_CSS}">
 <script>
@@ -1263,7 +1272,13 @@ const servicosPublicaveis = servicos.filter((s) => {
 for (const s of servicosPublicaveis) {
   const trilha = [{ nome: 'Início', url: '/' }, { nome: 'Serviços', url: '/servicos' },
                   { nome: s.nome, url: '/servicos/' + s.slug }];
-  const relacionados = servicos.filter((o) => o.slug !== s.slug).slice(0, 3);
+  /* Os três seguintes na lista, dando a volta — e não os três primeiros. Com
+     `slice(0,3)` da lista filtrada, os últimos serviços nunca eram apontados
+     por ninguém: manutenção, projetos e consultoria tinham UM link interno
+     cada, contra 26 dos outros. Página que ninguém aponta o Google trata como
+     página que ninguém considera importante. */
+  const i0 = servicos.indexOf(s);
+  const relacionados = [1, 2, 3].map((k) => servicos[(i0 + k) % servicos.length]);
   /* o h1 quebra em duas cores: o que a SPX faz em branco, onde faz em acento.
      Os oito terminam em "em São Paulo", então o corte é sempre o mesmo — e o
      nome inteiro continua indo para o schema e para o <title>. */
@@ -1507,7 +1522,7 @@ pagina({
   url: '/sobre', arquivo: 'sobre.html',
   fundo: 'sala-reuniao-azul',
   visual: 'pag-sobre',
-  title: `Sobre a ${empresa.nome} | Engenharia de obras corporativas em São Paulo`,
+  title: `Sobre a ${empresa.nome} | Obras corporativas em São Paulo`,
   /* A definição da empresa tem 137 caracteres sozinha: com a lista atrás dela a
      description passava de 200 e o Google cortava no meio. Reescrita para caber. */
   descricao: `A ${empresa.nome} planeja, gerencia e executa obras corporativas e comerciais em ` +
@@ -1589,7 +1604,7 @@ pagina({
   url: '/para-arquitetos', arquivo: 'para-arquitetos.html',
   fundo: 'mesa-vista-sp',
   visual: 'pag-arquitetos',
-  title: 'Execução de projeto para arquitetos em São Paulo | SPX Engenharia',
+  title: 'Execução de projeto para arquitetos | SPX Engenharia',
   descricao: 'A SPX executa o projeto do arquiteto: leitura, compatibilização, orçamento ' +
     'discriminado, planejamento, execução e acompanhamento, em São Paulo e região.',
   h1: 'Você cria o projeto. A SPX cuida da execução.',
@@ -1732,7 +1747,7 @@ pagina({
   url: '/atuacao', arquivo: 'atuacao.html',
   fundo: 'restaurante-fachada',
   visual: 'pag-atuacao',
-  title: 'Onde a SPX Engenharia atua | São Paulo e região metropolitana',
+  title: 'Onde a SPX atua | São Paulo e região metropolitana',
   descricao: 'Regiões atendidas pela SPX Engenharia: capital paulista e Grande São Paulo, ' +
     'com obra corporativa, comercial, retrofit e manutenção predial.',
   h1: 'Onde a SPX atua',
@@ -1817,6 +1832,20 @@ for (const arquivo of ['index.html', '404.html', 'servicos-e-regioes.html']) {
      serviços, e escrever de novo à mão seria duas versões para divergir */
   html = html.replace(/<!--FAIXA-->[\s\S]*?<!--\/FAIXA-->/,
                       '<!--FAIXA-->\n' + faixaDupla() + '\n<!--/FAIXA-->');
+  /* as páginas escritas à mão não passam por pagina(): as tags de ícone e as
+     medidas da imagem social entram aqui, para não existirem duas listas */
+  if (!html.includes('apple-touch-icon')) {
+    html = html.replace('<link rel="icon" type="image/png" href="/img/favicon.png">',
+      '<link rel="icon" type="image/png" href="/img/favicon.png">\n' +
+      '<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">');
+  }
+  if (!html.includes('og:image:width')) {
+    html = html.replace('<meta name="twitter:card" content="summary_large_image">',
+      '<meta name="twitter:card" content="summary_large_image">\n' +
+      '<meta property="og:image:width" content="1200">\n' +
+      '<meta property="og:image:height" content="630">\n' +
+      `<meta property="og:image:alt" content="${esc(empresa.nome)} — obras corporativas e comerciais em São Paulo">`);
+  }
   /* carimba a versão dos assets também aqui, senão a home continua pedindo a
      folha antiga e o navegador de quem já visitou serve a que está em cache */
   html = html.replace(/spx\.min\.css\?v=[a-z0-9]+/g, 'spx.min.css?v=' + VERSAO_CSS)
@@ -1929,7 +1958,7 @@ if (falta(empresa.razaoSocial) || falta(empresa.cnpj)) {
 pagina({
   url: '/privacidade', arquivo: 'privacidade.html',
   fundo: 'lavabo-azul',
-  title: `Política de privacidade e tratamento de dados | ${empresa.nome}`,
+  title: `Política de privacidade | ${empresa.nome}`,
   descricao: 'Como a SPX Engenharia trata os dados enviados pelo site, para que servem, ' +
     'por quanto tempo ficam e como exercer os direitos previstos na LGPD.',
   h1: 'Política de privacidade',

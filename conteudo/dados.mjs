@@ -205,7 +205,7 @@ export const servicos = [
     h1: 'Obras corporativas em São Paulo',
     title: 'Obra corporativa em São Paulo | SPX Engenharia',
     descricao: 'Planejamento, gerenciamento e execução de obras corporativas em São Paulo: ' +
-      'escritórios, sedes e espaços administrativos, com engenharia própria do levantamento à entrega.',
+      'escritórios e sedes, com engenharia própria do levantamento à entrega.',
     resumo: 'Escritórios, sedes e espaços administrativos executados com cronograma ' +
       'físico-financeiro e responsável técnico nomeado antes da assinatura.',
     oQueE: 'Obra corporativa é a construção ou reforma completa de um espaço de trabalho: ' +
@@ -347,7 +347,7 @@ export const servicos = [
     ],
     nome: 'Reformas',
     h1: 'Reforma de escritório e espaço comercial em São Paulo',
-    title: 'Reforma comercial e de escritório em São Paulo | SPX Engenharia',
+    title: 'Reforma de escritório em São Paulo | SPX Engenharia',
     descricao: 'Reforma de escritórios, salas comerciais e lojas em São Paulo, com escopo ' +
       'fechado, cronograma e responsável técnico.',
     resumo: 'Escopo delimitado, prazo curto e o mesmo rigor de uma obra completa: proposta ' +
@@ -530,7 +530,7 @@ export const servicos = [
     ],
     nome: 'Consultoria e laudos',
     h1: 'Consultoria em engenharia, laudos e vistorias em São Paulo',
-    title: 'Consultoria em engenharia e laudos técnicos em São Paulo | SPX Engenharia',
+    title: 'Consultoria e laudo técnico em São Paulo | SPX Engenharia',
     descricao: 'Consultoria em engenharia, laudo técnico, vistoria e adequação de norma para ' +
       'imóveis corporativos e comerciais em São Paulo.',
     resumo: 'Parecer de engenheiro para decidir antes de contratar obra.',

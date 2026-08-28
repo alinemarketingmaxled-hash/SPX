@@ -18,11 +18,20 @@
 <meta property="og:site_name" content="SPX Engenharia">
 <meta property="og:locale" content="pt_BR">
 <meta name="twitter:card" content="summary_large_image">
+<!-- a medida da imagem declarada deixa o WhatsApp e o LinkedIn montarem o
+     cartão antes de terminar de baixar a foto; sem ela o link aparece sem
+     imagem no primeiro segundo, que às vezes é o único que a pessoa dá -->
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="SPX Engenharia — obras corporativas e comerciais em São Paulo">
 <meta name="twitter:title" content="Obra comercial e de varejo em São Paulo | SPX Engenharia">
 <meta name="twitter:image" content="https://spxengenharia.com.br/img/og.jpg">
 <meta name="geo.region" content="BR-SP">
 <meta name="geo.placename" content="São Paulo">
 <link rel="icon" type="image/png" href="/img/favicon.png">
+<!-- sem isto, quem salva o site na tela de início do iPhone recebe um
+     print da página no lugar do ícone -->
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
 <link rel="preload" as="image" href="/img/restaurante-fachada-640.webp"
       imagesrcset="/img/restaurante-fachada-480.webp 480w, /img/restaurante-fachada-640.webp 640w" imagesizes="(min-width:1000px) min(44vw, 500px), 100vw" fetchpriority="high">
 <link rel="stylesheet" href="/assets/css/spx.min.css?v=b370a7a7">
@@ -616,7 +625,7 @@ document.documentElement.setAttribute('data-tema','escuro');
   <a class="btn btn-acc" href="/contato">Enviar pergunta&nbsp;↗</a>
 </div></section>
 
-<section class="sec wrap "><h2>Outros serviços</h2><ul class="grade-servicos"><li><a href="/servicos/obras-corporativas"><b>Obras corporativas</b><span>Escritórios, sedes e espaços administrativos executados com cronograma físico-financeiro e responsável técnico nomeado antes da assinatura.</span></a></li><li><a href="/servicos/retrofit"><b>Retrofit</b><span>Atualizar um imóvel antigo, nas instalações, no layout, no acabamento e na norma, sem esvaziar o prédio.</span></a></li><li><a href="/servicos/reformas"><b>Reformas</b><span>Escopo delimitado, prazo curto e o mesmo rigor de uma obra completa: proposta discriminada, cronograma e medição.</span></a></li></ul></section>
+<section class="sec wrap "><h2>Outros serviços</h2><ul class="grade-servicos"><li><a href="/servicos/retrofit"><b>Retrofit</b><span>Atualizar um imóvel antigo, nas instalações, no layout, no acabamento e na norma, sem esvaziar o prédio.</span></a></li><li><a href="/servicos/reformas"><b>Reformas</b><span>Escopo delimitado, prazo curto e o mesmo rigor de uma obra completa: proposta discriminada, cronograma e medição.</span></a></li><li><a href="/servicos/gerenciamento-de-obras"><b>Gerenciamento de obras</b><span>Planejar, coordenar e medir a obra, inclusive quando quem executa é outro.</span></a></li></ul></section>
 
 <section class="sec wrap cta-faixa" data-reveal>
   <p class="cta-frase">Tem data de inauguração marcada? Fale com a SPX.</p>
@@ -629,7 +638,7 @@ document.documentElement.setAttribute('data-tema','escuro');
       <p style="max-width:34ch;font-size:15px">A SPX Engenharia é uma empresa de engenharia civil com base em São Paulo, que planeja, gerencia e executa obras corporativas e comerciais.</p>
       <div class="soc"><a href="https://wa.me/5511952751874" rel="noopener" aria-label="WhatsApp da SPX Engenharia"><svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 12a8.5 8.5 0 1 1-4.2-7.3L21 3.5l-1.2 4.6A8.4 8.4 0 0 1 20.5 12Z"/><path d="M9 9.4c.5 2.2 2.4 4.1 4.6 4.6l1.1-1.2 1.8.8-.5 1.6c-3.4.5-7.2-3.3-6.7-6.7l1.6-.5.8 1.8z"/></svg></a></div>
     </div>
-    <div><h3>Serviços</h3><ul><li><a href="/servicos/obras-corporativas">Obras corporativas</a></li><li><a href="/servicos/obras-comerciais">Obras comerciais e varejo</a></li><li><a href="/servicos/retrofit">Retrofit</a></li><li><a href="/servicos/reformas">Reformas</a></li><li><a href="/servicos/gerenciamento-de-obras">Gerenciamento de obras</a></li>
+    <div><h3>Serviços</h3><ul><li><a href="/servicos/obras-corporativas">Obras corporativas</a></li><li><a href="/servicos/obras-comerciais">Obras comerciais e varejo</a></li><li><a href="/servicos/retrofit">Retrofit</a></li><li><a href="/servicos/reformas">Reformas</a></li><li><a href="/servicos/gerenciamento-de-obras">Gerenciamento de obras</a></li><li><a href="/servicos/manutencao-predial">Manutenção predial</a></li><li><a href="/servicos/projetos">Projetos de engenharia</a></li><li><a href="/servicos/consultoria-em-engenharia">Consultoria e laudos</a></li>
       <li><a href="/servicos">Todos os serviços</a></li></ul></div>
     <div><h3>Projetos</h3><ul>
       <li><a href="/obras">Todos os projetos</a></li>

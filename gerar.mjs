@@ -1494,8 +1494,11 @@ pagina({
 ${secao('Como a SPX começou', `
   <p class="sub-secao">Uma empresa de um ano, tocada por um engenheiro com nove.</p>
   <ol class="historia">${historia.map((h) => `
-    <li><span class="hi-n">${h.n}</span>
-      <div><b>${esc(h.titulo)}</b><p>${esc(h.texto)}</p></div>
+    <li>
+      <span class="hi-marca" aria-hidden="true"></span>
+      <span class="hi-n">${h.n}</span>
+      <b>${esc(h.titulo)}</b>
+      <p>${esc(h.texto)}</p>
     </li>`).join('')}</ol>`, 'vidro faixa-vidro')}
 
 ${blocoResponsavel()}

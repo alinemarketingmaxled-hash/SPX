@@ -25,7 +25,7 @@
 <link rel="icon" type="image/png" href="/img/favicon.png">
 <link rel="preload" as="image" href="/img/lounge-recepcao-640.webp"
       imagesrcset="/img/lounge-recepcao-480.webp 480w, /img/lounge-recepcao-640.webp 640w, /img/lounge-recepcao-768.webp 768w, /img/lounge-recepcao-960.webp 960w" imagesizes="(min-width:1000px) min(44vw, 500px), 100vw" fetchpriority="high">
-<link rel="stylesheet" href="/assets/css/spx.min.css?v=68464bc8">
+<link rel="stylesheet" href="/assets/css/spx.min.css?v=c499949d">
 <script>
 /* aplica o tema antes da pintura para não piscar */
 document.documentElement.setAttribute('data-tema','escuro');
@@ -479,7 +479,7 @@ document.documentElement.setAttribute('data-tema','escuro');
   </div>
 </div>
 <main id="conteudo">
-<header class="topo-interno com-foto foto-fundo">
+<header class="topo-interno">
   <div class="wrap topo-duplo">
   <div class="topo-in">
 <nav class="migalhas" aria-label="Você está em"><a href="/">Início</a><i aria-hidden="true">/</i><span aria-current="page">Dúvidas</span></nav>
@@ -490,13 +490,20 @@ document.documentElement.setAttribute('data-tema','escuro');
     <p class="lead topo-lead">A SPX Engenharia é uma empresa de engenharia civil com base em São Paulo, que planeja, gerencia e executa obras corporativas e comerciais. Engenharia, gestão e execução conduzidas pela mesma equipe, do levantamento à entrega.
     As perguntas que mais chegam estão respondidas de forma direta abaixo. Para obra com prazo
     crítico, concorrência ou adequação de norma, envie o contexto completo.</p>
+    <p class="topo-acoes"><button class="btn btn-fio vira-solto" type="button"
+    data-vira-btn aria-controls="cartao-spx" aria-pressed="false">Ver o que a SPX faz<i aria-hidden="true">↻</i></button></p>
   </div>
   <div class="topo-lado">
-<div class="vira" data-vira>
+<div class="vira" data-vira id="cartao-spx">
   <div class="vira-caixa" data-vira-palco>
     <div class="vira-face vira-frente">
-      <span class="vira-marca">
-        <img src="/img/logo-negativa.webp" width="723" height="304" alt="" loading="lazy" decoding="async">
+      <span class="vira-foto"><img src="/img/lounge-recepcao-640.webp"
+        srcset="/img/lounge-recepcao-480.webp 480w, /img/lounge-recepcao-640.webp 640w, /img/lounge-recepcao-768.webp 768w, /img/lounge-recepcao-960.webp 960w" sizes="(min-width:1000px) min(44vw, 500px), 100vw"
+        width="1067" height="1600" alt=""
+        fetchpriority="high" decoding="async"></span>
+      <span class="vira-selo vira-selo-marca">
+        <img src="/img/logo-negativa.webp" width="723" height="304"
+          alt="SPX Engenharia" decoding="async">
         <span class="vira-legenda">Engenharia · Gestão · Execução</span>
       </span></div>
     <div class="vira-face vira-verso">
@@ -507,20 +514,10 @@ document.documentElement.setAttribute('data-tema','escuro');
         <li><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6v6c0 4.4 3.4 8.5 8 9.5 4.6-1 8-5.1 8-9.5V6l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg><span>Cada obra tem engenheiro responsável nomeado, com ART, antes da assinatura do contrato.</span></li>
       </ul></div>
   </div>
-  <button class="vira-btn" type="button" data-vira-btn aria-pressed="false">
-    Ver o que a SPX faz<i aria-hidden="true">↻</i>
-  </button>
+
 </div></div>
   </div>
-  <div class="topo-foto" aria-hidden="true">
-    <div class="hero-fundo" id="heroFundo" data-fotos="lounge-recepcao,restaurante-fachada,cozinha-marcenaria,sala-reuniao-azul">
-      <img class="ativa" src="/img/lounge-recepcao-640.webp"
-           srcset="/img/lounge-recepcao-480.webp 480w, /img/lounge-recepcao-640.webp 640w, /img/lounge-recepcao-768.webp 768w, /img/lounge-recepcao-960.webp 960w" sizes="(min-width:1000px) min(44vw, 500px), 100vw"
-           width="1067" height="1600" alt=""
-           fetchpriority="high" decoding="async">
-    </div>
-    <div class="hero-veu"></div>
-  </div>
+
 </header>
 
 <section class="sec wrap faq-central">

@@ -1240,8 +1240,6 @@ h2 em{font-style:normal;color:var(--acc-2)}
 }
 /* na /duvidas os dois lados da abertura fecham na mesma altura: o texto para
    onde o cartão para, em vez de descer além dele */
-.pag-duvidas .foto-fundo .topo-duplo{align-items:center}
-.pag-duvidas .foto-fundo .topo-lead{max-width:none}
 
 /* ------------------------------------------------ casa em corte 3D */
 /* Lista de ambientes à esquerda, prédio aberto à direita. No celular a lista
@@ -2464,10 +2462,15 @@ h2 em{font-style:normal;color:var(--acc-2)}
    cada assunto um começo e um fim, e é isso que faz a página parecer uma ficha
    técnica e não um folheto. */
 
+/* Do painel para baixo, as regras valem para toda abertura em duas colunas —
+   as oito páginas de serviço e a de dúvidas. Ficavam presas a `.pag-servico`
+   quando eram só delas; agora quem manda é o `.topo-duplo`, que é o que essas
+   aberturas têm em comum. */
+
 /* faixa de acento sob o título, e o mesmo recurso disponível para um h2 */
-.pag-servico .topo-interno h1,
+.topo-interno:has(.topo-duplo) h1,
 h2.com-risco{position:relative;padding-bottom:var(--e3)}
-.pag-servico .topo-interno h1::after,
+.topo-interno:has(.topo-duplo) h1::after,
 h2.com-risco::after{content:"";position:absolute;left:0;bottom:0;
   width:74px;height:3px;background:var(--acc-2)}
 /* o "em São Paulo" do h1 é a única parte em acento: o que a SPX faz em branco,
@@ -2475,17 +2478,17 @@ h2.com-risco::after{content:"";position:absolute;left:0;bottom:0;
    página menos do que o serviço, e por isso pode ficar em segundo plano. */
 
 /* ---- abertura em painel ---- */
-.pag-servico .topo-duplo{
+.topo-duplo{
   padding:clamp(20px,3vw,38px);border:1px solid var(--linha);border-radius:18px;
   background:
     radial-gradient(90% 120% at 100% 0,var(--acc-suave),transparent 58%),
     var(--sup);
   box-shadow:0 0 0 1px rgba(0,0,0,.2),0 30px 70px rgba(0,0,0,.34)}
-.pag-servico .topo-duplo .topo-in{display:grid;align-content:center}
+.topo-duplo .topo-in{display:grid;align-content:center}
 /* 1.02 encostava a cedilha de "ESPAÇO" na linha seguinte */
-.pag-servico .topo-interno h1{font-size:clamp(30px,4.2vw,54px);line-height:1.1}
-.pag-servico .topo-lead{max-width:44ch;color:var(--txt-2);font-size:15.5px;line-height:1.65}
-.pag-servico .topo-acoes{margin-top:var(--e4)}
+.topo-interno:has(.topo-duplo) h1{font-size:clamp(30px,4.2vw,54px);line-height:1.1}
+.topo-duplo .topo-lead{max-width:46ch;color:var(--txt-2);font-size:15.5px;line-height:1.65}
+.topo-duplo .topo-acoes{margin-top:var(--e4)}
 /* o botão que vira o cartão mora aqui, do lado do texto, e não sobre a foto */
 .vira-solto i{font-style:normal;font-size:15px;line-height:1;
   transition:transform var(--transicao)}
@@ -2518,6 +2521,11 @@ h2.com-risco::after{content:"";position:absolute;left:0;bottom:0;
   -webkit-backdrop-filter:blur(9px);backdrop-filter:blur(9px);
   text-align:center;max-width:82%}
 .vira-selo .vira-nome{font-size:clamp(22px,2.8vw,34px);letter-spacing:.01em}
+/* na /duvidas o selo carrega a marca em vez do nome do serviço */
+.vira-selo-marca img{width:min(72%,230px);height:auto;display:block}
+/* dentro do selo a legenda sobe um tom: em --txt-3 ela media 4,28:1 sobre o
+   vidro nesta foto, que é de mármore claro */
+.vira-selo .vira-legenda{margin-top:2px;color:var(--txt-2)}
 .vira-selo::after{content:"";width:42px;height:2px;background:var(--acc-2);margin-top:4px}
 
 /* ---- resposta direta em painel, com ícone e foto ---- */
@@ -2562,7 +2570,7 @@ h2.com-risco::after{content:"";position:absolute;left:0;bottom:0;
   /* o painel também é o `.wrap` da abertura: com a moldura dele nascendo na
      borda da tela, o site perde a margem lateral justamente onde ela mais
      conta. `width:auto` desfaz o `width:100%` do .wrap para a margem caber. */
-  .pag-servico .topo-duplo{padding:clamp(18px,5vw,26px);
+  .topo-duplo{padding:clamp(18px,5vw,26px);
     width:auto;margin-inline:var(--gutter)}
 }
 

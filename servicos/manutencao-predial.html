@@ -23,7 +23,9 @@
 <meta name="geo.region" content="BR-SP">
 <meta name="geo.placename" content="São Paulo">
 <link rel="icon" type="image/png" href="/img/favicon.png">
-<link rel="stylesheet" href="/assets/css/spx.min.css?v=68464bc8">
+<link rel="preload" as="image" href="/img/lounge-recepcao-640.webp"
+      imagesrcset="/img/lounge-recepcao-480.webp 480w, /img/lounge-recepcao-640.webp 640w, /img/lounge-recepcao-768.webp 768w, /img/lounge-recepcao-960.webp 960w" imagesizes="(min-width:1000px) min(44vw, 500px), 100vw" fetchpriority="high">
+<link rel="stylesheet" href="/assets/css/spx.min.css?v=c499949d">
 <script>
 /* aplica o tema antes da pintura para não piscar */
 document.documentElement.setAttribute('data-tema','escuro');
@@ -487,9 +489,10 @@ document.documentElement.setAttribute('data-tema','escuro');
 <div class="vira" data-vira id="cartao-manutencao-predial">
   <div class="vira-caixa" data-vira-palco>
     <div class="vira-face vira-frente">
-      <span class="vira-foto"><img src="/img/lounge-recepcao-640.webp" width="640"
-        height="960"
-        sizes="(max-width:999px) 92vw, 460px" alt="" loading="lazy" decoding="async"></span>
+      <span class="vira-foto"><img src="/img/lounge-recepcao-640.webp"
+        srcset="/img/lounge-recepcao-480.webp 480w, /img/lounge-recepcao-640.webp 640w, /img/lounge-recepcao-768.webp 768w, /img/lounge-recepcao-960.webp 960w" sizes="(min-width:1000px) min(44vw, 500px), 100vw"
+        width="1067" height="1600" alt=""
+        fetchpriority="high" decoding="async"></span>
       <span class="vira-selo">
         <span class="vira-tipo">Tipo de obra</span>
         <span class="vira-nome">Manutenção predial</span>

@@ -290,7 +290,8 @@ const schemaTrilha = (trilha) => ({
    meio. topoExtra é o que entra logo abaixo do lead, dentro do cabeçalho. */
 function pagina({ url, arquivo, title, descricao, h1, trilha = [], corpo, schema = [],
                  visual = '', fundo = null, h1b = '', lead = '', ladoTopo = '',
-                 fundoCheio = false, topoCentrado = false, topoExtra = '' }) {
+                 fundoCheio = false, topoCentrado = false, topoExtra = '',
+                 preloadFoto = null }) {
   const grafo = [schemaOrganizacao(), ...schema].filter(Boolean);
   if (trilha.length > 1) grafo.push(schemaTrilha(trilha));
   const migalhasHTML = trilha.length > 1
@@ -325,8 +326,8 @@ function pagina({ url, arquivo, title, descricao, h1, trilha = [], corpo, schema
 <meta name="geo.region" content="BR-SP">
 <meta name="geo.placename" content="São Paulo">
 <link rel="icon" type="image/png" href="/img/favicon.png">
-${fundo ? `<link rel="preload" as="image" href="/img/${fundo}-640.webp"
-      imagesrcset="${larguras(fundo)}" imagesizes="${TAM_TOPO}" fetchpriority="high">\n` : ''}<link rel="stylesheet" href="/assets/css/spx.min.css?v=${VERSAO_CSS}">
+${(fundo || preloadFoto) ? `<link rel="preload" as="image" href="/img/${fundo || preloadFoto}-640.webp"
+      imagesrcset="${larguras(fundo || preloadFoto)}" imagesizes="${TAM_TOPO}" fetchpriority="high">\n` : ''}<link rel="stylesheet" href="/assets/css/spx.min.css?v=${VERSAO_CSS}">
 <script>
 /* aplica o tema antes da pintura para não piscar */
 document.documentElement.setAttribute('data-tema','escuro');
@@ -503,6 +504,16 @@ ${id ? '' : `  <button class="vira-btn" type="button" data-vira-btn aria-pressed
    o que aquele botão comanda. */
 const viraBotao = (id, rotulo) => `<button class="btn btn-fio vira-solto" type="button"
     data-vira-btn aria-controls="${id}" aria-pressed="false">${esc(rotulo)}<i aria-hidden="true">↻</i></button>`;
+
+/* A foto que preenche a frente do cartão da abertura. É a maior imagem acima
+   da dobra nessas páginas, então entra com prioridade alta e sem `lazy`: uma
+   foto de topo adiada é o próprio LCP chegando atrasado. O `srcset` também é
+   obrigatório aqui — antes havia `sizes` sem ele, e `sizes` sozinho não faz
+   nada: o navegador baixava a de 640 até numa tela de 320. */
+const fotoCartao = (arq) => `<span class="vira-foto"><img src="/img/${arq}-640.webp"
+        srcset="${larguras(arq)}" sizes="${TAM_TOPO}"
+        width="${dim(arq)[0]}" height="${dim(arq)[1]}" alt=""
+        fetchpriority="high" decoding="async"></span>`;
 
 /* Cartão de chamada do tamanho de um cartão da grade. Nos modelos ele ocupa a
    célula que sobra quando a lista tem número ímpar de itens — em vez de um
@@ -1264,7 +1275,7 @@ for (const s of servicosPublicaveis) {
     url: '/servicos/' + s.slug,
     arquivo: `servicos/${s.slug}.html`,
     title: s.title, descricao: s.descricao, h1: h1Corpo, h1b: h1Onde, trilha,
-    lead: s.resumo,
+    lead: s.resumo, preloadFoto: s.fotos[0],
     visual: 'pag-servico servico-' + s.slug,
     topoExtra: `    <p class="topo-acoes">${
       viraBotao('cartao-' + s.slug, `Ver o que é ${s.nome.toLowerCase()}`)}</p>`,
@@ -1272,9 +1283,7 @@ for (const s of servicosPublicaveis) {
        foto da obra preenche a frente e o nome do serviço vem por cima, num
        selo de vidro — a foto sozinha não diz de que serviço é a página. */
     ladoTopo: cartaoVira(`
-      <span class="vira-foto"><img src="/img/${s.fotos[0]}-640.webp" width="640"
-        height="${Math.round(640 * dim(s.fotos[0])[1] / dim(s.fotos[0])[0])}"
-        sizes="(max-width:999px) 92vw, 460px" alt="" loading="lazy" decoding="async"></span>
+      ${fotoCartao(s.fotos[0])}
       <span class="vira-selo">
         <span class="vira-tipo">Tipo de obra</span>
         <span class="vira-nome">${esc(s.nome)}</span>
@@ -1660,20 +1669,22 @@ ${secao('Dúvidas de quem projeta', perguntas([
 /* ---------------------------------------------------------------- dúvidas */
 pagina({
   url: '/duvidas', arquivo: 'duvidas.html',
-  fundo: 'lounge-recepcao',
+  preloadFoto: 'lounge-recepcao',
   visual: 'pag-duvidas',
   title: 'Dúvidas frequentes sobre obras corporativas | SPX Engenharia',
   descricao: 'Respostas objetivas sobre o que a SPX Engenharia faz, como funciona a visita ' +
     'técnica, prazo, orçamento, obra em ambiente ocupado e responsabilidade técnica.',
   h1: 'Dúvidas frequentes.',
   h1b: 'Respondidas pela engenharia.',
-  /* O cartão subiu para o lado do título e a foto virou o fundo da primeira
-     tela. Antes ele ficava numa seção abaixo do cabeçalho, com a foto num
-     painel à direita: eram dois blocos disputando a mesma faixa da tela. */
-  fundoCheio: true,
+  /* Mesma abertura das páginas de serviço: um painel só, texto de um lado e o
+     cartão do outro. A foto era o fundo da tela inteira e passou para dentro
+     do cartão, com a marca num selo de vidro sobre ela — atrás do texto ela
+     brigava com a leitura, e o cartão ficava um retângulo escuro no meio. */
   ladoTopo: cartaoVira(`
-      <span class="vira-marca">
-        <img src="/img/logo-negativa.webp" width="723" height="304" alt="" loading="lazy" decoding="async">
+      ${fotoCartao('lounge-recepcao')}
+      <span class="vira-selo vira-selo-marca">
+        <img src="/img/logo-negativa.webp" width="723" height="304"
+          alt="${esc(empresa.nome)}" decoding="async">
         <span class="vira-legenda">Engenharia · Gestão · Execução</span>
       </span>`, `
       <span class="vira-titulo">A SPX em três linhas</span>
@@ -1681,12 +1692,13 @@ pagina({
         <li>${icone('local')}<span>Atua em São Paulo capital e na região metropolitana.</span></li>
         <li>${icone('execucao')}<span>Executa obra corporativa, comercial, retrofit, reforma, gerenciamento, manutenção, projeto e laudo.</span></li>
         <li>${icone('art')}<span>Cada obra tem engenheiro responsável nomeado, com ART, antes da assinatura do contrato.</span></li>
-      </ul>`, 'Ver o que a SPX faz'),
+      </ul>`, 'Ver o que a SPX faz', 'cartao-spx'),
   topoExtra: `
     <h2 class="topo-pergunta">O que a ${esc(empresa.nome)} faz?</h2>
     <p class="lead topo-lead">${esc(empresa.definicao)} ${esc(empresa.proposta)}
     As perguntas que mais chegam estão respondidas de forma direta abaixo. Para obra com prazo
-    crítico, concorrência ou adequação de norma, envie o contexto completo.</p>`,
+    crítico, concorrência ou adequação de norma, envie o contexto completo.</p>
+    <p class="topo-acoes">${viraBotao('cartao-spx', 'Ver o que a SPX faz')}</p>`,
   trilha: [{ nome: 'Início', url: '/' }, { nome: 'Dúvidas', url: '/duvidas' }],
   schema: [schemaPerguntas(duvidas), { '@type': 'QAPage', speakable: FALADO,
            about: { '@id': idEmpresa } }],

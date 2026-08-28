@@ -63,22 +63,32 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
 })();
 
 /* ---------------------------------------------- barra de progresso */
+/* `scrollHeight` obriga o navegador a calcular o layout na hora para
+   responder. Medir dentro do ResizeObserver fazia isso a cada mudança de
+   altura da página — e durante o carregamento a altura muda o tempo todo,
+   com as seções sendo montadas e as fotos chegando. Eram 107ms de layout
+   forçado no relatório do PageSpeed. Agora a medida é adiada para o próximo
+   quadro e várias mudanças seguidas viram uma medição só. */
 (function progresso(){
   var barra = $('.progresso');
   if(!barra) return;
-  var pendente = false, curso = 0;
+  var pendente = false, medindo = false, curso = 0;
   function mede(){ curso = document.documentElement.scrollHeight - window.innerHeight; }
   function pinta(){
     barra.style.transform = 'scaleX(' + (curso > 0 ? Math.min(window.scrollY / curso, 1) : 0) + ')';
     pendente = false;
   }
-  mede();
-  window.addEventListener('resize', mede);
-  if('ResizeObserver' in window) new ResizeObserver(mede).observe(document.body);
+  function agenda(){
+    if(medindo) return;
+    medindo = true;
+    requestAnimationFrame(function(){ medindo = false; mede(); pinta(); });
+  }
+  agenda();
+  window.addEventListener('resize', agenda);
+  if('ResizeObserver' in window) new ResizeObserver(agenda).observe(document.body);
   window.addEventListener('scroll', function(){
     if(!pendente){ pendente = true; requestAnimationFrame(pinta); }
   }, {passive:true});
-  pinta();
 })();
 
 /* ---------------------------------------------- menu mobile */

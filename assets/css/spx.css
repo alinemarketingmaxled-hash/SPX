@@ -74,34 +74,6 @@
 }
 
 /* tema claro — "modo planta" */
-[data-tema="claro"]{
-  --bg:#F4F3EF;
-  --bg-2:#EAE8E1;
-  --sup:#FFFFFF;
-  --sup-2:#F7F6F2;
-  --linha:#D8D4CA;
-  --linha-forte:#B9B4A7;
-  --txt:#0B0E10;
-  --txt-2:#565D61;
-  --txt-3:#696E71;
-  --acc:#2E4459;
-  --acc-2:#3F5D79;
-  --acc-suave:rgba(58,85,112,.11);
-  --inv-bg:#0B0E10;
-  --inv-txt:#F2F1EE;
-  --trama:rgba(0,0,0,.07);
-  --trama-forte:#A9AFB6;
-  --sombra:0 18px 44px rgba(20,25,28,.14);
-  --sombra-suave:0 8px 22px rgba(20,25,28,.10);
-  --brilho:0 0 0 1px rgba(58,85,112,.3),0 12px 34px rgba(58,85,112,.14);
-
-  --bl-bg:#070C11;
-  --bl-txt:#F4F4F1;
-  --bl-txt-2:#A7B0B8;
-  --bl-vidro:rgba(255,255,255,.07);
-  --bl-vidro-borda:rgba(255,255,255,.22);
-  --bl-trama:rgba(255,255,255,.045);
-}
 
 /* -------------------------------------------------- 2. BASE */
 *,*::before,*::after{box-sizing:border-box}
@@ -130,7 +102,6 @@ body > *{position:relative;z-index:1}
   -webkit-mask-image:linear-gradient(180deg,transparent,#000 42%,#000 88%,transparent);
   mask-image:linear-gradient(180deg,transparent,#000 42%,#000 88%,transparent);
 }
-[data-tema="claro"] .canteiro{opacity:.13}
 
 /* faixa clara: a seção reescreve os tokens e tudo dentro acompanha */
 .sec.claro{
@@ -206,8 +177,6 @@ b,strong{font-weight:600}
    O !important é proposital: é um utilitário de visibilidade que precisa
    vencer as regras de componente que definem display. */
 .so-claro{display:none!important}
-[data-tema="claro"] .so-escuro{display:none!important}
-[data-tema="claro"] .so-claro{display:block!important}
 
 .eyebrow{font-family:var(--display);font-weight:600;font-size:var(--t-micro);letter-spacing:.24em;text-transform:uppercase;color:var(--acc-2);display:flex;align-items:center;gap:10px}
 .eyebrow::before{content:"";width:24px;height:9px;flex:0 0 auto;background:repeating-linear-gradient(115deg,currentColor 0 1.6px,transparent 1.6px 5px)}
@@ -284,8 +253,6 @@ b,strong{font-weight:600}
 .nav-btn:hover{background:var(--acc);color:#fff;transform:translateY(-1px)}
 .nav-btn svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .nav-btn .lua{display:none}
-[data-tema="claro"] .nav-btn .sol{display:none}
-[data-tema="claro"] .nav-btn .lua{display:block}
 .nav-menu{display:none}
 
 /* gaveta mobile */
@@ -686,56 +653,9 @@ b,strong{font-weight:600}
 .wordmark .wm.luz{position:absolute;left:0;top:0;
   -webkit-mask-image:radial-gradient(circle 70px at var(--mx,50%) var(--my,50%),#000 0%,transparent 72%);
   mask-image:radial-gradient(circle 70px at var(--mx,50%) var(--my,50%),#000 0%,transparent 72%)}
-/* página de diretório: serviços cruzados com as regiões atendidas */
-.diretorio{padding-top:calc(var(--nav-altura) + var(--e6))}
-.dir-indice{display:flex;flex-wrap:wrap;gap:7px;margin-top:var(--e4)}
-.dir-indice a{text-decoration:none;font-family:var(--display);font-weight:600;font-size:10.5px;
-  letter-spacing:.1em;text-transform:uppercase;color:var(--txt-3);border:1px solid var(--linha);
-  border-radius:999px;padding:7px 12px;transition:color .2s,border-color .2s,background .2s}
-.dir-indice a:hover{color:var(--txt);border-color:var(--acc-2);background:var(--acc-suave)}
-.dir-acoes{display:flex;gap:12px;flex-wrap:wrap;margin-top:var(--e5)}
-.dir-grupo{margin-top:var(--e7);padding-top:var(--e5);border-top:1px solid var(--linha)}
-.dir-grupo h2{font-size:clamp(21px,2.4vw,28px)}
-.dir-nota{color:var(--txt-2);font-size:14.5px;margin-top:12px;max-width:60ch}
-.dir-regiao{margin-top:var(--e5);scroll-margin-top:120px}
-.dir-regiao h3{font-size:13px;letter-spacing:.14em;color:var(--acc-2);
-  padding-bottom:9px;border-bottom:1px solid var(--linha)}
-.dir-regiao ul{list-style:none;margin:14px 0 0;padding:0;
-  columns:4;column-gap:var(--e4);font-size:12.5px;color:var(--txt-3);line-height:1.75}
-.dir-regiao li{break-inside:avoid}
-.dir-fecho{margin-top:var(--e7);padding-top:var(--e5);border-top:1px solid var(--linha);
-  color:var(--txt-2);font-size:14.5px}
-.dir-fecho a{color:var(--acc-2)}
-@media(max-width:1080px){.dir-regiao ul{columns:3}}
-@media(max-width:760px){.dir-regiao ul{columns:2;font-size:12px}}
-@media(max-width:460px){.dir-regiao ul{columns:1}}
-
-/* bloco de serviços e regiões: discreto, porém legível e indexável.
-   Texto escondido de leitor humano é penalizado pelo Google, então ele é
-   um acordeão de verdade, aberto por quem quiser. */
-.seo{border-top:1px solid var(--linha);margin-top:var(--e5)}
-.seo summary{
-  list-style:none;cursor:pointer;padding:16px 0;
-  font-family:var(--display);font-weight:600;font-size:10.5px;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--txt-3);
-  display:flex;align-items:center;gap:10px;transition:color .2s ease}
-.seo summary::-webkit-details-marker{display:none}
-.seo summary::after{content:"+";font-size:15px;line-height:1;color:var(--txt-3);
-  transition:transform .3s ease}
-.seo[open] summary::after{transform:rotate(45deg)}
-.seo summary:hover{color:var(--txt-2)}
-.seo-corpo{padding-bottom:var(--e4)}
-.seo-corpo p{color:var(--txt-3);font-size:13px;max-width:74ch}
-.seo-corpo p a{color:var(--acc-2)}
-.seo-corpo p + p{margin-top:12px}
-.seo-colunas{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--e4);margin-top:var(--e4)}
-.seo-colunas h3{font-family:var(--display);font-size:10px;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--txt-2);margin:0 0 12px;font-weight:600}
-.seo-lista{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;
-  font-size:12.5px;color:var(--txt-3);line-height:1.45}
-@media(max-width:700px){
-  .seo-colunas{grid-template-columns:1fr;gap:var(--e3)}
-}
+/* A página de diretório (serviços cruzados com regiões) foi apagada por ser
+   repetição de palavra-chave, e o desenho dela saiu junto: eram 3,7 KB de CSS
+   para uma página que não existe mais. */
 
 .rod-fim{border-top:1px solid var(--linha);padding:22px 0 30px;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--txt-2)}
 .rod-fim a{text-decoration:none}
@@ -2286,12 +2206,6 @@ h2 em{font-style:normal;color:var(--acc-2)}
   background-size:151px 199px;background-position:57px 19px;opacity:.42;
   --poeira:calc(var(--rolagem, 0) * -0.38)}
 /* no tema claro a poeira precisa ser escura para existir */
-[data-tema="claro"] .poeira{opacity:.3}
-[data-tema="claro"] .poeira i:nth-child(1){
-  background-image:radial-gradient(circle,rgba(0,0,0,.45) 0 1px,transparent 1.4px),
-                   radial-gradient(circle,rgba(0,0,0,.26) 0 .8px,transparent 1.2px)}
-[data-tema="claro"] .poeira i:nth-child(2){
-  background-image:radial-gradient(circle,rgba(0,0,0,.5) 0 1.4px,transparent 1.9px)}
 /* telas estreitas não têm margem sobrando: a poeira cairia sobre o texto */
 @media (max-width:900px){ .poeira{width:38px;opacity:.28} }
 @media (max-width:560px){ .poeira{display:none} }
@@ -2389,29 +2303,6 @@ h2 em{font-style:normal;color:var(--acc-2)}
    planta ao fundo. O que muda de página para página é o ritmo — onde entra a
    faixa clara, como o topo se comporta, que elemento abre a página. */
 
-/* SERVIÇOS · índice numerado grande, como sumário de caderno técnico */
-.indice-servicos{list-style:none;margin:var(--e4) 0 0;padding:0;
-  border-top:1px solid var(--linha)}
-.indice-servicos li{border-bottom:1px solid var(--linha)}
-.indice-servicos a{display:grid;grid-template-columns:auto 1fr auto;align-items:center;
-  gap:var(--e3);padding:var(--e3) 0;text-decoration:none;color:inherit;
-  transition:padding .3s cubic-bezier(.2,.7,.2,1)}
-/* o numeral é grande mas continua sendo texto: precisa de contraste de texto,
-   e o tom de borda (--linha-forte) dava só 2:1 no fundo preto */
-.indice-n{font-family:var(--display);font-weight:700;font-size:clamp(26px,3.4vw,40px);
-  line-height:1;color:var(--txt-3);letter-spacing:-.03em;
-  min-width:2.2ch;transition:color .3s ease}
-.indice-txt b{display:block;font-family:var(--display);font-size:clamp(16px,2vw,22px);
-  text-transform:uppercase;letter-spacing:-.01em;color:var(--txt);transition:color .3s ease}
-.indice-txt span{display:block;margin-top:5px;color:var(--txt-3);font-size:14px;
-  line-height:1.5;max-width:62ch}
-.indice-seta{font-family:var(--display);font-size:17px;color:var(--txt-3);
-  transition:color .3s ease,transform .3s ease}
-.indice-servicos a:hover,.indice-servicos a:focus-visible{padding-left:var(--e3)}
-.indice-servicos a:hover .indice-n,.indice-servicos a:focus-visible .indice-n,
-.indice-servicos a:hover .indice-seta,.indice-servicos a:focus-visible .indice-seta{color:var(--acc-2)}
-.indice-servicos a:hover .indice-txt b,.indice-servicos a:focus-visible .indice-txt b{color:var(--acc-2)}
-.indice-servicos a:hover .indice-seta,.indice-servicos a:focus-visible .indice-seta{transform:translate(3px,-3px)}
 /* a esteira de fotos precisa respirar sem a margem lateral do .wrap */
 .esteira-bloco{padding-top:var(--e6);padding-bottom:var(--e6)}
 

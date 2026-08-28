@@ -11,6 +11,11 @@
  * o documento fica grande e atrasa a descoberta da foto do topo, que é o
  * elemento de maior contentful paint. Arquivo externo minificado e com cache
  * longo rende mais.
+ *
+ * Embutir só o CSS da primeira tela também foi testado e não ficou de pé: a
+ * extração acerta quase tudo, mas o "quase" aparece como página desmontada no
+ * primeiro instante, e o trecho embutido envelhece calado a cada mudança no
+ * desenho. Ganho pequeno com armadilha grande.
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';

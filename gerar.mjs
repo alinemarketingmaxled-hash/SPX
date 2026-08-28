@@ -83,7 +83,9 @@ function menu(atual) {
   return `<nav class="nav" aria-label="Principal"><div class="wrap nav-in">
   <div class="navpill">
     <a href="/" class="navlogo" aria-label="${esc(empresa.nome)} · início">
-      <img class="marca" src="/img/logo-spx.webp" width="300" height="72" alt="" aria-hidden="true"></a>
+      <img class="marca" src="/img/logo-spx-192.webp"
+        srcset="/img/logo-spx-192.webp 192w, /img/logo-spx.webp 300w" sizes="96px"
+        width="300" height="72" alt="" aria-hidden="true"></a>
     ${MENU.map(item).join('\n    ')}
     <a href="/contato" class="cta">Contato</a>
     <button class="nav-btn nav-menu" type="button" data-acao="menu" aria-expanded="false" aria-controls="gaveta" aria-label="Abrir menu">
@@ -330,6 +332,18 @@ function pagina({ url, arquivo, title, descricao, h1, trilha = [], corpo, schema
 <meta name="twitter:image" content="${SITE}/img/og.jpg">
 <meta name="geo.region" content="BR-SP">
 <meta name="geo.placename" content="São Paulo">
+<!-- As fontes moram dentro do CSS, então o navegador só descobria que
+     precisava delas depois de baixar e ler a folha inteira: HTML → CSS →
+     fonte, três idas em série, 620ms até a última chegar. Declaradas aqui,
+     elas saem junto com o CSS em vez de esperar por ele. São as quatro que
+     pintam a primeira tela; a quinta (Barlow 600) só aparece mais abaixo e
+     continua vindo pelo CSS. O crossorigin não é opcional: sem ele o
+     navegador baixa a fonte duas vezes, porque fonte é sempre buscada em
+     modo CORS e o preload sem a marca não casa com esse pedido. -->
+<link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/css/fontes/chakra-petch-700.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/css/fontes/chakra-petch-600.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/css/fontes/barlow-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/css/fontes/chakra-petch-500.woff2">
 <link rel="icon" type="image/png" href="/img/favicon.png">
 <!-- sem isto, quem salva o site na tela de início do iPhone recebe um
      print da página no lugar do ícone -->
@@ -1022,7 +1036,9 @@ const faixaDupla = (classe = '') => {
   /* a tira é escura no tema escuro, então quem entra é a marca de tinta clara.
      Invertido em relação ao menu, onde a marca fica sobre a cápsula clara. */
   const peca = `<span class="fd-peca">
-    <img class="fd-marca" src="/img/logo-spx-negativa.webp" width="300" height="72" alt="" loading="lazy" decoding="async">
+    <img class="fd-marca" src="/img/logo-spx-negativa-192.webp"
+      srcset="/img/logo-spx-negativa-192.webp 192w, /img/logo-spx-negativa.webp 300w" sizes="101px"
+      width="300" height="72" alt="" loading="lazy" decoding="async">
     <i>Engenharia · Gestão · Execução</i>
   </span>`;
   /* dobrado: a animação anda 50% e volta ao começo sem emenda visível */
@@ -1831,6 +1847,12 @@ for (const arquivo of ['index.html', '404.html']) {
                       '<!--FAIXA-->\n' + faixaDupla() + '\n<!--/FAIXA-->');
   /* as páginas escritas à mão não passam por pagina(): as tags de ícone e as
      medidas da imagem social entram aqui, para não existirem duas listas */
+  if (!html.includes('as="font"')) {
+    html = html.replace('<link rel="icon" type="image/png" href="/img/favicon.png">',
+      ['chakra-petch-700', 'chakra-petch-600', 'barlow-400', 'chakra-petch-500']
+        .map((f) => `<link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/css/fontes/${f}.woff2">`)
+        .join('\n') + '\n<link rel="icon" type="image/png" href="/img/favicon.png">');
+  }
   if (!html.includes('apple-touch-icon')) {
     html = html.replace('<link rel="icon" type="image/png" href="/img/favicon.png">',
       '<link rel="icon" type="image/png" href="/img/favicon.png">\n' +

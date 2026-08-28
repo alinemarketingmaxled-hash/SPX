@@ -1196,6 +1196,106 @@ h2 em{font-style:normal;color:var(--acc-2)}
 .pag-duvidas .foto-fundo .topo-duplo{align-items:center}
 .pag-duvidas .foto-fundo .topo-lead{max-width:none}
 
+/* ------------------------------------------------ casa em corte 3D */
+/* Lista de ambientes à esquerda, prédio aberto à direita. No celular a lista
+   vira uma fila que rola de lado: empilhada, os quatro botões empurravam o
+   desenho para fora da primeira tela e ninguém via o que a seção faz. */
+.cc{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);
+  gap:var(--e5);align-items:start;margin-top:var(--e4)}
+
+.cc-lista{display:grid;gap:10px;align-content:start;position:sticky;top:calc(var(--nav-altura) + 16px)}
+.cc-aba{display:grid;grid-template-columns:auto 1fr;gap:var(--e3);align-items:start;
+  text-align:left;padding:var(--e3);background:var(--sup);border:1px solid var(--linha);
+  border-radius:12px;color:var(--txt-2);cursor:pointer;
+  transition:background .2s ease,border-color .2s ease,transform .2s ease}
+.cc-aba:hover{background:var(--sup-2);transform:translateX(3px)}
+.cc-aba[aria-selected="true"]{background:var(--acc-suave);border-color:var(--acc-2);color:var(--txt)}
+.cc-aba .cc-ico{display:grid;place-items:center;width:34px;height:34px;border-radius:9px;
+  border:1px solid var(--linha);color:var(--acc-2)}
+.cc-aba[aria-selected="true"] .cc-ico{border-color:var(--acc-2);background:rgba(0,0,0,.2)}
+.cc-ico svg{width:18px;height:18px;stroke-width:1.3}
+.cc-rot b{display:block;font-family:var(--display);font-size:13px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--txt);line-height:1.35}
+.cc-rot span{display:block;margin-top:5px;font-size:13.5px;line-height:1.5;color:var(--txt-2)}
+.cc-link{margin-top:6px;font-family:var(--display);font-size:12px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--acc-2)}
+
+/* o palco tem altura própria: sem ela, trocar de ambiente muda a altura da
+   página e o que está abaixo pula */
+.cc-palco{position:relative;isolation:isolate}
+.cc-cena{position:relative}
+.cc-cena[hidden]{display:none}
+.cc-svg{width:100%;height:auto;display:block;color:var(--acc-2);
+  animation:cc-entra .5s cubic-bezier(.2,.7,.3,1) both}
+@keyframes cc-entra{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+
+/* as faces do desenho. O tampo é o mais claro porque é a face que recebe luz
+   de cima; as duas laterais escurecem, que é o que dá o volume sem sombra. */
+.cc-face{stroke:currentColor;stroke-width:.9;stroke-linejoin:round}
+.cc-topo{fill:currentColor;fill-opacity:.2}
+.cc-esq{fill:currentColor;fill-opacity:.1}
+.cc-dir{fill:currentColor;fill-opacity:.05}
+.cc-vidro .cc-face{fill-opacity:.045;stroke-dasharray:3 3;stroke-opacity:.75}
+.cc-laje{fill:currentColor;fill-opacity:.07;stroke:currentColor;stroke-width:1.1;stroke-opacity:.85}
+/* a parede precisa aparecer: é ela que amarra um pavimento no outro e faz o
+   conjunto ler como prédio em vez de lajes soltas no ar */
+.cc-parede{fill:currentColor;fill-opacity:.08;stroke:currentColor;stroke-width:1;stroke-opacity:.7}
+.cc-parede-esq{fill-opacity:.13}
+.cc-malha line{stroke:currentColor;stroke-width:.5;stroke-opacity:.2}
+
+/* alfinete: o alvo tem 28px mesmo com o ponto desenhado de 11, porque o que a
+   norma mede é a área que o dedo acerta, não o que se enxerga */
+.cc-pino{position:absolute;left:var(--px);top:var(--py);transform:translate(-50%,-50%);
+  width:28px;height:28px;display:grid;place-items:center;border-radius:50%;
+  background:none;border:0;cursor:pointer;padding:0;z-index:3}
+.cc-pino i{width:11px;height:11px;border-radius:50%;background:var(--acc-2);
+  box-shadow:0 0 0 4px rgba(143,176,204,.22);transition:box-shadow .25s ease,transform .25s ease}
+.cc-pino::after{content:"";position:absolute;inset:0;border-radius:50%;
+  border:1px solid var(--acc-2);opacity:.5;animation:cc-pulsa 2.6s ease-out infinite}
+@keyframes cc-pulsa{0%{transform:scale(.55);opacity:.55}70%,100%{transform:scale(1.25);opacity:0}}
+.cc-pino:hover i,.cc-pino:focus-visible i{transform:scale(1.25);box-shadow:0 0 0 7px rgba(143,176,204,.28)}
+.cc-pino[aria-expanded="true"] i{background:var(--txt);box-shadow:0 0 0 7px rgba(143,176,204,.35)}
+.cc-pino[aria-expanded="true"]::after{animation:none;opacity:0}
+
+/* A dica abre à ESQUERDA do alfinete, e não centrada nele. Os três alfinetes
+   ficam na borda direita das lajes, então centrado o balão saía metade para
+   fora do palco. Ancorado pela direita, ele cresce para dentro do desenho. */
+.cc-dica{position:absolute;right:calc(100% - var(--px) + 20px);top:calc(var(--py) - 14px);
+  width:min(300px,58%);z-index:4;
+  padding:14px 16px;border-radius:12px;
+  background:linear-gradient(155deg,rgba(18,24,31,.97),rgba(10,14,19,.97));
+  border:1px solid rgba(143,176,204,.34);
+  box-shadow:0 20px 44px rgba(0,0,0,.6);
+  animation:cc-dica-entra .22s ease both}
+@keyframes cc-dica-entra{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:none}}
+.cc-dica[hidden]{display:none}
+.cc-dica b{display:block;font-family:var(--display);font-size:11.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--acc-2)}
+.cc-dica p{margin:8px 0 0;font-size:13.5px;line-height:1.6;color:var(--txt)}
+
+@media (max-width:1000px){
+  .cc{grid-template-columns:minmax(0,1fr);gap:var(--e4)}
+  /* fila que rola de lado, com a rolagem encaixando em cada botão */
+  .cc-lista{position:static;grid-auto-flow:column;grid-auto-columns:minmax(230px,78%);
+    overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;
+    margin-inline:calc(50% - 50vw);padding-inline:max(18px,calc(50vw - 50%))}
+  .cc-aba{scroll-snap-align:start}
+  .cc-aba:hover{transform:none}
+  .cc-dica{width:min(300px,66%)}
+}
+@media (max-width:560px){
+  /* em tela estreita a dica não cabe ao lado do alfinete sem sair da margem:
+     vai para a base do palco, largura cheia */
+  /* o padding à direita abre espaço para o botão flutuante do WhatsApp, que
+     é fixo e passava por cima das últimas linhas da dica */
+  .cc-dica{right:auto;left:0;top:auto;bottom:0;width:100%;padding-right:76px}
+  @keyframes cc-dica-entra{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+}
+@media (prefers-reduced-motion:reduce){
+  .cc-svg,.cc-dica{animation:none}
+  .cc-pino::after{animation:none;opacity:.4}
+}
+
 /* ------------------------------------------------------- cartão que vira */
 /* A perspectiva fica no pai e o giro no filho: na mesma caixa o 3D achata e o
    cartão vira um retângulo que troca de cor. As duas faces ficam empilhadas

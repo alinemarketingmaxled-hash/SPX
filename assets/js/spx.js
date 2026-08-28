@@ -1202,6 +1202,84 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
   });
 })();
 
+/* CASA EM CORTE · a lista de ambientes troca o prédio ao lado, e cada alfinete
+   abre a dica daquele pavimento.
+
+   Duas coisas que a versão ingênua erra. A primeira: abrir uma dica sem fechar
+   a anterior deixa três balões empilhados por cima do desenho. A segunda: ao
+   trocar de ambiente, a dica aberta na cena antiga continua marcada como
+   aberta, e ao voltar para ela o balão reaparece sozinho — por isso fechar
+   tudo faz parte da troca, e não só do clique no alfinete. */
+(function casaCorte(){
+  $$('[data-corte]').forEach(function(caixa){
+    var abas  = $$('[data-cc-aba]', caixa);
+    var cenas = $$('[data-cc-cena]', caixa);
+    var pinos = $$('[data-cc-pino]', caixa);
+    if(!abas.length || abas.length !== cenas.length) return;
+
+    function fechaDicas(){
+      pinos.forEach(function(p){
+        p.setAttribute('aria-expanded', 'false');
+        var d = document.getElementById(p.getAttribute('aria-controls'));
+        if(d) d.hidden = true;
+      });
+    }
+
+    function abre(aba, focar){
+      var id = aba.dataset.ccAba;
+      fechaDicas();
+      abas.forEach(function(a){
+        var sua = a === aba;
+        a.setAttribute('aria-selected', String(sua));
+        a.tabIndex = sua ? 0 : -1;
+      });
+      cenas.forEach(function(c){ c.hidden = c.dataset.ccCena !== id; });
+      if(focar) aba.focus();
+    }
+
+    abas.forEach(function(aba, i){
+      aba.addEventListener('click', function(){ abre(aba, false); });
+      aba.addEventListener('keydown', function(e){
+        var passo = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1
+                  : e.key === 'ArrowLeft'  || e.key === 'ArrowUp'   ? -1 : 0;
+        if(passo){
+          e.preventDefault();
+          abre(abas[(i + passo + abas.length) % abas.length], true);
+          return;
+        }
+        if(e.key === 'Home' || e.key === 'End'){
+          e.preventDefault();
+          abre(abas[e.key === 'Home' ? 0 : abas.length - 1], true);
+        }
+      });
+    });
+
+    pinos.forEach(function(pino){
+      var dica = document.getElementById(pino.getAttribute('aria-controls'));
+      if(!dica) return;
+      pino.addEventListener('click', function(){
+        var aberta = pino.getAttribute('aria-expanded') === 'true';
+        fechaDicas();
+        if(!aberta){
+          pino.setAttribute('aria-expanded', 'true');
+          dica.hidden = false;
+        }
+      });
+    });
+
+    /* clicar fora e Esc fecham: balão que só fecha clicando de novo no mesmo
+       alfinete prende quem abriu por engano */
+    document.addEventListener('click', function(e){
+      if(!caixa.contains(e.target)) fechaDicas();
+    });
+    caixa.addEventListener('keydown', function(e){
+      if(e.key === 'Escape') fechaDicas();
+    });
+
+    abre(abas[0], false);
+  });
+})();
+
 /* CARTÃO QUE VIRA · clicar mostra o outro lado. O estado fica no atributo
    `data-virado` do pai, e não numa classe do botão, porque é o pai que carrega
    a perspectiva — girar o elemento que também define a perspectiva achata o

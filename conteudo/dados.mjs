@@ -722,3 +722,186 @@ export const regioes = {
   'Grande São Paulo': ['Alphaville', 'Barueri', 'Osasco', 'Guarulhos', 'São Bernardo do Campo',
     'Santo André', 'São Caetano do Sul', 'Diadema', 'Cotia', 'Taboão da Serra'],
 };
+
+/**
+ * Ambientes em corte, para a página do arquiteto.
+ *
+ * Cada tipo é um prédio de três pavimentos aberto de frente, como casa de
+ * boneca. `pecas` são os volumes desenhados em isométrico — posição x e y no
+ * piso, largura, profundidade e altura, tudo em unidades do desenho, com o
+ * piso de cada pavimento medindo 10 por 10.
+ *
+ * As dicas não são texto de propaganda: cada uma sai do que o serviço
+ * correspondente declara executar. Se a SPX não faz, não aparece aqui.
+ */
+export const ambientes = [
+  {
+    id: 'corporativo',
+    nome: 'Escritório corporativo',
+    servico: 'obras-corporativas',
+    resumo: 'Laje corrida, salas de reunião e recepção — com a operação do cliente rodando ao lado.',
+    andares: [
+      {
+        nome: 'Salas de reunião',
+        dica: 'Divisória de vidro com perfil de alumínio, forro acústico e ponto de lógica em cada sala. O que costuma travar a entrega é o vidro: prazo de fábrica longo, e por isso entra no cronograma como caminho crítico.',
+        pecas: [
+          { x: 1, y: 1, w: 4, d: 2.2, h: 0.8 },
+          { x: 1.4, y: 3.6, w: 0.7, d: 0.7, h: 1.1 },
+          { x: 2.6, y: 3.6, w: 0.7, d: 0.7, h: 1.1 },
+          { x: 3.8, y: 3.6, w: 0.7, d: 0.7, h: 1.1 },
+          { x: 6.4, y: 1, w: 0.25, d: 7.6, h: 2.4, vidro: true },
+          { x: 7.6, y: 2, w: 2, d: 1.2, h: 0.8 },
+        ],
+      },
+      {
+        nome: 'Laje corrida',
+        dica: 'Bancadas em fileira, forro modular e piso elevado quando há cabeamento por baixo. Elétrica e lógica sobem juntas: refazer ponto depois do forro fechado custa duas vezes.',
+        pecas: [
+          { x: 0.8, y: 1, w: 3.4, d: 0.9, h: 0.75 },
+          { x: 0.8, y: 3, w: 3.4, d: 0.9, h: 0.75 },
+          { x: 0.8, y: 5, w: 3.4, d: 0.9, h: 0.75 },
+          { x: 0.8, y: 7, w: 3.4, d: 0.9, h: 0.75 },
+          { x: 5.8, y: 1, w: 3.4, d: 0.9, h: 0.75 },
+          { x: 5.8, y: 3, w: 3.4, d: 0.9, h: 0.75 },
+          { x: 5.8, y: 5, w: 3.4, d: 0.9, h: 0.75 },
+          { x: 5.8, y: 7, w: 3.4, d: 0.9, h: 0.75 },
+        ],
+      },
+      {
+        nome: 'Recepção',
+        dica: 'Balcão em marcenaria sob medida, iluminação embutida e a comunicação visual da marca. É a primeira área que o cliente vê pronta e a última que a SPX libera.',
+        pecas: [
+          { x: 1, y: 1.2, w: 3.6, d: 1, h: 1.1 },
+          { x: 6.2, y: 1.4, w: 2.6, d: 0.9, h: 0.45 },
+          { x: 6.2, y: 3.4, w: 2.6, d: 0.9, h: 0.45 },
+          { x: 1.2, y: 6.4, w: 0.3, d: 2.6, h: 2.3, vidro: true },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'varejo',
+    nome: 'Loja e varejo',
+    servico: 'obras-comerciais',
+    resumo: 'Vitrine, área de vendas e estoque — quase sempre dentro de shopping, com regra de horário.',
+    andares: [
+      {
+        nome: 'Estoque e apoio',
+        dica: 'Prateleira metálica, iluminação simples e ponto de força para o carregamento. Área que ninguém vê e que decide se a loja opera bem depois de aberta.',
+        pecas: [
+          { x: 0.8, y: 1, w: 0.7, d: 7.4, h: 2 },
+          { x: 3.2, y: 1, w: 0.7, d: 7.4, h: 2 },
+          { x: 5.6, y: 1, w: 0.7, d: 7.4, h: 2 },
+          { x: 8, y: 1, w: 1.2, d: 2, h: 0.9 },
+        ],
+      },
+      {
+        nome: 'Provadores',
+        dica: 'Cabines em drywall com bandeira e espelho, e o forro recortado para a iluminação de prova. Cada cabine precisa do seu circuito: luz de prova puxada de emenda derruba o disjuntor no primeiro sábado.',
+        pecas: [
+          { x: 1, y: 1, w: 1.6, d: 1.8, h: 2.2 },
+          { x: 3, y: 1, w: 1.6, d: 1.8, h: 2.2 },
+          { x: 5, y: 1, w: 1.6, d: 1.8, h: 2.2 },
+          { x: 1, y: 5.4, w: 5, d: 0.5, h: 0.45 },
+          { x: 7.6, y: 2, w: 1.4, d: 4, h: 1.6 },
+        ],
+      },
+      {
+        nome: 'Vitrine e vendas',
+        dica: 'Fachada, comunicação visual e o caixa. Em shopping, a obra acontece na janela de horário do condomínio — e a documentação de acesso entra no cronograma antes do primeiro dia.',
+        pecas: [
+          { x: 0.8, y: 0.6, w: 8.4, d: 0.35, h: 2.6, vidro: true },
+          { x: 1.4, y: 1.4, w: 1.4, d: 1.4, h: 1.5 },
+          { x: 4, y: 1.4, w: 1.4, d: 1.4, h: 1.5 },
+          { x: 1, y: 4.4, w: 3.4, d: 0.7, h: 1 },
+          { x: 6.6, y: 4, w: 2.4, d: 1, h: 1.1 },
+          { x: 1, y: 6.8, w: 6, d: 0.6, h: 0.9 },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'restaurante',
+    nome: 'Restaurante e café',
+    servico: 'obras-comerciais',
+    resumo: 'Salão, cozinha e a parte que ninguém desenha: exaustão, gordura e água quente.',
+    andares: [
+      {
+        nome: 'Casa de máquinas',
+        dica: 'Exaustão, ar-condicionado e caixa d\'água. É o pavimento que define o projeto inteiro do restaurante: se o duto de exaustão não tem por onde subir, a cozinha muda de lugar.',
+        pecas: [
+          { x: 1.2, y: 1.2, w: 2.4, d: 2.4, h: 1.8 },
+          { x: 4.6, y: 1.2, w: 2, d: 2, h: 1.4 },
+          { x: 1.2, y: 5, w: 1, d: 1, h: 2.4 },
+          { x: 6.4, y: 5, w: 2.6, d: 2.6, h: 1.2 },
+        ],
+      },
+      {
+        nome: 'Salão',
+        dica: 'Mesas, forro e a iluminação que define a cara da casa. O ponto crítico é o conforto acústico: salão bonito e barulhento esvazia, e tratamento acústico se resolve no forro, antes de fechar.',
+        pecas: [
+          { x: 1, y: 1, w: 1.5, d: 1.5, h: 0.75 },
+          { x: 3.4, y: 1, w: 1.5, d: 1.5, h: 0.75 },
+          { x: 5.8, y: 1, w: 1.5, d: 1.5, h: 0.75 },
+          { x: 1, y: 3.6, w: 1.5, d: 1.5, h: 0.75 },
+          { x: 3.4, y: 3.6, w: 1.5, d: 1.5, h: 0.75 },
+          { x: 5.8, y: 3.6, w: 1.5, d: 1.5, h: 0.75 },
+          { x: 1, y: 6.4, w: 6.3, d: 0.7, h: 1.05 },
+          { x: 8.2, y: 1, w: 0.9, d: 6, h: 1.1 },
+        ],
+      },
+      {
+        nome: 'Cozinha',
+        dica: 'Cozinha industrial, câmara fria e ponto de gás. Piso, ralo e caimento são o que a vigilância olha primeiro — e refazer piso com a cozinha montada é obra duas vezes.',
+        pecas: [
+          { x: 0.8, y: 1, w: 3.6, d: 1, h: 0.9 },
+          { x: 0.8, y: 3, w: 3.6, d: 1, h: 0.9 },
+          { x: 6, y: 1, w: 2.4, d: 2.4, h: 2.2 },
+          { x: 6, y: 4.6, w: 2.4, d: 1, h: 0.9 },
+          { x: 0.8, y: 6.4, w: 5, d: 1.2, h: 1.05 },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'clinica',
+    nome: 'Clínica e laboratório',
+    servico: 'reformas',
+    resumo: 'Consultórios, espera e as exigências de norma que decidem o layout antes da estética.',
+    andares: [
+      {
+        nome: 'Administrativo',
+        dica: 'Área de apoio, arquivo e sala técnica. Aqui entra o quadro elétrico dedicado: equipamento de diagnóstico costuma exigir circuito e aterramento próprios.',
+        pecas: [
+          { x: 1, y: 1, w: 2.6, d: 1, h: 0.75 },
+          { x: 1, y: 3, w: 2.6, d: 1, h: 0.75 },
+          { x: 6.4, y: 1, w: 0.6, d: 5, h: 2 },
+          { x: 8, y: 1, w: 1, d: 1.6, h: 1.9 },
+        ],
+      },
+      {
+        nome: 'Consultórios',
+        dica: 'Divisórias com desempenho acústico, lavatório em cada sala e porta com vão livre de norma. A largura de porta e de corredor vem da acessibilidade, não do desenho: é o primeiro item que a compatibilização confere.',
+        pecas: [
+          { x: 0.8, y: 1, w: 2.6, d: 3, h: 2.3 },
+          { x: 4, y: 1, w: 2.6, d: 3, h: 2.3 },
+          { x: 7.2, y: 1, w: 2, d: 3, h: 2.3 },
+          { x: 0.8, y: 5.6, w: 8.4, d: 0.25, h: 1.1 },
+          { x: 1.2, y: 7, w: 1.8, d: 0.8, h: 0.6 },
+          { x: 4.4, y: 7, w: 1.8, d: 0.8, h: 0.6 },
+        ],
+      },
+      {
+        nome: 'Recepção e espera',
+        dica: 'Balcão, espera e circulação. Piso lavável, quina arredondada e iluminação sem ofuscamento — detalhes que a norma pede e que só aparecem no orçamento de quem já executou clínica.',
+        pecas: [
+          { x: 1, y: 1.2, w: 3, d: 1, h: 1.1 },
+          { x: 5.6, y: 1.2, w: 3.4, d: 0.7, h: 0.9 },
+          { x: 5.6, y: 3, w: 3.4, d: 0.7, h: 0.9 },
+          { x: 5.6, y: 4.8, w: 3.4, d: 0.7, h: 0.9 },
+          { x: 1, y: 6.6, w: 0.3, d: 2.4, h: 2.3, vidro: true },
+        ],
+      },
+    ],
+  },
+];

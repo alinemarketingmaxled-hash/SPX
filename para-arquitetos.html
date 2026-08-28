@@ -25,7 +25,7 @@
 <link rel="icon" type="image/png" href="/img/favicon.png">
 <link rel="preload" as="image" href="/img/mesa-vista-sp-640.webp"
       imagesrcset="/img/mesa-vista-sp-480.webp 480w, /img/mesa-vista-sp-640.webp 640w, /img/mesa-vista-sp-768.webp 768w" imagesizes="(min-width:1000px) min(44vw, 500px), 100vw" fetchpriority="high">
-<link rel="stylesheet" href="/assets/css/spx.min.css?v=9a8426ab">
+<link rel="stylesheet" href="/assets/css/spx.min.css?v=43afb62f">
 <script>
 /* aplica o tema antes da pintura para não piscar */
 document.documentElement.setAttribute('data-tema','escuro');
@@ -398,1311 +398,130 @@ document.documentElement.setAttribute('data-tema','escuro');
   </div>
 </header>
 
-<section class="sec wrap cc-secao" data-reveal>
-  <h2>O que a SPX executa <em>lá dentro</em></h2>
-  <p class="sub-secao">Escolha o tipo de ambiente e abra os alfinetes: em cada pavimento está
-  o que costuma decidir a obra, e não o que fica bonito na apresentação.</p>
+<section class="sec wrap pol-secao" data-reveal>
+  <h2>Projetos <em>executados</em></h2>
+  <p class="sub-secao">Obras entregues pela SPX, do detalhe de marcenaria ao acabamento que o
+  projeto pedia. O que está escrito embaixo de cada foto é o que foi executado ali.</p>
   
-<div class="cc" data-corte>
-  <div class="cc-lista" role="tablist" aria-orientation="vertical" aria-label="Tipos de ambiente">
-    
-    <button class="cc-aba" type="button" role="tab" data-cc-aba="corporativo"
-            id="cc-aba-corporativo" aria-controls="cc-cena-corporativo"
-            aria-selected="true" tabindex="0">
-      <span class="cc-ico"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M5 21V6h9v15M14 21V10h5v11"/><path d="M8 9h3M8 13h3M8 17h3"/></svg></span>
-      <span class="cc-rot"><b>Escritório corporativo</b><span>Laje corrida, salas de reunião e recepção — com a operação do cliente rodando ao lado.</span></span>
-    </button>
-    <button class="cc-aba" type="button" role="tab" data-cc-aba="varejo"
-            id="cc-aba-varejo" aria-controls="cc-cena-varejo"
-            aria-selected="false" tabindex="-1">
-      <span class="cc-ico"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h18l-1.4-4.2a1 1 0 0 0-1-.8H5.4a1 1 0 0 0-1 .8L3 9Z"/><path d="M5 9v11h14V9M10 20v-6h4v6"/></svg></span>
-      <span class="cc-rot"><b>Loja e varejo</b><span>Vitrine, área de vendas e estoque — quase sempre dentro de shopping, com regra de horário.</span></span>
-    </button>
-    <button class="cc-aba" type="button" role="tab" data-cc-aba="restaurante"
-            id="cc-aba-restaurante" aria-controls="cc-cena-restaurante"
-            aria-selected="false" tabindex="-1">
-      <span class="cc-ico"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h18l-1.4-4.2a1 1 0 0 0-1-.8H5.4a1 1 0 0 0-1 .8L3 9Z"/><path d="M5 9v11h14V9M10 20v-6h4v6"/></svg></span>
-      <span class="cc-rot"><b>Restaurante e café</b><span>Salão, cozinha e a parte que ninguém desenha: exaustão, gordura e água quente.</span></span>
-    </button>
-    <button class="cc-aba" type="button" role="tab" data-cc-aba="clinica"
-            id="cc-aba-clinica" aria-controls="cc-cena-clinica"
-            aria-selected="false" tabindex="-1">
-      <span class="cc-ico"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 6.5 3 3M3 21l3.5-1 11-11-2.5-2.5-11 11L3 21Z"/><path d="M17 3.5 20.5 7"/></svg></span>
-      <span class="cc-rot"><b>Clínica e laboratório</b><span>Consultórios, espera e as exigências de norma que decidem o layout antes da estética.</span></span>
-    </button>
-    <a class="cc-link" href="/servicos">Ver todos os serviços ↗</a>
-  </div>
-
-  <div class="cc-palco">
-    
-    <div class="cc-cena" id="cc-cena-corporativo" role="tabpanel" aria-labelledby="cc-aba-corporativo"
-         data-cc-cena="corporativo">
-      
-<svg class="cc-svg" viewBox="0 0 660 630" role="img"
-     aria-label="Corte isométrico de um escritório corporativo em três pavimentos">
-  <defs>
-    <linearGradient id="cc-topo-corporativo" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="currentColor" stop-opacity=".22"/>
-      <stop offset="1" stop-color="currentColor" stop-opacity=".06"/>
-    </linearGradient>
-    <radialGradient id="cc-luz-corporativo" cx="50%" cy="34%" r="58%">
-      <stop offset="0" stop-color="currentColor" stop-opacity=".18"/>
-      <stop offset="1" stop-color="currentColor" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-  <ellipse cx="330" cy="310" rx="300" ry="280" fill="url(#cc-luz-corporativo)"/>
-
-  <g class="cc-cob">
-    <polygon class="cc-laje" points="330.0 41.1,590.0 141.1,330.0 241.1,70.0 141.1"/>
-    <!-- platibanda: a mureta da beirada, o que dá espessura à laje -->
-    <polygon class="cc-face cc-esq" points="70.0 120.6,330.0 220.6,330.0 241.1,70.0 141.1"/>
-    <polygon class="cc-face cc-dir" points="590.0 120.6,330.0 220.6,330.0 241.1,590.0 141.1"/>
-    <g class="cc-p-equipa">
-    <polygon class="cc-face cc-topo" points="330.0 47.6,413.2 79.6,330.0 111.6,246.8 79.6"/>
-    <polygon class="cc-face cc-esq" points="246.8 79.6,330.0 111.6,330.0 173.1,246.8 141.1"/>
-    <polygon class="cc-face cc-dir" points="413.2 79.6,330.0 111.6,330.0 173.1,413.2 141.1"/>
-  </g>
-    <g class="cc-p-equipa">
-    <polygon class="cc-face cc-topo" points="496.4 88.2,538.0 104.2,496.4 120.2,454.8 104.2"/>
-    <polygon class="cc-face cc-esq" points="454.8 104.2,496.4 120.2,496.4 157.1,454.8 141.1"/>
-    <polygon class="cc-face cc-dir" points="538.0 104.2,496.4 120.2,496.4 157.1,538.0 141.1"/>
-  </g>
-  </g>
-
-  <g class="cc-pav">
-    <!-- laje -->
-    <polygon class="cc-laje" points="330.0 160.0,590.0 260.0,330.0 360.0,70.0 260.0"/>
-    <!-- as duas paredes do fundo; as da frente é que foram cortadas. Sobem o
-         pé-direito inteiro, então encostam na laje do andar de cima -->
-    <polygon class="cc-parede" points="330.0 160.0,590.0 260.0,590.0 141.1,330.0 41.1"/>
-    <polygon class="cc-parede cc-parede-esq" points="330.0 160.0,70.0 260.0,70.0 141.1,330.0 41.1"/>
-    <!-- malha do piso, para dar escala ao que está em cima dela -->
-    <g class="cc-malha">
-      <line x1="356.0" y1="170.0" x2="96.0" y2="270.0"/><line x1="304.0" y1="170.0" x2="564.0" y2="270.0"/>
-      <line x1="382.0" y1="180.0" x2="122.0" y2="280.0"/><line x1="278.0" y1="180.0" x2="538.0" y2="280.0"/>
-      <line x1="408.0" y1="190.0" x2="148.0" y2="290.0"/><line x1="252.0" y1="190.0" x2="512.0" y2="290.0"/>
-      <line x1="434.0" y1="200.0" x2="174.0" y2="300.0"/><line x1="226.0" y1="200.0" x2="486.0" y2="300.0"/>
-      <line x1="460.0" y1="210.0" x2="200.0" y2="310.0"/><line x1="200.0" y1="210.0" x2="460.0" y2="310.0"/>
-      <line x1="486.0" y1="220.0" x2="226.0" y2="320.0"/><line x1="174.0" y1="220.0" x2="434.0" y2="320.0"/>
-      <line x1="512.0" y1="230.0" x2="252.0" y2="330.0"/><line x1="148.0" y1="230.0" x2="408.0" y2="330.0"/>
-      <line x1="538.0" y1="240.0" x2="278.0" y2="340.0"/><line x1="122.0" y1="240.0" x2="382.0" y2="340.0"/>
-      <line x1="564.0" y1="250.0" x2="304.0" y2="350.0"/><line x1="96.0" y1="250.0" x2="356.0" y2="350.0"/>
-    </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="348.2 135.9,362.5 141.4,348.2 146.9,333.9 141.4"/>
-    <polygon class="cc-face cc-esq" points="333.9 141.4,348.2 146.9,348.2 190.0,333.9 184.5"/>
-    <polygon class="cc-face cc-dir" points="362.5 141.4,348.2 146.9,348.2 190.0,362.5 184.5"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="374.2 145.9,388.5 151.4,374.2 156.9,359.9 151.4"/>
-    <polygon class="cc-face cc-esq" points="359.9 151.4,374.2 156.9,374.2 200.0,359.9 194.5"/>
-    <polygon class="cc-face cc-dir" points="388.5 151.4,374.2 156.9,374.2 200.0,388.5 194.5"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="400.2 155.9,414.5 161.4,400.2 166.9,385.9 161.4"/>
-    <polygon class="cc-face cc-esq" points="385.9 161.4,400.2 166.9,400.2 210.0,385.9 204.5"/>
-    <polygon class="cc-face cc-dir" points="414.5 161.4,400.2 166.9,400.2 210.0,414.5 204.5"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="330.0 153.7,413.2 185.7,374.2 200.7,291.0 168.7"/>
-    <polygon class="cc-face cc-esq" points="291.0 168.7,374.2 200.7,374.2 231.0,291.0 199.0"/>
-    <polygon class="cc-face cc-dir" points="413.2 185.7,374.2 200.7,374.2 231.0,413.2 216.0"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="288.4 158.9,302.7 164.4,288.4 169.9,274.1 164.4"/>
-    <polygon class="cc-face cc-esq" points="274.1 164.4,288.4 169.9,288.4 213.0,274.1 207.5"/>
-    <polygon class="cc-face cc-dir" points="302.7 164.4,288.4 169.9,288.4 213.0,302.7 207.5"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="314.4 168.9,328.7 174.4,314.4 179.9,300.1 174.4"/>
-    <polygon class="cc-face cc-esq" points="300.1 174.4,314.4 179.9,314.4 223.0,300.1 217.5"/>
-    <polygon class="cc-face cc-dir" points="328.7 174.4,314.4 179.9,314.4 223.0,328.7 217.5"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="340.4 178.9,354.7 184.4,340.4 189.9,326.1 184.4"/>
-    <polygon class="cc-face cc-esq" points="326.1 184.4,340.4 189.9,340.4 233.0,326.1 227.5"/>
-    <polygon class="cc-face cc-dir" points="354.7 184.4,340.4 189.9,340.4 233.0,354.7 227.5"/>
-  </g>
-    <g class="cc-p-vidro">
-    <polygon class="cc-face cc-topo" points="226.0 115.6,345.6 161.6,339.9 163.8,220.3 117.8"/>
-    <polygon class="cc-face cc-esq" points="220.3 117.8,339.9 163.8,339.9 260.2,220.3 214.2"/>
-    <polygon class="cc-face cc-dir" points="345.6 161.6,339.9 163.8,339.9 260.2,345.6 258.0"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="220.8 195.7,283.2 219.7,252.0 231.7,189.6 207.7"/>
-    <polygon class="cc-face cc-esq" points="189.6 207.7,252.0 231.7,252.0 262.0,189.6 238.0"/>
-    <polygon class="cc-face cc-dir" points="283.2 219.7,252.0 231.7,252.0 262.0,283.2 250.0"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="187.0 199.9,201.3 205.4,187.0 210.9,172.7 205.4"/>
-    <polygon class="cc-face cc-esq" points="172.7 205.4,187.0 210.9,187.0 254.0,172.7 248.5"/>
-    <polygon class="cc-face cc-dir" points="201.3 205.4,187.0 210.9,187.0 254.0,201.3 248.5"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="460.0 199.7,543.2 231.7,522.4 239.7,439.2 207.7"/>
-    <polygon class="cc-face cc-esq" points="439.2 207.7,522.4 239.7,522.4 270.0,439.2 238.0"/>
-    <polygon class="cc-face cc-dir" points="543.2 231.7,522.4 239.7,522.4 270.0,543.2 262.0"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="215.6 210.9,229.9 216.4,215.6 221.9,201.3 216.4"/>
-    <polygon class="cc-face cc-esq" points="201.3 216.4,215.6 221.9,215.6 265.0,201.3 259.5"/>
-    <polygon class="cc-face cc-dir" points="229.9 216.4,215.6 221.9,215.6 265.0,229.9 259.5"/>
-  </g>
-    <g class="cc-p-vidro">
-    <polygon class="cc-face cc-topo" points="449.6 121.6,455.3 123.8,226.5 211.8,220.8 209.6"/>
-    <polygon class="cc-face cc-esq" points="220.8 209.6,226.5 211.8,226.5 308.2,220.8 306.0"/>
-    <polygon class="cc-face cc-dir" points="455.3 123.8,226.5 211.8,226.5 308.2,455.3 220.2"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="408.0 219.7,491.2 251.7,470.4 259.7,387.2 227.7"/>
-    <polygon class="cc-face cc-esq" points="387.2 227.7,470.4 259.7,470.4 290.0,387.2 258.0"/>
-    <polygon class="cc-face cc-dir" points="491.2 251.7,470.4 259.7,470.4 290.0,491.2 282.0"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="119.4 214.1,228.6 256.1,216.9 260.6,107.7 218.6"/>
-    <polygon class="cc-face cc-esq" points="107.7 218.6,216.9 260.6,216.9 299.5,107.7 257.5"/>
-    <polygon class="cc-face cc-dir" points="228.6 256.1,216.9 260.6,216.9 299.5,228.6 295.0"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="319.6 236.8,402.8 268.9,388.5 274.4,305.3 242.3"/>
-    <polygon class="cc-face cc-esq" points="305.3 242.3,388.5 274.4,388.5 321.5,305.3 289.5"/>
-    <polygon class="cc-face cc-dir" points="402.8 268.9,388.5 274.4,388.5 321.5,402.8 316.0"/>
-  </g>
-  </g>
-
-  <g class="cc-pav">
-    <!-- laje -->
-    <polygon class="cc-laje" points="330.0 278.9,590.0 378.9,330.0 478.9,70.0 378.9"/>
-    <!-- as duas paredes do fundo; as da frente é que foram cortadas. Sobem o
-         pé-direito inteiro, então encostam na laje do andar de cima -->
-    <polygon class="cc-parede" points="330.0 278.9,590.0 378.9,590.0 260.0,330.0 160.0"/>
-    <polygon class="cc-parede cc-parede-esq" points="330.0 278.9,70.0 378.9,70.0 260.0,330.0 160.0"/>
-    <!-- malha do piso, para dar escala ao que está em cima dela -->
-    <g class="cc-malha">
-      <line x1="356.0" y1="288.9" x2="96.0" y2="388.9"/><line x1="304.0" y1="288.9" x2="564.0" y2="388.9"/>
-      <line x1="382.0" y1="298.9" x2="122.0" y2="398.9"/><line x1="278.0" y1="298.9" x2="538.0" y2="398.9"/>
-      <line x1="408.0" y1="308.9" x2="148.0" y2="408.9"/><line x1="252.0" y1="308.9" x2="512.0" y2="408.9"/>
-      <line x1="434.0" y1="318.9" x2="174.0" y2="418.9"/><line x1="226.0" y1="318.9" x2="486.0" y2="418.9"/>
-      <line x1="460.0" y1="328.9" x2="200.0" y2="428.9"/><line x1="200.0" y1="328.9" x2="460.0" y2="428.9"/>
-      <line x1="486.0" y1="338.9" x2="226.0" y2="438.9"/><line x1="174.0" y1="338.9" x2="434.0" y2="438.9"/>
-      <line x1="512.0" y1="348.9" x2="252.0" y2="448.9"/><line x1="148.0" y1="348.9" x2="408.0" y2="448.9"/>
-      <line x1="538.0" y1="358.9" x2="278.0" y2="458.9"/><line x1="122.0" y1="358.9" x2="382.0" y2="458.9"/>
-      <line x1="564.0" y1="368.9" x2="304.0" y2="468.9"/><line x1="96.0" y1="368.9" x2="356.0" y2="468.9"/>
-    </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="306.6 265.7,319.6 270.7,306.6 275.7,293.6 270.7"/>
-    <polygon class="cc-face cc-esq" points="293.6 270.7,306.6 275.7,306.6 315.9,293.6 310.9"/>
-    <polygon class="cc-face cc-dir" points="319.6 270.7,306.6 275.7,306.6 315.9,319.6 310.9"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="327.4 263.6,421.0 299.6,398.9 308.1,305.3 272.1"/>
-    <polygon class="cc-face cc-esq" points="305.3 272.1,398.9 308.1,398.9 338.4,305.3 302.4"/>
-    <polygon class="cc-face cc-dir" points="421.0 299.6,398.9 308.1,398.9 338.4,421.0 329.9"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="337.8 277.7,350.8 282.7,337.8 287.7,324.8 282.7"/>
-    <polygon class="cc-face cc-esq" points="324.8 282.7,337.8 287.7,337.8 327.9,324.8 322.9"/>
-    <polygon class="cc-face cc-dir" points="350.8 282.7,337.8 287.7,337.8 327.9,350.8 322.9"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="262.4 282.7,275.4 287.7,262.4 292.7,249.4 287.7"/>
-    <polygon class="cc-face cc-esq" points="249.4 287.7,262.4 292.7,262.4 332.9,249.4 327.9"/>
-    <polygon class="cc-face cc-dir" points="275.4 287.7,262.4 292.7,262.4 332.9,275.4 327.9"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="283.2 280.6,376.8 316.6,354.7 325.1,261.1 289.1"/>
-    <polygon class="cc-face cc-esq" points="261.1 289.1,354.7 325.1,354.7 355.4,261.1 319.4"/>
-    <polygon class="cc-face cc-dir" points="376.8 316.6,354.7 325.1,354.7 355.4,376.8 346.9"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="369.0 289.7,382.0 294.7,369.0 299.7,356.0 294.7"/>
-    <polygon class="cc-face cc-esq" points="356.0 294.7,369.0 299.7,369.0 339.9,356.0 334.9"/>
-    <polygon class="cc-face cc-dir" points="382.0 294.7,369.0 299.7,369.0 339.9,382.0 334.9"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="293.6 294.7,306.6 299.7,293.6 304.7,280.6 299.7"/>
-    <polygon class="cc-face cc-esq" points="280.6 299.7,293.6 304.7,293.6 344.9,280.6 339.9"/>
-    <polygon class="cc-face cc-dir" points="306.6 299.7,293.6 304.7,293.6 344.9,306.6 339.9"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="239.0 297.6,332.6 333.6,310.5 342.1,216.9 306.1"/>
-    <polygon class="cc-face cc-esq" points="216.9 306.1,310.5 342.1,310.5 372.4,216.9 336.4"/>
-    <polygon class="cc-face cc-dir" points="332.6 333.6,310.5 342.1,310.5 372.4,332.6 363.9"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="324.8 306.7,337.8 311.7,324.8 316.7,311.8 311.7"/>
-    <polygon class="cc-face cc-esq" points="311.8 311.7,324.8 316.7,324.8 356.9,311.8 351.9"/>
-    <polygon class="cc-face cc-dir" points="337.8 311.7,324.8 316.7,324.8 356.9,337.8 351.9"/>
-  </g>
-    <g class="cc-p-parede">
-    <polygon class="cc-face cc-topo" points="454.8 246.5,499.0 263.5,454.8 280.5,410.6 263.5"/>
-    <polygon class="cc-face cc-esq" points="410.6 263.5,454.8 280.5,454.8 376.9,410.6 359.9"/>
-    <polygon class="cc-face cc-dir" points="499.0 263.5,454.8 280.5,454.8 376.9,499.0 359.9"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="194.8 314.6,288.4 350.6,266.3 359.1,172.7 323.1"/>
-    <polygon class="cc-face cc-esq" points="172.7 323.1,266.3 359.1,266.3 389.4,172.7 353.4"/>
-    <polygon class="cc-face cc-dir" points="288.4 350.6,266.3 359.1,266.3 389.4,288.4 380.9"/>
-  </g>
-    <g class="cc-p-parede">
-    <polygon class="cc-face cc-topo" points="506.8 266.5,551.0 283.5,506.8 300.5,462.6 283.5"/>
-    <polygon class="cc-face cc-esq" points="462.6 283.5,506.8 300.5,506.8 396.9,462.6 379.9"/>
-    <polygon class="cc-face cc-dir" points="551.0 283.5,506.8 300.5,506.8 396.9,551.0 379.9"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="140.2 348.7,207.8 374.7,176.6 386.7,109.0 360.7"/>
-    <polygon class="cc-face cc-esq" points="109.0 360.7,176.6 386.7,176.6 403.9,109.0 377.9"/>
-    <polygon class="cc-face cc-dir" points="207.8 374.7,176.6 386.7,176.6 403.9,207.8 391.9"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="387.2 338.6,483.4 375.6,460.0 384.6,363.8 347.6"/>
-    <polygon class="cc-face cc-esq" points="363.8 347.6,460.0 384.6,460.0 414.9,363.8 377.9"/>
-    <polygon class="cc-face cc-dir" points="483.4 375.6,460.0 384.6,460.0 414.9,483.4 405.9"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="335.2 358.6,431.4 395.6,408.0 404.6,311.8 367.6"/>
-    <polygon class="cc-face cc-esq" points="311.8 367.6,408.0 404.6,408.0 434.9,311.8 397.9"/>
-    <polygon class="cc-face cc-dir" points="431.4 395.6,408.0 404.6,408.0 434.9,431.4 425.9"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="278.0 365.8,374.2 402.8,359.9 408.3,263.7 371.3"/>
-    <polygon class="cc-face cc-esq" points="263.7 371.3,359.9 408.3,359.9 453.4,263.7 416.4"/>
-    <polygon class="cc-face cc-dir" points="374.2 402.8,359.9 408.3,359.9 453.4,374.2 447.9"/>
-  </g>
-  </g>
-
-  <g class="cc-pav">
-    <!-- laje -->
-    <polygon class="cc-laje" points="330.0 397.8,590.0 497.8,330.0 597.8,70.0 497.8"/>
-    <!-- as duas paredes do fundo; as da frente é que foram cortadas. Sobem o
-         pé-direito inteiro, então encostam na laje do andar de cima -->
-    <polygon class="cc-parede" points="330.0 397.8,590.0 497.8,590.0 378.9,330.0 278.9"/>
-    <polygon class="cc-parede cc-parede-esq" points="330.0 397.8,70.0 497.8,70.0 378.9,330.0 278.9"/>
-    <!-- malha do piso, para dar escala ao que está em cima dela -->
-    <g class="cc-malha">
-      <line x1="356.0" y1="407.8" x2="96.0" y2="507.8"/><line x1="304.0" y1="407.8" x2="564.0" y2="507.8"/>
-      <line x1="382.0" y1="417.8" x2="122.0" y2="517.8"/><line x1="278.0" y1="417.8" x2="538.0" y2="517.8"/>
-      <line x1="408.0" y1="427.8" x2="148.0" y2="527.8"/><line x1="252.0" y1="427.8" x2="512.0" y2="527.8"/>
-      <line x1="434.0" y1="437.8" x2="174.0" y2="537.8"/><line x1="226.0" y1="437.8" x2="486.0" y2="537.8"/>
-      <line x1="460.0" y1="447.8" x2="200.0" y2="547.8"/><line x1="200.0" y1="447.8" x2="460.0" y2="547.8"/>
-      <line x1="486.0" y1="457.8" x2="226.0" y2="557.8"/><line x1="174.0" y1="457.8" x2="434.0" y2="557.8"/>
-      <line x1="512.0" y1="467.8" x2="252.0" y2="567.8"/><line x1="148.0" y1="467.8" x2="408.0" y2="567.8"/>
-      <line x1="538.0" y1="477.8" x2="278.0" y2="577.8"/><line x1="122.0" y1="477.8" x2="382.0" y2="577.8"/>
-      <line x1="564.0" y1="487.8" x2="304.0" y2="587.8"/><line x1="96.0" y1="487.8" x2="356.0" y2="587.8"/>
-    </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="343.0 306.2,431.4 340.2,423.6 343.2,335.2 309.2"/>
-    <polygon class="cc-face cc-esq" points="335.2 309.2,423.6 343.2,423.6 449.8,335.2 415.8"/>
-    <polygon class="cc-face cc-dir" points="431.4 340.2,423.6 343.2,423.6 449.8,431.4 446.8"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="324.8 374.7,413.2 408.7,387.2 418.7,298.8 384.7"/>
-    <polygon class="cc-face cc-esq" points="298.8 384.7,387.2 418.7,387.2 463.8,298.8 429.8"/>
-    <polygon class="cc-face cc-dir" points="413.2 408.7,387.2 418.7,387.2 463.8,413.2 453.8"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="252.0 430.6,309.2 452.6,285.8 461.6,228.6 439.6"/>
-    <polygon class="cc-face cc-esq" points="228.6 439.6,285.8 461.6,285.8 478.8,228.6 456.8"/>
-    <polygon class="cc-face cc-dir" points="309.2 452.6,285.8 461.6,285.8 478.8,309.2 469.8"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="454.8 441.8,486.0 453.8,454.8 465.8,423.6 453.8"/>
-    <polygon class="cc-face cc-esq" points="423.6 453.8,454.8 465.8,454.8 497.8,423.6 485.8"/>
-    <polygon class="cc-face cc-dir" points="486.0 453.8,454.8 465.8,454.8 497.8,486.0 485.8"/>
-  </g>
-    <g class="cc-p-vidro">
-    <polygon class="cc-face cc-topo" points="454.8 361.4,461.3 363.9,320.9 417.9,314.4 415.4"/>
-    <polygon class="cc-face cc-esq" points="314.4 415.4,320.9 417.9,320.9 514.3,314.4 511.8"/>
-    <polygon class="cc-face cc-dir" points="461.3 363.9,320.9 417.9,320.9 514.3,461.3 460.3"/>
-  </g>
-    <g class="cc-p-vidro">
-    <polygon class="cc-face cc-topo" points="184.4 408.2,192.2 411.2,124.6 437.2,116.8 434.2"/>
-    <polygon class="cc-face cc-esq" points="116.8 434.2,124.6 437.2,124.6 502.8,116.8 499.8"/>
-    <polygon class="cc-face cc-dir" points="192.2 411.2,124.6 437.2,124.6 502.8,192.2 476.8"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="496.4 457.8,527.6 469.8,496.4 481.8,465.2 469.8"/>
-    <polygon class="cc-face cc-esq" points="465.2 469.8,496.4 481.8,496.4 513.8,465.2 501.8"/>
-    <polygon class="cc-face cc-dir" points="527.6 469.8,496.4 481.8,496.4 513.8,527.6 501.8"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="408.0 459.8,439.2 471.8,408.0 483.8,376.8 471.8"/>
-    <polygon class="cc-face cc-esq" points="376.8 471.8,408.0 483.8,408.0 515.8,376.8 503.8"/>
-    <polygon class="cc-face cc-dir" points="439.2 471.8,408.0 483.8,408.0 515.8,439.2 503.8"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="434.0 478.2,470.4 492.2,449.6 500.2,413.2 486.2"/>
-    <polygon class="cc-face cc-esq" points="413.2 486.2,449.6 500.2,449.6 515.8,413.2 501.8"/>
-    <polygon class="cc-face cc-dir" points="470.4 492.2,449.6 500.2,449.6 515.8,470.4 507.8"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="194.8 450.7,267.6 478.7,252.0 484.7,179.2 456.7"/>
-    <polygon class="cc-face cc-esq" points="179.2 456.7,252.0 484.7,252.0 527.8,179.2 499.8"/>
-    <polygon class="cc-face cc-dir" points="267.6 478.7,252.0 484.7,252.0 527.8,267.6 521.8"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="449.6 475.8,480.8 487.8,449.6 499.8,418.4 487.8"/>
-    <polygon class="cc-face cc-esq" points="418.4 487.8,449.6 499.8,449.6 531.8,418.4 519.8"/>
-    <polygon class="cc-face cc-dir" points="480.8 487.8,449.6 499.8,449.6 531.8,480.8 519.8"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="314.4 501.2,392.4 531.3,330.0 555.3,252.0 525.3"/>
-    <polygon class="cc-face cc-esq" points="252.0 525.3,330.0 555.3,330.0 577.8,252.0 547.8"/>
-    <polygon class="cc-face cc-dir" points="392.4 531.3,330.0 555.3,330.0 577.8,392.4 553.8"/>
-  </g>
-  </g>
-</svg>
-      
-      <button class="cc-pino" type="button" data-cc-pino data-cc-andar="0" style="--px:79.15%;--py:39.49%"
-              aria-expanded="false" aria-controls="cc-dica-corporativo-0">
-        <i aria-hidden="true"></i><span class="so-leitor">Dica sobre Salas de reunião</span>
-      </button>
-      <div class="cc-dica" id="cc-dica-corporativo-0" role="region"
-           aria-labelledby="cc-tit-corporativo-0" style="--px:79.15%;--py:39.49%" hidden>
-        <img class="cc-foto" data-fonte="/img/sala-reuniao-azul-480.webp"
-             width="480" height="681"
-             alt="Sala de reunião com parede em azul profundo, obra corporativa da SPX." loading="lazy" decoding="async">
-        <b id="cc-tit-corporativo-0">Salas de reunião</b>
-        <p>Divisória de vidro com perfil de alumínio, forro acústico e ponto de lógica em cada sala. O que costuma travar a entrega é o vidro: prazo de fábrica longo, e por isso entra no cronograma como caminho crítico.</p>
-      </div>
-      <button class="cc-pino" type="button" data-cc-pino data-cc-andar="1" style="--px:79.15%;--py:58.37%"
-              aria-expanded="false" aria-controls="cc-dica-corporativo-1">
-        <i aria-hidden="true"></i><span class="so-leitor">Dica sobre Laje corrida</span>
-      </button>
-      <div class="cc-dica" id="cc-dica-corporativo-1" role="region"
-           aria-labelledby="cc-tit-corporativo-1" style="--px:79.15%;--py:58.37%" hidden>
-        <img class="cc-foto" data-fonte="/img/estante-espinha-peixe-480.webp"
-             width="480" height="640"
-             alt="Escritório com estante sob medida e piso em espinha de peixe, obra da SPX." loading="lazy" decoding="async">
-        <b id="cc-tit-corporativo-1">Laje corrida</b>
-        <p>Bancadas em fileira, forro modular e piso elevado quando há cabeamento por baixo. Elétrica e lógica sobem juntas: refazer ponto depois do forro fechado custa duas vezes.</p>
-      </div>
-      <button class="cc-pino" type="button" data-cc-pino data-cc-andar="2" style="--px:79.15%;--py:77.24%"
-              aria-expanded="false" aria-controls="cc-dica-corporativo-2">
-        <i aria-hidden="true"></i><span class="so-leitor">Dica sobre Recepção</span>
-      </button>
-      <div class="cc-dica" id="cc-dica-corporativo-2" role="region"
-           aria-labelledby="cc-tit-corporativo-2" style="--px:79.15%;--py:77.24%" hidden>
-        <img class="cc-foto" data-fonte="/img/lounge-recepcao-480.webp"
-             width="480" height="720"
-             alt="Lounge de espera com balcão em pedra, obra corporativa da SPX." loading="lazy" decoding="async">
-        <b id="cc-tit-corporativo-2">Recepção</b>
-        <p>Balcão em marcenaria sob medida, iluminação embutida e a comunicação visual da marca. É a primeira área que o cliente vê pronta e a última que a SPX libera.</p>
-      </div>
-    </div>
-    <div class="cc-cena" id="cc-cena-varejo" role="tabpanel" aria-labelledby="cc-aba-varejo"
-         data-cc-cena="varejo" hidden>
-      
-<svg class="cc-svg" viewBox="0 0 660 630" role="img"
-     aria-label="Corte isométrico de um loja e varejo em três pavimentos">
-  <defs>
-    <linearGradient id="cc-topo-varejo" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="currentColor" stop-opacity=".22"/>
-      <stop offset="1" stop-color="currentColor" stop-opacity=".06"/>
-    </linearGradient>
-    <radialGradient id="cc-luz-varejo" cx="50%" cy="34%" r="58%">
-      <stop offset="0" stop-color="currentColor" stop-opacity=".18"/>
-      <stop offset="1" stop-color="currentColor" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-  <ellipse cx="330" cy="310" rx="300" ry="280" fill="url(#cc-luz-varejo)"/>
-
-  <g class="cc-cob">
-    <polygon class="cc-laje" points="330.0 41.1,590.0 141.1,330.0 241.1,70.0 141.1"/>
-    <!-- platibanda: a mureta da beirada, o que dá espessura à laje -->
-    <polygon class="cc-face cc-esq" points="70.0 120.6,330.0 220.6,330.0 241.1,70.0 141.1"/>
-    <polygon class="cc-face cc-dir" points="590.0 120.6,330.0 220.6,330.0 241.1,590.0 141.1"/>
-    <g class="cc-p-equipa">
-    <polygon class="cc-face cc-topo" points="330.0 47.6,413.2 79.6,330.0 111.6,246.8 79.6"/>
-    <polygon class="cc-face cc-esq" points="246.8 79.6,330.0 111.6,330.0 173.1,246.8 141.1"/>
-    <polygon class="cc-face cc-dir" points="413.2 79.6,330.0 111.6,330.0 173.1,413.2 141.1"/>
-  </g>
-    <g class="cc-p-equipa">
-    <polygon class="cc-face cc-topo" points="496.4 88.2,538.0 104.2,496.4 120.2,454.8 104.2"/>
-    <polygon class="cc-face cc-esq" points="454.8 104.2,496.4 120.2,496.4 157.1,454.8 141.1"/>
-    <polygon class="cc-face cc-dir" points="538.0 104.2,496.4 120.2,496.4 157.1,538.0 141.1"/>
-  </g>
-  </g>
-
-  <g class="cc-pav">
-    <!-- laje -->
-    <polygon class="cc-laje" points="330.0 160.0,590.0 260.0,330.0 360.0,70.0 260.0"/>
-    <!-- as duas paredes do fundo; as da frente é que foram cortadas. Sobem o
-         pé-direito inteiro, então encostam na laje do andar de cima -->
-    <polygon class="cc-parede" points="330.0 160.0,590.0 260.0,590.0 141.1,330.0 41.1"/>
-    <polygon class="cc-parede cc-parede-esq" points="330.0 160.0,70.0 260.0,70.0 141.1,330.0 41.1"/>
-    <!-- malha do piso, para dar escala ao que está em cima dela -->
-    <g class="cc-malha">
-      <line x1="356.0" y1="170.0" x2="96.0" y2="270.0"/><line x1="304.0" y1="170.0" x2="564.0" y2="270.0"/>
-      <line x1="382.0" y1="180.0" x2="122.0" y2="280.0"/><line x1="278.0" y1="180.0" x2="538.0" y2="280.0"/>
-      <line x1="408.0" y1="190.0" x2="148.0" y2="290.0"/><line x1="252.0" y1="190.0" x2="512.0" y2="290.0"/>
-      <line x1="434.0" y1="200.0" x2="174.0" y2="300.0"/><line x1="226.0" y1="200.0" x2="486.0" y2="300.0"/>
-      <line x1="460.0" y1="210.0" x2="200.0" y2="310.0"/><line x1="200.0" y1="210.0" x2="460.0" y2="310.0"/>
-      <line x1="486.0" y1="220.0" x2="226.0" y2="320.0"/><line x1="174.0" y1="220.0" x2="434.0" y2="320.0"/>
-      <line x1="512.0" y1="230.0" x2="252.0" y2="330.0"/><line x1="148.0" y1="230.0" x2="408.0" y2="330.0"/>
-      <line x1="538.0" y1="240.0" x2="278.0" y2="340.0"/><line x1="122.0" y1="240.0" x2="382.0" y2="340.0"/>
-      <line x1="564.0" y1="250.0" x2="304.0" y2="350.0"/><line x1="96.0" y1="250.0" x2="356.0" y2="350.0"/>
-    </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="327.4 80.7,346.9 88.2,154.5 162.2,135.0 154.7"/>
-    <polygon class="cc-face cc-esq" points="135.0 154.7,154.5 162.2,154.5 256.5,135.0 249.0"/>
-    <polygon class="cc-face cc-dir" points="346.9 88.2,154.5 162.2,154.5 256.5,346.9 182.5"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="376.8 99.7,396.3 107.2,203.9 181.2,184.4 173.7"/>
-    <polygon class="cc-face cc-esq" points="184.4 173.7,203.9 181.2,203.9 275.5,184.4 268.0"/>
-    <polygon class="cc-face cc-dir" points="396.3 107.2,203.9 181.2,203.9 275.5,396.3 201.5"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="426.2 118.7,445.7 126.2,253.3 200.2,233.8 192.7"/>
-    <polygon class="cc-face cc-esq" points="233.8 192.7,253.3 200.2,253.3 294.5,233.8 287.0"/>
-    <polygon class="cc-face cc-dir" points="445.7 126.2,253.3 200.2,253.3 294.5,445.7 220.5"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="522.4 215.2,548.4 225.2,480.8 251.2,454.8 241.2"/>
-    <polygon class="cc-face cc-esq" points="454.8 241.2,480.8 251.2,480.8 286.0,454.8 276.0"/>
-    <polygon class="cc-face cc-dir" points="548.4 225.2,480.8 251.2,480.8 286.0,548.4 260.0"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="475.6 137.7,495.1 145.2,302.7 219.2,283.2 211.7"/>
-    <polygon class="cc-face cc-esq" points="283.2 211.7,302.7 219.2,302.7 313.5,283.2 306.0"/>
-    <polygon class="cc-face cc-dir" points="495.1 145.2,302.7 219.2,302.7 313.5,495.1 239.5"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="439.2 261.5,465.2 271.5,439.2 281.5,413.2 271.5"/>
-    <polygon class="cc-face cc-esq" points="413.2 271.5,439.2 281.5,439.2 302.0,413.2 292.0"/>
-    <polygon class="cc-face cc-dir" points="465.2 271.5,439.2 281.5,439.2 302.0,465.2 292.0"/>
-  </g>
-    <g class="cc-p-equipa">
-    <polygon class="cc-face cc-topo" points="387.2 224.1,413.2 234.1,356.0 256.1,330.0 246.1"/>
-    <polygon class="cc-face cc-esq" points="330.0 246.1,356.0 256.1,356.0 334.0,330.0 324.0"/>
-    <polygon class="cc-face cc-dir" points="413.2 234.1,356.0 256.1,356.0 334.0,413.2 312.0"/>
-  </g>
-  </g>
-
-  <g class="cc-pav">
-    <!-- laje -->
-    <polygon class="cc-laje" points="330.0 278.9,590.0 378.9,330.0 478.9,70.0 378.9"/>
-    <!-- as duas paredes do fundo; as da frente é que foram cortadas. Sobem o
-         pé-direito inteiro, então encostam na laje do andar de cima -->
-    <polygon class="cc-parede" points="330.0 278.9,590.0 378.9,590.0 260.0,330.0 160.0"/>
-    <polygon class="cc-parede cc-parede-esq" points="330.0 278.9,70.0 378.9,70.0 260.0,330.0 160.0"/>
-    <!-- malha do piso, para dar escala ao que está em cima dela -->
-    <g class="cc-malha">
-      <line x1="356.0" y1="288.9" x2="96.0" y2="388.9"/><line x1="304.0" y1="288.9" x2="564.0" y2="388.9"/>
-      <line x1="382.0" y1="298.9" x2="122.0" y2="398.9"/><line x1="278.0" y1="298.9" x2="538.0" y2="398.9"/>
-      <line x1="408.0" y1="308.9" x2="148.0" y2="408.9"/><line x1="252.0" y1="308.9" x2="512.0" y2="408.9"/>
-      <line x1="434.0" y1="318.9" x2="174.0" y2="418.9"/><line x1="226.0" y1="318.9" x2="486.0" y2="418.9"/>
-      <line x1="460.0" y1="328.9" x2="200.0" y2="428.9"/><line x1="200.0" y1="328.9" x2="460.0" y2="428.9"/>
-      <line x1="486.0" y1="338.9" x2="226.0" y2="438.9"/><line x1="174.0" y1="338.9" x2="434.0" y2="438.9"/>
-      <line x1="512.0" y1="348.9" x2="252.0" y2="448.9"/><line x1="148.0" y1="348.9" x2="408.0" y2="448.9"/>
-      <line x1="538.0" y1="358.9" x2="278.0" y2="458.9"/><line x1="122.0" y1="358.9" x2="382.0" y2="458.9"/>
-      <line x1="564.0" y1="368.9" x2="304.0" y2="468.9"/><line x1="96.0" y1="368.9" x2="356.0" y2="468.9"/>
-    </g>
-    <g class="cc-p-parede">
-    <polygon class="cc-face cc-topo" points="330.0 198.5,369.0 213.5,319.6 232.5,280.6 217.5"/>
-    <polygon class="cc-face cc-esq" points="280.6 217.5,319.6 232.5,319.6 328.9,280.6 313.9"/>
-    <polygon class="cc-face cc-dir" points="369.0 213.5,319.6 232.5,319.6 328.9,369.0 309.9"/>
-  </g>
-    <g class="cc-p-parede">
-    <polygon class="cc-face cc-topo" points="376.8 216.5,415.8 231.5,366.4 250.5,327.4 235.5"/>
-    <polygon class="cc-face cc-esq" points="327.4 235.5,366.4 250.5,366.4 346.9,327.4 331.9"/>
-    <polygon class="cc-face cc-dir" points="415.8 231.5,366.4 250.5,366.4 346.9,415.8 327.9"/>
-  </g>
-    <g class="cc-p-parede">
-    <polygon class="cc-face cc-topo" points="423.6 234.5,462.6 249.5,413.2 268.5,374.2 253.5"/>
-    <polygon class="cc-face cc-esq" points="374.2 253.5,413.2 268.5,413.2 364.9,374.2 349.9"/>
-    <polygon class="cc-face cc-dir" points="462.6 249.5,413.2 268.5,413.2 364.9,462.6 345.9"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="262.4 303.7,444.4 373.7,432.7 378.2,250.7 308.2"/>
-    <polygon class="cc-face cc-esq" points="250.7 308.2,432.7 378.2,432.7 395.4,250.7 325.4"/>
-    <polygon class="cc-face cc-dir" points="444.4 373.7,432.7 378.2,432.7 395.4,444.4 390.9"/>
-  </g>
-    <g class="cc-p-vidro">
-    <polygon class="cc-face cc-topo" points="215.6 273.3,223.4 276.3,129.8 312.3,122.0 309.3"/>
-    <polygon class="cc-face cc-esq" points="122.0 309.3,129.8 312.3,129.8 377.9,122.0 374.9"/>
-    <polygon class="cc-face cc-dir" points="223.4 276.3,129.8 312.3,129.8 377.9,223.4 341.9"/>
-  </g>
-    <g class="cc-p-parede">
-    <polygon class="cc-face cc-topo" points="470.4 252.5,509.4 267.5,460.0 286.5,421.0 271.5"/>
-    <polygon class="cc-face cc-esq" points="421.0 271.5,460.0 286.5,460.0 382.9,421.0 367.9"/>
-    <polygon class="cc-face cc-dir" points="509.4 267.5,460.0 286.5,460.0 382.9,509.4 363.9"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="246.8 309.7,314.4 335.7,298.8 341.7,231.2 315.7"/>
-    <polygon class="cc-face cc-esq" points="231.2 315.7,298.8 341.7,298.8 390.9,231.2 364.9"/>
-    <polygon class="cc-face cc-dir" points="314.4 335.7,298.8 341.7,298.8 390.9,314.4 384.9"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="371.6 313.2,408.0 327.2,309.2 365.2,272.8 351.2"/>
-    <polygon class="cc-face cc-esq" points="272.8 351.2,309.2 365.2,309.2 434.9,272.8 420.9"/>
-    <polygon class="cc-face cc-dir" points="408.0 327.2,309.2 365.2,309.2 434.9,408.0 396.9"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="428.8 365.9,454.8 375.9,356.0 413.9,330.0 403.9"/>
-    <polygon class="cc-face cc-esq" points="330.0 403.9,356.0 413.9,356.0 452.9,330.0 442.9"/>
-    <polygon class="cc-face cc-dir" points="454.8 375.9,356.0 413.9,356.0 452.9,454.8 414.9"/>
-  </g>
-  </g>
-
-  <g class="cc-pav">
-    <!-- laje -->
-    <polygon class="cc-laje" points="330.0 397.8,590.0 497.8,330.0 597.8,70.0 497.8"/>
-    <!-- as duas paredes do fundo; as da frente é que foram cortadas. Sobem o
-         pé-direito inteiro, então encostam na laje do andar de cima -->
-    <polygon class="cc-parede" points="330.0 397.8,590.0 497.8,590.0 378.9,330.0 278.9"/>
-    <polygon class="cc-parede cc-parede-esq" points="330.0 397.8,70.0 497.8,70.0 378.9,330.0 278.9"/>
-    <!-- malha do piso, para dar escala ao que está em cima dela -->
-    <g class="cc-malha">
-      <line x1="356.0" y1="407.8" x2="96.0" y2="507.8"/><line x1="304.0" y1="407.8" x2="564.0" y2="507.8"/>
-      <line x1="382.0" y1="417.8" x2="122.0" y2="517.8"/><line x1="278.0" y1="417.8" x2="538.0" y2="517.8"/>
-      <line x1="408.0" y1="427.8" x2="148.0" y2="527.8"/><line x1="252.0" y1="427.8" x2="512.0" y2="527.8"/>
-      <line x1="434.0" y1="437.8" x2="174.0" y2="537.8"/><line x1="226.0" y1="437.8" x2="486.0" y2="537.8"/>
-      <line x1="460.0" y1="447.8" x2="200.0" y2="547.8"/><line x1="200.0" y1="447.8" x2="460.0" y2="547.8"/>
-      <line x1="486.0" y1="457.8" x2="226.0" y2="557.8"/><line x1="174.0" y1="457.8" x2="434.0" y2="557.8"/>
-      <line x1="512.0" y1="467.8" x2="252.0" y2="567.8"/><line x1="148.0" y1="467.8" x2="408.0" y2="567.8"/>
-      <line x1="538.0" y1="477.8" x2="278.0" y2="577.8"/><line x1="122.0" y1="477.8" x2="382.0" y2="577.8"/>
-      <line x1="564.0" y1="487.8" x2="304.0" y2="587.8"/><line x1="96.0" y1="487.8" x2="356.0" y2="587.8"/>
-    </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="330.0 364.4,369.0 379.4,330.0 394.4,291.0 379.4"/>
-    <polygon class="cc-face cc-esq" points="291.0 379.4,330.0 394.4,330.0 451.8,291.0 436.8"/>
-    <polygon class="cc-face cc-dir" points="369.0 379.4,330.0 394.4,330.0 451.8,369.0 436.8"/>
-  </g>
-    <g class="cc-p-vidro">
-    <polygon class="cc-face cc-topo" points="335.2 313.4,556.2 398.4,548.9 401.2,327.9 316.2"/>
-    <polygon class="cc-face cc-esq" points="327.9 316.2,548.9 401.2,548.9 497.6,327.9 412.6"/>
-    <polygon class="cc-face cc-dir" points="556.2 398.4,548.9 401.2,548.9 497.6,556.2 494.8"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="387.2 386.4,426.2 401.4,387.2 416.4,348.2 401.4"/>
-    <polygon class="cc-face cc-esq" points="348.2 401.4,387.2 416.4,387.2 473.8,348.2 458.8"/>
-    <polygon class="cc-face cc-dir" points="426.2 401.4,387.2 416.4,387.2 473.8,426.2 458.8"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="267.6 404.8,350.8 436.8,332.6 443.8,249.4 411.8"/>
-    <polygon class="cc-face cc-esq" points="249.4 411.8,332.6 443.8,332.6 484.8,249.4 452.8"/>
-    <polygon class="cc-face cc-dir" points="350.8 436.8,332.6 443.8,332.6 484.8,350.8 477.8"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="444.4 408.4,483.4 423.4,444.4 438.4,405.4 423.4"/>
-    <polygon class="cc-face cc-esq" points="405.4 423.4,444.4 438.4,444.4 495.8,405.4 480.8"/>
-    <polygon class="cc-face cc-dir" points="483.4 423.4,444.4 438.4,444.4 495.8,483.4 480.8"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="220.8 422.8,304.0 454.8,285.8 461.8,202.6 429.8"/>
-    <polygon class="cc-face cc-esq" points="202.6 429.8,285.8 461.8,285.8 502.8,202.6 470.8"/>
-    <polygon class="cc-face cc-dir" points="304.0 454.8,285.8 461.8,285.8 502.8,304.0 495.8"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="158.4 434.7,278.0 480.7,265.0 485.7,145.4 439.7"/>
-    <polygon class="cc-face cc-esq" points="145.4 439.7,265.0 485.7,265.0 530.8,145.4 484.8"/>
-    <polygon class="cc-face cc-dir" points="278.0 480.7,265.0 485.7,265.0 530.8,278.0 525.8"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="382.0 448.8,470.4 482.8,452.2 489.8,363.8 455.8"/>
-    <polygon class="cc-face cc-esq" points="363.8 455.8,452.2 489.8,452.2 530.8,363.8 496.8"/>
-    <polygon class="cc-face cc-dir" points="470.4 482.8,452.2 489.8,452.2 530.8,470.4 523.8"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="361.2 470.7,428.8 496.7,402.8 506.7,335.2 480.7"/>
-    <polygon class="cc-face cc-esq" points="335.2 480.7,402.8 506.7,402.8 549.8,335.2 523.8"/>
-    <polygon class="cc-face cc-dir" points="428.8 496.7,402.8 506.7,402.8 549.8,428.8 539.8"/>
-  </g>
-    <g class="cc-p-equipa">
-    <polygon class="cc-face cc-topo" points="324.8 507.3,340.4 513.3,324.8 519.3,309.2 513.3"/>
-    <polygon class="cc-face cc-esq" points="309.2 513.3,324.8 519.3,324.8 539.8,309.2 533.8"/>
-    <polygon class="cc-face cc-dir" points="340.4 513.3,324.8 519.3,324.8 539.8,340.4 533.8"/>
-  </g>
-  </g>
-</svg>
-      
-      <button class="cc-pino" type="button" data-cc-pino data-cc-andar="0" style="--px:79.15%;--py:39.49%"
-              aria-expanded="false" aria-controls="cc-dica-varejo-0">
-        <i aria-hidden="true"></i><span class="so-leitor">Dica sobre Estoque e apoio</span>
-      </button>
-      <div class="cc-dica" id="cc-dica-varejo-0" role="region"
-           aria-labelledby="cc-tit-varejo-0" style="--px:79.15%;--py:39.49%" hidden>
-        
-        <b id="cc-tit-varejo-0">Estoque e apoio</b>
-        <p>Prateleira metálica, iluminação simples e ponto de força para o carregamento. Área que ninguém vê e que decide se a loja opera bem depois de aberta.</p>
-      </div>
-      <button class="cc-pino" type="button" data-cc-pino data-cc-andar="1" style="--px:79.15%;--py:58.37%"
-              aria-expanded="false" aria-controls="cc-dica-varejo-1">
-        <i aria-hidden="true"></i><span class="so-leitor">Dica sobre Provadores</span>
-      </button>
-      <div class="cc-dica" id="cc-dica-varejo-1" role="region"
-           aria-labelledby="cc-tit-varejo-1" style="--px:79.15%;--py:58.37%" hidden>
-        
-        <b id="cc-tit-varejo-1">Provadores</b>
-        <p>Cabines em drywall com bandeira e espelho, e o forro recortado para a iluminação de prova. Cada cabine precisa do seu circuito: luz de prova puxada de emenda derruba o disjuntor no primeiro sábado.</p>
-      </div>
-      <button class="cc-pino" type="button" data-cc-pino data-cc-andar="2" style="--px:79.15%;--py:77.24%"
-              aria-expanded="false" aria-controls="cc-dica-varejo-2">
-        <i aria-hidden="true"></i><span class="so-leitor">Dica sobre Vitrine e vendas</span>
-      </button>
-      <div class="cc-dica" id="cc-dica-varejo-2" role="region"
-           aria-labelledby="cc-tit-varejo-2" style="--px:79.15%;--py:77.24%" hidden>
-        <img class="cc-foto" data-fonte="/img/restaurante-fachada-480.webp"
-             width="480" height="853"
-             alt="Fachada e salão de restaurante executados pela SPX. A obra de loja segue o mesmo tipo de fachada e vitrine." loading="lazy" decoding="async">
-        <b id="cc-tit-varejo-2">Vitrine e vendas</b>
-        <p>Fachada, comunicação visual e o caixa. Em shopping, a obra acontece na janela de horário do condomínio — e a documentação de acesso entra no cronograma antes do primeiro dia.</p>
-      </div>
-    </div>
-    <div class="cc-cena" id="cc-cena-restaurante" role="tabpanel" aria-labelledby="cc-aba-restaurante"
-         data-cc-cena="restaurante" hidden>
-      
-<svg class="cc-svg" viewBox="0 0 660 630" role="img"
-     aria-label="Corte isométrico de um restaurante e café em três pavimentos">
-  <defs>
-    <linearGradient id="cc-topo-restaurante" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="currentColor" stop-opacity=".22"/>
-      <stop offset="1" stop-color="currentColor" stop-opacity=".06"/>
-    </linearGradient>
-    <radialGradient id="cc-luz-restaurante" cx="50%" cy="34%" r="58%">
-      <stop offset="0" stop-color="currentColor" stop-opacity=".18"/>
-      <stop offset="1" stop-color="currentColor" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-  <ellipse cx="330" cy="310" rx="300" ry="280" fill="url(#cc-luz-restaurante)"/>
-
-  <g class="cc-cob">
-    <polygon class="cc-laje" points="330.0 41.1,590.0 141.1,330.0 241.1,70.0 141.1"/>
-    <!-- platibanda: a mureta da beirada, o que dá espessura à laje -->
-    <polygon class="cc-face cc-esq" points="70.0 120.6,330.0 220.6,330.0 241.1,70.0 141.1"/>
-    <polygon class="cc-face cc-dir" points="590.0 120.6,330.0 220.6,330.0 241.1,590.0 141.1"/>
-    <g class="cc-p-equipa">
-    <polygon class="cc-face cc-topo" points="330.0 47.6,413.2 79.6,330.0 111.6,246.8 79.6"/>
-    <polygon class="cc-face cc-esq" points="246.8 79.6,330.0 111.6,330.0 173.1,246.8 141.1"/>
-    <polygon class="cc-face cc-dir" points="413.2 79.6,330.0 111.6,330.0 173.1,413.2 141.1"/>
-  </g>
-    <g class="cc-p-equipa">
-    <polygon class="cc-face cc-topo" points="496.4 88.2,538.0 104.2,496.4 120.2,454.8 104.2"/>
-    <polygon class="cc-face cc-esq" points="454.8 104.2,496.4 120.2,496.4 157.1,454.8 141.1"/>
-    <polygon class="cc-face cc-dir" points="538.0 104.2,496.4 120.2,496.4 157.1,538.0 141.1"/>
-  </g>
-  </g>
-
-  <g class="cc-pav">
-    <!-- laje -->
-    <polygon class="cc-laje" points="330.0 160.0,590.0 260.0,330.0 360.0,70.0 260.0"/>
-    <!-- as duas paredes do fundo; as da frente é que foram cortadas. Sobem o
-         pé-direito inteiro, então encostam na laje do andar de cima -->
-    <polygon class="cc-parede" points="330.0 160.0,590.0 260.0,590.0 141.1,330.0 41.1"/>
-    <polygon class="cc-parede cc-parede-esq" points="330.0 160.0,70.0 260.0,70.0 141.1,330.0 41.1"/>
-    <!-- malha do piso, para dar escala ao que está em cima dela -->
-    <g class="cc-malha">
-      <line x1="356.0" y1="170.0" x2="96.0" y2="270.0"/><line x1="304.0" y1="170.0" x2="564.0" y2="270.0"/>
-      <line x1="382.0" y1="180.0" x2="122.0" y2="280.0"/><line x1="278.0" y1="180.0" x2="538.0" y2="280.0"/>
-      <line x1="408.0" y1="190.0" x2="148.0" y2="290.0"/><line x1="252.0" y1="190.0" x2="512.0" y2="290.0"/>
-      <line x1="434.0" y1="200.0" x2="174.0" y2="300.0"/><line x1="226.0" y1="200.0" x2="486.0" y2="300.0"/>
-      <line x1="460.0" y1="210.0" x2="200.0" y2="310.0"/><line x1="200.0" y1="210.0" x2="460.0" y2="310.0"/>
-      <line x1="486.0" y1="220.0" x2="226.0" y2="320.0"/><line x1="174.0" y1="220.0" x2="434.0" y2="320.0"/>
-      <line x1="512.0" y1="230.0" x2="252.0" y2="330.0"/><line x1="148.0" y1="230.0" x2="408.0" y2="330.0"/>
-      <line x1="538.0" y1="240.0" x2="278.0" y2="340.0"/><line x1="122.0" y1="240.0" x2="382.0" y2="340.0"/>
-      <line x1="564.0" y1="250.0" x2="304.0" y2="350.0"/><line x1="96.0" y1="250.0" x2="356.0" y2="350.0"/>
-    </g>
-    <g class="cc-p-equipa">
-    <polygon class="cc-face cc-topo" points="330.0 102.1,397.6 128.1,330.0 154.1,262.4 128.1"/>
-    <polygon class="cc-face cc-esq" points="262.4 128.1,330.0 154.1,330.0 232.0,262.4 206.0"/>
-    <polygon class="cc-face cc-dir" points="397.6 128.1,330.0 154.1,330.0 232.0,397.6 206.0"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="330.0 139.1,339.1 142.6,120.7 226.6,111.6 223.1"/>
-    <polygon class="cc-face cc-esq" points="111.6 223.1,120.7 226.6,120.7 263.5,111.6 260.0"/>
-    <polygon class="cc-face cc-dir" points="339.1 142.6,120.7 226.6,120.7 263.5,339.1 179.5"/>
-  </g>
-    <g class="cc-p-equipa">
-    <polygon class="cc-face cc-topo" points="236.4 117.6,265.0 128.6,236.4 139.6,207.8 128.6"/>
-    <polygon class="cc-face cc-esq" points="207.8 128.6,236.4 139.6,236.4 238.0,207.8 227.0"/>
-    <polygon class="cc-face cc-dir" points="265.0 128.6,236.4 139.6,236.4 238.0,265.0 227.0"/>
-  </g>
-    <g class="cc-p-equipa">
-    <polygon class="cc-face cc-topo" points="418.4 152.5,470.4 172.5,418.4 192.5,366.4 172.5"/>
-    <polygon class="cc-face cc-esq" points="366.4 172.5,418.4 192.5,418.4 254.0,366.4 234.0"/>
-    <polygon class="cc-face cc-dir" points="470.4 172.5,418.4 192.5,418.4 254.0,470.4 234.0"/>
-  </g>
-    <g class="cc-p-equipa">
-    <polygon class="cc-face cc-topo" points="288.4 137.6,317.0 148.6,288.4 159.6,259.8 148.6"/>
-    <polygon class="cc-face cc-esq" points="259.8 148.6,288.4 159.6,288.4 258.0,259.8 247.0"/>
-    <polygon class="cc-face cc-dir" points="317.0 148.6,288.4 159.6,288.4 258.0,317.0 247.0"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="174.0 194.9,267.6 230.9,258.5 234.4,164.9 198.4"/>
-    <polygon class="cc-face cc-esq" points="164.9 198.4,258.5 234.4,258.5 279.5,164.9 243.5"/>
-    <polygon class="cc-face cc-dir" points="267.6 230.9,258.5 234.4,258.5 279.5,267.6 276.0"/>
-  </g>
-    <g class="cc-p-equipa">
-    <polygon class="cc-face cc-topo" points="486.0 178.5,538.0 198.5,486.0 218.5,434.0 198.5"/>
-    <polygon class="cc-face cc-esq" points="434.0 198.5,486.0 218.5,486.0 280.0,434.0 260.0"/>
-    <polygon class="cc-face cc-dir" points="538.0 198.5,486.0 218.5,486.0 280.0,538.0 260.0"/>
-  </g>
-    <g class="cc-p-equipa">
-    <polygon class="cc-face cc-topo" points="345.6 216.8,434.0 250.8,356.0 280.8,267.6 246.8"/>
-    <polygon class="cc-face cc-esq" points="267.6 246.8,356.0 280.8,356.0 330.0,267.6 296.0"/>
-    <polygon class="cc-face cc-dir" points="434.0 250.8,356.0 280.8,356.0 330.0,434.0 300.0"/>
-  </g>
-  </g>
-
-  <g class="cc-pav">
-    <!-- laje -->
-    <polygon class="cc-laje" points="330.0 278.9,590.0 378.9,330.0 478.9,70.0 378.9"/>
-    <!-- as duas paredes do fundo; as da frente é que foram cortadas. Sobem o
-         pé-direito inteiro, então encostam na laje do andar de cima -->
-    <polygon class="cc-parede" points="330.0 278.9,590.0 378.9,590.0 260.0,330.0 160.0"/>
-    <polygon class="cc-parede cc-parede-esq" points="330.0 278.9,70.0 378.9,70.0 260.0,330.0 160.0"/>
-    <!-- malha do piso, para dar escala ao que está em cima dela -->
-    <g class="cc-malha">
-      <line x1="356.0" y1="288.9" x2="96.0" y2="388.9"/><line x1="304.0" y1="288.9" x2="564.0" y2="388.9"/>
-      <line x1="382.0" y1="298.9" x2="122.0" y2="398.9"/><line x1="278.0" y1="298.9" x2="538.0" y2="398.9"/>
-      <line x1="408.0" y1="308.9" x2="148.0" y2="408.9"/><line x1="252.0" y1="308.9" x2="512.0" y2="408.9"/>
-      <line x1="434.0" y1="318.9" x2="174.0" y2="418.9"/><line x1="226.0" y1="318.9" x2="486.0" y2="418.9"/>
-      <line x1="460.0" y1="328.9" x2="200.0" y2="428.9"/><line x1="200.0" y1="328.9" x2="460.0" y2="428.9"/>
-      <line x1="486.0" y1="338.9" x2="226.0" y2="438.9"/><line x1="174.0" y1="338.9" x2="434.0" y2="438.9"/>
-      <line x1="512.0" y1="348.9" x2="252.0" y2="448.9"/><line x1="148.0" y1="348.9" x2="408.0" y2="448.9"/>
-      <line x1="538.0" y1="358.9" x2="278.0" y2="458.9"/><line x1="122.0" y1="358.9" x2="382.0" y2="458.9"/>
-      <line x1="564.0" y1="368.9" x2="304.0" y2="468.9"/><line x1="96.0" y1="368.9" x2="356.0" y2="468.9"/>
-    </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="330.0 264.6,363.8 277.6,330.0 290.6,296.2 277.6"/>
-    <polygon class="cc-face cc-esq" points="296.2 277.6,330.0 290.6,330.0 320.9,296.2 307.9"/>
-    <polygon class="cc-face cc-dir" points="363.8 277.6,330.0 290.6,330.0 320.9,363.8 307.9"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="382.0 267.9,392.4 271.9,382.0 275.9,371.6 271.9"/>
-    <polygon class="cc-face cc-esq" points="371.6 271.9,382.0 275.9,382.0 316.9,371.6 312.9"/>
-    <polygon class="cc-face cc-dir" points="392.4 271.9,382.0 275.9,382.0 316.9,392.4 312.9"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="387.2 286.6,421.0 299.6,387.2 312.6,353.4 299.6"/>
-    <polygon class="cc-face cc-esq" points="353.4 299.6,387.2 312.6,387.2 342.9,353.4 329.9"/>
-    <polygon class="cc-face cc-dir" points="421.0 299.6,387.2 312.6,387.2 342.9,421.0 329.9"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="272.8 286.6,306.6 299.6,272.8 312.6,239.0 299.6"/>
-    <polygon class="cc-face cc-esq" points="239.0 299.6,272.8 312.6,272.8 342.9,239.0 329.9"/>
-    <polygon class="cc-face cc-dir" points="306.6 299.6,272.8 312.6,272.8 342.9,306.6 329.9"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="439.2 289.9,449.6 293.9,439.2 297.9,428.8 293.9"/>
-    <polygon class="cc-face cc-esq" points="428.8 293.9,439.2 297.9,439.2 338.9,428.8 334.9"/>
-    <polygon class="cc-face cc-dir" points="449.6 293.9,439.2 297.9,439.2 338.9,449.6 334.9"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="324.8 289.9,335.2 293.9,324.8 297.9,314.4 293.9"/>
-    <polygon class="cc-face cc-esq" points="314.4 293.9,324.8 297.9,324.8 338.9,314.4 334.9"/>
-    <polygon class="cc-face cc-dir" points="335.2 293.9,324.8 297.9,324.8 338.9,335.2 334.9"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="330.0 308.6,363.8 321.6,330.0 334.6,296.2 321.6"/>
-    <polygon class="cc-face cc-esq" points="296.2 321.6,330.0 334.6,330.0 364.9,296.2 351.9"/>
-    <polygon class="cc-face cc-dir" points="363.8 321.6,330.0 334.6,330.0 364.9,363.8 351.9"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="444.4 308.6,478.2 321.6,444.4 334.6,410.6 321.6"/>
-    <polygon class="cc-face cc-esq" points="410.6 321.6,444.4 334.6,444.4 364.9,410.6 351.9"/>
-    <polygon class="cc-face cc-dir" points="478.2 321.6,444.4 334.6,444.4 364.9,478.2 351.9"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="215.6 308.6,249.4 321.6,215.6 334.6,181.8 321.6"/>
-    <polygon class="cc-face cc-esq" points="181.8 321.6,215.6 334.6,215.6 364.9,181.8 351.9"/>
-    <polygon class="cc-face cc-dir" points="249.4 321.6,215.6 334.6,215.6 364.9,249.4 351.9"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="382.0 311.9,392.4 315.9,382.0 319.9,371.6 315.9"/>
-    <polygon class="cc-face cc-esq" points="371.6 315.9,382.0 319.9,382.0 360.9,371.6 356.9"/>
-    <polygon class="cc-face cc-dir" points="392.4 315.9,382.0 319.9,382.0 360.9,392.4 356.9"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="387.2 330.6,421.0 343.6,387.2 356.6,353.4 343.6"/>
-    <polygon class="cc-face cc-esq" points="353.4 343.6,387.2 356.6,387.2 386.9,353.4 373.9"/>
-    <polygon class="cc-face cc-dir" points="421.0 343.6,387.2 356.6,387.2 386.9,421.0 373.9"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="272.8 330.6,306.6 343.6,272.8 356.6,239.0 343.6"/>
-    <polygon class="cc-face cc-esq" points="239.0 343.6,272.8 356.6,272.8 386.9,239.0 373.9"/>
-    <polygon class="cc-face cc-dir" points="306.6 343.6,272.8 356.6,272.8 386.9,306.6 373.9"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="158.4 317.8,298.8 371.8,283.2 377.8,142.8 323.8"/>
-    <polygon class="cc-face cc-esq" points="142.8 323.8,283.2 377.8,283.2 420.9,142.8 366.9"/>
-    <polygon class="cc-face cc-dir" points="298.8 371.8,283.2 377.8,283.2 420.9,298.8 414.9"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="330.0 352.6,363.8 365.6,330.0 378.6,296.2 365.6"/>
-    <polygon class="cc-face cc-esq" points="296.2 365.6,330.0 378.6,330.0 408.9,296.2 395.9"/>
-    <polygon class="cc-face cc-dir" points="363.8 365.6,330.0 378.6,330.0 408.9,363.8 395.9"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="501.6 315.8,548.4 333.8,408.0 387.8,361.2 369.8"/>
-    <polygon class="cc-face cc-esq" points="361.2 369.8,408.0 387.8,408.0 432.9,361.2 414.9"/>
-    <polygon class="cc-face cc-dir" points="548.4 333.8,408.0 387.8,408.0 432.9,548.4 378.9"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="350.8 371.8,397.6 389.8,384.6 394.8,337.8 376.8"/>
-    <polygon class="cc-face cc-esq" points="337.8 376.8,384.6 394.8,384.6 441.9,337.8 423.9"/>
-    <polygon class="cc-face cc-dir" points="397.6 389.8,384.6 394.8,384.6 441.9,397.6 436.9"/>
-  </g>
-  </g>
-
-  <g class="cc-pav">
-    <!-- laje -->
-    <polygon class="cc-laje" points="330.0 397.8,590.0 497.8,330.0 597.8,70.0 497.8"/>
-    <!-- as duas paredes do fundo; as da frente é que foram cortadas. Sobem o
-         pé-direito inteiro, então encostam na laje do andar de cima -->
-    <polygon class="cc-parede" points="330.0 397.8,590.0 497.8,590.0 378.9,330.0 278.9"/>
-    <polygon class="cc-parede cc-parede-esq" points="330.0 397.8,70.0 497.8,70.0 378.9,330.0 278.9"/>
-    <!-- malha do piso, para dar escala ao que está em cima dela -->
-    <g class="cc-malha">
-      <line x1="356.0" y1="407.8" x2="96.0" y2="507.8"/><line x1="304.0" y1="407.8" x2="564.0" y2="507.8"/>
-      <line x1="382.0" y1="417.8" x2="122.0" y2="517.8"/><line x1="278.0" y1="417.8" x2="538.0" y2="517.8"/>
-      <line x1="408.0" y1="427.8" x2="148.0" y2="527.8"/><line x1="252.0" y1="427.8" x2="512.0" y2="527.8"/>
-      <line x1="434.0" y1="437.8" x2="174.0" y2="537.8"/><line x1="226.0" y1="437.8" x2="486.0" y2="537.8"/>
-      <line x1="460.0" y1="447.8" x2="200.0" y2="547.8"/><line x1="200.0" y1="447.8" x2="460.0" y2="547.8"/>
-      <line x1="486.0" y1="457.8" x2="226.0" y2="557.8"/><line x1="174.0" y1="457.8" x2="434.0" y2="557.8"/>
-      <line x1="512.0" y1="467.8" x2="252.0" y2="567.8"/><line x1="148.0" y1="467.8" x2="408.0" y2="567.8"/>
-      <line x1="538.0" y1="477.8" x2="278.0" y2="577.8"/><line x1="122.0" y1="477.8" x2="382.0" y2="577.8"/>
-      <line x1="564.0" y1="487.8" x2="304.0" y2="587.8"/><line x1="96.0" y1="487.8" x2="356.0" y2="587.8"/>
-    </g>
-    <g class="cc-p-equipa">
-    <polygon class="cc-face cc-topo" points="345.6 315.4,418.4 343.4,405.4 348.4,332.6 320.4"/>
-    <polygon class="cc-face cc-esq" points="332.6 320.4,405.4 348.4,405.4 446.8,332.6 418.8"/>
-    <polygon class="cc-face cc-dir" points="418.4 343.4,405.4 348.4,405.4 446.8,418.4 441.8"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="327.4 375.9,421.0 411.9,396.3 421.4,302.7 385.4"/>
-    <polygon class="cc-face cc-esq" points="302.7 385.4,396.3 421.4,396.3 458.3,302.7 422.3"/>
-    <polygon class="cc-face cc-dir" points="421.0 411.9,396.3 421.4,396.3 458.3,421.0 448.8"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="280.6 393.9,374.2 429.9,349.5 439.4,255.9 403.4"/>
-    <polygon class="cc-face cc-esq" points="255.9 403.4,349.5 439.4,349.5 476.3,255.9 440.3"/>
-    <polygon class="cc-face cc-dir" points="374.2 429.9,349.5 439.4,349.5 476.3,374.2 466.8"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="233.8 411.9,327.4 447.9,302.7 457.4,209.1 421.4"/>
-    <polygon class="cc-face cc-esq" points="209.1 421.4,302.7 457.4,302.7 494.3,209.1 458.3"/>
-    <polygon class="cc-face cc-dir" points="327.4 447.9,302.7 457.4,302.7 494.3,327.4 484.8"/>
-  </g>
-    <g class="cc-p-equipa">
-    <polygon class="cc-face cc-topo" points="454.8 355.2,522.4 381.2,454.8 407.2,387.2 381.2"/>
-    <polygon class="cc-face cc-esq" points="387.2 381.2,454.8 407.2,454.8 513.8,387.2 487.8"/>
-    <polygon class="cc-face cc-dir" points="522.4 381.2,454.8 407.2,454.8 513.8,522.4 487.8"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="176.6 427.7,306.6 477.7,278.0 488.7,148.0 438.7"/>
-    <polygon class="cc-face cc-esq" points="148.0 438.7,278.0 488.7,278.0 531.8,148.0 481.8"/>
-    <polygon class="cc-face cc-dir" points="306.6 477.7,278.0 488.7,278.0 531.8,306.6 520.8"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="371.6 456.9,439.2 482.9,413.2 492.9,345.6 466.9"/>
-    <polygon class="cc-face cc-esq" points="345.6 466.9,413.2 492.9,413.2 529.8,345.6 503.8"/>
-    <polygon class="cc-face cc-dir" points="439.2 482.9,413.2 492.9,413.2 529.8,439.2 519.8"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="527.6 407.8,548.4 415.8,397.6 473.8,376.8 465.8"/>
-    <polygon class="cc-face cc-esq" points="376.8 465.8,397.6 473.8,397.6 555.8,376.8 547.8"/>
-    <polygon class="cc-face cc-dir" points="548.4 415.8,397.6 473.8,397.6 555.8,548.4 497.8"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="330.0 472.9,397.6 498.9,371.6 508.9,304.0 482.9"/>
-    <polygon class="cc-face cc-esq" points="304.0 482.9,371.6 508.9,371.6 545.8,304.0 519.8"/>
-    <polygon class="cc-face cc-dir" points="397.6 498.9,371.6 508.9,371.6 545.8,397.6 535.8"/>
-  </g>
-  </g>
-</svg>
-      
-      <button class="cc-pino" type="button" data-cc-pino data-cc-andar="0" style="--px:79.15%;--py:39.49%"
-              aria-expanded="false" aria-controls="cc-dica-restaurante-0">
-        <i aria-hidden="true"></i><span class="so-leitor">Dica sobre Casa de máquinas</span>
-      </button>
-      <div class="cc-dica" id="cc-dica-restaurante-0" role="region"
-           aria-labelledby="cc-tit-restaurante-0" style="--px:79.15%;--py:39.49%" hidden>
-        
-        <b id="cc-tit-restaurante-0">Casa de máquinas</b>
-        <p>Exaustão, ar-condicionado e caixa d'água. É o pavimento que define o projeto inteiro do restaurante: se o duto de exaustão não tem por onde subir, a cozinha muda de lugar.</p>
-      </div>
-      <button class="cc-pino" type="button" data-cc-pino data-cc-andar="1" style="--px:79.15%;--py:58.37%"
-              aria-expanded="false" aria-controls="cc-dica-restaurante-1">
-        <i aria-hidden="true"></i><span class="so-leitor">Dica sobre Salão</span>
-      </button>
-      <div class="cc-dica" id="cc-dica-restaurante-1" role="region"
-           aria-labelledby="cc-tit-restaurante-1" style="--px:79.15%;--py:58.37%" hidden>
-        <img class="cc-foto" data-fonte="/img/restaurante-salao-480.webp"
-             width="480" height="853"
-             alt="Salão de restaurante executado pela SPX." loading="lazy" decoding="async">
-        <b id="cc-tit-restaurante-1">Salão</b>
-        <p>Mesas, forro e a iluminação que define a cara da casa. O ponto crítico é o conforto acústico: salão bonito e barulhento esvazia, e tratamento acústico se resolve no forro, antes de fechar.</p>
-      </div>
-      <button class="cc-pino" type="button" data-cc-pino data-cc-andar="2" style="--px:79.15%;--py:77.24%"
-              aria-expanded="false" aria-controls="cc-dica-restaurante-2">
-        <i aria-hidden="true"></i><span class="so-leitor">Dica sobre Cozinha</span>
-      </button>
-      <div class="cc-dica" id="cc-dica-restaurante-2" role="region"
-           aria-labelledby="cc-tit-restaurante-2" style="--px:79.15%;--py:77.24%" hidden>
-        <img class="cc-foto" data-fonte="/img/restaurante-cozinha-480.webp"
-             width="480" height="640"
-             alt="Cozinha de restaurante executada pela SPX." loading="lazy" decoding="async">
-        <b id="cc-tit-restaurante-2">Cozinha</b>
-        <p>Cozinha industrial, câmara fria e ponto de gás. Piso, ralo e caimento são o que a vigilância olha primeiro — e refazer piso com a cozinha montada é obra duas vezes.</p>
-      </div>
-    </div>
-    <div class="cc-cena" id="cc-cena-clinica" role="tabpanel" aria-labelledby="cc-aba-clinica"
-         data-cc-cena="clinica" hidden>
-      
-<svg class="cc-svg" viewBox="0 0 660 630" role="img"
-     aria-label="Corte isométrico de um clínica e laboratório em três pavimentos">
-  <defs>
-    <linearGradient id="cc-topo-clinica" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="currentColor" stop-opacity=".22"/>
-      <stop offset="1" stop-color="currentColor" stop-opacity=".06"/>
-    </linearGradient>
-    <radialGradient id="cc-luz-clinica" cx="50%" cy="34%" r="58%">
-      <stop offset="0" stop-color="currentColor" stop-opacity=".18"/>
-      <stop offset="1" stop-color="currentColor" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-  <ellipse cx="330" cy="310" rx="300" ry="280" fill="url(#cc-luz-clinica)"/>
-
-  <g class="cc-cob">
-    <polygon class="cc-laje" points="330.0 41.1,590.0 141.1,330.0 241.1,70.0 141.1"/>
-    <!-- platibanda: a mureta da beirada, o que dá espessura à laje -->
-    <polygon class="cc-face cc-esq" points="70.0 120.6,330.0 220.6,330.0 241.1,70.0 141.1"/>
-    <polygon class="cc-face cc-dir" points="590.0 120.6,330.0 220.6,330.0 241.1,590.0 141.1"/>
-    <g class="cc-p-equipa">
-    <polygon class="cc-face cc-topo" points="330.0 47.6,413.2 79.6,330.0 111.6,246.8 79.6"/>
-    <polygon class="cc-face cc-esq" points="246.8 79.6,330.0 111.6,330.0 173.1,246.8 141.1"/>
-    <polygon class="cc-face cc-dir" points="413.2 79.6,330.0 111.6,330.0 173.1,413.2 141.1"/>
-  </g>
-    <g class="cc-p-equipa">
-    <polygon class="cc-face cc-topo" points="496.4 88.2,538.0 104.2,496.4 120.2,454.8 104.2"/>
-    <polygon class="cc-face cc-esq" points="454.8 104.2,496.4 120.2,496.4 157.1,454.8 141.1"/>
-    <polygon class="cc-face cc-dir" points="538.0 104.2,496.4 120.2,496.4 157.1,538.0 141.1"/>
-  </g>
-  </g>
-
-  <g class="cc-pav">
-    <!-- laje -->
-    <polygon class="cc-laje" points="330.0 160.0,590.0 260.0,330.0 360.0,70.0 260.0"/>
-    <!-- as duas paredes do fundo; as da frente é que foram cortadas. Sobem o
-         pé-direito inteiro, então encostam na laje do andar de cima -->
-    <polygon class="cc-parede" points="330.0 160.0,590.0 260.0,590.0 141.1,330.0 41.1"/>
-    <polygon class="cc-parede cc-parede-esq" points="330.0 160.0,70.0 260.0,70.0 141.1,330.0 41.1"/>
-    <!-- malha do piso, para dar escala ao que está em cima dela -->
-    <g class="cc-malha">
-      <line x1="356.0" y1="170.0" x2="96.0" y2="270.0"/><line x1="304.0" y1="170.0" x2="564.0" y2="270.0"/>
-      <line x1="382.0" y1="180.0" x2="122.0" y2="280.0"/><line x1="278.0" y1="180.0" x2="538.0" y2="280.0"/>
-      <line x1="408.0" y1="190.0" x2="148.0" y2="290.0"/><line x1="252.0" y1="190.0" x2="512.0" y2="290.0"/>
-      <line x1="434.0" y1="200.0" x2="174.0" y2="300.0"/><line x1="226.0" y1="200.0" x2="486.0" y2="300.0"/>
-      <line x1="460.0" y1="210.0" x2="200.0" y2="310.0"/><line x1="200.0" y1="210.0" x2="460.0" y2="310.0"/>
-      <line x1="486.0" y1="220.0" x2="226.0" y2="320.0"/><line x1="174.0" y1="220.0" x2="434.0" y2="320.0"/>
-      <line x1="512.0" y1="230.0" x2="252.0" y2="330.0"/><line x1="148.0" y1="230.0" x2="408.0" y2="330.0"/>
-      <line x1="538.0" y1="240.0" x2="278.0" y2="340.0"/><line x1="122.0" y1="240.0" x2="382.0" y2="340.0"/>
-      <line x1="564.0" y1="250.0" x2="304.0" y2="350.0"/><line x1="96.0" y1="250.0" x2="356.0" y2="350.0"/>
-    </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="330.0 145.7,402.8 173.7,379.4 182.7,306.6 154.7"/>
-    <polygon class="cc-face cc-esq" points="306.6 154.7,379.4 182.7,379.4 213.0,306.6 185.0"/>
-    <polygon class="cc-face cc-dir" points="402.8 173.7,379.4 182.7,379.4 213.0,402.8 204.0"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="314.4 149.8,327.4 154.8,314.4 159.8,301.4 154.8"/>
-    <polygon class="cc-face cc-esq" points="301.4 154.8,314.4 159.8,314.4 200.0,301.4 195.0"/>
-    <polygon class="cc-face cc-dir" points="327.4 154.8,314.4 159.8,314.4 200.0,327.4 195.0"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="350.8 163.8,363.8 168.8,350.8 173.8,337.8 168.8"/>
-    <polygon class="cc-face cc-esq" points="337.8 168.8,350.8 173.8,350.8 214.0,337.8 209.0"/>
-    <polygon class="cc-face cc-dir" points="363.8 168.8,350.8 173.8,350.8 214.0,363.8 209.0"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="283.2 163.7,356.0 191.7,332.6 200.7,259.8 172.7"/>
-    <polygon class="cc-face cc-esq" points="259.8 172.7,332.6 200.7,332.6 231.0,259.8 203.0"/>
-    <polygon class="cc-face cc-dir" points="356.0 191.7,332.6 200.7,332.6 231.0,356.0 222.0"/>
-  </g>
-    <g class="cc-p-parede">
-    <polygon class="cc-face cc-topo" points="428.8 117.6,435.3 120.1,294.9 174.1,288.4 171.6"/>
-    <polygon class="cc-face cc-esq" points="288.4 171.6,294.9 174.1,294.9 270.5,288.4 268.0"/>
-    <polygon class="cc-face cc-dir" points="435.3 120.1,294.9 174.1,294.9 270.5,435.3 216.5"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="449.6 131.8,467.8 138.8,332.6 190.8,314.4 183.8"/>
-    <polygon class="cc-face cc-esq" points="314.4 183.8,332.6 190.8,332.6 281.0,314.4 274.0"/>
-    <polygon class="cc-face cc-dir" points="467.8 138.8,332.6 190.8,332.6 281.0,467.8 229.0"/>
-  </g>
-    <g class="cc-p-equipa">
-    <polygon class="cc-face cc-topo" points="491.2 156.0,522.4 168.0,475.6 186.0,444.4 174.0"/>
-    <polygon class="cc-face cc-esq" points="444.4 174.0,475.6 186.0,475.6 268.0,444.4 256.0"/>
-    <polygon class="cc-face cc-dir" points="522.4 168.0,475.6 186.0,475.6 268.0,522.4 250.0"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="168.8 201.1,252.0 233.1,226.0 243.1,142.8 211.1"/>
-    <polygon class="cc-face cc-esq" points="142.8 211.1,226.0 243.1,226.0 280.0,142.8 248.0"/>
-    <polygon class="cc-face cc-dir" points="252.0 233.1,226.0 243.1,226.0 280.0,252.0 270.0"/>
-  </g>
-    <g class="cc-p-equipa">
-    <polygon class="cc-face cc-topo" points="532.8 176.1,548.4 182.1,512.0 196.1,496.4 190.1"/>
-    <polygon class="cc-face cc-esq" points="496.4 190.1,512.0 196.1,512.0 274.0,496.4 268.0"/>
-    <polygon class="cc-face cc-dir" points="548.4 182.1,512.0 196.1,512.0 274.0,548.4 260.0"/>
-  </g>
-    <g class="cc-p-parede">
-    <polygon class="cc-face cc-topo" points="423.6 167.6,480.8 189.6,418.4 213.6,361.2 191.6"/>
-    <polygon class="cc-face cc-esq" points="361.2 191.6,418.4 213.6,418.4 310.0,361.2 288.0"/>
-    <polygon class="cc-face cc-dir" points="480.8 189.6,418.4 213.6,418.4 310.0,480.8 286.0"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="278.0 243.1,387.2 285.1,361.2 295.1,252.0 253.1"/>
-    <polygon class="cc-face cc-esq" points="252.0 253.1,361.2 295.1,361.2 332.0,252.0 290.0"/>
-    <polygon class="cc-face cc-dir" points="387.2 285.1,361.2 295.1,361.2 332.0,387.2 322.0"/>
-  </g>
-  </g>
-
-  <g class="cc-pav">
-    <!-- laje -->
-    <polygon class="cc-laje" points="330.0 278.9,590.0 378.9,330.0 478.9,70.0 378.9"/>
-    <!-- as duas paredes do fundo; as da frente é que foram cortadas. Sobem o
-         pé-direito inteiro, então encostam na laje do andar de cima -->
-    <polygon class="cc-parede" points="330.0 278.9,590.0 378.9,590.0 260.0,330.0 160.0"/>
-    <polygon class="cc-parede cc-parede-esq" points="330.0 278.9,70.0 378.9,70.0 260.0,330.0 160.0"/>
-    <!-- malha do piso, para dar escala ao que está em cima dela -->
-    <g class="cc-malha">
-      <line x1="356.0" y1="288.9" x2="96.0" y2="388.9"/><line x1="304.0" y1="288.9" x2="564.0" y2="388.9"/>
-      <line x1="382.0" y1="298.9" x2="122.0" y2="398.9"/><line x1="278.0" y1="298.9" x2="538.0" y2="398.9"/>
-      <line x1="408.0" y1="308.9" x2="148.0" y2="408.9"/><line x1="252.0" y1="308.9" x2="512.0" y2="408.9"/>
-      <line x1="434.0" y1="318.9" x2="174.0" y2="418.9"/><line x1="226.0" y1="318.9" x2="486.0" y2="418.9"/>
-      <line x1="460.0" y1="328.9" x2="200.0" y2="428.9"/><line x1="200.0" y1="328.9" x2="460.0" y2="428.9"/>
-      <line x1="486.0" y1="338.9" x2="226.0" y2="438.9"/><line x1="174.0" y1="338.9" x2="434.0" y2="438.9"/>
-      <line x1="512.0" y1="348.9" x2="252.0" y2="448.9"/><line x1="148.0" y1="348.9" x2="408.0" y2="448.9"/>
-      <line x1="538.0" y1="358.9" x2="278.0" y2="458.9"/><line x1="122.0" y1="358.9" x2="382.0" y2="458.9"/>
-      <line x1="564.0" y1="368.9" x2="304.0" y2="468.9"/><line x1="96.0" y1="368.9" x2="356.0" y2="468.9"/>
-    </g>
-    <g class="cc-p-parede">
-    <polygon class="cc-face cc-topo" points="327.4 197.5,392.4 222.5,309.2 254.5,244.2 229.5"/>
-    <polygon class="cc-face cc-esq" points="244.2 229.5,309.2 254.5,309.2 350.9,244.2 325.9"/>
-    <polygon class="cc-face cc-dir" points="392.4 222.5,309.2 254.5,309.2 350.9,392.4 318.9"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="236.4 309.5,285.8 328.5,263.7 337.0,214.3 318.0"/>
-    <polygon class="cc-face cc-esq" points="214.3 318.0,263.7 337.0,263.7 362.4,214.3 343.4"/>
-    <polygon class="cc-face cc-dir" points="285.8 328.5,263.7 337.0,263.7 362.4,285.8 353.9"/>
-  </g>
-    <g class="cc-p-parede">
-    <polygon class="cc-face cc-topo" points="400.2 225.5,465.2 250.5,382.0 282.5,317.0 257.5"/>
-    <polygon class="cc-face cc-esq" points="317.0 257.5,382.0 282.5,382.0 378.9,317.0 353.9"/>
-    <polygon class="cc-face cc-dir" points="465.2 250.5,382.0 282.5,382.0 378.9,465.2 346.9"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="205.2 312.0,226.0 320.0,213.0 325.0,192.2 317.0"/>
-    <polygon class="cc-face cc-esq" points="192.2 317.0,213.0 325.0,213.0 359.9,192.2 351.9"/>
-    <polygon class="cc-face cc-dir" points="226.0 320.0,213.0 325.0,213.0 359.9,226.0 354.9"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="309.2 337.5,358.6 356.5,336.5 365.0,287.1 346.0"/>
-    <polygon class="cc-face cc-esq" points="287.1 346.0,336.5 365.0,336.5 390.4,287.1 371.4"/>
-    <polygon class="cc-face cc-dir" points="358.6 356.5,336.5 365.0,336.5 390.4,358.6 381.9"/>
-  </g>
-    <g class="cc-p-parede">
-    <polygon class="cc-face cc-topo" points="473.0 253.5,548.4 282.5,465.2 314.5,389.8 285.5"/>
-    <polygon class="cc-face cc-esq" points="389.8 285.5,465.2 314.5,465.2 410.9,389.8 381.9"/>
-    <polygon class="cc-face cc-dir" points="548.4 282.5,465.2 314.5,465.2 410.9,548.4 378.9"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="278.0 340.0,298.8 348.0,285.8 353.0,265.0 345.0"/>
-    <polygon class="cc-face cc-esq" points="265.0 345.0,285.8 353.0,285.8 387.9,265.0 379.9"/>
-    <polygon class="cc-face cc-dir" points="298.8 348.0,285.8 353.0,285.8 387.9,298.8 382.9"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="166.2 308.8,387.2 393.8,380.7 396.3,159.7 311.3"/>
-    <polygon class="cc-face cc-esq" points="159.7 311.3,380.7 396.3,380.7 443.4,159.7 358.4"/>
-    <polygon class="cc-face cc-dir" points="387.2 393.8,380.7 396.3,380.7 443.4,387.2 440.9"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="382.0 365.5,431.4 384.5,409.3 393.0,359.9 374.0"/>
-    <polygon class="cc-face cc-esq" points="359.9 374.0,409.3 393.0,409.3 418.4,359.9 399.4"/>
-    <polygon class="cc-face cc-dir" points="431.4 384.5,409.3 393.0,409.3 418.4,431.4 409.9"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="350.8 368.0,371.6 376.0,358.6 381.0,337.8 373.0"/>
-    <polygon class="cc-face cc-esq" points="337.8 373.0,358.6 381.0,358.6 415.9,337.8 407.9"/>
-    <polygon class="cc-face cc-dir" points="371.6 376.0,358.6 381.0,358.6 415.9,371.6 410.9"/>
-  </g>
-  </g>
-
-  <g class="cc-pav">
-    <!-- laje -->
-    <polygon class="cc-laje" points="330.0 397.8,590.0 497.8,330.0 597.8,70.0 497.8"/>
-    <!-- as duas paredes do fundo; as da frente é que foram cortadas. Sobem o
-         pé-direito inteiro, então encostam na laje do andar de cima -->
-    <polygon class="cc-parede" points="330.0 397.8,590.0 497.8,590.0 378.9,330.0 278.9"/>
-    <polygon class="cc-parede cc-parede-esq" points="330.0 397.8,70.0 497.8,70.0 378.9,330.0 278.9"/>
-    <!-- malha do piso, para dar escala ao que está em cima dela -->
-    <g class="cc-malha">
-      <line x1="356.0" y1="407.8" x2="96.0" y2="507.8"/><line x1="304.0" y1="407.8" x2="564.0" y2="507.8"/>
-      <line x1="382.0" y1="417.8" x2="122.0" y2="517.8"/><line x1="278.0" y1="417.8" x2="538.0" y2="517.8"/>
-      <line x1="408.0" y1="427.8" x2="148.0" y2="527.8"/><line x1="252.0" y1="427.8" x2="512.0" y2="527.8"/>
-      <line x1="434.0" y1="437.8" x2="174.0" y2="537.8"/><line x1="226.0" y1="437.8" x2="486.0" y2="537.8"/>
-      <line x1="460.0" y1="447.8" x2="200.0" y2="547.8"/><line x1="200.0" y1="447.8" x2="460.0" y2="547.8"/>
-      <line x1="486.0" y1="457.8" x2="226.0" y2="557.8"/><line x1="174.0" y1="457.8" x2="434.0" y2="557.8"/>
-      <line x1="512.0" y1="467.8" x2="252.0" y2="567.8"/><line x1="148.0" y1="467.8" x2="408.0" y2="567.8"/>
-      <line x1="538.0" y1="477.8" x2="278.0" y2="577.8"/><line x1="122.0" y1="477.8" x2="382.0" y2="577.8"/>
-      <line x1="564.0" y1="487.8" x2="304.0" y2="587.8"/><line x1="96.0" y1="487.8" x2="356.0" y2="587.8"/>
-    </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="340.4 307.3,423.6 339.3,415.8 342.3,332.6 310.3"/>
-    <polygon class="cc-face cc-esq" points="332.6 310.3,415.8 342.3,415.8 444.8,332.6 412.8"/>
-    <polygon class="cc-face cc-dir" points="423.6 339.3,415.8 342.3,415.8 444.8,423.6 441.8"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="324.8 370.7,408.0 402.7,382.0 412.7,298.8 380.7"/>
-    <polygon class="cc-face cc-esq" points="298.8 380.7,382.0 412.7,382.0 457.8,298.8 425.8"/>
-    <polygon class="cc-face cc-dir" points="408.0 402.7,382.0 412.7,382.0 457.8,408.0 447.8"/>
-  </g>
-    <g class="cc-p-parede">
-    <polygon class="cc-face cc-topo" points="262.4 343.4,324.8 367.4,262.4 391.4,200.0 367.4"/>
-    <polygon class="cc-face cc-esq" points="200.0 367.4,262.4 391.4,262.4 487.8,200.0 463.8"/>
-    <polygon class="cc-face cc-dir" points="324.8 367.4,262.4 391.4,262.4 487.8,324.8 463.8"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="449.6 406.7,558.8 448.7,552.3 451.2,443.1 409.2"/>
-    <polygon class="cc-face cc-esq" points="443.1 409.2,552.3 451.2,552.3 496.3,443.1 454.3"/>
-    <polygon class="cc-face cc-dir" points="558.8 448.7,552.3 451.2,552.3 496.3,558.8 493.8"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="439.2 437.3,548.4 479.3,527.6 487.3,418.4 445.3"/>
-    <polygon class="cc-face cc-esq" points="418.4 445.3,527.6 487.3,527.6 505.8,418.4 463.8"/>
-    <polygon class="cc-face cc-dir" points="548.4 479.3,527.6 487.3,527.6 505.8,548.4 497.8"/>
-  </g>
-    <g class="cc-p-vidro">
-    <polygon class="cc-face cc-topo" points="179.2 406.2,187.0 409.2,119.4 435.2,111.6 432.2"/>
-    <polygon class="cc-face cc-esq" points="111.6 432.2,119.4 435.2,119.4 500.8,111.6 497.8"/>
-    <polygon class="cc-face cc-dir" points="187.0 409.2,119.4 435.2,119.4 500.8,187.0 474.8"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="397.6 453.3,506.8 495.3,486.0 503.3,376.8 461.3"/>
-    <polygon class="cc-face cc-esq" points="376.8 461.3,486.0 503.3,486.0 521.8,376.8 479.8"/>
-    <polygon class="cc-face cc-dir" points="506.8 495.3,486.0 503.3,486.0 521.8,506.8 513.8"/>
-  </g>
-    <g class="cc-p-banc">
-    <polygon class="cc-face cc-topo" points="184.4 450.7,262.4 480.7,246.8 486.7,168.8 456.7"/>
-    <polygon class="cc-face cc-esq" points="168.8 456.7,246.8 486.7,246.8 529.8,168.8 499.8"/>
-    <polygon class="cc-face cc-dir" points="262.4 480.7,246.8 486.7,246.8 529.8,262.4 523.8"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="356.0 469.3,465.2 511.3,444.4 519.3,335.2 477.3"/>
-    <polygon class="cc-face cc-esq" points="335.2 477.3,444.4 519.3,444.4 537.8,335.2 495.8"/>
-    <polygon class="cc-face cc-dir" points="465.2 511.3,444.4 519.3,444.4 537.8,465.2 529.8"/>
-  </g>
-    <g>
-    <polygon class="cc-face cc-topo" points="314.4 503.3,397.6 535.3,335.2 559.3,252.0 527.3"/>
-    <polygon class="cc-face cc-esq" points="252.0 527.3,335.2 559.3,335.2 579.8,252.0 547.8"/>
-    <polygon class="cc-face cc-dir" points="397.6 535.3,335.2 559.3,335.2 579.8,397.6 555.8"/>
-  </g>
-  </g>
-</svg>
-      
-      <button class="cc-pino" type="button" data-cc-pino data-cc-andar="0" style="--px:79.15%;--py:39.49%"
-              aria-expanded="false" aria-controls="cc-dica-clinica-0">
-        <i aria-hidden="true"></i><span class="so-leitor">Dica sobre Administrativo</span>
-      </button>
-      <div class="cc-dica" id="cc-dica-clinica-0" role="region"
-           aria-labelledby="cc-tit-clinica-0" style="--px:79.15%;--py:39.49%" hidden>
-        
-        <b id="cc-tit-clinica-0">Administrativo</b>
-        <p>Área de apoio, arquivo e sala técnica. Aqui entra o quadro elétrico dedicado: equipamento de diagnóstico costuma exigir circuito e aterramento próprios.</p>
-      </div>
-      <button class="cc-pino" type="button" data-cc-pino data-cc-andar="1" style="--px:79.15%;--py:58.37%"
-              aria-expanded="false" aria-controls="cc-dica-clinica-1">
-        <i aria-hidden="true"></i><span class="so-leitor">Dica sobre Consultórios</span>
-      </button>
-      <div class="cc-dica" id="cc-dica-clinica-1" role="region"
-           aria-labelledby="cc-tit-clinica-1" style="--px:79.15%;--py:58.37%" hidden>
-        
-        <b id="cc-tit-clinica-1">Consultórios</b>
-        <p>Divisórias com desempenho acústico, lavatório em cada sala e porta com vão livre de norma. A largura de porta e de corredor vem da acessibilidade, não do desenho: é o primeiro item que a compatibilização confere.</p>
-      </div>
-      <button class="cc-pino" type="button" data-cc-pino data-cc-andar="2" style="--px:79.15%;--py:77.24%"
-              aria-expanded="false" aria-controls="cc-dica-clinica-2">
-        <i aria-hidden="true"></i><span class="so-leitor">Dica sobre Recepção e espera</span>
-      </button>
-      <div class="cc-dica" id="cc-dica-clinica-2" role="region"
-           aria-labelledby="cc-tit-clinica-2" style="--px:79.15%;--py:77.24%" hidden>
-        <img class="cc-foto" data-fonte="/img/recepcao-marmore-480.webp"
-             width="480" height="320"
-             alt="Recepção com balcão em mármore, obra corporativa da SPX. A espera de clínica usa o mesmo tipo de balcão." loading="lazy" decoding="async">
-        <b id="cc-tit-clinica-2">Recepção e espera</b>
-        <p>Balcão, espera e circulação. Piso lavável, quina arredondada e iluminação sem ofuscamento — detalhes que a norma pede e que só aparecem no orçamento de quem já executou clínica.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- O que cada pavimento tem de diferente, em tópicos. Fica sempre visível:
-       a dica do alfinete é o detalhe de uma área, isto é a comparação entre as
-       três — e comparação escondida atrás de clique ninguém faz. -->
-  <div class="cc-topicos">
-    
-    <div class="cc-tpc" data-cc-topicos="corporativo">
-      
-      <div class="cc-tpc-col" data-cc-tpc-col="0">
-        <p class="cc-tpc-cab"><span class="cc-tpc-n">03</span>Salas de reunião</p>
-        <ul><li>Divisória de vidro com perfil de alumínio e porta pivotante</li><li>Forro acústico onde a sala encosta na laje corrida</li><li>Ponto de lógica e energia na mesa, não na parede</li><li>O vidro tem prazo de fábrica: entra como caminho crítico</li></ul>
-      </div>
-      <div class="cc-tpc-col" data-cc-tpc-col="1">
-        <p class="cc-tpc-cab"><span class="cc-tpc-n">02</span>Laje corrida</p>
-        <ul><li>Bancada corrida com calha de energia e dados por baixo</li><li>Forro modular, para manutenção sem quebrar nada</li><li>Piso elevado quando o cabeamento passa embaixo</li><li>Cabine de foco em drywall com porta acústica</li></ul>
-      </div>
-      <div class="cc-tpc-col" data-cc-tpc-col="2">
-        <p class="cc-tpc-cab"><span class="cc-tpc-n">01</span>Recepção</p>
-        <ul><li>Balcão em marcenaria sob medida, com nicho de iluminação</li><li>Painel de marca com sanca e luz indireta</li><li>Piso de padrão diferente do resto do andar</li><li>Última área liberada: é a que o cliente vê primeiro</li></ul>
-      </div>
-    </div>
-    <div class="cc-tpc" data-cc-topicos="varejo" hidden>
-      
-      <div class="cc-tpc-col" data-cc-tpc-col="0">
-        <p class="cc-tpc-cab"><span class="cc-tpc-n">03</span>Estoque e apoio</p>
-        <ul><li>Prateleira metálica modulada pela caixa do produto</li><li>Bancada de conferência com ponto de força e dados</li><li>Iluminação simples, sem forro — o que importa é o lúmen</li><li>Circulação livre para o carrinho, não para o cliente</li></ul>
-      </div>
-      <div class="cc-tpc-col" data-cc-tpc-col="1">
-        <p class="cc-tpc-cab"><span class="cc-tpc-n">02</span>Provadores</p>
-        <ul><li>Cabine em drywall com bandeira e reforço para o espelho</li><li>Forro recortado para a luz de prova, com temperatura de cor própria</li><li>Circuito por cabine, não um só para todas</li><li>Banco e cabideiro embutidos, sem perder largura de cabine</li></ul>
-      </div>
-      <div class="cc-tpc-col" data-cc-tpc-col="2">
-        <p class="cc-tpc-cab"><span class="cc-tpc-n">01</span>Vitrine e vendas</p>
-        <ul><li>Fachada e vitrine com projeto aprovado pelo shopping</li><li>Comunicação visual integrada ao forro e à iluminação de destaque</li><li>Caixa com ponto de dados, energia estabilizada e cofre</li><li>Obra na janela de horário do condomínio, com acesso documentado</li></ul>
-      </div>
-    </div>
-    <div class="cc-tpc" data-cc-topicos="restaurante" hidden>
-      
-      <div class="cc-tpc-col" data-cc-tpc-col="0">
-        <p class="cc-tpc-cab"><span class="cc-tpc-n">03</span>Casa de máquinas</p>
-        <ul><li>Prumada de exaustão da coifa até acima da cobertura</li><li>Condensadoras com base isolada e afastamento de manutenção</li><li>Reservatório com reserva de incêndio separada</li><li>É aqui que o projeto do restaurante começa, não na decoração</li></ul>
-      </div>
-      <div class="cc-tpc-col" data-cc-tpc-col="1">
-        <p class="cc-tpc-cab"><span class="cc-tpc-n">02</span>Salão</p>
-        <ul><li>Tratamento acústico dentro do forro, antes de fechar</li><li>Bar com bancada, pia, gelo e ponto de dreno</li><li>Iluminação em circuitos separados para o dia e a noite</li><li>Piso com resistência a gordura e limpeza pesada</li></ul>
-      </div>
-      <div class="cc-tpc-col" data-cc-tpc-col="2">
-        <p class="cc-tpc-cab"><span class="cc-tpc-n">01</span>Cozinha</p>
-        <ul><li>Piso monolítico com caimento e ralo linear conferidos na obra</li><li>Coifa com make-up de ar e filtro de gordura</li><li>Câmara fria com piso rebaixado e porta de fluxo</li><li>Ponto de gás com teste de estanqueidade documentado</li></ul>
-      </div>
-    </div>
-    <div class="cc-tpc" data-cc-topicos="clinica" hidden>
-      
-      <div class="cc-tpc-col" data-cc-tpc-col="0">
-        <p class="cc-tpc-cab"><span class="cc-tpc-n">03</span>Administrativo</p>
-        <ul><li>Quadro dedicado com circuito e aterramento para diagnóstico</li><li>Sala técnica com rack, climatização própria e acesso restrito</li><li>Arquivo com prateleira dimensionada para carga de papel</li><li>Copa e vestiário separados do fluxo de paciente</li></ul>
-      </div>
-      <div class="cc-tpc-col" data-cc-tpc-col="1">
-        <p class="cc-tpc-cab"><span class="cc-tpc-n">02</span>Consultórios</p>
-        <ul><li>Divisória com lã e placa dupla, para o áudio não vazar de sala em sala</li><li>Lavatório em cada consultório, com água quente</li><li>Porta e corredor com vão livre de norma, não do desenho</li><li>Piso e rodapé em canto arredondado, para higienização</li></ul>
-      </div>
-      <div class="cc-tpc-col" data-cc-tpc-col="2">
-        <p class="cc-tpc-cab"><span class="cc-tpc-n">01</span>Recepção e espera</p>
-        <ul><li>Balcão com trecho rebaixado para atendimento sentado</li><li>Espera com circulação livre para cadeira de rodas</li><li>Sanitário acessível com barra e sinalização de emergência</li><li>Iluminação difusa, sem ofuscamento sobre quem espera deitado</li></ul>
-      </div>
-    </div>
-  </div>
+<div class="pol-grade">
+  
+  <figure class="pol" style="--giro:-0.70deg">
+    <span class="pol-foto">
+      <img data-fonte="/img/sala-reuniao-azul-480.webp"
+           width="480" height="681"
+           alt="Sala de reunião, parede em azul profundo, obra executada pela SPX Engenharia"
+           loading="lazy" decoding="async">
+    </span>
+    <figcaption class="pol-tarja">
+      <span class="pol-tag">Obra corporativa</span>
+      <b>Sala de reunião</b>
+      <span class="pol-linha">Parede em azul profundo</span>
+      <p>Marcenaria sob medida na parede de fundo, forro com iluminação embutida e persiana horizontal em toda a fachada.</p>
+    </figcaption>
+  </figure>
+  <figure class="pol" style="--giro:1.13deg">
+    <span class="pol-foto">
+      <img data-fonte="/img/recepcao-marmore-480.webp"
+           width="480" height="320"
+           alt="Recepção, balcão em mármore, obra executada pela SPX Engenharia"
+           loading="lazy" decoding="async">
+    </span>
+    <figcaption class="pol-tarja">
+      <span class="pol-tag">Obra corporativa</span>
+      <b>Recepção</b>
+      <span class="pol-linha">Balcão em mármore</span>
+      <p>Balcão em pedra natural, parede de acento em bordô e marcenaria de apoio alinhada ao piso vinílico.</p>
+    </figcaption>
+  </figure>
+  <figure class="pol" style="--giro:-1.56deg">
+    <span class="pol-foto">
+      <img data-fonte="/img/lounge-recepcao-480.webp"
+           width="480" height="720"
+           alt="Lounge de espera, balcão em pedra, obra executada pela SPX Engenharia"
+           loading="lazy" decoding="async">
+    </span>
+    <figcaption class="pol-tarja">
+      <span class="pol-tag">Obra corporativa</span>
+      <b>Lounge de espera</b>
+      <span class="pol-linha">Balcão em pedra</span>
+      <p>Área de espera com balcão em pedra, revestimento texturizado e iluminação rebaixada no forro.</p>
+    </figcaption>
+  </figure>
+  <figure class="pol" style="--giro:0.79deg">
+    <span class="pol-foto">
+      <img data-fonte="/img/estante-espinha-peixe-480.webp"
+           width="480" height="640"
+           alt="Escritório, piso espinha de peixe, obra executada pela SPX Engenharia"
+           loading="lazy" decoding="async">
+    </span>
+    <figcaption class="pol-tarja">
+      <span class="pol-tag">Obra corporativa</span>
+      <b>Escritório</b>
+      <span class="pol-linha">Piso espinha de peixe</span>
+      <p>Estante sob medida do piso ao teto e piso em espinha de peixe assentado no padrão contínuo da sala.</p>
+    </figcaption>
+  </figure>
+  <figure class="pol" style="--giro:-1.22deg">
+    <span class="pol-foto">
+      <img data-fonte="/img/mesa-vista-sp-480.webp"
+           width="480" height="640"
+           alt="Sala de reunião, vista são paulo, obra executada pela SPX Engenharia"
+           loading="lazy" decoding="async">
+    </span>
+    <figcaption class="pol-tarja">
+      <span class="pol-tag">Obra corporativa</span>
+      <b>Sala de reunião</b>
+      <span class="pol-linha">Vista São Paulo</span>
+      <p>Mesa de reunião em madeira, luminária pendente linear e cortina em trilho ao longo de toda a esquadria.</p>
+    </figcaption>
+  </figure>
+  <figure class="pol" style="--giro:1.65deg">
+    <span class="pol-foto">
+      <img data-fonte="/img/restaurante-fachada-480.webp"
+           width="480" height="853"
+           alt="Restaurante, salão e fachada, obra executada pela SPX Engenharia"
+           loading="lazy" decoding="async">
+    </span>
+    <figcaption class="pol-tarja">
+      <span class="pol-tag">Varejo e alimentação</span>
+      <b>Restaurante</b>
+      <span class="pol-linha">Salão e fachada</span>
+      <p>Salão com fachada em vidro, iluminação cênica e acabamento aplicado dentro da janela de obra do imóvel.</p>
+    </figcaption>
+  </figure>
+  <figure class="pol" style="--giro:-0.88deg">
+    <span class="pol-foto">
+      <img data-fonte="/img/restaurante-salao-480.webp"
+           width="480" height="853"
+           alt="Salão, ambiente principal, obra executada pela SPX Engenharia"
+           loading="lazy" decoding="async">
+    </span>
+    <figcaption class="pol-tarja">
+      <span class="pol-tag">Varejo e alimentação</span>
+      <b>Salão</b>
+      <span class="pol-linha">Ambiente principal</span>
+      <p>Layout de mesas, forro acústico e pontos elétricos distribuídos conforme a operação do salão.</p>
+    </figcaption>
+  </figure>
+  <figure class="pol" style="--giro:1.31deg">
+    <span class="pol-foto">
+      <img data-fonte="/img/lavabo-terracota-480.webp"
+           width="480" height="640"
+           alt="Lavabo, terracota e porcelanato, obra executada pela SPX Engenharia"
+           loading="lazy" decoding="async">
+    </span>
+    <figcaption class="pol-tarja">
+      <span class="pol-tag">Reforma</span>
+      <b>Lavabo</b>
+      <span class="pol-linha">Terracota e porcelanato</span>
+      <p>Revestimento em terracota, cuba esculpida e instalação hidráulica refeita no ponto original.</p>
+    </figcaption>
+  </figure>
+</div>
+  
+<div class="barra-cta">
+  <p>Tem um projeto para executar?</p>
+  <a class="btn btn-acc" href="/contato">Falar com a SPX&nbsp;↗</a>
 </div>
 </section>
 
@@ -1822,6 +641,6 @@ document.documentElement.setAttribute('data-tema','escuro');
   <svg viewBox="0 0 24 24" class="zap-marca" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.174.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347M12.05 21.785h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
   <span>11 95275-1874 · WhatsApp</span>
 </a>
-<script src="/assets/js/spx.min.js?v=926808bb" defer></script>
+<script src="/assets/js/spx.min.js?v=a23ca6c9" defer></script>
 </body>
 </html>

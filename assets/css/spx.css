@@ -1196,171 +1196,59 @@ h2 em{font-style:normal;color:var(--acc-2)}
 .pag-duvidas .foto-fundo .topo-duplo{align-items:center}
 .pag-duvidas .foto-fundo .topo-lead{max-width:none}
 
-/* ------------------------------------------------ casa em corte 3D */
-/* Lista de ambientes à esquerda, prédio aberto à direita. No celular a lista
-   vira uma fila que rola de lado: empilhada, os quatro botões empurravam o
-   desenho para fora da primeira tela e ninguém via o que a seção faz. */
-.cc{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);
-  gap:var(--e5);align-items:start;margin-top:var(--e4)}
+/* --------------------------------------------------------- polaroides */
+/* As obras em papel fotográfico. A tarja branca de baixo é o espaço onde numa
+   polaroide de verdade se escreve à mão — aqui é onde vai o que foi executado.
 
-.cc-lista{display:grid;gap:10px;align-content:start;position:sticky;top:calc(var(--nav-altura) + 16px)}
-.cc-aba{display:grid;grid-template-columns:auto 1fr;gap:var(--e3);align-items:start;
-  text-align:left;padding:var(--e3);background:var(--sup);border:1px solid var(--linha);
-  border-radius:12px;color:var(--txt-2);cursor:pointer;
-  transition:background .2s ease,border-color .2s ease,transform .2s ease}
-.cc-aba:hover{background:var(--sup-2);transform:translateX(3px)}
-.cc-aba[aria-selected="true"]{background:var(--acc-suave);border-color:var(--acc-2);color:var(--txt)}
-.cc-aba .cc-ico{display:grid;place-items:center;width:34px;height:34px;border-radius:9px;
-  border:1px solid var(--linha);color:var(--acc-2)}
-.cc-aba[aria-selected="true"] .cc-ico{border-color:var(--acc-2);background:rgba(0,0,0,.2)}
-.cc-ico svg{width:18px;height:18px;stroke-width:1.3}
-.cc-rot b{display:block;font-family:var(--display);font-size:13px;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--txt);line-height:1.35}
-.cc-rot span{display:block;margin-top:5px;font-size:13.5px;line-height:1.5;color:var(--txt-2)}
-.cc-link{margin-top:6px;font-family:var(--display);font-size:12px;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--acc-2)}
+   O papel é claro num site escuro de propósito: é o único bloco de luz da
+   página, e é para ele que o olho vai. */
+.pol-grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:clamp(22px,3vw,38px);margin-top:var(--e5)}
 
-/* o palco tem altura própria: sem ela, trocar de ambiente muda a altura da
-   página e o que está abaixo pula */
-.cc-palco{position:relative;isolation:isolate}
-.cc-cena{position:relative}
-.cc-cena[hidden]{display:none}
-.cc-svg{width:100%;height:auto;display:block;color:var(--acc-2);
-  animation:cc-entra .5s cubic-bezier(.2,.7,.3,1) both}
-@keyframes cc-entra{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+.pol{
+  --papel:#F2F0EA;
+  margin:0;padding:11px 11px 0;background:var(--papel);border-radius:3px;
+  display:flex;flex-direction:column;
+  transform:rotate(var(--giro));
+  box-shadow:0 18px 38px rgba(0,0,0,.5),0 2px 6px rgba(0,0,0,.4);
+  transition:transform .35s cubic-bezier(.2,.7,.3,1),box-shadow .35s ease}
+/* passar o mouse endireita a foto e levanta: é o gesto de pegar uma do mural */
+.pol:hover,.pol:focus-within{transform:rotate(0deg) translateY(-8px) scale(1.02);
+  box-shadow:0 32px 60px rgba(0,0,0,.62),0 3px 8px rgba(0,0,0,.45);z-index:2}
 
-/* as faces do desenho. O tampo é o mais claro porque é a face que recebe luz
-   de cima; as duas laterais escurecem, que é o que dá o volume sem sombra. */
-/* Volumes OPACOS, com uma cor por face. Translúcidos, o corte virava raio-x:
-   via-se a mesa através do armário e o desenho somava vinte arestas no mesmo
-   ponto. Opacos, cada peça esconde o que está atrás dela — e a diferença de
-   tom entre as três faces é o que faz o volume ler como volume, já que aqui
-   não há sombra nenhuma. As faces são mais claras em cima porque é de cima que
-   vem a luz. */
-.cc-face{stroke:currentColor;stroke-width:.85;stroke-linejoin:round;stroke-opacity:1}
-.cc-topo{fill:#2A3947}
-.cc-esq{fill:#1C2732}
-.cc-dir{fill:#131B23}
-/* Cada tipo de peça tem o próprio traço. É o que separa, no mesmo desenho, uma
-   divisória de drywall de uma de vidro, e um armário de uma câmara fria — sem
-   isso o corte vira uma pilha de caixas iguais. */
-/* o vidro é o único que continua transparente: é o que ele é */
-.cc-p-vidro .cc-face{fill:currentColor;fill-opacity:.05;stroke-dasharray:3 3;stroke-opacity:.6}
-/* alvenaria e drywall: um degrau mais claros que o móvel solto */
-.cc-p-parede .cc-topo{fill:#33424F}
-.cc-p-parede .cc-esq{fill:#232F3B}
-.cc-p-parede .cc-dir{fill:#18212A}
-/* bancada e balcão: o volume mais cheio do ambiente */
-.cc-p-banc .cc-topo{fill:#38495A}
-.cc-p-banc .cc-esq{fill:#26333F}
-/* equipamento: mesmo corpo, traço interrompido — coifa, câmara fria, chiller */
-.cc-p-equipa .cc-face{stroke-dasharray:5 2.5}
-.cc-p-equipa .cc-topo{fill:#2C3E4E;stroke-dasharray:none}
-/* A laje e as paredes de fundo são OPACAS, e é isso que faz o corte funcionar.
-   Translúcidas, o desenho virava raio-x: via-se o andar de cima através do de
-   baixo e as três plantas se somavam numa malha ilegível. Sólidas, cada
-   pavimento tapa o que está atrás dele, como numa casa de boneca de verdade —
-   o SVG não tem profundidade, quem resolve oclusão é a ordem de desenho mais
-   um preenchimento que esconde. */
-.cc-laje{fill:#080B10;fill-opacity:.94;stroke:currentColor;stroke-width:1.1;stroke-opacity:.85}
-/* A laje é opaca, a parede de fundo é meio-opaca. Cheia, ela tapava o interior
-   do pavimento de cima — que é o que a projeção manda, mas some justamente o
-   que a seção existe para mostrar. Meio a meio, o corte continua fechando e o
-   que está dentro continua visível. */
-.cc-parede{fill:#0A0E14;fill-opacity:.55;stroke:currentColor;stroke-width:1;stroke-opacity:.55}
-.cc-parede-esq{fill:#0C1118;fill-opacity:.62}
-.cc-malha line{stroke:currentColor;stroke-width:.5;stroke-opacity:.2}
+/* proporção fixa: sem ela as fotos em pé e deitadas desalinhavam a fileira
+   inteira e cada tarja começava numa altura */
+.pol-foto{display:block;position:relative;aspect-ratio:4/5;overflow:hidden;
+  background:#1A1E22}
+.pol-foto img{width:100%;height:100%;object-fit:cover;display:block}
 
-/* alfinete: o alvo tem 28px mesmo com o ponto desenhado de 11, porque o que a
-   norma mede é a área que o dedo acerta, não o que se enxerga */
-.cc-pino{position:absolute;left:var(--px);top:var(--py);transform:translate(-50%,-50%);
-  width:28px;height:28px;display:grid;place-items:center;border-radius:50%;
-  background:none;border:0;cursor:pointer;padding:0;
-  /* acima do balão: com a dica aberta ela cobria os alfinetes dos outros
-     pavimentos e não dava para trocar de área sem fechar antes */
-  z-index:5}
-.cc-pino i{width:11px;height:11px;border-radius:50%;background:var(--acc-2);
-  box-shadow:0 0 0 4px rgba(143,176,204,.22);transition:box-shadow .25s ease,transform .25s ease}
-.cc-pino::after{content:"";position:absolute;inset:0;border-radius:50%;
-  border:1px solid var(--acc-2);opacity:.5;animation:cc-pulsa 2.6s ease-out infinite}
-@keyframes cc-pulsa{0%{transform:scale(.55);opacity:.55}70%,100%{transform:scale(1.25);opacity:0}}
-.cc-pino:hover i,.cc-pino:focus-visible i{transform:scale(1.25);box-shadow:0 0 0 7px rgba(143,176,204,.28)}
-.cc-pino[aria-expanded="true"] i{background:var(--txt);box-shadow:0 0 0 7px rgba(143,176,204,.35)}
-.cc-pino[aria-expanded="true"]::after{animation:none;opacity:0}
+.pol-tarja{padding:14px 5px 18px;color:#15181B}
+.pol-tag{display:inline-block;font-family:var(--display);font-size:9.5px;
+  letter-spacing:.16em;text-transform:uppercase;color:#5B6B7A;
+  border:1px solid rgba(0,0,0,.16);border-radius:2px;padding:3px 7px}
+.pol-tarja b{display:block;margin-top:9px;font-family:var(--display);font-size:14px;
+  letter-spacing:.05em;text-transform:uppercase;color:#12161A;line-height:1.3}
+.pol-linha{display:block;margin-top:2px;font-size:13px;color:#4A555F}
+/* o texto da obra fica no tom de anotação a lápis, um degrau abaixo do título,
+   mas ainda em 4,5:1 sobre o papel */
+.pol-tarja p{margin:9px 0 0;font-size:12.5px;line-height:1.55;color:#3D464E}
 
-/* A dica abre à ESQUERDA do alfinete, e não centrada nele. Os três alfinetes
-   ficam na borda direita das lajes, então centrado o balão saía metade para
-   fora do palco. Ancorado pela direita, ele cresce para dentro do desenho. */
-.cc-dica{position:absolute;right:calc(100% - var(--px) + 20px);top:calc(var(--py) - 14px);
-  width:min(300px,58%);z-index:4;
-  padding:14px 16px;border-radius:12px;
-  background:linear-gradient(155deg,rgba(18,24,31,.97),rgba(10,14,19,.97));
-  border:1px solid rgba(143,176,204,.34);
-  box-shadow:0 20px 44px rgba(0,0,0,.6);
-  animation:cc-dica-entra .22s ease both}
-@keyframes cc-dica-entra{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:none}}
-.cc-dica[hidden]{display:none}
-/* A foto vem primeiro, sangrando até a borda do balão. A proporção é fixa e o
-   recorte é por object-fit: sem isso, o balão mudava de altura conforme a foto
-   e a dica dava um salto ao abrir. */
-.cc-foto{display:block;width:calc(100% + 32px);margin:-14px -16px 12px;
-  height:132px;object-fit:cover;object-position:center;
-  border-radius:11px 11px 0 0;border-bottom:1px solid rgba(143,176,204,.24)}
-.cc-dica b{display:block;font-family:var(--display);font-size:11.5px;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--acc-2)}
-.cc-dica p{margin:8px 0 0;font-size:13.5px;line-height:1.6;color:var(--txt)}
-
-/* Tópicos: o que cada pavimento tem de diferente, lado a lado. Ocupa a
-   largura toda porque a graça é comparar as três colunas de uma vez. */
-.cc-topicos{grid-column:1 / -1;margin-top:var(--e4);border-top:1px solid var(--linha);
-  padding-top:var(--e4)}
-.cc-tpc{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--e4)}
-.cc-tpc[hidden]{display:none}
-.cc-tpc-col{transition:opacity .25s ease}
-/* quando um alfinete abre, os outros dois pavimentos recuam em vez de sumir:
-   some, quem estava lendo perde a comparação que veio buscar */
-.cc-topicos[data-foco] .cc-tpc-col{opacity:.42}
-.cc-topicos[data-foco] .cc-tpc-col.aceso{opacity:1}
-.cc-tpc-cab{display:flex;align-items:baseline;gap:10px;margin:0 0 var(--e2);
-  font-family:var(--display);font-size:12.5px;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--txt)}
-.cc-tpc-n{font-size:11px;color:var(--acc-2);letter-spacing:.06em}
-.cc-tpc-col ul{list-style:none;margin:0;padding:0;display:grid;gap:9px}
-.cc-tpc-col li{position:relative;padding-left:18px;font-size:13.5px;line-height:1.55;
-  color:var(--txt-2)}
-.cc-tpc-col li::before{content:"";position:absolute;left:0;top:.62em;width:7px;height:7px;
-  border:1px solid var(--acc-2);transform:rotate(45deg)}
-.cc-tpc-col.aceso li::before{background:var(--acc-2)}
-
-@media (max-width:1000px){
-  .cc{grid-template-columns:minmax(0,1fr);gap:var(--e4)}
-  /* fila que rola de lado, com a rolagem encaixando em cada botão */
-  .cc-lista{position:static;grid-auto-flow:column;grid-auto-columns:minmax(230px,78%);
-    overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;
-    margin-inline:calc(50% - 50vw);padding-inline:max(18px,calc(50vw - 50%))}
-  .cc-aba{scroll-snap-align:start}
-  .cc-aba:hover{transform:none}
-  .cc-dica{width:min(300px,66%)}
-  /* três colunas de tópicos não cabem: viram duas, e uma só abaixo de 620 */
-  .cc-tpc{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--e3) var(--e4)}
-}
-@media (max-width:620px){
-  .cc-tpc{grid-template-columns:minmax(0,1fr);gap:var(--e4)}
-}
-@media (max-width:560px){
-  /* em tela estreita a dica não cabe ao lado do alfinete sem sair da margem:
-     vai para a base do palco, largura cheia */
-  /* o padding à direita abre espaço para o botão flutuante do WhatsApp, que
-     é fixo e passava por cima das últimas linhas da dica */
-  .cc-dica{right:auto;left:0;top:auto;bottom:0;width:100%;padding-right:76px}
-  /* a foto continua sangrando, mas o padding da direita é maior por causa do
-     botão do WhatsApp: descontar só o da esquerda */
-  .cc-foto{width:calc(100% + 92px);margin:-14px -76px 12px -16px;height:120px}
-  @keyframes cc-dica-entra{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (max-width:640px){
+  /* Duas colunas fixas, e não auto-fill: com o mínimo de 200px o auto-fill caía
+     para uma só coluna em 393px, cada polaroide ficava do tamanho da tela e a
+     seção passava de dez mil pixels de altura. Mural é para ser visto de uma
+     vez. */
+  .pol-grade{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+  .pol{padding:7px 7px 0}
+  .pol-foto{aspect-ratio:1/1}
+  .pol-tarja{padding:10px 3px 13px}
+  .pol-tag{font-size:9px;letter-spacing:.12em;padding:2px 5px}
+  .pol-tarja b{margin-top:7px;font-size:12px}
+  .pol-linha{font-size:11.5px}
+  .pol-tarja p{margin-top:6px;font-size:11.5px;line-height:1.5}
 }
 @media (prefers-reduced-motion:reduce){
-  .cc-svg,.cc-dica{animation:none}
-  .cc-pino::after{animation:none;opacity:.4}
+  .pol,.pol:hover,.pol:focus-within{transition:none;transform:rotate(var(--giro))}
 }
 
 /* ------------------------------------------------------- cartão que vira */

@@ -10,6 +10,12 @@
    mesmo arquivo serve aos dois — sem isso seria um JavaScript para manter em
    dobro, e é justamente onde um erro passaria despercebido. */
 var IMG = (window.SPX_WP && window.SPX_WP.img) || '/img/';
+/* o telefone e o e-mail da saída de emergência do formulário — quando o envio
+   falha, os botões de WhatsApp e e-mail precisam apontar para o contato atual,
+   e não para o que estava certo no dia em que este arquivo foi escrito */
+var ZAP   = (window.SPX_WP && window.SPX_WP.zap)   || '5511952751874';
+var EMAIL = (window.SPX_WP && window.SPX_WP.email) || 'contato@spxengenharia.com.br';
+var ERRO  = (window.SPX_WP && window.SPX_WP.erro)  || '/api/erro';
 'use strict';
 
 var reduz = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -679,8 +685,8 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
       (d.get('mensagem') || '');
 
     var zap = $('#linkZap'), mail = $('#linkMail');
-    if(zap)  zap.href  = 'https://wa.me/5511952751874?text=' + encodeURIComponent(texto);
-    if(mail) mail.href = 'mailto:contato@spxengenharia.com.br?subject=' +
+    if(zap)  zap.href  = 'https://wa.me/' + ZAP + '?text=' + encodeURIComponent(texto);
+    if(mail) mail.href = 'mailto:' + EMAIL + '?subject=' +
       encodeURIComponent('Visita técnica · ' + (d.get('empresa') || d.get('nome'))) +
       '&body=' + encodeURIComponent(texto);
 
@@ -828,9 +834,9 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
     try {
       var pacote = JSON.stringify(dados);
       if(navigator.sendBeacon){
-        navigator.sendBeacon('/api/erro', new Blob([pacote], {type:'application/json'}));
+        navigator.sendBeacon(ERRO, new Blob([pacote], {type:'application/json'}));
       } else {
-        fetch('/api/erro', {method:'POST', headers:{'Content-Type':'application/json'},
+        fetch(ERRO, {method:'POST', headers:{'Content-Type':'application/json'},
                             body:pacote, keepalive:true}).catch(function(){});
       }
     } catch(e){ /* se nem isso der, não vale derrubar a página por causa do aviso */ }

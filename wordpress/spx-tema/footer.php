@@ -10,9 +10,19 @@ if (!defined('ABSPATH')) { exit; }
 
 $e = spx('empresa');
 $zap = preg_replace('/\D/', '', $e['whatsapp']);
+
+/* O 404 tem rodapé próprio, de uma linha só: é uma página de saída, e a grade
+   inteira de links ali competiria com os dois botões que interessam. */
+$curto = !empty($GLOBALS['spx']['rodapeCurto']);
 ?>
 </main>
 
+<?php if ($curto) : ?>
+<div class="wrap"><div class="rod-fim">
+  <span>© <span data-ano><?php echo esc_html(date('Y')); ?></span> <?php echo spx_esc($e['nome']); ?> · <?php echo spx_esc($e['base']); ?></span>
+  <span style="display:flex;gap:20px;flex-wrap:wrap"><a href="<?php echo esc_url(home_url('/duvidas')); ?>">Dúvidas</a><a href="<?php echo esc_url(home_url('/contato')); ?>">Contato</a></span>
+</div></div>
+<?php else : ?>
 <footer class="wrap rodape">
   <div class="rod-grid" data-reveal>
     <div>
@@ -72,6 +82,7 @@ foreach (spx_projetos() as $p) {
     <span style="display:flex;gap:20px;flex-wrap:wrap"><a href="<?php echo esc_url(home_url('/privacidade')); ?>">Privacidade</a><a href="<?php echo esc_url(home_url('/duvidas')); ?>">Dúvidas</a><a href="<?php echo esc_url(home_url('/contato')); ?>">Contato</a></span>
   </div>
 </footer>
+<?php endif; ?>
 
 <a class="zap" href="https://wa.me/<?php echo esc_attr($zap); ?>" rel="noopener"
    aria-label="Falar com a <?php echo esc_attr($e['nome']); ?> no WhatsApp" data-zap>

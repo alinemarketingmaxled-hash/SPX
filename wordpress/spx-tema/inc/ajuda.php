@@ -105,6 +105,23 @@ function spx_larguras($arq) {
   return implode(', ', $partes);
 }
 
+/**
+ * Prefixa com a pasta de imagens do tema cada URL de uma lista de srcset.
+ * Recebe 'a-480.webp 480w, a-640.webp 640w' e devolve a mesma lista com o
+ * caminho completo — trocar a lista inteira de uma vez colocaria as vírgulas
+ * dentro de uma URL só.
+ */
+function spx_srcset($lista) {
+  $partes = [];
+  foreach (explode(',', $lista) as $p) {
+    $p = trim($p);
+    if ($p === '') { continue; }
+    $pedacos = explode(' ', $p, 2);
+    $partes[] = spx_img($pedacos[0]) . (isset($pedacos[1]) ? ' ' . $pedacos[1] : '');
+  }
+  return implode(', ', $partes);
+}
+
 /** As medidas do painel de foto do cabeçalho, iguais às do CSS. */
 const SPX_TAM_TOPO = '(min-width:1000px) min(44vw, 500px), 100vw';
 

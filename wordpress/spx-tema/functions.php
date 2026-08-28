@@ -18,6 +18,7 @@ require_once get_template_directory() . '/inc/componentes.php';
 require_once get_template_directory() . '/inc/componentes-2.php';
 require_once get_template_directory() . '/inc/arte.php';
 require_once get_template_directory() . '/inc/schema.php';
+require_once get_template_directory() . '/inc/dominio.php';
 require_once get_template_directory() . '/inc/conteudo-tipos.php';
 require_once get_template_directory() . '/inc/formulario.php';
 require_once get_template_directory() . '/inc/admin.php';
@@ -53,10 +54,16 @@ function spx_assets() {
   $dir = get_template_directory_uri();
   wp_enqueue_style('spx', $dir . '/assets/css/spx.css', [], SPX_VERSAO);
   wp_enqueue_script('spx', $dir . '/assets/js/spx.js', [], SPX_VERSAO, true);
+  /* o JavaScript é o mesmo do site estático: só precisa saber onde moram as
+     imagens, para onde mandar o formulário e qual o contato atual da empresa,
+     senão a saída de emergência do formulário apontaria para o telefone que
+     estava certo no dia em que o arquivo foi escrito */
+  $e = spx('empresa');
   wp_localize_script('spx', 'SPX_WP', [
-    'ajax'  => admin_url('admin-ajax.php'),
-    'nonce' => wp_create_nonce('spx_contato'),
     'img'   => $dir . '/img/',
+    'zap'   => preg_replace('/\D/', '', $e['whatsapp']),
+    'email' => $e['email'],
+    'erro'  => admin_url('admin-ajax.php?action=spx_erro'),
   ]);
 }
 add_action('wp_enqueue_scripts', 'spx_assets');
@@ -112,6 +119,19 @@ function spx_menu_itens() {
     ['/para-arquitetos', 'Arquitetos'],
     ['/duvidas', 'Dúvidas'],
   ];
+}
+
+/**
+ * Abre a página com os dados do cabeçalho.
+ *
+ * Existe porque o get_header() do WordPress carrega o header.php dentro de uma
+ * função: variável criada no template da página não chega lá. O jeito de
+ * atravessar é o escopo global, e passar por aqui deixa isso explícito em vez
+ * de virar um $GLOBALS solto no meio de cada arquivo.
+ */
+function spx_cabecalho($spx = []) {
+  $GLOBALS['spx'] = $spx;
+  get_header();
 }
 
 /** Só as larguras de tela usadas nos <link rel=preload> do cabeçalho. */

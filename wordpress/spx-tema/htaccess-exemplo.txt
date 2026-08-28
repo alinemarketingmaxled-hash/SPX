@@ -1,0 +1,40 @@
+# ---------------------------------------------------------------------------
+# Trecho para o .htaccess do WordPress (servidor Apache — a maioria das
+# hospedagens brasileiras). Cole ANTES do bloco "# BEGIN WordPress".
+#
+# Resolve o caso de o mesmo site responder em mais de um endereço. Sem isso o
+# Google enxerga duas cópias e divide a autoridade entre elas; a tag canônica
+# ajuda, mas quem resolve de verdade é o 301.
+#
+# Troque spxengenharia.com.br pelo domínio oficial nas três linhas.
+# ---------------------------------------------------------------------------
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# 1. Sempre HTTPS
+RewriteCond %{HTTPS} !=on
+RewriteRule ^(.*)$ https://spxengenharia.com.br/$1 [R=301,L]
+
+# 2. Sempre sem www (se preferir com www, inverta as duas linhas abaixo)
+RewriteCond %{HTTP_HOST} ^www\.spxengenharia\.com\.br$ [NC]
+RewriteRule ^(.*)$ https://spxengenharia.com.br/$1 [R=301,L]
+
+# 3. Qualquer outro domínio apontado para cá vai para o oficial
+RewriteCond %{HTTP_HOST} !^spxengenharia\.com\.br$ [NC]
+RewriteCond %{HTTP_HOST} !^localhost [NC]
+RewriteRule ^(.*)$ https://spxengenharia.com.br/$1 [R=301,L]
+</IfModule>
+
+# ---------------------------------------------------------------------------
+# Se a hospedagem for Nginx, o equivalente no bloco do servidor é:
+#
+#   server {
+#     server_name www.spxengenharia.com.br outro-dominio.com.br;
+#     return 301 https://spxengenharia.com.br$request_uri;
+#   }
+#
+# Em qualquer um dos dois casos o tema também redireciona por conta própria
+# (inc/dominio.php), então o site fica correto mesmo sem esta configuração —
+# mas o redirect no servidor é mais rápido e não gasta PHP.
+# ---------------------------------------------------------------------------

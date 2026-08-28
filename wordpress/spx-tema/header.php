@@ -13,7 +13,7 @@
 
 if (!defined('ABSPATH')) { exit; }
 
-$spx = wp_parse_args(isset($spx) ? $spx : [], [
+$spx = wp_parse_args(isset($GLOBALS['spx']) ? $GLOBALS['spx'] : [], [
   'title'        => '',
   'descricao'    => '',
   'h1'           => '',
@@ -36,8 +36,12 @@ $spx = wp_parse_args(isset($spx) ? $spx : [], [
 <meta charset="<?php bloginfo('charset'); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?php echo spx_esc($spx['title']); ?></title>
+<?php /* página que não vai ao índice não declara canônica: canônica de um
+         endereço que não deve ser indexado é sinal contraditório */
+if (!$spx['noindex']) : ?>
 <link rel="canonical" href="<?php echo esc_url(spx_url_atual()); ?>">
 <meta property="og:url" content="<?php echo esc_url(spx_url_atual()); ?>">
+<?php endif; ?>
 <meta name="description" content="<?php echo esc_attr($spx['descricao']); ?>">
 <meta name="theme-color" content="#000000">
 <?php if ($spx['noindex']) : ?>
@@ -67,6 +71,11 @@ echo spx_preload_foto($spx['fundo']);
 </head>
 <body <?php body_class($spx['visual']); ?>>
 <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+<?php
+/* a home tem três peças próprias antes do menu: barra de progresso, os padrões
+   de hachura que o desenho do cronograma usa e a planta de canteiro ao fundo */
+if (is_front_page()) { require get_template_directory() . '/inc/home-topo.php'; }
+?>
 <div class="hatch" aria-hidden="true"></div>
 
 <nav class="nav" aria-label="Principal"><div class="wrap nav-in">

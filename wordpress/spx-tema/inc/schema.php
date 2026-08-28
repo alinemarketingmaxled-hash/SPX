@@ -28,12 +28,20 @@ function spx_falado() {
   ];
 }
 
-/** Endereço da página que está sendo servida. */
+/**
+ * Endereço oficial da página que está sendo servida — o que vai na canônica.
+ *
+ * Cada página aponta para si mesma. Canônica fixa apontando o site inteiro
+ * para a home é erro comum e caro: tira todas as páginas internas do índice
+ * do Google, porque cada uma passa a declarar que a versão boa dela é outra.
+ */
 function spx_url_atual() {
   if (is_front_page()) { return trailingslashit(home_url('/')); }
-  if (is_singular()) { return get_permalink(); }
-  if (is_post_type_archive('spx_servico')) { return home_url('/servicos'); }
-  return home_url(add_query_arg([], $GLOBALS['wp']->request));
+  $id = get_queried_object_id();
+  if ($id && is_singular()) { return get_permalink($id); }
+  global $wp;
+  $caminho = isset($wp->request) ? $wp->request : '';
+  return home_url('/' . ltrim($caminho, '/'));
 }
 
 /**

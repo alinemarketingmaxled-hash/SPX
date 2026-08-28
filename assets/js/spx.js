@@ -4,6 +4,12 @@
    serve qualquer página do site.
    ============================================================ */
 (function(){
+
+/* Base das imagens. No site estático é /img/; dentro do tema do WordPress as
+   fotos moram na pasta do tema, e o PHP informa o caminho em SPX_WP.img. O
+   mesmo arquivo serve aos dois — sem isso seria um JavaScript para manter em
+   dobro, e é justamente onde um erro passaria despercebido. */
+var IMG = (window.SPX_WP && window.SPX_WP.img) || '/img/';
 'use strict';
 
 var reduz = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -136,7 +142,7 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
   function conjunto(arq){
     var limite = (DIM[arq] || [1200,1600])[0];
     return LARGURAS.filter(function(w){ return w < limite; })
-      .map(function(w){ return '/img/' + arq + '-' + w + '.webp ' + w + 'w'; })
+      .map(function(w){ return IMG + arq + '-' + w + '.webp ' + w + 'w'; })
       .join(', ');
   }
   /* o `sizes` sai do próprio HTML: a home e o cabeçalho interno mostram a foto
@@ -145,9 +151,9 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
   var TAM = (caixa.querySelector('img') || {}).sizes || '100vw';
   function marcacao(arq){
     var d = medidas(arq);
-    return '<img src="/img/' + arq + '-640.webp" srcset="' + conjunto(arq) + '"' +
+    return '<img src="' + IMG + arq + '-640.webp" srcset="' + conjunto(arq) + '"' +
       ' sizes="' + TAM + '" width="' + d[0] + '" height="' + d[1] + '"' +
-      ' data-ph="/img/ph/' + arq + '.svg"' +
+      ' data-ph="' + IMG + 'ph/' + arq + '.svg"' +
       ' alt="' + (legendas[arq] || '') + '" loading="lazy" decoding="async">';
   }
 
@@ -251,11 +257,11 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
     obras.forEach(function(o){
       var d = DIM[o[0]] || [1200,1600];
       var alt480 = Math.round(480 * d[1] / d[0]);
-      html += '<figure class="frame"><img src="/img/' + o[0] + '-480.webp"' +
+      html += '<figure class="frame"><img src="' + IMG + o[0] + '-480.webp"' +
               ' width="480" height="' + alt480 + '"' +
-              ' srcset="/img/' + o[0] + '-480.webp 480w, /img/' + o[0] + '-640.webp 640w"' +
+              ' srcset="' + IMG + o[0] + '-480.webp 480w, ' + IMG + o[0] + '-640.webp 640w"' +
               ' sizes="(max-width:900px) 250px, 320px"' +
-              ' data-ph="/img/ph/' + o[0] + '.svg"' +
+              ' data-ph="' + IMG + 'ph/' + o[0] + '.svg"' +
               ' alt="' + o[1] + '" loading="lazy" decoding="async">' +
               '<span class="halftone"></span><figcaption class="tag">' + o[1] + '</figcaption></figure>';
     });
@@ -1113,7 +1119,7 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
       link.href = aba.dataset.url;
       /* as fotos entram só quando a aba abre: nenhuma delas é baixada à toa */
       fotos.innerHTML = aba.dataset.fotos.split(',').map(function(f){
-        return '<figure><img src="/img/' + f + '-480.webp" width="480" height="640"' +
+        return '<figure><img src="' + IMG + f + '-480.webp" width="480" height="640"' +
                ' alt="' + (legendas[f] || '') + ', do arquivo da SPX Engenharia"' +
                ' loading="lazy" decoding="async"><figcaption>' +
                (legendas[f] || '') + '</figcaption></figure>';

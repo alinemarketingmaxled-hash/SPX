@@ -1,0 +1,15 @@
+/*
+Theme Name: SPX Engenharia
+Theme URI: https://spxengenharia.com.br
+Author: SPX Engenharia
+Description: Tema do site institucional da SPX Engenharia. Não depende de nenhum plugin: menu, dados estruturados, formulário de contato e painel de edição são do próprio tema.
+Version: 1.0.0
+Requires at least: 6.0
+Requires PHP: 7.4
+License: Proprietário
+Text Domain: spx
+*/
+
+/* O CSS de verdade é assets/css/spx.css, carregado por wp_enqueue_style em
+   functions.php. Este arquivo existe porque o WordPress exige um style.css
+   com o cabeçalho acima para reconhecer a pasta como tema. */

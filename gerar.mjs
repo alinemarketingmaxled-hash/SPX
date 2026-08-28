@@ -18,7 +18,7 @@
 import { mkdirSync, writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { empresa, responsavel, numeros, processo, camadas, servicos, projetos,
-         duvidas, temas, acervo, chamadas, regioes, historia, segmentos,
+         duvidas, temas, acervo, chamadas, regioes, historia, segmentos, ambientes,
          falta } from './conteudo/dados.mjs';
 
 const SITE = empresa.dominio.replace(/\/+$/, '');
@@ -698,38 +698,207 @@ const predioFio = () => {
 </svg>`;
 };
 
-/* ------------------------------------------------------------- polaroides */
-/* As obras do acervo em papel fotográfico: a foto em cima e as informações na
-   tarja branca de baixo, onde numa polaroide de verdade se escreve à mão.
-   Substituiu o corte isométrico do prédio — desenho explica como a obra é
-   feita, foto mostra o que ficou pronto, e para quem está escolhendo com quem
-   executar o projeto, o que ficou pronto pesa mais.
+/* --------------------------------------------------- casa em corte 3D */
+/* Prédio isométrico aberto de frente, como casa de boneca: dá para ver os três
+   pavimentos por dentro. Trocar o tipo de ambiente na lista ao lado troca o que
+   está dentro dos cômodos, e cada pavimento tem um alfinete com a dica daquela
+   área.
 
-   A inclinação de cada uma sai do índice, e não de sorteio: a mesma página tem
-   que sair igual em toda build, senão duas visitas seguidas mostram o mural
-   torto de jeitos diferentes. */
-const polaroides = (itens) => `
-<div class="pol-grade">
-  ${itens.map((o, i) => {
-    /* -1,8° a +1,8°, alternando o lado, com passo que não repete no ciclo */
-    const giro = ((i % 2 ? 1 : -1) * (0.7 + (i * 0.43) % 1.2)).toFixed(2);
-    const d = dim(o.foto);
-    return `
-  <figure class="pol" style="--giro:${giro}deg">
-    <span class="pol-foto">
-      <img data-fonte="/img/${o.foto}-480.webp"
-           width="480" height="${Math.round(480 * d[1] / d[0])}"
-           alt="${esc(o.titulo)}, ${esc(o.linha.toLowerCase())}, obra executada pela ${esc(empresa.nome)}"
-           loading="lazy" decoding="async">
-    </span>
-    <figcaption class="pol-tarja">
-      <span class="pol-tag">${esc(o.etiqueta)}</span>
-      <b>${esc(o.titulo)}</b>
-      <span class="pol-linha">${esc(o.linha)}</span>
-      <p>${esc(o.texto)}</p>
-    </figcaption>
-  </figure>`;
-  }).join('')}
+   A projeção é a mesma do resto do site — dimétrica 2:1, a que o prédio em fio
+   e o mapa já usam. Um x no chão anda uma unidade para a direita e meia para
+   baixo; um y anda o contrário; a altura sobe reto. Não é perspectiva de
+   verdade, e é de propósito: linha paralela continua paralela, que é como se
+   desenha planta e corte.
+
+   O alfinete é botão HTML por cima do SVG, e não elemento dentro dele. Dentro
+   do SVG o alvo de toque fica preso à escala do desenho — em 360px de tela
+   viraria um ponto de 8px, longe dos 24 que a norma pede — e a dica teria que
+   ser <title>, que não abre no celular. */
+/* Achatado de propósito (ly bem menor que lx): com o losango mais alto, a laje
+   de um pavimento cobria dois terços do de baixo e o interior sumia. Achatando,
+   os três andares cabem empilhados e ainda dá para ver o que tem dentro. */
+const ISO = { lx: 26, ly: 10, alt: 41 };   /* uma unidade em x, y e z na tela */
+const PE_DIREITO = 2.9;                    /* altura do andar, em unidades */
+
+/* posição de um ponto do mundo na tela, com a origem no canto do lote */
+const isoPonto = (x, y, z, ox, oy) =>
+  [ox + (x - y) * ISO.lx, oy + (x + y) * ISO.ly - z * ISO.alt];
+
+/* Caixa isométrica: três faces visíveis, do fundo para a frente. O tampo é o
+   losango de cima; as duas laterais são as que dão volume. */
+const isoCaixa = ({ x, y, w, d, h, t }, ox, oy) => {
+  const p = (px, py, pz) => isoPonto(px, py, pz, ox, oy).map((n) => n.toFixed(1)).join(' ');
+  /* O tipo vira classe e é o CSS que decide o traço: alvenaria cheia, vidro
+     tracejado, equipamento com traço interrompido, bancada mais sólida que
+     móvel solto. O prefixo cc-p- separa a peça da parede de fundo do
+     pavimento, que também se chamaria cc-parede. */
+  const cls = t ? ` class="cc-p-${t}"` : '';
+  return `<g${cls}>
+    <polygon class="cc-face cc-topo" points="${p(x, y, h)},${p(x + w, y, h)},${p(x + w, y + d, h)},${p(x, y + d, h)}"/>
+    <polygon class="cc-face cc-esq" points="${p(x, y + d, h)},${p(x + w, y + d, h)},${p(x + w, y + d, 0)},${p(x, y + d, 0)}"/>
+    <polygon class="cc-face cc-dir" points="${p(x + w, y, h)},${p(x + w, y + d, h)},${p(x + w, y + d, 0)},${p(x + w, y, 0)}"/>
+  </g>`;
+};
+
+/* Um pavimento: a laje, as duas paredes que sobraram do corte e o recheio. */
+const isoPavimento = (andar, ox, oy) => {
+  const L = 10;                       /* o piso é sempre 10 por 10 */
+  const p = (px, py, pz) => isoPonto(px, py, pz, ox, oy).map((n) => n.toFixed(1)).join(' ');
+  /* Ordem de desenho é a única profundidade que o SVG tem. Com as peças
+     opacas, desenhar na ordem em que foram escritas fazia um armário do fundo
+     cobrir a mesa da frente. Nesta projeção, quem tem a soma x+y maior está
+     mais perto de quem olha: desenhar do menor para o maior põe cada peça no
+     lugar certo. O empate vai para a mais alta, que é a que se vê por cima. */
+  const pecas = andar.pecas
+    .map((c, i) => ({ c, i, z: (c.x + c.w / 2) + (c.y + c.d / 2) + c.h * 0.001 }))
+    .sort((a, b) => a.z - b.z || a.i - b.i)
+    .map(({ c }) => isoCaixa(c, ox, oy)).join('\n    ');
+  return `
+  <g class="cc-pav">
+    <!-- laje -->
+    <polygon class="cc-laje" points="${p(0, 0, 0)},${p(L, 0, 0)},${p(L, L, 0)},${p(0, L, 0)}"/>
+    <!-- as duas paredes do fundo; as da frente é que foram cortadas. Sobem o
+         pé-direito inteiro, então encostam na laje do andar de cima -->
+    <polygon class="cc-parede" points="${p(0, 0, 0)},${p(L, 0, 0)},${p(L, 0, PE_DIREITO)},${p(0, 0, PE_DIREITO)}"/>
+    <polygon class="cc-parede cc-parede-esq" points="${p(0, 0, 0)},${p(0, L, 0)},${p(0, L, PE_DIREITO)},${p(0, 0, PE_DIREITO)}"/>
+    <!-- malha do piso, para dar escala ao que está em cima dela -->
+    <g class="cc-malha">
+      ${Array.from({ length: 9 }, (_, k) =>
+        `<line x1="${p(k + 1, 0, 0).split(' ')[0]}" y1="${p(k + 1, 0, 0).split(' ')[1]}" x2="${p(k + 1, L, 0).split(' ')[0]}" y2="${p(k + 1, L, 0).split(' ')[1]}"/>` +
+        `<line x1="${p(0, k + 1, 0).split(' ')[0]}" y1="${p(0, k + 1, 0).split(' ')[1]}" x2="${p(L, k + 1, 0).split(' ')[0]}" y2="${p(L, k + 1, 0).split(' ')[1]}"/>`
+      ).join('\n      ')}
+    </g>
+    ${pecas}
+  </g>`;
+};
+
+/* Cobertura: laje plana com platibanda e a casa de máquinas em cima. Sem ela
+   o desenho começava num piso solto no ar e não lia como prédio — é a tampa
+   que fecha o volume. Plana, e não em duas águas: o que está lá dentro é
+   escritório, loja, restaurante e clínica, e telhado de casa contradiria o
+   próprio conteúdo. */
+const isoCobertura = (ox, oy) => {
+  const L = 10;
+  const p = (px, py, pz) => isoPonto(px, py, pz, ox, oy).map((n) => n.toFixed(1)).join(' ');
+  return `
+  <g class="cc-cob">
+    <polygon class="cc-laje" points="${p(0, 0, 0)},${p(L, 0, 0)},${p(L, L, 0)},${p(0, L, 0)}"/>
+    <!-- platibanda: a mureta da beirada, o que dá espessura à laje -->
+    <polygon class="cc-face cc-esq" points="${p(0, L, .5)},${p(L, L, .5)},${p(L, L, 0)},${p(0, L, 0)}"/>
+    <polygon class="cc-face cc-dir" points="${p(L, 0, .5)},${p(L, L, .5)},${p(L, L, 0)},${p(L, 0, 0)}"/>
+    ${isoCaixa({ x: 3.4, y: 3.4, w: 3.2, d: 3.2, h: 1.5, t: 'equipa' }, ox, oy)}
+    ${isoCaixa({ x: 7.4, y: 1, w: 1.6, d: 1.6, h: .9, t: 'equipa' }, ox, oy)}
+  </g>`;
+};
+
+/* O prédio inteiro de um tipo de ambiente: três pavimentos empilhados, o
+   térreo na frente. A ordem de desenho importa — quem está atrás sai primeiro,
+   senão o de cima cobre o de baixo pela metade. */
+const isoPredio = (amb) => {
+  /* Distância entre um pavimento e o outro. Afastados demais o desenho lia
+     como diagrama explodido, peça por peça no ar; encostados demais, a laje de
+     baixo engolia o interior do de cima. 126 é onde os dois problemas somem. */
+  const { ox: OX, oy: OY, subida: SUBIDA } = CC;
+  /* o array vem do topo para o térreo; desenhar de trás para frente é
+     desenhar do topo para baixo */
+  const andares = amb.andares.map((a, i) => isoPavimento(a, OX, OY + i * SUBIDA)).join('\n');
+  return `
+<svg class="cc-svg" viewBox="0 0 660 630" role="img"
+     aria-label="Corte isométrico de um ${esc(amb.nome.toLowerCase())} em três pavimentos">
+  <defs>
+    <linearGradient id="cc-topo-${amb.id}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="currentColor" stop-opacity=".22"/>
+      <stop offset="1" stop-color="currentColor" stop-opacity=".06"/>
+    </linearGradient>
+    <radialGradient id="cc-luz-${amb.id}" cx="50%" cy="34%" r="58%">
+      <stop offset="0" stop-color="currentColor" stop-opacity=".18"/>
+      <stop offset="1" stop-color="currentColor" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="330" cy="310" rx="300" ry="280" fill="url(#cc-luz-${amb.id})"/>
+${isoCobertura(OX, OY - SUBIDA)}
+${andares}
+</svg>`;
+};
+
+/* Onde fica o alfinete de cada pavimento, nas coordenadas do próprio desenho.
+   Precisa bater com OX, OY e SUBIDA de isoPredio — por isso os três moram aqui
+   em cima, e não espalhados. */
+/* A distância entre um pavimento e o outro é o próprio pé-direito, e não um
+   número escolhido à parte. Era esse o erro: com a parede medindo 58px e os
+   andares separados por 126, sobrava um vão vazio entre eles e o desenho lia
+   como diagrama explodido em vez de prédio aberto. Amarrado, as paredes se
+   emendam de um andar no outro e o volume fecha. */
+const CC = { ox: 330, oy: 160, subida: PE_DIREITO * ISO.alt };
+const pinoDoAndar = (k) => isoPonto(10.6, 3.2, 1.2, CC.ox, CC.oy + k * CC.subida);
+
+/* A lista de tipos à esquerda e o prédio à direita. Abas de verdade: as setas
+   do teclado andam pela lista e o leitor de tela anuncia qual ambiente abriu. */
+const casaCorte = (ambientes) => `
+<div class="cc" data-corte>
+  <div class="cc-lista" role="tablist" aria-orientation="vertical" aria-label="Tipos de ambiente">
+    ${ambientes.map((a, i) => `
+    <button class="cc-aba" type="button" role="tab" data-cc-aba="${a.id}"
+            id="cc-aba-${a.id}" aria-controls="cc-cena-${a.id}"
+            aria-selected="${i === 0 ? 'true' : 'false'}" tabindex="${i === 0 ? '0' : '-1'}">
+      <span class="cc-ico">${icone(servicos.find((s) => s.slug === a.servico).icone)}</span>
+      <span class="cc-rot"><b>${esc(a.nome)}</b><span>${esc(a.resumo)}</span></span>
+    </button>`).join('')}
+    <a class="cc-link" href="/servicos">Ver todos os serviços ↗</a>
+  </div>
+
+  <div class="cc-palco">
+    ${ambientes.map((a, i) => `
+    <div class="cc-cena" id="cc-cena-${a.id}" role="tabpanel" aria-labelledby="cc-aba-${a.id}"
+         data-cc-cena="${a.id}"${i ? ' hidden' : ''}>
+      ${isoPredio(a)}
+      ${a.andares.map((andar, k) => {
+        /* o alfinete sai da geometria, não de uma porcentagem chutada: no canto
+           direito da laje, um pouco acima dela. Fixo em % da tela, ele saía de
+           cima do prédio assim que qualquer medida do desenho mudava. */
+        const [ax, ay] = pinoDoAndar(k);
+        const pos = `--px:${(ax / 660 * 100).toFixed(2)}%;--py:${(ay / 630 * 100).toFixed(2)}%`;
+        /* A foto entra por data-fonte, e o JavaScript só a baixa quando a dica
+           abre. Com src direto seriam sete fotos baixadas em toda visita à
+           página para mostrar, no máximo, uma. */
+        let foto = '';
+        if (falta(andar.foto)) {
+          anota(`Ambiente "${a.nome}"`, `falta a foto de obra do pavimento "${andar.nome}" — ` +
+            'a dica abre só com o texto até existir uma foto real desse tipo de ambiente');
+        } else {
+          const dm = dim(andar.foto);
+          foto = `<img class="cc-foto" data-fonte="/img/${andar.foto}-480.webp"
+             width="480" height="${Math.round(480 * dm[1] / dm[0])}"
+             alt="${esc(andar.legenda)}" loading="lazy" decoding="async">`;
+        }
+        return `
+      <button class="cc-pino" type="button" data-cc-pino data-cc-andar="${k}" style="${pos}"
+              aria-expanded="false" aria-controls="cc-dica-${a.id}-${k}">
+        <i aria-hidden="true"></i><span class="so-leitor">Dica sobre ${esc(andar.nome)}</span>
+      </button>
+      <div class="cc-dica" id="cc-dica-${a.id}-${k}" role="region"
+           aria-labelledby="cc-tit-${a.id}-${k}" style="${pos}" hidden>
+        ${foto}
+        <b id="cc-tit-${a.id}-${k}">${esc(andar.nome)}</b>
+        <p>${esc(andar.dica)}</p>
+      </div>`;
+      }).join('')}
+    </div>`).join('')}
+  </div>
+
+  <!-- O que cada pavimento tem de diferente, em tópicos. Fica sempre visível:
+       a dica do alfinete é o detalhe de uma área, isto é a comparação entre as
+       três — e comparação escondida atrás de clique ninguém faz. -->
+  <div class="cc-topicos">
+    ${ambientes.map((a, i) => `
+    <div class="cc-tpc" data-cc-topicos="${a.id}"${i ? ' hidden' : ''}>
+      ${a.andares.map((andar, k) => `
+      <div class="cc-tpc-col" data-cc-tpc-col="${k}">
+        <p class="cc-tpc-cab"><span class="cc-tpc-n">${String(3 - k).padStart(2, '0')}</span>${esc(andar.nome)}</p>
+        <ul>${andar.topicos.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>
+      </div>`).join('')}
+    </div>`).join('')}
+  </div>
 </div>`;
 
 /* Órbita: a SPX no centro e as três camadas girando em volta. Clicar numa
@@ -1390,12 +1559,11 @@ pagina({
      'engenharia da obra.'],
   ])],
   corpo: `
-<section class="sec wrap pol-secao" data-reveal>
-  <h2>Projetos <em>executados</em></h2>
-  <p class="sub-secao">Obras entregues pela SPX, do detalhe de marcenaria ao acabamento que o
-  projeto pedia. O que está escrito embaixo de cada foto é o que foi executado ali.</p>
-  ${polaroides(acervo)}
-  ${barraCta('Tem um projeto para executar?', 'Falar com a SPX')}
+<section class="sec wrap cc-secao" data-reveal>
+  <h2>O que a SPX executa <em>lá dentro</em></h2>
+  <p class="sub-secao">Escolha o tipo de ambiente e abra os alfinetes: em cada pavimento está
+  o que costuma decidir a obra, e não o que fica bonito na apresentação.</p>
+  ${casaCorte(ambientes)}
 </section>
 
 ${secao('O que a SPX faz com o seu projeto', fluxoSerpente([

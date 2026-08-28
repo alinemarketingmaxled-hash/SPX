@@ -2487,7 +2487,7 @@ h2.com-risco::after{content:"";position:absolute;left:0;bottom:0;
 .topo-duplo .topo-in{display:grid;align-content:center}
 /* 1.02 encostava a cedilha de "ESPAÇO" na linha seguinte */
 .topo-interno:has(.topo-duplo) h1{font-size:clamp(30px,4.2vw,54px);line-height:1.1}
-.topo-duplo .topo-lead{max-width:46ch;color:var(--txt-2);font-size:15.5px;line-height:1.65}
+.topo-duplo .topo-lead{max-width:46ch;color:var(--txt-2);font-size:var(--t-lead);line-height:1.65}
 .topo-duplo .topo-acoes{margin-top:var(--e4)}
 /* o botão que vira o cartão mora aqui, do lado do texto, e não sobre a foto */
 .vira-solto i{font-style:normal;font-size:15px;line-height:1;
@@ -2580,6 +2580,44 @@ h2.com-risco::after{content:"";position:absolute;left:0;bottom:0;
 .pag-privacidade .lead{max-width:64ch}
 
 /* -------------------------------------------------- 6. RESPONSIVO */
+
+/* ESCALA DE TIPO NO CELULAR
+   Os `clamp()` da escala foram medidos para a tela grande, e no celular todos
+   caíam no mínimo — que é grande demais lá: 30px de título e 24px de subtítulo
+   numa tela de 393px comem a primeira dobra inteira antes de o assunto
+   começar. Aqui a escala ganha um degrau próprio, ainda com o termo em `vw`
+   para continuar crescendo até o fim da faixa.
+
+   O corpo do texto quase não mexe: 15,5px é tamanho bom de leitura no celular,
+   e encolher texto corrido para caber mais na tela é trocar leitura por
+   quantidade. Quem diminui é o título. */
+@media (max-width:560px){
+  :root{
+    --t-hero:clamp(22px,6.2vw,28px);
+    --t-h1:clamp(22px,6.2vw,28px);
+    --t-h2:clamp(19px,5vw,23px);
+    --t-h3:clamp(15px,3.8vw,17px);
+    --t-lead:15px;
+  }
+  /* os títulos com escala própria acompanham o degrau */
+  /* com o título menor, 1.1 de entrelinha volta a encostar a cedilha de
+     "ESPAÇO" na linha de baixo */
+  .topo-interno:has(.topo-duplo) h1{font-size:clamp(22px,6.2vw,28px);line-height:1.18}
+  .rd-painel h2{font-size:clamp(17px,4.4vw,19px)}
+  .vira-frente:has(.vira-foto) .vira-nome,
+  .vira-selo .vira-nome{font-size:clamp(19px,5vw,23px)}
+  .cta-frase{font-size:17px}
+  .sub-secao{font-size:14.5px}
+  .faq-side h2,.dir-grupo h2{font-size:clamp(18px,4.6vw,21px)}
+  .cf-titulo{font-size:clamp(18px,4.6vw,21px)}
+  /* os números grandes encolhem menos que o resto: o tamanho deles é o
+     próprio recado. Só saem do exagero que ficavam ao lado de um título
+     de 24px. */
+  .faixa-num b{font-size:clamp(20px,5.2vw,24px)}
+  .faq-stats b{font-size:21px}
+  .nums b{font-size:18px}
+}
+
 /* notebook menor e tablet deitado: cinco etapas em linha ficam apertadas */
 @media(max-width:1280px){
   .passos{grid-template-columns:repeat(3,1fr);gap:0 24px;row-gap:var(--e6)}
@@ -2679,7 +2717,7 @@ h2.com-risco::after{content:"";position:absolute;left:0;bottom:0;
     border:0;padding:0;font-size:11px;color:var(--txt-2)}
   .passo.ativa .prazo{color:var(--acc-2)}
   .cronograma{margin-top:var(--e6);padding-top:var(--e5)}
-  .cronograma-texto h3{font-size:20px}
+  .cronograma-texto h3{font-size:17px}
   .cronograma-dica{display:none}
 
   .q button{padding:15px 17px;font-size:15px}

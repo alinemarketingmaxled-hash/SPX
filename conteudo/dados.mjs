@@ -27,24 +27,38 @@ export const falta = (v) => v === FALTA || v === undefined || v === null || v ==
  * fundada pelo Wesley sozinho, um ano de operação, começou por reforma e
  * manutenção, e a especialidade é obra sem parar a operação do cliente.
  * Nada aqui é preenchimento: cada frase saiu de uma resposta sua.
+ *
+ * `foto` e `legenda` são obra do acervo da SPX ao lado do marco, e não o
+ * registro daquele momento — não existe foto da primeira obra nem do dia em
+ * que a empresa abriu. Por isso a legenda diz o que a foto é de verdade, e
+ * não repete o título do marco: uma legenda dizendo "a primeira obra" numa
+ * foto que não é a primeira obra seria invenção, ainda que só na imagem.
  */
 export const historia = [
   { n: '01', titulo: 'Nove anos antes do CNPJ',
     texto: 'A SPX é nova, o engenheiro não. O responsável técnico passou nove anos em obra ' +
            'antes de abrir a empresa, e é essa bagagem que a SPX aplica desde a primeira ' +
-           'visita técnica.' },
+           'visita técnica.',
+    foto: 'estante-espinha-peixe',
+    legenda: 'Escritório · estante sob medida e piso em espinha de peixe' },
   { n: '02', titulo: 'Aberta por quem responde por ela',
     texto: 'A empresa foi aberta pelo próprio engenheiro responsável, sozinho. Quem assina a ' +
            'ART é quem atende, orça e vai ao canteiro — não há camada entre o cliente e quem ' +
-           'decide.' },
+           'decide.',
+    foto: 'sala-reuniao-azul',
+    legenda: 'Sala de reunião · marcenaria sob medida e forro com luz embutida' },
   { n: '03', titulo: 'Começou pelo que ninguém quer fazer',
     texto: 'O primeiro trabalho foi reforma e manutenção: obra pequena, prazo curto, cliente ' +
            'em cima. É onde se aprende a trabalhar sem atrapalhar, e foi de lá que veio a ' +
-           'especialidade da casa.' },
+           'especialidade da casa.',
+    foto: 'lavabo-terracota',
+    legenda: 'Lavabo · reforma com hidráulica refeita no ponto original' },
   { n: '04', titulo: 'Obra sem parar a operação',
     texto: 'Loja aberta, escritório ocupado, prédio em funcionamento. A SPX executa na janela ' +
            'que a operação permite, com controle de poeira e ruído e a área liberada limpa a ' +
-           'cada turno.' },
+           'cada turno.',
+    foto: 'restaurante-fachada',
+    legenda: 'Restaurante · acabamento aplicado dentro da janela de obra do imóvel' },
 ];
 
 /**

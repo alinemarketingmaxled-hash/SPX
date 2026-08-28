@@ -239,6 +239,10 @@ b,strong{font-weight:600}
 .btn-ghost:hover{background:var(--sup);border-color:var(--acc-2);color:var(--txt);box-shadow:none}
 .btn-acc{background:var(--acc);color:#fff}
 .btn-acc:hover{background:var(--acc-2)}
+/* contorno em vez de bloco cheio: onde o botão já está dentro de um painel, o
+   botão cheio empilha bloco sobre bloco e some no desenho */
+.btn-fio{background:transparent;color:var(--acc-2);border-color:var(--acc-2)}
+.btn-fio:hover{background:var(--acc);color:#fff;border-color:var(--acc)}
 .btn-bloco{width:100%}
 
 .selo{display:inline-flex;align-items:center;gap:9px;background:var(--inv-bg);color:var(--inv-txt);padding:9px 18px;font-family:var(--display);font-weight:600;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;border-radius:var(--raio)}
@@ -972,8 +976,7 @@ b,strong{font-weight:600}
 /* a base da foto emenda na cor da página em vez de terminar em corte seco */
 .topo-foto .hero-veu{background:linear-gradient(180deg,transparent 74%,var(--bg-pagina,#000) 100%)}
 body{--bg-pagina:var(--bg)}
-.topo-interno.com-foto + .sec,
-.topo-interno.com-foto + .resposta-direta{padding-top:0}
+.topo-interno.com-foto + .sec{padding-top:0}
 
 @media (min-width:1000px){
   /* o texto para antes do painel: 54% cobre de 1000px para cima com folga */
@@ -1637,7 +1640,7 @@ h2 em{font-style:normal;color:var(--acc-2)}
 .ficha-servico h3{font-family:var(--display);font-size:12px;letter-spacing:.16em;
   text-transform:uppercase;color:var(--acc-2);margin:var(--e4) 0 var(--e2);
   padding-top:var(--e3);border-top:1px solid var(--linha)}
-.ficha-servico .fs-texto > h3:first-of-type,
+.ficha-servico .fs-texto > h3:first-child,
 .ficha-servico .fs-listas > h3:first-child{margin-top:0;padding-top:0;border-top:0}
 .fs-itens{list-style:none;margin:0;padding:0;display:grid;gap:7px}
 .fs-itens li{color:var(--txt-2);font-size:14px;line-height:1.5;
@@ -1651,10 +1654,11 @@ h2 em{font-style:normal;color:var(--acc-2)}
 }
 
 /* ------------------------------------------------------ história da empresa */
-/* Linha do tempo vertical: um fio corre à esquerda e cada marco pendura nele
-   por um círculo. Antes eram quatro colunas lado a lado, cada uma com um
-   filete em cima — lia como quatro cartões soltos, e não como uma sequência.
-   Vertical, a ordem fica óbvia sem precisar numerar nada.
+/* Linha do tempo centralizada: o fio desce pelo meio da seção e cada marco se
+   pendura nele por um círculo, com o texto de um lado e a foto do outro —
+   trocando de lado a cada marco. Antes eram quatro colunas lado a lado, cada
+   uma com um filete em cima: lia como quatro cartões soltos, e não como uma
+   sequência.
 
    Não é linha do tempo com data: a empresa tem um ano, e datar quatro momentos
    dentro de um ano só seria encher linguiça. São quatro fatos em ordem de causa.
@@ -1662,27 +1666,58 @@ h2 em{font-style:normal;color:var(--acc-2)}
    O fio é o ::before da lista, e não uma borda de cada item: em borda, ele
    nasce no primeiro marco e morre no último, e o traço fica com dois cotocos
    nas pontas. */
-.historia{list-style:none;margin:var(--e4) 0 0;padding:0 0 0 var(--e5);
-  display:grid;gap:var(--e4);position:relative;max-width:74ch}
-.historia::before{content:"";position:absolute;left:6px;top:8px;bottom:8px;width:1px;
-  background:linear-gradient(180deg,transparent,var(--acc-2) 12%,var(--acc-2) 88%,transparent);
+/* a linha do tempo não usa a largura toda da seção: com 1440px de tela, cada
+   lado passaria de 600px e sobraria vazio entre o texto e o fio */
+.historia{list-style:none;margin:var(--e5) auto 0;padding:0;max-width:1000px;
+  display:grid;gap:var(--e5);position:relative}
+.historia::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;
+  transform:translateX(-.5px);
+  background:linear-gradient(180deg,transparent,var(--acc-2) 10%,var(--acc-2) 90%,transparent);
   opacity:.5}
-.historia li{position:relative}
-/* o círculo do marco, alinhado com o fio */
-.hi-marca{position:absolute;left:calc(var(--e5) * -1 + 1px);top:5px;
-  width:11px;height:11px;border-radius:50%;
+/* três colunas: texto, fio, foto. A coluna do meio é só a largura do círculo —
+   o que separa os dois lados é o `gap`, não uma coluna vazia larga. */
+.historia li{position:relative;display:grid;
+  grid-template-columns:1fr 14px 1fr;gap:var(--e4);align-items:center}
+.hi-txt{grid-column:1;justify-self:end;max-width:38ch}
+.hi-foto{grid-column:3;justify-self:start;margin:0;max-width:min(100%,320px)}
+/* a cada marco os dois lados trocam: texto à direita, foto à esquerda */
+.historia li:nth-child(even) .hi-txt{grid-column:3;justify-self:start}
+.historia li:nth-child(even) .hi-foto{grid-column:1;justify-self:end}
+/* o círculo fica na coluna do meio, em cima do fio */
+.hi-marca{grid-column:2;grid-row:1;justify-self:center;
+  width:13px;height:13px;border-radius:50%;
   border:1px solid var(--acc-2);background:var(--bg);
   transition:background .25s ease,box-shadow .25s ease}
-.historia li:hover .hi-marca{background:var(--acc-2);box-shadow:0 0 0 5px var(--acc-suave)}
+.historia li:hover .hi-marca{background:var(--acc-2);box-shadow:0 0 0 6px var(--acc-suave)}
 .hi-n{display:block;font-family:var(--display);font-size:11px;letter-spacing:.16em;
   color:var(--acc-2);opacity:.75}
-.historia b{display:block;margin-top:4px;font-family:var(--display);font-size:14px;
+/* o texto pesa um pouco mais que no resto do site: ao lado de uma foto de
+   320px, em 13,5px ele sumia */
+.historia b{display:block;margin-top:5px;font-family:var(--display);font-size:16px;
   letter-spacing:.04em;color:var(--txt);line-height:1.3}
-.historia p{margin:6px 0 0;color:var(--txt-2);font-size:13.5px;line-height:1.6;max-width:62ch}
+.historia p{margin:8px 0 0;color:var(--txt-2);font-size:14.5px;line-height:1.62}
+/* A foto é obra do acervo, não o registro do marco — a legenda diz o que ela é
+   de fato, e é ela que vai também no alt. */
+.hi-foto img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;
+  border-radius:14px;border:1px solid var(--linha);background:var(--sup-2)}
+.hi-foto figcaption{margin-top:9px;color:var(--txt-3);font-size:12px;line-height:1.45}
+@media (max-width:860px){
+  /* empilhado o fio volta para a esquerda: dois lados numa tela de 400px
+     deixariam cada coluna com 25 caracteres de largura */
+  .historia{gap:var(--e5)}
+  .historia::before{left:6px;transform:none}
+  .historia li,.historia li:nth-child(even){
+    grid-template-columns:1fr;gap:var(--e3);align-items:start}
+  .hi-txt,.hi-foto,
+  .historia li:nth-child(even) .hi-txt,.historia li:nth-child(even) .hi-foto{
+    grid-column:1;justify-self:stretch;max-width:none;margin-left:var(--e5)}
+  .hi-marca,.historia li:nth-child(even) .hi-marca{
+    position:absolute;left:0;top:4px;grid-column:1;grid-row:auto;justify-self:start}
+}
 @media (max-width:560px){
-  .historia{padding-left:var(--e4);gap:var(--e3)}
-  .hi-marca{left:calc(var(--e4) * -1 + 1px)}
-  .historia::before{left:5px}
+  .hi-txt,.hi-foto,
+  .historia li:nth-child(even) .hi-txt,.historia li:nth-child(even) .hi-foto{
+    margin-left:var(--e4)}
 }
 
 /* ------------------------------------------------ abertura da página /sobre */
@@ -2324,7 +2359,9 @@ h2 em{font-style:normal;color:var(--acc-2)}
    uma IA copia quando alguém pergunta sobre a empresa. */
 .resposta-direta{border-left:2px solid var(--acc-2);padding-left:clamp(16px,2.4vw,30px)}
 .resposta-direta h2{font-size:clamp(20px,2.8vw,32px);max-width:24ch}
-.resposta-direta > p{margin:var(--e3) 0 0;color:var(--txt-2);
+/* o parágrafo agora é filho de .rd-txt, e não do bloco: com o `>` antigo ele
+   perdia a margem e encostava no título */
+.resposta-direta .rd-txt > p{margin:var(--e3) 0 0;color:var(--txt-2);
   font-size:clamp(16px,1.5vw,19px);line-height:1.6;max-width:62ch}
 .fatos{list-style:none;margin:var(--e3) 0 0;padding:0;display:grid;gap:9px;max-width:62ch}
 .fatos li{position:relative;padding-left:22px;color:var(--txt-3);font-size:14.5px;line-height:1.55}
@@ -2413,10 +2450,115 @@ h2 em{font-style:normal;color:var(--acc-2)}
   color:var(--txt)}
 .pag-atuacao .sec.claro::before{background:var(--bg)}
 
-/* PÁGINAS DE SERVIÇO · numeral de etapa e faixa de acento sob o título */
-.pag-servico .topo-interno h1{position:relative;padding-bottom:var(--e3)}
-.pag-servico .topo-interno h1::after{content:"";position:absolute;left:0;bottom:0;
+/* PÁGINAS DE SERVIÇO ------------------------------------------------------- */
+/* As oito páginas de serviço são o miolo comercial do site: é onde alguém que
+   procurou "reforma de escritório em são paulo" cai. O desenho delas é feito
+   de painéis fechados — abertura, resposta e escopo, cada um dentro da sua
+   moldura — em vez de blocos soltos correndo pela página. Painel fechado dá a
+   cada assunto um começo e um fim, e é isso que faz a página parecer uma ficha
+   técnica e não um folheto. */
+
+/* faixa de acento sob o título, e o mesmo recurso disponível para um h2 */
+.pag-servico .topo-interno h1,
+h2.com-risco{position:relative;padding-bottom:var(--e3)}
+.pag-servico .topo-interno h1::after,
+h2.com-risco::after{content:"";position:absolute;left:0;bottom:0;
   width:74px;height:3px;background:var(--acc-2)}
+/* o "em São Paulo" do h1 é a única parte em acento: o que a SPX faz em branco,
+   onde faz em azul. Não é decoração — é a informação que muda de página para
+   página menos do que o serviço, e por isso pode ficar em segundo plano. */
+
+/* ---- abertura em painel ---- */
+.pag-servico .topo-duplo{
+  padding:clamp(20px,3vw,38px);border:1px solid var(--linha);border-radius:18px;
+  background:
+    radial-gradient(90% 120% at 100% 0,var(--acc-suave),transparent 58%),
+    var(--sup);
+  box-shadow:0 0 0 1px rgba(0,0,0,.2),0 30px 70px rgba(0,0,0,.34)}
+.pag-servico .topo-duplo .topo-in{display:grid;align-content:center}
+/* 1.02 encostava a cedilha de "ESPAÇO" na linha seguinte */
+.pag-servico .topo-interno h1{font-size:clamp(30px,4.2vw,54px);line-height:1.1}
+.pag-servico .topo-lead{max-width:44ch;color:var(--txt-2);font-size:15.5px;line-height:1.65}
+.pag-servico .topo-acoes{margin-top:var(--e4)}
+/* o botão que vira o cartão mora aqui, do lado do texto, e não sobre a foto */
+.vira-solto i{font-style:normal;font-size:15px;line-height:1;
+  transition:transform var(--transicao)}
+.vira-solto:hover i,.vira-solto[aria-pressed="true"] i{transform:rotate(180deg)}
+
+/* ---- frente do cartão: foto inteira, nome sobre ela ---- */
+/* A foto ocupa a face toda e o selo flutua no meio. Antes a foto era uma faixa
+   de 52% colada na base, e o que sobrava em cima era um retângulo escuro do
+   tamanho de meia tela — a página abria com um vazio no lugar mais nobre. */
+/* a face já é `position:absolute; inset:0` dentro do cartão — declarar
+   `relative` aqui tirava ela do lugar e o painel encolhia para a altura do
+   texto */
+.vira-frente:has(.vira-foto){padding:0;place-items:center;align-content:center;
+  overflow:hidden}
+.vira-frente:has(.vira-foto) .vira-foto{position:absolute;inset:0;margin:0;height:auto;
+  -webkit-mask-image:none;mask-image:none}
+.vira-frente:has(.vira-foto) .vira-foto img{width:100%;height:100%;object-fit:cover;
+  opacity:1}
+/* o véu escurece a foto o bastante para o selo ler por cima dela em qualquer
+   obra — as fotos vão de mármore claro a lavabo terracota */
+.vira-frente:has(.vira-foto)::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(6,9,12,.42),rgba(6,9,12,.66));z-index:1}
+/* o vidro precisa ser escuro o bastante para o rótulo passar em 4,5:1 sobre
+   qualquer das oito fotos — vão de mármore claro a lavabo terracota, e com
+   50% de opacidade o "TIPO DE OBRA" ficava em 4,4:1 em quatro delas */
+.vira-selo{position:relative;z-index:2;display:grid;justify-items:center;gap:6px;
+  padding:clamp(16px,2.4vw,26px) clamp(20px,3vw,38px);
+  border:1px solid rgba(255,255,255,.16);border-radius:14px;
+  background:rgba(8,11,15,.72);
+  -webkit-backdrop-filter:blur(9px);backdrop-filter:blur(9px);
+  text-align:center;max-width:82%}
+.vira-selo .vira-nome{font-size:clamp(22px,2.8vw,34px);letter-spacing:.01em}
+.vira-selo::after{content:"";width:42px;height:2px;background:var(--acc-2);margin-top:4px}
+
+/* ---- resposta direta em painel, com ícone e foto ---- */
+.rd-painel{display:grid;grid-template-columns:1.06fr .94fr;gap:clamp(20px,3vw,40px);
+  align-items:center;border:1px solid var(--linha);border-radius:18px;
+  background:var(--sup);padding:clamp(20px,3vw,38px);
+  border-left:1px solid var(--linha)}
+.rd-cab{display:grid;grid-template-columns:auto 1fr;gap:var(--e3);align-items:start}
+.rd-ico{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;
+  border:1px solid var(--acc-2);color:var(--acc-2);flex:0 0 auto;
+  background:var(--acc-suave)}
+.rd-ico svg{width:24px;height:24px;stroke-width:1.3}
+.rd-painel h2{font-size:clamp(19px,2.2vw,27px);max-width:20ch}
+.rd-foto{border-radius:14px;overflow:hidden;border:1px solid var(--linha);
+  aspect-ratio:4/3;background:var(--sup-2)}
+.rd-foto img{width:100%;height:100%;object-fit:cover;display:block}
+@media (max-width:900px){
+  .rd-painel{grid-template-columns:1fr}
+  .rd-foto{aspect-ratio:16/9}
+}
+
+/* ---- marca de conferido ---- */
+/* Círculo com o tique dentro, em vez do losango do resto do site: aqui a lista
+   não é enumeração, é o que a SPX se compromete a entregar, e o tique diz isso
+   sem precisar de uma palavra a mais. */
+.pag-servico .fatos li,.fs-itens li{padding-left:30px}
+.pag-servico .fatos li::before,.fs-itens li::before{
+  content:"";position:absolute;left:0;top:.15em;width:18px;height:18px;
+  border:1px solid var(--acc-2);border-radius:50%;background:transparent;
+  transform:none}
+.pag-servico .fatos li::after,.fs-itens li::after{
+  content:"";position:absolute;left:6px;top:.42em;width:5px;height:9px;
+  border-right:1.6px solid var(--acc-2);border-bottom:1.6px solid var(--acc-2);
+  transform:rotate(45deg)}
+.fs-itens li{position:relative;padding-top:0}
+
+/* ---- escopo em painel ---- */
+.pag-servico .fs-listas{border:1px solid var(--linha);border-radius:18px;
+  background:var(--sup);padding:clamp(20px,2.6vw,32px);align-self:start}
+.pag-servico .fs-listas h3{color:var(--acc-2)}
+@media (max-width:900px){
+  /* o painel também é o `.wrap` da abertura: com a moldura dele nascendo na
+     borda da tela, o site perde a margem lateral justamente onde ela mais
+     conta. `width:auto` desfaz o `width:100%` do .wrap para a margem caber. */
+  .pag-servico .topo-duplo{padding:clamp(18px,5vw,26px);
+    width:auto;margin-inline:var(--gutter)}
+}
 
 /* PRIVACIDADE · texto corrido, sem alternância de faixa, leitura contínua */
 .pag-privacidade .sec.claro{--bg:var(--bg-2);--sup:var(--sup-2)}

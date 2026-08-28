@@ -344,7 +344,7 @@ ${menu(trilha[1] ? trilha[1].url : url)}
 ${ladoTopo ? '  <div class="wrap topo-duplo">' : ''}
   <div class="${ladoTopo ? '' : 'wrap '}topo-in">
 ${migalhasHTML}
-    <h1>${esc(h1)}${h1b ? `<em>${esc(h1b)}</em>` : ''}</h1>
+    <h1>${esc(h1)}${h1b ? ` <em>${esc(h1b)}</em>` : ''}</h1>
 ${lead ? `    <p class="lead topo-lead">${esc(lead)}</p>` : ''}
 ${topoExtra}
   </div>
@@ -417,11 +417,20 @@ const icone = (nome) =>
 /* Resposta direta: pergunta como título, resposta na primeira frase. É o
    formato que vira trecho em destaque no Google e é o que uma IA copia
    quando alguém pergunta. Sem rodeio antes da resposta. */
-const respostaDireta = (pergunta, resposta, fatos = []) => `
-<section class="sec wrap resposta-direta" data-reveal>
-  <h2>${esc(pergunta)}</h2>
-  <p>${esc(resposta)}</p>
-  ${fatos.length ? `<ul class="fatos">${fatos.map((f) => `<li>${esc(f)}</li>`).join('')}</ul>` : ''}
+const respostaDireta = (pergunta, resposta, fatos = [], ic = '', foto = null) => `
+<section class="sec wrap" data-reveal>
+  <div class="resposta-direta${foto ? ' rd-painel' : ''}">
+    <div class="rd-txt">
+      <div class="rd-cab">${ic ? `<span class="rd-ico">${icone(ic)}</span>` : ''}
+        <h2>${esc(pergunta)}</h2>
+      </div>
+      <p>${esc(resposta)}</p>
+      ${fatos.length ? `<ul class="fatos">${fatos.map((f) => `<li>${esc(f)}</li>`).join('')}</ul>` : ''}
+    </div>
+    ${foto ? `<div class="rd-foto"><img src="/img/${foto}-640.webp" srcset="${larguras(foto)}"
+      sizes="(max-width:900px) 92vw, 46vw" width="${dim(foto)[0]}" height="${dim(foto)[1]}"
+      alt="" loading="lazy" decoding="async"></div>` : ''}
+  </div>
 </section>`;
 
 /* Linha do tempo numerada com fio ligando as etapas. É o padrão que mais se
@@ -476,16 +485,24 @@ const infografico = (s) => {
    botão, o nome acessível dele virava todo o texto das duas faces e a WCAG
    reprova quando o nome não contém o rótulo visível. Assim o botão tem o seu
    próprio texto, e clicar em qualquer lugar do cartão também vira. */
-const cartaoVira = (frente, verso, rotulo = 'Ver as informações') => `
-<div class="vira" data-vira>
+const cartaoVira = (frente, verso, rotulo = 'Ver as informações', id = '') => `
+<div class="vira" data-vira${id ? ` id="${id}"` : ''}>
   <div class="vira-caixa" data-vira-palco>
     <div class="vira-face vira-frente">${frente}</div>
     <div class="vira-face vira-verso">${verso}</div>
   </div>
-  <button class="vira-btn" type="button" data-vira-btn aria-pressed="false">
+${id ? '' : `  <button class="vira-btn" type="button" data-vira-btn aria-pressed="false">
     ${esc(rotulo)}<i aria-hidden="true">↻</i>
-  </button>
+  </button>`}
 </div>`;
+
+/* O mesmo botão, do outro lado do cabeçalho. Nas páginas de serviço a abertura
+   é uma coluna de texto e um cartão ao lado, e o comando de virar pertence à
+   coluna de texto, junto do título e da chamada. `aria-controls` é o que liga
+   um ao outro — para o JavaScript achar o cartão e para o leitor de tela dizer
+   o que aquele botão comanda. */
+const viraBotao = (id, rotulo) => `<button class="btn btn-fio vira-solto" type="button"
+    data-vira-btn aria-controls="${id}" aria-pressed="false">${esc(rotulo)}<i aria-hidden="true">↻</i></button>`;
 
 /* Cartão de chamada do tamanho de um cartão da grade. Nos modelos ele ocupa a
    célula que sobra quando a lista tem número ímpar de itens — em vez de um
@@ -1227,27 +1244,41 @@ for (const s of servicosPublicaveis) {
   const trilha = [{ nome: 'Início', url: '/' }, { nome: 'Serviços', url: '/servicos' },
                   { nome: s.nome, url: '/servicos/' + s.slug }];
   const relacionados = servicos.filter((o) => o.slug !== s.slug).slice(0, 3);
+  /* o h1 quebra em duas cores: o que a SPX faz em branco, onde faz em acento.
+     Os oito terminam em "em São Paulo", então o corte é sempre o mesmo — e o
+     nome inteiro continua indo para o schema e para o <title>. */
+  const ondeH1 = ' em São Paulo';
+  const h1Corpo = s.h1.endsWith(ondeH1) ? s.h1.slice(0, -ondeH1.length) : s.h1;
+  const h1Onde = s.h1.endsWith(ondeH1) ? ondeH1.trim() : '';
+  const fotoResposta = s.fotos[1] || s.fotos[0];
   pagina({
     url: '/servicos/' + s.slug,
     arquivo: `servicos/${s.slug}.html`,
-    title: s.title, descricao: s.descricao, h1: s.h1, trilha,
+    title: s.title, descricao: s.descricao, h1: h1Corpo, h1b: h1Onde, trilha,
+    lead: s.resumo,
     visual: 'pag-servico servico-' + s.slug,
-    /* sem foto de topo: o lado direito do cabeçalho é do cartão que vira */
+    topoExtra: `    <p class="topo-acoes">${
+      viraBotao('cartao-' + s.slug, `Ver o que é ${s.nome.toLowerCase()}`)}</p>`,
+    /* sem foto de topo: o lado direito do cabeçalho é do cartão que vira. A
+       foto da obra preenche a frente e o nome do serviço vem por cima, num
+       selo de vidro — a foto sozinha não diz de que serviço é a página. */
     ladoTopo: cartaoVira(`
-      <span class="vira-tipo">Tipo de obra</span>
-      <span class="vira-nome">${esc(s.nome)}</span>
       <span class="vira-foto"><img src="/img/${s.fotos[0]}-640.webp" width="640"
         height="${Math.round(640 * dim(s.fotos[0])[1] / dim(s.fotos[0])[0])}"
-        sizes="(max-width:999px) 92vw, 460px" alt="" loading="lazy" decoding="async"></span>`,
-      infografico(s), `Ver o que é ${s.nome.toLowerCase()}`),
+        sizes="(max-width:999px) 92vw, 460px" alt="" loading="lazy" decoding="async"></span>
+      <span class="vira-selo">
+        <span class="vira-tipo">Tipo de obra</span>
+        <span class="vira-nome">${esc(s.nome)}</span>
+      </span>`,
+      infografico(s), `Ver o que é ${s.nome.toLowerCase()}`, 'cartao-' + s.slug),
     schema: [schemaServico(s), schemaPerguntas([[s.pergunta, s.resposta], ...s.faq]),
              { '@type': 'WebPage', '@id': `${SITE}/servicos/${s.slug}#pagina`,
                name: s.h1, speakable: FALADO, about: { '@id': idEmpresa } }],
     corpo: `
-${respostaDireta(s.pergunta, s.resposta, s.fatos)}
+${respostaDireta(s.pergunta, s.resposta, s.fatos, s.icone, fotoResposta)}
 
 <section class="sec wrap" data-reveal>
-  <h2>${esc(s.nome)}: <em>o que é</em>, para quem e o que entra</h2>
+  <h2 class="com-risco">${esc(s.nome)}: <em>o que é</em>, para quem e o que entra</h2>
   <div class="ficha-servico">
     <div class="fs-texto">
       <p class="lead">${esc(s.oQueE)}</p>
@@ -1496,9 +1527,17 @@ ${secao('Como a SPX começou', `
   <ol class="historia">${historia.map((h) => `
     <li>
       <span class="hi-marca" aria-hidden="true"></span>
-      <span class="hi-n">${h.n}</span>
-      <b>${esc(h.titulo)}</b>
-      <p>${esc(h.texto)}</p>
+      <div class="hi-txt">
+        <span class="hi-n">${h.n}</span>
+        <b>${esc(h.titulo)}</b>
+        <p>${esc(h.texto)}</p>
+      </div>${falta(h.foto) ? '' : `
+      <figure class="hi-foto">
+        <img src="/img/${h.foto}-640.webp" srcset="${larguras(h.foto)}"
+          sizes="(max-width:860px) 88vw, 40vw" width="${dim(h.foto)[0]}" height="${dim(h.foto)[1]}"
+          alt="${esc(h.legenda)}" loading="lazy" decoding="async">
+        <figcaption>${esc(h.legenda)}</figcaption>
+      </figure>`}
     </li>`).join('')}</ol>`, 'vidro faixa-vidro')}
 
 ${blocoResponsavel()}

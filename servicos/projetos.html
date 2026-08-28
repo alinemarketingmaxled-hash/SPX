@@ -23,7 +23,7 @@
 <meta name="geo.region" content="BR-SP">
 <meta name="geo.placename" content="São Paulo">
 <link rel="icon" type="image/png" href="/img/favicon.png">
-<link rel="stylesheet" href="/assets/css/spx.min.css?v=cdee7eba">
+<link rel="stylesheet" href="/assets/css/spx.min.css?v=d274a615">
 <script>
 /* aplica o tema antes da pintura para não piscar */
 document.documentElement.setAttribute('data-tema','escuro');
@@ -492,19 +492,22 @@ document.documentElement.setAttribute('data-tema','escuro');
   <div class="wrap topo-duplo">
   <div class="topo-in">
 <nav class="migalhas" aria-label="Você está em"><a href="/">Início</a><i aria-hidden="true">/</i><a href="/servicos">Serviços</a><i aria-hidden="true">/</i><span aria-current="page">Projetos de engenharia</span></nav>
-    <h1>Projetos de engenharia e compatibilização em São Paulo</h1>
-
-
+    <h1>Projetos de engenharia e compatibilização <em>em São Paulo</em></h1>
+    <p class="lead topo-lead">O desenho que a obra vai seguir, compatibilizado antes de a equipe subir.</p>
+    <p class="topo-acoes"><button class="btn btn-fio vira-solto" type="button"
+    data-vira-btn aria-controls="cartao-projetos" aria-pressed="false">Ver o que é projetos de engenharia<i aria-hidden="true">↻</i></button></p>
   </div>
   <div class="topo-lado">
-<div class="vira" data-vira>
+<div class="vira" data-vira id="cartao-projetos">
   <div class="vira-caixa" data-vira-palco>
     <div class="vira-face vira-frente">
-      <span class="vira-tipo">Tipo de obra</span>
-      <span class="vira-nome">Projetos de engenharia</span>
       <span class="vira-foto"><img src="/img/sala-reuniao-azul-640.webp" width="640"
         height="909"
-        sizes="(max-width:999px) 92vw, 460px" alt="" loading="lazy" decoding="async"></span></div>
+        sizes="(max-width:999px) 92vw, 460px" alt="" loading="lazy" decoding="async"></span>
+      <span class="vira-selo">
+        <span class="vira-tipo">Tipo de obra</span>
+        <span class="vira-nome">Projetos de engenharia</span>
+      </span></div>
     <div class="vira-face vira-verso">
 <span class="ig">
   <span class="ig-bloco">
@@ -529,23 +532,30 @@ document.documentElement.setAttribute('data-tema','escuro');
   </span>
 </span></div>
   </div>
-  <button class="vira-btn" type="button" data-vira-btn aria-pressed="false">
-    Ver o que é projetos de engenharia<i aria-hidden="true">↻</i>
-  </button>
+
 </div></div>
   </div>
 
 </header>
 
 
-<section class="sec wrap resposta-direta" data-reveal>
-  <h2>A SPX faz projeto sem executar a obra?</h2>
-  <p>Sim. A SPX Engenharia desenvolve projetos de engenharia, levantamento técnico, as built e compatibilização entre disciplinas em São Paulo, contratáveis separadamente da execução.</p>
-  <ul class="fatos"><li>A compatibilização acontece antes da mobilização: conflito no papel custa uma linha, na parede custa uma semana.</li><li>Imóvel sem planta confiável começa por levantamento técnico em campo.</li><li>O as built é entregue junto com a obra, não meses depois.</li></ul>
+<section class="sec wrap" data-reveal>
+  <div class="resposta-direta rd-painel">
+    <div class="rd-txt">
+      <div class="rd-cab"><span class="rd-ico"><svg class="ico-tec" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M4 9h16M9 9v11M13 13h7M13 17h7"/></svg></span>
+        <h2>A SPX faz projeto sem executar a obra?</h2>
+      </div>
+      <p>Sim. A SPX Engenharia desenvolve projetos de engenharia, levantamento técnico, as built e compatibilização entre disciplinas em São Paulo, contratáveis separadamente da execução.</p>
+      <ul class="fatos"><li>A compatibilização acontece antes da mobilização: conflito no papel custa uma linha, na parede custa uma semana.</li><li>Imóvel sem planta confiável começa por levantamento técnico em campo.</li><li>O as built é entregue junto com a obra, não meses depois.</li></ul>
+    </div>
+    <div class="rd-foto"><img src="/img/estante-espinha-peixe-640.webp" srcset="/img/estante-espinha-peixe-480.webp 480w, /img/estante-espinha-peixe-640.webp 640w, /img/estante-espinha-peixe-768.webp 768w, /img/estante-espinha-peixe-960.webp 960w"
+      sizes="(max-width:900px) 92vw, 46vw" width="1200" height="1600"
+      alt="" loading="lazy" decoding="async"></div>
+  </div>
 </section>
 
 <section class="sec wrap" data-reveal>
-  <h2>Projetos de engenharia: <em>o que é</em>, para quem e o que entra</h2>
+  <h2 class="com-risco">Projetos de engenharia: <em>o que é</em>, para quem e o que entra</h2>
   <div class="ficha-servico">
     <div class="fs-texto">
       <p class="lead">Projeto é onde o conflito custa barato. Um ponto de elétrica que bate com uma viga custa uma linha redesenhada no papel e custa uma semana de obra parada em campo. A compatibilização entre as disciplinas é a etapa que a maioria pula e que responde pela maior parte do retrabalho.</p>
@@ -653,6 +663,6 @@ document.documentElement.setAttribute('data-tema','escuro');
   <svg viewBox="0 0 24 24" class="zap-marca" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.174.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347M12.05 21.785h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
   <span>11 95275-1874 · WhatsApp</span>
 </a>
-<script src="/assets/js/spx.min.js?v=926808bb" defer></script>
+<script src="/assets/js/spx.min.js?v=a952073e" defer></script>
 </body>
 </html>

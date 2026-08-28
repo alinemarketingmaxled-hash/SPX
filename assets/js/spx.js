@@ -1352,7 +1352,12 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
    3D. `aria-pressed` conta o estado para quem não vê a animação. */
 (function cartaoVira(){
   $$('[data-vira]').forEach(function(caixa){
-    var botao = $('[data-vira-btn]', caixa);
+    /* o botão costuma ficar dentro do cartão, mas nas páginas de serviço ele
+       fica na coluna do texto, do outro lado do cabeçalho. Nesse caso a ligação
+       é o `aria-controls` — que é também como um leitor de tela descobre que
+       aquele botão comanda aquele cartão. */
+    var botao = $('[data-vira-btn]', caixa) ||
+      (caixa.id && document.querySelector('[data-vira-btn][aria-controls="' + caixa.id + '"]'));
     var palco = $('[data-vira-palco]', caixa);
     if(!botao) return;
     function vira(){

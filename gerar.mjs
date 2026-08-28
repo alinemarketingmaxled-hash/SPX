@@ -726,9 +726,13 @@ const isoPonto = (x, y, z, ox, oy) =>
 
 /* Caixa isométrica: três faces visíveis, do fundo para a frente. O tampo é o
    losango de cima; as duas laterais são as que dão volume. */
-const isoCaixa = ({ x, y, w, d, h, vidro }, ox, oy) => {
+const isoCaixa = ({ x, y, w, d, h, t }, ox, oy) => {
   const p = (px, py, pz) => isoPonto(px, py, pz, ox, oy).map((n) => n.toFixed(1)).join(' ');
-  const cls = vidro ? ' class="cc-vidro"' : '';
+  /* O tipo vira classe e é o CSS que decide o traço: alvenaria cheia, vidro
+     tracejado, equipamento com traço interrompido, bancada mais sólida que
+     móvel solto. O prefixo cc-p- separa a peça da parede de fundo do
+     pavimento, que também se chamaria cc-parede. */
+  const cls = t ? ` class="cc-p-${t}"` : '';
   return `<g${cls}>
     <polygon class="cc-face cc-topo" points="${p(x, y, h)},${p(x + w, y, h)},${p(x + w, y + d, h)},${p(x, y + d, h)}"/>
     <polygon class="cc-face cc-esq" points="${p(x, y + d, h)},${p(x + w, y + d, h)},${p(x + w, y + d, 0)},${p(x, y + d, 0)}"/>
@@ -740,7 +744,15 @@ const isoCaixa = ({ x, y, w, d, h, vidro }, ox, oy) => {
 const isoPavimento = (andar, ox, oy) => {
   const L = 10;                       /* o piso é sempre 10 por 10 */
   const p = (px, py, pz) => isoPonto(px, py, pz, ox, oy).map((n) => n.toFixed(1)).join(' ');
-  const pecas = andar.pecas.map((c) => isoCaixa(c, ox, oy)).join('\n    ');
+  /* Ordem de desenho é a única profundidade que o SVG tem. Com as peças
+     opacas, desenhar na ordem em que foram escritas fazia um armário do fundo
+     cobrir a mesa da frente. Nesta projeção, quem tem a soma x+y maior está
+     mais perto de quem olha: desenhar do menor para o maior põe cada peça no
+     lugar certo. O empate vai para a mais alta, que é a que se vê por cima. */
+  const pecas = andar.pecas
+    .map((c, i) => ({ c, i, z: (c.x + c.w / 2) + (c.y + c.d / 2) + c.h * 0.001 }))
+    .sort((a, b) => a.z - b.z || a.i - b.i)
+    .map(({ c }) => isoCaixa(c, ox, oy)).join('\n    ');
   return `
   <g class="cc-pav">
     <!-- laje -->
@@ -774,8 +786,8 @@ const isoCobertura = (ox, oy) => {
     <!-- platibanda: a mureta da beirada, o que dá espessura à laje -->
     <polygon class="cc-face cc-esq" points="${p(0, L, .5)},${p(L, L, .5)},${p(L, L, 0)},${p(0, L, 0)}"/>
     <polygon class="cc-face cc-dir" points="${p(L, 0, .5)},${p(L, L, .5)},${p(L, L, 0)},${p(L, 0, 0)}"/>
-    ${isoCaixa({ x: 3.4, y: 3.4, w: 3.2, d: 3.2, h: 1.5 }, ox, oy)}
-    ${isoCaixa({ x: 7.4, y: 1, w: 1.6, d: 1.6, h: .9 }, ox, oy)}
+    ${isoCaixa({ x: 3.4, y: 3.4, w: 3.2, d: 3.2, h: 1.5, t: 'equipa' }, ox, oy)}
+    ${isoCaixa({ x: 7.4, y: 1, w: 1.6, d: 1.6, h: .9, t: 'equipa' }, ox, oy)}
   </g>`;
 };
 
@@ -847,7 +859,7 @@ const casaCorte = (ambientes) => `
         const [ax, ay] = pinoDoAndar(k);
         const pos = `--px:${(ax / 660 * 100).toFixed(2)}%;--py:${(ay / 630 * 100).toFixed(2)}%`;
         return `
-      <button class="cc-pino" type="button" data-cc-pino style="${pos}"
+      <button class="cc-pino" type="button" data-cc-pino data-cc-andar="${k}" style="${pos}"
               aria-expanded="false" aria-controls="cc-dica-${a.id}-${k}">
         <i aria-hidden="true"></i><span class="so-leitor">Dica sobre ${esc(andar.nome)}</span>
       </button>
@@ -857,6 +869,20 @@ const casaCorte = (ambientes) => `
         <p>${esc(andar.dica)}</p>
       </div>`;
       }).join('')}
+    </div>`).join('')}
+  </div>
+
+  <!-- O que cada pavimento tem de diferente, em tópicos. Fica sempre visível:
+       a dica do alfinete é o detalhe de uma área, isto é a comparação entre as
+       três — e comparação escondida atrás de clique ninguém faz. -->
+  <div class="cc-topicos">
+    ${ambientes.map((a, i) => `
+    <div class="cc-tpc" data-cc-topicos="${a.id}"${i ? ' hidden' : ''}>
+      ${a.andares.map((andar, k) => `
+      <div class="cc-tpc-col" data-cc-tpc-col="${k}">
+        <p class="cc-tpc-cab"><span class="cc-tpc-n">${String(3 - k).padStart(2, '0')}</span>${esc(andar.nome)}</p>
+        <ul>${andar.topicos.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>
+      </div>`).join('')}
     </div>`).join('')}
   </div>
 </div>`;
@@ -1493,9 +1519,22 @@ pagina({
   descricao: 'A SPX executa o projeto do arquiteto: leitura, compatibilização, orçamento ' +
     'discriminado, planejamento, execução e acompanhamento, em São Paulo e região.',
   h1: 'Você cria o projeto. A SPX cuida da execução.',
-  lead: 'Projeto bom executado por quem não entende de projeto vira outra coisa. A SPX ' +
-        'trabalha com escritórios de arquitetura executando o que foi desenhado, e apontando ' +
-        'antes da obra começar, o que não vai caber.',
+  /* O bloco de resposta direta ficava logo abaixo do cabeçalho e repetia a
+     mesma ideia do lead. Saiu do corpo, mas a pergunta e a resposta não saíram
+     da página: viraram o subtítulo daqui, que continua sendo um h2 com a
+     resposta na primeira frase — é o que o Google recorta em destaque e o que
+     uma IA copia quando alguém pergunta. */
+  topoExtra: `
+    <h2 class="topo-pergunta">A SPX executa projeto de outro arquiteto?</h2>
+    <p class="lead topo-lead">Sim. A SPX Engenharia lê, compatibiliza e executa projeto de
+    terceiros em São Paulo e região metropolitana, devolvendo as divergências ao autor do
+    projeto antes do início da obra. Projeto bom executado por quem não entende de projeto vira
+    outra coisa — e o escritório continua acompanhando a execução.</p>
+    <ul class="fatos">
+      <li>A compatibilização entre arquitetura, estrutura, elétrica, hidráulica, climatização e incêndio é feita antes de a equipe subir.</li>
+      <li>A proposta é discriminada por serviço, com quantidade e critério de medição, para o escritório comparar linha a linha.</li>
+      <li>A SPX pode ser contratada pelo cliente final, com o escritório coordenando o projeto, ou diretamente pelo escritório.</li>
+    </ul>`,
   trilha: [{ nome: 'Início', url: '/' }, { nome: 'Para arquitetos', url: '/para-arquitetos' }],
   schema: [schemaPerguntas([
     ['A SPX executa projeto desenvolvido por outro arquiteto?',
@@ -1512,14 +1551,6 @@ pagina({
   o que costuma decidir a obra, e não o que fica bonito na apresentação.</p>
   ${casaCorte(ambientes)}
 </section>
-
-${respostaDireta('A SPX executa projeto desenvolvido por outro arquiteto?',
-  'Sim. A SPX Engenharia lê, compatibiliza e executa projeto de terceiros em São Paulo e ' +
-  'região metropolitana, devolvendo as divergências ao autor do projeto antes do início da ' +
-  'obra. O escritório continua acompanhando a execução.',
-  ['A compatibilização entre arquitetura, estrutura, elétrica, hidráulica, climatização e incêndio é feita antes de a equipe subir.',
-   'A proposta é discriminada por serviço, com quantidade e critério de medição, para o escritório comparar linha a linha.',
-   'A SPX pode ser contratada pelo cliente final, com o escritório coordenando o projeto, ou diretamente pelo escritório.'])}
 
 ${secao('O que a SPX faz com o seu projeto', fluxoSerpente([
   { icone: 'leitura', n: '01', nome: 'Leitura',

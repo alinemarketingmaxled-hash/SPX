@@ -1215,6 +1215,8 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
     var abas  = $$('[data-cc-aba]', caixa);
     var cenas = $$('[data-cc-cena]', caixa);
     var pinos = $$('[data-cc-pino]', caixa);
+    var tpcs  = $$('[data-cc-topicos]', caixa);
+    var painelTpc = $('.cc-topicos', caixa);
     if(!abas.length || abas.length !== cenas.length) return;
 
     function fechaDicas(){
@@ -1223,6 +1225,10 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
         var d = document.getElementById(p.getAttribute('aria-controls'));
         if(d) d.hidden = true;
       });
+      /* os tópicos voltam todos ao mesmo peso quando nenhum alfinete está
+         aberto — o realce só existe enquanto há um pavimento em foco */
+      if(painelTpc) painelTpc.removeAttribute('data-foco');
+      $$('.cc-tpc-col', caixa).forEach(function(c){ c.classList.remove('aceso'); });
     }
 
     function abre(aba, focar){
@@ -1234,6 +1240,7 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
         a.tabIndex = sua ? 0 : -1;
       });
       cenas.forEach(function(c){ c.hidden = c.dataset.ccCena !== id; });
+      tpcs.forEach(function(t){ t.hidden = t.dataset.ccTopicos !== id; });
       if(focar) aba.focus();
     }
 
@@ -1260,9 +1267,17 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
       pino.addEventListener('click', function(){
         var aberta = pino.getAttribute('aria-expanded') === 'true';
         fechaDicas();
-        if(!aberta){
-          pino.setAttribute('aria-expanded', 'true');
-          dica.hidden = false;
+        if(aberta) return;
+        pino.setAttribute('aria-expanded', 'true');
+        dica.hidden = false;
+        /* acende a coluna de tópicos do mesmo pavimento: o alfinete conta o
+           detalhe de uma área e a coluna conta o que ela tem de diferente */
+        var cena = pino.closest('[data-cc-cena]');
+        var painel = cena && $('[data-cc-topicos="' + cena.dataset.ccCena + '"]', caixa);
+        var col = painel && $('[data-cc-tpc-col="' + pino.dataset.ccAndar + '"]', painel);
+        if(col && painelTpc){
+          painelTpc.setAttribute('data-foco', '');
+          col.classList.add('aceso');
         }
       });
     });

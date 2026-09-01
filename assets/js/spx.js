@@ -1387,4 +1387,60 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
   });
 })();
 
+/* TROCA DE PÁGINA · o capacete cai e cobre a tela antes de navegar.
+   
+   A regra que manda em tudo aqui é: a navegação nunca pode depender da
+   animação. Se o navegador pedir menos movimento, se o clique for de abrir
+   em outra aba, se o link for para fora do site — o clique segue o caminho
+   normal e este módulo nem entra. E mesmo quando entra, existe um prazo:
+   passado ele, navega de qualquer jeito. Animação travada não pode virar
+   site travado. */
+(function trocaPagina(){
+  var tela = $('[data-troca]');
+  if(!tela) return;
+  var menos = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var indo = false;
+
+  /* Voltando pelo botão do navegador a página pode vir do cache de trás
+     para a frente, com a tela ainda por cima. Este é o único jeito de
+     descobrir isso: o evento pageshow com persisted verdadeiro. */
+  window.addEventListener('pageshow', function(e){
+    if(e.persisted){ tela.removeAttribute('data-caindo'); indo = false; }
+  });
+
+  function proprio(a){
+    if(!a || !a.getAttribute) return false;
+    if(a.target && a.target !== '_self') return false;
+    if(a.hasAttribute('download')) return false;
+    var href = a.getAttribute('href') || '';
+    if(!href || href.charAt(0) === '#') return false;
+    if(/^(mailto|tel|whatsapp|javascript):/i.test(href)) return false;
+    /* endereço absoluto para outro domínio, ou o mesmo endereço da página
+       atual — nos dois casos não há transição a fazer */
+    var u;
+    try { u = new URL(a.href, location.href); } catch(err){ return false; }
+    if(u.origin !== location.origin) return false;
+    if(u.pathname === location.pathname && u.search === location.search) return false;
+    return u.href;
+  }
+
+  document.addEventListener('click', function(e){
+    if(menos.matches || indo) return;
+    /* clique do meio, com ctrl, cmd, shift ou alt: o navegador tem
+       comportamento próprio para cada um e nenhum é "trocar de página" */
+    if(e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    var destino = proprio(e.target.closest('a[href]'));
+    if(!destino) return;
+    e.preventDefault();
+    indo = true;
+    tela.setAttribute('data-caindo', '');
+    var partiu = false;
+    function vai(){ if(partiu) return; partiu = true; location.href = destino; }
+    /* 520ms é o fim da animação; o prazo de 1,2s existe para o caso de o
+       quadro nunca chegar — aba em segundo plano, aparelho engasgado */
+    setTimeout(vai, 520);
+    setTimeout(vai, 1200);
+  });
+})();
+
 })();

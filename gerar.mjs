@@ -121,6 +121,27 @@ function botaoZap() {
 </a>`;
 }
 
+/* ------------------------------------------------- transição entre páginas */
+/* O capacete cai e cobre a tela enquanto a próxima página carrega. Sai junto
+   do rodapé, que é o que aparece em toda página.
+
+   A tela nasce escondida e sem interceptar clique: quem estiver sem
+   JavaScript, ou com o navegador pedindo menos movimento, navega direto e
+   nunca vê isso. O SVG é o mesmo traço técnico do resto do site — capacete
+   amarelo de desenho animado brigaria com tudo em volta. */
+function telaTransicao() {
+  return `<div class="troca" data-troca aria-hidden="true">
+  <svg class="troca-capacete" viewBox="0 0 120 96" aria-hidden="true">
+    <!-- casco, aba, crista e as duas nervuras: é o desenho mínimo que ainda
+         lê como capacete de obra e não como tigela virada -->
+    <path class="tc-casco" d="M26 66c0-21 15-36 34-36s34 15 34 36Z"/>
+    <path class="tc-aba" d="M16 66h88c0 4-3 6-8 7-9 2-21 3-36 3s-27-1-36-3c-5-1-8-3-8-7Z"/>
+    <path class="tc-fio" d="M60 31v35M43 34c-5 9-7 20-7 32M77 34c5 9 7 20 7 32"/>
+  </svg>
+  <span class="troca-impacto" aria-hidden="true"></span>
+</div>`;
+}
+
 /* ---------------------------------------------------------------- rodapé */
 function rodape() {
   const social = [];
@@ -166,7 +187,8 @@ function rodape() {
     <span style="display:flex;gap:20px;flex-wrap:wrap"><a href="/privacidade">Privacidade</a><a href="/duvidas">Dúvidas</a><a href="/contato">Contato</a></span>
   </div>
 </footer>
-${botaoZap()}`;
+${botaoZap()}
+${telaTransicao()}`;
 }
 
 /* ------------------------------------------------------- dados estruturados */

@@ -1387,27 +1387,33 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
   });
 })();
 
-/* TROCA DE PÁGINA · o capacete cai e cobre a tela antes de navegar.
-   
-   A regra que manda em tudo aqui é: a navegação nunca pode depender da
-   animação. Se o navegador pedir menos movimento, se o clique for de abrir
-   em outra aba, se o link for para fora do site — o clique segue o caminho
-   normal e este módulo nem entra. E mesmo quando entra, existe um prazo:
-   passado ele, navega de qualquer jeito. Animação travada não pode virar
-   site travado. */
-(function trocaPagina(){
-  var tela = $('[data-troca]');
-  if(!tela) return;
-  var menos = window.matchMedia('(prefers-reduced-motion: reduce)');
-  var indo = false;
+/* ADIANTAR A PRÓXIMA PÁGINA · quando o ponteiro para num link, o site já
+   pede a página. Entre parar no link e clicar passam uns 200ms de gente
+   comum, e nesse tempo o download já começou — então a página costuma estar
+   pronta quando o clique acontece.
+
+   Nada aqui é visível: o clique continua sendo o clique normal do navegador.
+   Este módulo não intercepta nada, não segura nada e não anima nada. */
+(function adiantaPagina(){
   var adiantadas = {}, quantas = 0;
 
-  /* Adianta a próxima página quando o ponteiro encosta no link. Entre
-     encostar e clicar passam uns 200ms de gente comum, e nesse tempo o
-     download já começou — é o que faz a troca parecer instantânea, muito
-     mais que encurtar a animação.
+  function proprio(a){
+    if(!a || !a.getAttribute) return false;
+    if(a.target && a.target !== '_self') return false;
+    if(a.hasAttribute('download')) return false;
+    var href = a.getAttribute('href') || '';
+    if(!href || href.charAt(0) === '#') return false;
+    if(/^(mailto|tel|whatsapp|javascript):/i.test(href)) return false;
+    /* endereço para outro domínio, ou o mesmo endereço da página atual —
+       nos dois casos não há nada a adiantar */
+    var u;
+    try { u = new URL(a.href, location.href); } catch(err){ return false; }
+    if(u.origin !== location.origin) return false;
+    if(u.pathname === location.pathname && u.search === location.search) return false;
+    return u.href;
+  }
 
-     Teto de doze: sem ele, passar o mouse pelo rodapé baixaria o site
+  /* Teto de doze: sem ele, arrastar o ponteiro pelo rodapé baixaria o site
      inteiro no plano de fundo de quem talvez só quisesse ler uma página. */
   function adiantar(destino){
     if(!destino || adiantadas[destino] || quantas >= 12) return;
@@ -1417,38 +1423,11 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
     document.head.appendChild(l);
   }
 
-  /* Voltando pelo botão do navegador a página pode vir do cache de trás
-     para a frente, com a tela ainda por cima. Este é o único jeito de
-     descobrir isso: o evento pageshow com persisted verdadeiro. */
-  window.addEventListener('pageshow', function(e){
-    if(e.persisted){ tela.removeAttribute('data-caindo'); indo = false; }
-  });
-
-  function proprio(a){
-    if(!a || !a.getAttribute) return false;
-    if(a.target && a.target !== '_self') return false;
-    if(a.hasAttribute('download')) return false;
-    var href = a.getAttribute('href') || '';
-    if(!href || href.charAt(0) === '#') return false;
-    if(/^(mailto|tel|whatsapp|javascript):/i.test(href)) return false;
-    /* endereço absoluto para outro domínio, ou o mesmo endereço da página
-       atual — nos dois casos não há transição a fazer */
-    var u;
-    try { u = new URL(a.href, location.href); } catch(err){ return false; }
-    if(u.origin !== location.origin) return false;
-    if(u.pathname === location.pathname && u.search === location.search) return false;
-    return u.href;
-  }
-
   /* pointerenter não borbulha, então a escuta é no documento em pointerover,
-     que borbulha. O toque entra direto, sem espera: no celular o dedo já
-     encostou no link que vai abrir.
-
-     No mouse existe uma pausa de 70ms antes de adiantar. Sem ela, arrastar o
-     ponteiro pelo rodapé — que hoje tem doze links — baixaria o site inteiro
-     no plano de fundo de quem talvez só quisesse ler uma página. 70ms é
-     menos do que leva para mirar e clicar, então quem vai clicar mesmo não
-     perde nada. */
+     que borbulha. No mouse existe uma pausa de 70ms — menos do que leva para
+     mirar e clicar, então quem vai clicar mesmo não perde nada, e quem só
+     passou por cima não gasta dados à toa. No toque não há pausa: o dedo já
+     encostou no link que vai abrir. */
   var espera = null;
   document.addEventListener('pointerover', function(e){
     var a = e.target.closest && e.target.closest('a[href]');
@@ -1462,33 +1441,6 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
     var a = e.target.closest && e.target.closest('a[href]');
     if(a) adiantar(proprio(a));
   }, {passive: true, capture: true});
-
-  document.addEventListener('click', function(e){
-    if(menos.matches || indo) return;
-    /* clique do meio, com ctrl, cmd, shift ou alt: o navegador tem
-       comportamento próprio para cada um e nenhum é "trocar de página" */
-    if(e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-    var destino = proprio(e.target.closest('a[href]'));
-    if(!destino) return;
-    e.preventDefault();
-    indo = true;
-    tela.setAttribute('data-caindo', '');
-    var partiu = false;
-    function vai(){ if(partiu) return; partiu = true; location.href = destino; }
-    /* 130ms: o tempo da queda, e nem um milissegundo além. Testei navegar no
-       mesmo quadro do clique — a espera some, mas o capacete também: gravei
-       os quadros pintados e o que aparecia era um piscar preto. 130ms está
-       abaixo do que uma pessoa registra como demora (a régua costuma ser
-       ~200ms), então na prática o clique continua respondendo na hora.
-
-       Quem encurta a espera de verdade é o adiantamento no hover: a página
-       já vem baixando desde antes do clique, e costuma estar pronta quando a
-       animação acaba. */
-    setTimeout(vai, 130);
-    /* rede de segurança: se o quadro nunca chegar — aba em segundo plano,
-       aparelho engasgado — navega assim mesmo */
-    setTimeout(vai, 900);
-  });
 })();
 
 })();

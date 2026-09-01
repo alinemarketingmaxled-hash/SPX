@@ -1475,10 +1475,19 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
     tela.setAttribute('data-caindo', '');
     var partiu = false;
     function vai(){ if(partiu) return; partiu = true; location.href = destino; }
-    /* 230ms é o fim da animação; o prazo de 1,2s existe para o caso de o
-       quadro nunca chegar — aba em segundo plano, aparelho engasgado */
-    setTimeout(vai, 230);
-    setTimeout(vai, 1200);
+    /* 130ms: o tempo da queda, e nem um milissegundo além. Testei navegar no
+       mesmo quadro do clique — a espera some, mas o capacete também: gravei
+       os quadros pintados e o que aparecia era um piscar preto. 130ms está
+       abaixo do que uma pessoa registra como demora (a régua costuma ser
+       ~200ms), então na prática o clique continua respondendo na hora.
+
+       Quem encurta a espera de verdade é o adiantamento no hover: a página
+       já vem baixando desde antes do clique, e costuma estar pronta quando a
+       animação acaba. */
+    setTimeout(vai, 130);
+    /* rede de segurança: se o quadro nunca chegar — aba em segundo plano,
+       aparelho engasgado — navega assim mesmo */
+    setTimeout(vai, 900);
   });
 })();
 

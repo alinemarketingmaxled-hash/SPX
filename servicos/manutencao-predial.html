@@ -46,7 +46,7 @@
 <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
 <link rel="preload" as="image" href="/img/lounge-recepcao-640.webp"
       imagesrcset="/img/lounge-recepcao-480.webp 480w, /img/lounge-recepcao-640.webp 640w, /img/lounge-recepcao-768.webp 768w, /img/lounge-recepcao-960.webp 960w" imagesizes="(min-width:1000px) min(44vw, 500px), 100vw" fetchpriority="high">
-<link rel="stylesheet" href="/assets/css/spx.min.css?v=12f8dba0">
+<link rel="stylesheet" href="/assets/css/spx.min.css?v=0fa47ca5">
 <script>
 /* aplica o tema antes da pintura para não piscar */
 document.documentElement.setAttribute('data-tema','escuro');
@@ -675,35 +675,59 @@ document.documentElement.setAttribute('data-tema','escuro');
   <span>11 95275-1874 · WhatsApp</span>
 </a>
 <div class="troca" data-troca aria-hidden="true">
-  <svg class="troca-capacete" viewBox="0 0 200 160" aria-hidden="true">
+  <svg class="troca-capacete" viewBox="0 0 400 320" aria-hidden="true">
     <defs>
-      <linearGradient id="tcLuz" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#6E90AE"/>
-        <stop offset=".55" stop-color="#3A5570"/>
-        <stop offset="1" stop-color="#2A3F55"/>
+      <linearGradient id="tcCasco" x1=".35" y1="0" x2=".62" y2="1">
+        <stop offset="0" stop-color="#89ABC9"/>
+        <stop offset=".22" stop-color="#5C7E9E"/>
+        <stop offset=".58" stop-color="#3A5570"/>
+        <stop offset="1" stop-color="#22364B"/>
       </linearGradient>
-      <linearGradient id="tcAba" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#5A7B99"/>
-        <stop offset="1" stop-color="#33485F"/>
+      <linearGradient id="tcCrista" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#4A6B8B"/>
+        <stop offset=".42" stop-color="#7C9EBD"/>
+        <stop offset="1" stop-color="#3F5C79"/>
       </linearGradient>
+      <linearGradient id="tcAbaG" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#7A9CBB"/>
+        <stop offset=".45" stop-color="#44627F"/>
+        <stop offset="1" stop-color="#26394D"/>
+      </linearGradient>
+      <!-- o brilho de cima, que é o que faz a peça ler como plástico -->
+      <radialGradient id="tcLustro" cx=".38" cy=".2" r=".42">
+        <stop offset="0" stop-color="#DCE8F2" stop-opacity=".5"/>
+        <stop offset="1" stop-color="#DCE8F2" stop-opacity="0"/>
+      </radialGradient>
     </defs>
-    <!-- casco -->
-    <path class="tc-casco" d="M42 108C42 62 68 34 100 34s58 28 58 74Z"/>
+
+    <path class="tc-casco" d="M70 216C70 128 128 54 200 54s130 74 130 162Z"/>
+    <path class="tc-lustro" d="M70 216C70 128 128 54 200 54s130 74 130 162Z"/>
+    <!-- nervuras: duas de cada lado, acompanhando a curva do casco -->
+    <path class="tc-nerv" d="M139 92c-16 30-25 74-25 124M261 92c16 30 25 74 25 124
+      M164 70c-13 34-20 84-20 146M236 70c13 34 20 84 20 146"/>
+    <!-- respiros -->
+    <path class="tc-respiro" d="M150 140h20M146 170h20M143 196h20
+      M250 140h-20M254 170h-20M257 196h-20"/>
     <!-- crista central, a nervura alta que corre da frente ao fundo -->
-    <path class="tc-crista" d="M91 39c6-2 12-2 18 0l5 69H86Z"/>
-    <!-- nervuras laterais -->
-    <path class="tc-nerv" d="M72 48c-8 15-11 35-11 60M128 48c8 15 11 35 11 60"/>
-    <!-- respiros: as duas fendas de cada lado da crista -->
-    <path class="tc-respiro" d="M78 66h9M76 80h9M122 66h-9M124 80h-9"/>
+    <path class="tc-crista" d="M181 60c11-4 27-4 38 0l9 156h-56Z"/>
+    <path class="tc-cume" d="M200 58v158"/>
+    <!-- rebites onde a carneira prende no casco -->
+    <circle class="tc-rebite" cx="112" cy="206" r="6"/>
+    <circle class="tc-rebite" cx="288" cy="206" r="6"/>
     <!-- aba -->
-    <path class="tc-aba" d="M26 108h148c0 8-6 13-18 16-16 4-34 6-56 6s-40-2-56-6c-12-3-18-8-18-16Z"/>
-    <!-- risco de luz na quina da aba -->
-    <path class="tc-brilho" d="M30 110h140"/>
-    <!-- a carneira, que aparece por baixo da aba -->
-    <path class="tc-carneira" d="M62 124c10 7 24 11 38 11s28-4 38-11"/>
+    <path class="tc-aba" d="M40 216h320c0 16-12 26-34 33-34 11-76 17-126 17s-92-6-126-17c-22-7-34-17-34-33Z"/>
+    <path class="tc-quina" d="M50 220h300"/>
+    <!-- carneira: as tiras e a catraca de ajuste, por baixo da aba -->
+    <path class="tc-carneira" d="M126 262c22 18 46 27 74 27s52-9 74-27"/>
+    <path class="tc-tira" d="M158 272v14M242 272v14"/>
+    <circle class="tc-catraca" cx="200" cy="291" r="11"/>
+    <path class="tc-catraca-x" d="M194 291h12M200 285v12"/>
+    <!-- a plaqueta da marca, onde vai o logotipo num capacete de obra -->
+    <rect class="tc-placa" x="176" y="168" width="48" height="30" rx="4"/>
+    <text class="tc-marca" x="200" y="189" text-anchor="middle">SPX</text>
   </svg>
   <span class="troca-impacto" aria-hidden="true"></span>
 </div>
-<script src="/assets/js/spx.min.js?v=a4c508c4" defer></script>
+<script src="/assets/js/spx.min.js?v=d5ac25c3" defer></script>
 </body>
 </html>

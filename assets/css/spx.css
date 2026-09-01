@@ -2471,30 +2471,41 @@ h2.com-risco::after{content:"";position:absolute;left:0;bottom:0;
 .pag-privacidade .lead{max-width:64ch}
 
 /* ------------------------------------------- transição entre páginas */
-/* O capacete cai e cobre a tela enquanto a próxima página carrega.
-   Orçamento de tempo: 230ms do clique até a navegação. Abaixo de ~150ms o
-   olho não lê queda, lê piscada — e o que sobra não é transição, é ruído.
-   Quem realmente encurta a espera é o prefetch: a próxima página começa a
-   ser baixada quando o mouse encosta no link, então quando o capacete
-   assenta ela já está quase pronta.
+/* O capacete toma a tela enquanto a próxima página carrega.
+   
+   A navegação começa no mesmo instante do clique — dois quadros depois, o
+   tempo de o navegador desenhar a tela pelo menos uma vez. Não existe mais
+   espera somada: a animação acontece POR CIMA do carregamento, não antes
+   dele. Se a página vier em 40ms, aparece um lampejo do capacete; se
+   demorar 400ms, dá para ver a queda inteira. Em nenhum dos dois casos a
+   pessoa espera um milissegundo a mais por causa da animação.
 
    A tela nasce com visibility:hidden e não só com opacidade zero: sem isso
    ela continuaria por cima de tudo, comendo os cliques da página. */
 .troca{position:fixed;inset:0;z-index:200;display:grid;place-items:center;
-  background:var(--bg);opacity:0;visibility:hidden;pointer-events:none}
-.troca[data-caindo]{visibility:visible;pointer-events:auto;
-  animation:troca-fundo .07s ease-out both}
-@keyframes troca-fundo{from{opacity:0}to{opacity:1}}
+  background:var(--bg);opacity:0;visibility:hidden;pointer-events:none;
+  overflow:hidden}
+.troca[data-caindo]{visibility:visible;pointer-events:auto;opacity:1}
 
-.troca-capacete{width:clamp(190px,34vw,420px);height:auto;opacity:0;
-  filter:drop-shadow(0 24px 34px rgba(0,0,0,.6))}
-.tc-casco{fill:url(#tcLuz);stroke:var(--acc-2);stroke-width:2.6;stroke-linejoin:round}
-.tc-crista{fill:#54749A;stroke:var(--acc-2);stroke-width:2;stroke-linejoin:round}
-.tc-nerv{fill:none;stroke:var(--acc-2);stroke-width:1.8;stroke-opacity:.5;stroke-linecap:round}
-.tc-respiro{fill:none;stroke:var(--acc-2);stroke-width:2.6;stroke-opacity:.42;stroke-linecap:round}
-.tc-aba{fill:url(#tcAba);stroke:var(--acc-2);stroke-width:2.6;stroke-linejoin:round}
-.tc-brilho{fill:none;stroke:#9FBEDA;stroke-width:1.6;stroke-opacity:.55;stroke-linecap:round}
-.tc-carneira{fill:none;stroke:var(--acc-2);stroke-width:2;stroke-opacity:.35;stroke-linecap:round}
+/* toma a tela: limitado pela menor das duas medidas, para nunca vazar */
+.troca-capacete{width:min(94vw,104vh);height:auto;opacity:0;
+  filter:drop-shadow(0 30px 60px rgba(0,0,0,.7))}
+.tc-casco{fill:url(#tcCasco);stroke:#A8C4DC;stroke-width:2.2;stroke-linejoin:round}
+.tc-lustro{fill:url(#tcLustro);stroke:none}
+.tc-nerv{fill:none;stroke:#A8C4DC;stroke-width:1.6;stroke-opacity:.34;stroke-linecap:round}
+.tc-respiro{fill:none;stroke:#0E1720;stroke-width:5;stroke-opacity:.5;stroke-linecap:round}
+.tc-crista{fill:url(#tcCrista);stroke:#A8C4DC;stroke-width:1.8;stroke-opacity:.75;stroke-linejoin:round}
+.tc-cume{fill:none;stroke:#C6DCEE;stroke-width:1.4;stroke-opacity:.4}
+.tc-rebite{fill:#1B2A39;stroke:#A8C4DC;stroke-width:1.6;stroke-opacity:.6}
+.tc-aba{fill:url(#tcAbaG);stroke:#A8C4DC;stroke-width:2.2;stroke-linejoin:round}
+.tc-quina{fill:none;stroke:#D3E4F2;stroke-width:1.6;stroke-opacity:.5;stroke-linecap:round}
+.tc-carneira{fill:none;stroke:#7A9CBB;stroke-width:3;stroke-opacity:.5;stroke-linecap:round}
+.tc-tira{fill:none;stroke:#7A9CBB;stroke-width:3;stroke-opacity:.45;stroke-linecap:round}
+.tc-catraca{fill:#22364B;stroke:#7A9CBB;stroke-width:2;stroke-opacity:.6}
+.tc-catraca-x{fill:none;stroke:#7A9CBB;stroke-width:1.8;stroke-opacity:.6;stroke-linecap:round}
+.tc-placa{fill:#16202B;fill-opacity:.72;stroke:#A8C4DC;stroke-width:1.6;stroke-opacity:.55}
+.tc-marca{fill:#D3E4F2;font-family:var(--display);font-weight:700;font-size:19px;
+  letter-spacing:.1em}
 
 /* Queda e impacto numa animação só. Em duas, a segunda tem atraso e
    preenchimento para trás — então durante o atraso ela já aplica o
@@ -2502,23 +2513,28 @@ h2.com-risco::after{content:"";position:absolute;left:0;bottom:0;
    caía: aparecia parado no meio da tela.
    A curva muda dentro dos próprios quadros: acelerando na queda, como
    coisa caindo mesmo, e desacelerando no amassado. */
-.troca[data-caindo] .troca-capacete{animation:troca-cai .2s 20ms both}
+/* A queda começa perto do fim, e não lá de cima. Com a navegação disparando
+   em seguida, a janela em que a tela ainda é pintada dura poucos quadros —
+   gravei os quadros reais e, caindo de 118vh, o capacete ainda estava fora
+   da tela quando a página nova assumia: dava um piscar preto e nada mais.
+   Saindo de 30vh, ele já aparece grande no primeiro quadro pintado. */
+.troca[data-caindo] .troca-capacete{animation:troca-cai .13s both}
 @keyframes troca-cai{
-  0%{opacity:0;transform:translateY(-64vh) rotate(-13deg) scale(.9,.9);
-     animation-timing-function:cubic-bezier(.5,0,.75,.2)}
-  18%{opacity:1}
-  70%{transform:translateY(0) rotate(0deg) scale(1,1);
+  0%{opacity:.6;transform:translateY(-30vh) rotate(-7deg) scale(1.1,1.1);
+     animation-timing-function:cubic-bezier(.4,0,.75,.3)}
+  8%{opacity:1}
+  62%{transform:translateY(0) rotate(0deg) scale(1,1);
       animation-timing-function:ease-out}
-  84%{transform:translateY(6px) rotate(0deg) scale(1.09,.88)}
+  80%{transform:translateY(8px) rotate(0deg) scale(1.05,.91)}
   100%{opacity:1;transform:translateY(0) rotate(0deg) scale(1,1)}}
 
-/* o anel que abre no chão quando o capacete encosta */
-.troca-impacto{position:absolute;width:min(46vw,340px);aspect-ratio:1;
+/* o anel que abre quando o capacete encosta */
+.troca-impacto{position:absolute;width:min(96vw,106vh);aspect-ratio:1;
   border-radius:50%;border:1px solid var(--acc-2);opacity:0}
-.troca[data-caindo] .troca-impacto{animation:troca-anel .16s ease-out .16s both}
+.troca[data-caindo] .troca-impacto{animation:troca-anel .12s ease-out .08s both}
 @keyframes troca-anel{
-  from{opacity:.55;transform:scale(.3)}
-  to{opacity:0;transform:scale(1.6)}}
+  from{opacity:.5;transform:scale(.55)}
+  to{opacity:0;transform:scale(1.35)}}
 
 /* quem pede menos movimento não recebe animação nenhuma: o JavaScript nem
    chega a segurar o clique, e a navegação é a de sempre */

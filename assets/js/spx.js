@@ -1400,6 +1400,22 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
   if(!tela) return;
   var menos = window.matchMedia('(prefers-reduced-motion: reduce)');
   var indo = false;
+  var adiantadas = {}, quantas = 0;
+
+  /* Adianta a próxima página quando o ponteiro encosta no link. Entre
+     encostar e clicar passam uns 200ms de gente comum, e nesse tempo o
+     download já começou — é o que faz a troca parecer instantânea, muito
+     mais que encurtar a animação.
+
+     Teto de doze: sem ele, passar o mouse pelo rodapé baixaria o site
+     inteiro no plano de fundo de quem talvez só quisesse ler uma página. */
+  function adiantar(destino){
+    if(!destino || adiantadas[destino] || quantas >= 12) return;
+    adiantadas[destino] = true; quantas++;
+    var l = document.createElement('link');
+    l.rel = 'prefetch'; l.href = destino; l.as = 'document';
+    document.head.appendChild(l);
+  }
 
   /* Voltando pelo botão do navegador a página pode vir do cache de trás
      para a frente, com a tela ainda por cima. Este é o único jeito de
@@ -1424,6 +1440,29 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
     return u.href;
   }
 
+  /* pointerenter não borbulha, então a escuta é no documento em pointerover,
+     que borbulha. O toque entra direto, sem espera: no celular o dedo já
+     encostou no link que vai abrir.
+
+     No mouse existe uma pausa de 70ms antes de adiantar. Sem ela, arrastar o
+     ponteiro pelo rodapé — que hoje tem doze links — baixaria o site inteiro
+     no plano de fundo de quem talvez só quisesse ler uma página. 70ms é
+     menos do que leva para mirar e clicar, então quem vai clicar mesmo não
+     perde nada. */
+  var espera = null;
+  document.addEventListener('pointerover', function(e){
+    var a = e.target.closest && e.target.closest('a[href]');
+    if(!a) return;
+    clearTimeout(espera);
+    espera = setTimeout(function(){ adiantar(proprio(a)); }, 70);
+  }, {passive: true, capture: true});
+  document.addEventListener('pointerout', function(){ clearTimeout(espera); },
+    {passive: true, capture: true});
+  document.addEventListener('touchstart', function(e){
+    var a = e.target.closest && e.target.closest('a[href]');
+    if(a) adiantar(proprio(a));
+  }, {passive: true, capture: true});
+
   document.addEventListener('click', function(e){
     if(menos.matches || indo) return;
     /* clique do meio, com ctrl, cmd, shift ou alt: o navegador tem
@@ -1436,9 +1475,9 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
     tela.setAttribute('data-caindo', '');
     var partiu = false;
     function vai(){ if(partiu) return; partiu = true; location.href = destino; }
-    /* 520ms é o fim da animação; o prazo de 1,2s existe para o caso de o
+    /* 230ms é o fim da animação; o prazo de 1,2s existe para o caso de o
        quadro nunca chegar — aba em segundo plano, aparelho engasgado */
-    setTimeout(vai, 520);
+    setTimeout(vai, 230);
     setTimeout(vai, 1200);
   });
 })();

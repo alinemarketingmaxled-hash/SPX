@@ -46,7 +46,7 @@
 <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
 <link rel="preload" as="image" href="/img/restaurante-fachada-640.webp"
       imagesrcset="/img/restaurante-fachada-480.webp 480w, /img/restaurante-fachada-640.webp 640w" imagesizes="(min-width:1000px) min(44vw, 500px), 100vw" fetchpriority="high">
-<link rel="stylesheet" href="/assets/css/spx.min.css?v=a87850af">
+<link rel="stylesheet" href="/assets/css/spx.min.css?v=12f8dba0">
 <script>
 /* aplica o tema antes da pintura para não piscar */
 document.documentElement.setAttribute('data-tema','escuro');
@@ -914,15 +914,35 @@ document.documentElement.setAttribute('data-tema','escuro');
   <span>11 95275-1874 · WhatsApp</span>
 </a>
 <div class="troca" data-troca aria-hidden="true">
-  <svg class="troca-capacete" viewBox="0 0 120 96" aria-hidden="true">
-    <!-- casco, aba, crista e as duas nervuras: é o desenho mínimo que ainda
-         lê como capacete de obra e não como tigela virada -->
-    <path class="tc-casco" d="M26 66c0-21 15-36 34-36s34 15 34 36Z"/>
-    <path class="tc-aba" d="M16 66h88c0 4-3 6-8 7-9 2-21 3-36 3s-27-1-36-3c-5-1-8-3-8-7Z"/>
-    <path class="tc-fio" d="M60 31v35M43 34c-5 9-7 20-7 32M77 34c5 9 7 20 7 32"/>
+  <svg class="troca-capacete" viewBox="0 0 200 160" aria-hidden="true">
+    <defs>
+      <linearGradient id="tcLuz" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#6E90AE"/>
+        <stop offset=".55" stop-color="#3A5570"/>
+        <stop offset="1" stop-color="#2A3F55"/>
+      </linearGradient>
+      <linearGradient id="tcAba" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#5A7B99"/>
+        <stop offset="1" stop-color="#33485F"/>
+      </linearGradient>
+    </defs>
+    <!-- casco -->
+    <path class="tc-casco" d="M42 108C42 62 68 34 100 34s58 28 58 74Z"/>
+    <!-- crista central, a nervura alta que corre da frente ao fundo -->
+    <path class="tc-crista" d="M91 39c6-2 12-2 18 0l5 69H86Z"/>
+    <!-- nervuras laterais -->
+    <path class="tc-nerv" d="M72 48c-8 15-11 35-11 60M128 48c8 15 11 35 11 60"/>
+    <!-- respiros: as duas fendas de cada lado da crista -->
+    <path class="tc-respiro" d="M78 66h9M76 80h9M122 66h-9M124 80h-9"/>
+    <!-- aba -->
+    <path class="tc-aba" d="M26 108h148c0 8-6 13-18 16-16 4-34 6-56 6s-40-2-56-6c-12-3-18-8-18-16Z"/>
+    <!-- risco de luz na quina da aba -->
+    <path class="tc-brilho" d="M30 110h140"/>
+    <!-- a carneira, que aparece por baixo da aba -->
+    <path class="tc-carneira" d="M62 124c10 7 24 11 38 11s28-4 38-11"/>
   </svg>
   <span class="troca-impacto" aria-hidden="true"></span>
 </div>
-<script src="/assets/js/spx.min.js?v=7481183b" defer></script>
+<script src="/assets/js/spx.min.js?v=a4c508c4" defer></script>
 </body>
 </html>

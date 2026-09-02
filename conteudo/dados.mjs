@@ -137,6 +137,25 @@ export const numeros = [
     validado: true },
 ];
 
+/**
+ * Prazos que a SPX assume, em dias úteis.
+ *
+ * Um número só, escrito num lugar só. Estes prazos estavam repetidos à mão na
+ * home, no bloco de imagem social e no llms.txt — e já tinham divergido: a
+ * home prometia a proposta detalhada em 5 dias e o resto do site em 10. Quem
+ * for corrigir, corrige aqui e o site inteiro acompanha.
+ *
+ * São DUAS etapas diferentes, e foi por confundir as duas que os números
+ * divergiram. O orçamento preliminar sai logo depois da visita ao local. A
+ * proposta detalhada depende do projeto executivo em mãos e leva mais tempo.
+ */
+export const prazos = {
+  orcamentoPreliminar: 5,
+  propostaDetalhada: 10,
+  /* em horas, não em dias */
+  chamadoGarantia: 48,
+};
+
 /** Etapas do processo. É o que diferencia engenharia de mão de obra. */
 export const processo = [
   { icone: 'visita', camada: 'engenharia', n: '01', nome: 'Levantamento',

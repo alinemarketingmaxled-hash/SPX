@@ -2108,5 +2108,10 @@ function spx_dados_padrao() {
         ],
       ],
     ],
+    'prazos' => [
+      'orcamentoPreliminar' => 5,
+      'propostaDetalhada' => 10,
+      'chamadoGarantia' => 48,
+    ],
   ];
 }

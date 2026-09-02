@@ -19,7 +19,7 @@ import { mkdirSync, writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { empresa, responsavel, numeros, processo, camadas, servicos, projetos,
          duvidas, temas, acervo, chamadas, regioes, historia, segmentos, ambientes,
-         falta } from './conteudo/dados.mjs';
+         prazos, falta } from './conteudo/dados.mjs';
 
 const SITE = empresa.dominio.replace(/\/+$/, '');
 /* proporções das fotos usadas como fundo, para declarar width e height e o
@@ -491,8 +491,8 @@ const infografico = (s) => {
   <span class="ig-bloco">
     <span class="ig-rot">Prazos que a SPX assume</span>
     <span class="ig-chips">
-      <i><b>5</b><u>dias úteis · orçamento preliminar</u></i>
-      <i><b>10</b><u>dias úteis · proposta detalhada</u></i>
+      <i><b>${prazos.orcamentoPreliminar}</b><u>dias úteis · orçamento preliminar</u></i>
+      <i><b>${prazos.propostaDetalhada}</b><u>dias úteis · proposta detalhada</u></i>
       <i><b>ART</b><u>emitida antes de assinar</u></i>
     </span>
   </span>
@@ -2066,9 +2066,9 @@ ${segmentos.map((g) => `- ${g}`).join('\n')}
 - As built e manuais das instalações na entrega, com vistoria conjunta.
 
 ## Prazos
-- Orçamento preliminar: até 5 dias úteis a partir da visita técnica.
-- Proposta detalhada com projeto executivo em mãos: 10 dias úteis.
-- Chamado de garantia: atendimento em até 48 horas.
+- Orçamento preliminar: até ${prazos.orcamentoPreliminar} dias úteis a partir da visita técnica.
+- Proposta detalhada com projeto executivo em mãos: ${prazos.propostaDetalhada} dias úteis.
+- Chamado de garantia: atendimento em até ${prazos.chamadoGarantia} horas.
 - Garantia: 5 anos para estrutura e impermeabilização, 1 ano para acabamentos e instalações.
 
 ## Serviços

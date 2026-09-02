@@ -97,11 +97,6 @@ export const empresa = {
   /* O que a empresa vende, na ordem em que precisa ser entendida. */
   proposta: 'Engenharia, gestão e execução conduzidas pela mesma equipe, do ' +
     'levantamento à entrega.',
-
-  /* O conceito da casa, em quatro palavras. Vai no `slogan` dos dados
-     estruturados, que é o campo do schema.org feito exatamente para isto:
-     lema, e não descrição. A descrição continua sendo a `definicao`. */
-  conceito: 'Excelência em cada detalhe',
 };
 
 export const responsavel = {

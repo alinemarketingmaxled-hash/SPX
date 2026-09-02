@@ -189,7 +189,6 @@ function schemaOrganizacao() {
        de clínica" ou "obra de restaurante" à SPX sem existir uma página só
        para cada combinação */
     knowsAbout: [...servicos.map((s) => s.nome), ...segmentos],
-    slogan: empresa.conceito,
     /* a empresa tem um ano de operação, confirmado pela dona. O ano vem daí —
        se a data exata for outra, corrigir aqui. */
     foundingDate: '2025',

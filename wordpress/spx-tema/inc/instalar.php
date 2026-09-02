@@ -20,7 +20,6 @@ function spx_paginas_do_site() {
     'duvidas'             => 'Dúvidas frequentes',
     'para-arquitetos'     => 'Para arquitetos',
     'privacidade'         => 'Política de privacidade',
-    'servicos-e-regioes'  => 'Serviços e regiões atendidas',
   ];
 }
 

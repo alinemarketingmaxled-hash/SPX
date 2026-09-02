@@ -24,12 +24,17 @@ $spx = [
     . 'técnica, prazo, orçamento, obra em ambiente ocupado e responsabilidade técnica.',
   'h1'        => 'Dúvidas frequentes.',
   'h1b'       => 'Respondidas pela engenharia.',
-  'fundo'     => 'lounge-recepcao',
+  'preloadFoto' => 'lounge-recepcao',
   'visual'    => 'pag-duvidas',
-  'fundoCheio' => true,
-  'ladoTopo'  => spx_cartao_vira('
-      <span class="vira-marca">
-        <img src="' . esc_url(spx_img('logo-negativa.webp')) . '" width="723" height="304" alt="" loading="lazy" decoding="async">
+  /* Mesma abertura das páginas de serviço: um painel só, texto de um lado e o
+     cartão do outro. A foto era o fundo da tela inteira e passou para dentro
+     do cartão, com a marca num selo de vidro sobre ela — atrás do texto ela
+     brigava com a leitura, e o cartão ficava um retângulo escuro no meio. */
+  'ladoTopo'  => spx_cartao_vira(
+    spx_foto_cartao('lounge-recepcao') . '
+      <span class="vira-selo vira-selo-marca">
+        <img src="' . esc_url(spx_img('logo-negativa.webp')) . '" width="723" height="304"
+          alt="' . esc_attr(spx('empresa.nome')) . '" decoding="async">
         <span class="vira-legenda">Engenharia · Gestão · Execução</span>
       </span>', '
       <span class="vira-titulo">A SPX em três linhas</span>
@@ -37,12 +42,13 @@ $spx = [
         <li>' . spx_icone('local') . '<span>Atua em São Paulo capital e na região metropolitana.</span></li>
         <li>' . spx_icone('execucao') . '<span>Executa obra corporativa, comercial, retrofit, reforma, gerenciamento, manutenção, projeto e laudo.</span></li>
         <li>' . spx_icone('art') . '<span>Cada obra tem engenheiro responsável nomeado, com ART, antes da assinatura do contrato.</span></li>
-      </ul>', 'Ver o que a SPX faz'),
+      </ul>', 'Ver o que a SPX faz', 'cartao-spx'),
   'topoExtra' => '
     <h2 class="topo-pergunta">O que a ' . spx_esc($e['nome']) . ' faz?</h2>
     <p class="lead topo-lead">' . spx_esc($e['definicao']) . ' ' . spx_esc($e['proposta']) . '
     As perguntas que mais chegam estão respondidas de forma direta abaixo. Para obra com prazo
-    crítico, concorrência ou adequação de norma, envie o contexto completo.</p>',
+    crítico, concorrência ou adequação de norma, envie o contexto completo.</p>
+    <p class="topo-acoes">' . spx_vira_botao('cartao-spx', 'Ver o que a SPX faz') . '</p>',
   'trilha'    => [['nome' => 'Início', 'url' => '/'], ['nome' => 'Dúvidas', 'url' => '/duvidas']],
   'schema'    => [
     spx_schema_perguntas($duvidas),

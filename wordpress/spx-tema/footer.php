@@ -42,7 +42,11 @@ if (!spx_falta($e['linkedin'])) : ?>
     </div>
 
     <div><h3>Serviços</h3><ul>
-<?php foreach (array_slice(spx_servicos(), 0, 5) as $s) :
+<?php /* os oito, e não os cinco primeiros: com slice, manutenção, projetos e
+         consultoria recebiam um link interno cada, contra 26 dos outros, e
+         página que ninguém aponta o Google trata como página que ninguém
+         considera importante */
+foreach (spx_servicos() as $s) :
   printf('<li><a href="%s">%s</a></li>', esc_url(home_url('/servicos/' . $s['slug'])), spx_esc($s['nome']));
 endforeach; ?>
       <li><a href="<?php echo esc_url(home_url('/servicos')); ?>">Todos os serviços</a></li></ul></div>
@@ -62,7 +66,6 @@ foreach (spx_projetos() as $p) {
       <li><a href="<?php echo esc_url(home_url('/sobre')); ?>">Sobre a SPX</a></li>
       <li><a href="<?php echo esc_url(home_url('/para-arquitetos')); ?>">Para arquitetos</a></li>
       <li><a href="<?php echo esc_url(home_url('/duvidas')); ?>">Dúvidas frequentes</a></li>
-      <li><a href="<?php echo esc_url(home_url('/servicos-e-regioes')); ?>">Serviços por região</a></li>
       <li><a href="<?php echo esc_url(home_url('/contato')); ?>">Contato</a></li></ul></div>
 
     <div class="wordmark" id="wordmark" aria-hidden="true">

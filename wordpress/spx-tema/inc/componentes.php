@@ -16,20 +16,34 @@ if (!defined('ABSPATH')) { exit; }
  * formato que vira trecho em destaque no Google e é o que uma IA copia
  * quando alguém pergunta. Sem rodeio antes da resposta.
  */
-function spx_resposta_direta($pergunta, $resposta, $fatos = []) {
-  $ul = '';
-  if ($fatos) {
-    $ul = '<ul class="fatos">' . spx_lista($fatos) . '</ul>';
+function spx_resposta_direta($pergunta, $resposta, $fatos = [], $ic = '', $foto = null) {
+  $itens = '';
+  foreach ($fatos as $f) { $itens .= '<li>' . spx_esc($f) . '</li>'; }
+  $lista = $fatos ? '<ul class="fatos">' . $itens . '</ul>' : '';
+  $icone = $ic ? '<span class="rd-ico">' . spx_icone($ic) . '</span>' : '';
+  $img = '';
+  if ($foto) {
+    $d = spx_dim($foto);
+    $img = '<div class="rd-foto"><img src="' . esc_url(spx_img($foto . '-640.webp')) . '"
+      srcset="' . esc_attr(spx_larguras($foto)) . '"
+      sizes="(max-width:900px) 92vw, 46vw" width="' . $d[0] . '" height="' . $d[1] . '"
+      alt="" loading="lazy" decoding="async"></div>';
   }
   return '
-<section class="sec wrap resposta-direta" data-reveal>
-  <h2>' . spx_esc($pergunta) . '</h2>
-  <p>' . spx_esc($resposta) . '</p>
-  ' . $ul . '
+<section class="sec wrap" data-reveal>
+  <div class="resposta-direta' . ($foto ? ' rd-painel' : '') . '">
+    <div class="rd-txt">
+      <div class="rd-cab">' . $icone . '
+        <h2>' . spx_esc($pergunta) . '</h2>
+      </div>
+      <p>' . spx_esc($resposta) . '</p>
+      ' . $lista . '
+    </div>
+    ' . $img . '
+  </div>
 </section>';
 }
 
-/** Seção comum: título e conteúdo dentro do container do site. */
 function spx_secao($titulo, $dentro, $classe = '') {
   return '<section class="sec wrap ' . esc_attr($classe) . '"><h2>' . spx_esc($titulo) . '</h2>' . $dentro . '</section>';
 }
@@ -99,27 +113,43 @@ function spx_perguntas($pares) {
  * botão, o nome acessível dele virava todo o texto das duas faces e a WCAG
  * reprova quando o nome não contém o rótulo visível.
  */
-function spx_cartao_vira($frente, $verso, $rotulo = 'Ver as informações') {
-  return '
-<div class="vira" data-vira>
+function spx_cartao_vira($frente, $verso, $rotulo = 'Ver as informações', $id = '') {
+  /* As duas faces existem no HTML o tempo todo — o giro é rotateY com
+     backface-visibility, e não troca de conteúdo — então quem usa leitor de
+     tela recebe frente e verso mesmo sem enxergar a animação.
+
+     Com $id o botão sai daqui e vai para a coluna do texto, do outro lado do
+     cabeçalho; quem liga um ao outro é o aria-controls. */
+  $botao = $id ? '' : '<button class="vira-btn" type="button" data-vira-btn aria-pressed="false">'
+    . spx_esc($rotulo) . '<i aria-hidden="true">↻</i></button>';
+  return '<div class="vira" data-vira' . ($id ? ' id="' . esc_attr($id) . '"' : '') . '>
   <div class="vira-caixa" data-vira-palco>
     <div class="vira-face vira-frente">' . $frente . '</div>
     <div class="vira-face vira-verso">' . $verso . '</div>
   </div>
-  <button class="vira-btn" type="button" data-vira-btn aria-pressed="false">
-    ' . spx_esc($rotulo) . '<i aria-hidden="true">↻</i>
-  </button>
+  ' . $botao . '
 </div>';
 }
 
-/**
- * Cartão de chamada do tamanho de um cartão da grade. Nos modelos ele ocupa a
- * célula que sobra quando a lista tem número ímpar de itens.
- *
- * O espaço antes da seta é rígido: quando o rótulo quebra em duas linhas —
- * 320px, cartão estreito — sem isso a seta descia sozinha na segunda linha,
- * lendo como um bullet solto.
- */
+/** O mesmo botão, do outro lado do cabeçalho. O aria-controls é o que liga um
+    ao outro — para o JavaScript achar o cartão e para o leitor de tela dizer o
+    que aquele botão comanda. */
+function spx_vira_botao($id, $rotulo) {
+  return '<button class="btn btn-fio vira-solto" type="button" data-vira-btn
+    aria-controls="' . esc_attr($id) . '" aria-pressed="false">' . spx_esc($rotulo)
+    . '<i aria-hidden="true">↻</i></button>';
+}
+
+/** A foto que preenche a frente do cartão da abertura. É a maior imagem acima
+    da dobra nessas páginas, então entra com prioridade alta e sem lazy. */
+function spx_foto_cartao($arq) {
+  $d = spx_dim($arq);
+  return '<span class="vira-foto"><img src="' . esc_url(spx_img($arq . '-640.webp')) . '"
+        srcset="' . esc_attr(spx_larguras($arq)) . '" sizes="' . esc_attr(SPX_TAM_TOPO) . '"
+        width="' . $d[0] . '" height="' . $d[1] . '" alt=""
+        fetchpriority="high" decoding="async"></span>';
+}
+
 function spx_cartao_chamada($titulo, $apoio, $rotulo, $url = '/contato', $ic = 'conversa') {
   return '
 <div class="cartao-cta">

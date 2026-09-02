@@ -21,14 +21,23 @@ $perguntas = [
 ];
 
 $spx = [
-  'title'     => 'Execução de projeto para arquitetos em São Paulo | SPX Engenharia',
+  'title'     => 'Execução de projeto para arquitetos | SPX Engenharia',
   'descricao' => 'A SPX executa o projeto do arquiteto: leitura, compatibilização, orçamento '
     . 'discriminado, planejamento, execução e acompanhamento, em São Paulo e região.',
   'h1'        => 'Você cria o projeto. A SPX cuida da execução.',
-  'lead'      => 'Projeto bom executado por quem não entende de projeto vira outra coisa. A SPX '
-    . 'trabalha com escritórios de arquitetura executando o que foi desenhado, e apontando '
-    . 'antes da obra começar, o que não vai caber.',
-  'fundo'     => 'mesa-vista-sp',
+  /* A foto vira o fundo da primeira tela e o texto encurta: cabeçalho é para
+     dizer o que é e abrir caminho, não para explicar tudo. A pergunta continua
+     sendo um h2 com a resposta na primeira frase — é o que o Google recorta em
+     destaque — e os três fatos que estavam aqui não sumiram da página: a
+     compatibilização está no fluxo do projeto e a proposta discriminada, nos
+     cartões logo abaixo. */
+  'fundo'      => 'mesa-vista-sp',
+  'fundoCheio' => true,
+  'topoExtra'  => '
+    <h2 class="topo-pergunta">A SPX executa projeto de outro arquiteto?</h2>
+    <p class="lead topo-lead">Sim. A SPX lê, compatibiliza e executa projeto de terceiros em
+    São Paulo e região, e devolve as divergências ao autor antes de a equipe subir.</p>
+    <p class="topo-acoes"><a class="btn btn-acc" href="' . esc_url(home_url('/contato')) . '">Falar com a SPX sobre um projeto&nbsp;↗</a></p>',
   'visual'    => 'pag-arquitetos',
   'trilha'    => [['nome' => 'Início', 'url' => '/'], ['nome' => 'Para arquitetos', 'url' => '/para-arquitetos']],
   /* o FAQPage do schema leva as duas perguntas que o Google mostra em
@@ -44,13 +53,13 @@ $spx = [
 ];
 spx_cabecalho($spx);
 
-echo spx_resposta_direta('A SPX executa projeto desenvolvido por outro arquiteto?',
-  'Sim. A SPX Engenharia lê, compatibiliza e executa projeto de terceiros em São Paulo e '
-  . 'região metropolitana, devolvendo as divergências ao autor do projeto antes do início da '
-  . 'obra. O escritório continua acompanhando a execução.',
-  ['A compatibilização entre arquitetura, estrutura, elétrica, hidráulica, climatização e incêndio é feita antes de a equipe subir.',
-   'A proposta é discriminada por serviço, com quantidade e critério de medição, para o escritório comparar linha a linha.',
-   'A SPX pode ser contratada pelo cliente final, com o escritório coordenando o projeto, ou diretamente pelo escritório.']);
+echo '
+<section class="sec wrap cc-secao" data-reveal>
+  <h2>O que a SPX executa <em>lá dentro</em></h2>
+  <p class="sub-secao">Escolha o tipo de ambiente e abra os alfinetes: em cada pavimento está
+  o que costuma decidir a obra, e não o que fica bonito na apresentação.</p>
+  ' . spx_casa_corte(spx('ambientes')) . '
+</section>';
 
 echo spx_secao('O que a SPX faz com o seu projeto', spx_fluxo_serpente([
   ['icone' => 'leitura', 'n' => '01', 'nome' => 'Leitura',

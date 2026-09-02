@@ -26,6 +26,7 @@ $spx = wp_parse_args(isset($GLOBALS['spx']) ? $GLOBALS['spx'] : [], [
   'fundoCheio'   => false,
   'topoCentrado' => false,
   'topoExtra'    => '',
+  'preloadFoto'  => null,
   'schema'       => [],
   'noindex'      => false,
 ]);
@@ -53,14 +54,31 @@ if (!$spx['noindex']) : ?>
 <meta property="og:image" content="<?php echo esc_url(spx_img('og.jpg')); ?>">
 <meta property="og:site_name" content="<?php echo esc_attr(spx('empresa.nome')); ?>">
 <meta property="og:locale" content="pt_BR">
+<?php /* a medida declarada deixa o WhatsApp e o LinkedIn montarem o cartão
+         antes de terminar de baixar a foto */ ?>
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="<?php echo esc_attr(spx('empresa.nome')); ?> — obras corporativas e comerciais em São Paulo">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="<?php echo esc_attr($spx['title']); ?>">
 <meta name="twitter:image" content="<?php echo esc_url(spx_img('og.jpg')); ?>">
 <meta name="geo.region" content="BR-SP">
 <meta name="geo.placename" content="São Paulo">
+<?php /* As fontes moram dentro do CSS, então o navegador só descobria que
+         precisava delas depois de baixar e ler a folha inteira: HTML, CSS,
+         fonte, três idas em série. Declaradas aqui, saem junto com o CSS.
+         O crossorigin não é opcional: sem ele a fonte é baixada duas vezes,
+         porque fonte é sempre buscada em modo CORS. */
+foreach (['chakra-petch-700', 'chakra-petch-600', 'barlow-400', 'chakra-petch-500'] as $f) {
+  echo '<link rel="preload" as="font" type="font/woff2" crossorigin href="'
+     . esc_url(get_template_directory_uri() . '/assets/css/fontes/' . $f . '.woff2') . '">' . "\n";
+} ?>
 <link rel="icon" type="image/png" href="<?php echo esc_url(spx_img('favicon.png')); ?>">
+<?php /* sem isto, quem salva o site na tela de início do iPhone recebe um
+         print da página no lugar do ícone */ ?>
+<link rel="apple-touch-icon" href="<?php echo esc_url(spx_img('apple-touch-icon.png')); ?>">
 <?php
-echo spx_preload_foto($spx['fundo']);
+echo spx_preload_foto($spx['fundo'] ? $spx['fundo'] : $spx['preloadFoto']);
 /* o tema é aplicado antes da pintura para a página não piscar clara */
 ?>
 <script>document.documentElement.setAttribute('data-tema','escuro');</script>
@@ -81,7 +99,11 @@ if (is_front_page()) { require get_template_directory() . '/inc/home-topo.php'; 
 <nav class="nav" aria-label="Principal"><div class="wrap nav-in">
   <div class="navpill">
     <a href="<?php echo esc_url(home_url('/')); ?>" class="navlogo" aria-label="<?php echo esc_attr(spx('empresa.nome')); ?> · início">
-      <img class="marca" src="<?php echo esc_url(spx_img('logo-spx.webp')); ?>" width="300" height="72" alt="" aria-hidden="true"></a>
+      <?php /* em 300w o arquivo servia bem só quem tem tela 3x; os outros
+               baixavam o dobro do necessário para exibir 96px */ ?>
+      <img class="marca" src="<?php echo esc_url(spx_img('logo-spx-192.webp')); ?>"
+        srcset="<?php echo esc_attr(spx_img('logo-spx-192.webp') . ' 192w, ' . spx_img('logo-spx.webp') . ' 300w'); ?>"
+        sizes="96px" width="300" height="72" alt="" aria-hidden="true"></a>
     <?php
     $atual = isset($spx['trilha'][1]) ? $spx['trilha'][1]['url'] : '/' . spx_pagina_atual();
     foreach (spx_menu_itens() as $m) {
@@ -122,7 +144,7 @@ if (is_front_page()) { require get_template_directory() . '/inc/home-topo.php'; 
   <div class="<?php echo $spx['ladoTopo'] ? '' : 'wrap '; ?>topo-in">
 <?php echo spx_migalhas($spx['trilha']); ?>
     <h1><?php echo spx_esc($spx['h1']);
-        echo $spx['h1b'] ? '<em>' . spx_esc($spx['h1b']) . '</em>' : ''; ?></h1>
+        echo $spx['h1b'] ? ' <em>' . spx_esc($spx['h1b']) . '</em>' : ''; ?></h1>
 <?php if ($spx['lead']) : ?>    <p class="lead topo-lead"><?php echo spx_esc($spx['lead']); ?></p>
 <?php endif; ?>
 <?php echo $spx['topoExtra']; ?>

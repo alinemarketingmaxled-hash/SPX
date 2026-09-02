@@ -57,9 +57,7 @@ spx_cabecalho($spx);
       listadas abaixo. A avaliação é feita no local, com visita técnica antes de qualquer
       orçamento, e o raio é definido pela distância que permite acompanhar a obra, não por área
       comercial. A maior parte do portfólio está nos polos corporativos e nos bairros de varejo
-      de alto padrão. <a href="<?php echo esc_url(home_url('/servicos-e-regioes')); ?>">Veja a lista completa de serviços por
-      região</a> — são <?php echo count($servicos); ?> serviços cruzados com
-      <?php echo count($todas); ?> regiões.</p>
+      de alto padrão.</p>
 <?php foreach ($regioes as $grupo => $nomes) : ?>
       <h3 class="mapa-grupo"><?php echo spx_esc($grupo); ?></h3>
       <ul class="grade-regioes"><?php echo spx_lista($nomes); ?></ul>

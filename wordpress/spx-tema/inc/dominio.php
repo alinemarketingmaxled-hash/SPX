@@ -26,6 +26,31 @@ if (!defined('ABSPATH')) { exit; }
  * antigo para o novo. Nunca 302 aqui — 302 diz ao Google que a mudança é
  * temporária e ele mantém o endereço antigo no índice.
  */
+/**
+ * Endereços que saíram do site e ainda podem ter link apontando para eles.
+ *
+ * /servicos-e-regioes era o cruzamento de cada serviço com cada região: 1.064
+ * itens de lista formados por 27 frases repetidas. A política de spam do
+ * Google chama isso pelo nome — repetir as mesmas palavras com tanta
+ * frequência que soa artificial — e o risco não ficava na página: ação manual
+ * por spam atinge o domínio. A página saiu, e quem chegar pelo endereço antigo
+ * é levado para /atuacao, que é onde as regiões têm texto de verdade em volta.
+ *
+ * 301 e não 302: o 302 diz ao Google que a mudança é temporária, e ele mantém
+ * o endereço antigo no índice.
+ */
+function spx_redirecionar_apagados() {
+  if (is_admin() || wp_doing_ajax()) { return; }
+  global $wp;
+  $caminho = trim(isset($wp->request) ? $wp->request : '', '/');
+  $mapa = ['servicos-e-regioes' => '/atuacao'];
+  if (isset($mapa[$caminho])) {
+    wp_redirect(home_url($mapa[$caminho]), 301);
+    exit;
+  }
+}
+add_action('template_redirect', 'spx_redirecionar_apagados', 1);
+
 function spx_forcar_dominio() {
   if (is_admin() || wp_doing_ajax() || (defined('WP_CLI') && WP_CLI)) { return; }
   if (empty($_SERVER['HTTP_HOST']) || empty($_SERVER['REQUEST_URI'])) { return; }

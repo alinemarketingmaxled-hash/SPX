@@ -54,11 +54,33 @@ spx_cabecalho($spx);
 </section>
 
 <?php
+/* Linha do tempo centralizada: o fio desce pelo meio e cada marco pendura
+   nele, com o texto de um lado e a foto do outro, trocando de lado a cada
+   marco. As fotos são obra do acervo ao lado do marco, e não o registro dele
+   — por isso a legenda diz o que a foto é de verdade, e é ela que vai também
+   no alt. */
 $hist = '';
 foreach (spx('historia') as $h) {
+  $foto = '';
+  if (!spx_falta($h['foto'])) {
+    $d = spx_dim($h['foto']);
+    $foto = '
+      <figure class="hi-foto">
+        <img src="' . esc_url(spx_img($h['foto'] . '-640.webp')) . '"
+          srcset="' . esc_attr(spx_larguras($h['foto'])) . '"
+          sizes="(max-width:860px) 88vw, 40vw" width="' . $d[0] . '" height="' . $d[1] . '"
+          alt="' . esc_attr($h['legenda']) . '" loading="lazy" decoding="async">
+        <figcaption>' . spx_esc($h['legenda']) . '</figcaption>
+      </figure>';
+  }
   $hist .= '
-    <li><span class="hi-n">' . spx_esc($h['n']) . '</span>
-      <div><b>' . spx_esc($h['titulo']) . '</b><p>' . spx_esc($h['texto']) . '</p></div>
+    <li>
+      <span class="hi-marca" aria-hidden="true"></span>
+      <div class="hi-txt">
+        <span class="hi-n">' . spx_esc($h['n']) . '</span>
+        <b>' . spx_esc($h['titulo']) . '</b>
+        <p>' . spx_esc($h['texto']) . '</p>
+      </div>' . $foto . '
     </li>';
 }
 echo spx_secao('Como a SPX começou', '

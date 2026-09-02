@@ -289,3 +289,241 @@ function spx_faixa_dupla($classe = '') {
 </section>';
   return str_replace(' SPXCLASSE', $classe ? ' ' . $classe : '', $html);
 }
+
+/* ------------------------------------------------- casa em corte (3D) */
+/* O prédio aberto do /para-arquitetos: três pavimentos empilhados, cortados
+   na frente, com os móveis e as divisórias dentro. É projeção isométrica
+   dimétrica — sem ponto de fuga, sem perspectiva de verdade, e de propósito:
+   linha paralela continua paralela, que é como se desenha planta e corte.
+   Achatado (ly bem menor que lx) porque com o losango mais alto a laje de um
+   pavimento cobria dois terços do de baixo e o interior sumia.
+
+   O alfinete é botão HTML por cima do SVG, e não elemento dentro dele. Dentro
+   do SVG o alvo de toque fica preso à escala do desenho — em 360px de tela
+   viraria um ponto de 8px, longe dos 24 que a norma pede — e a dica teria que
+   ser <title>, que não abre no celular. */
+
+const SPX_ISO_LX = 26;      /* uma unidade em x na tela */
+const SPX_ISO_LY = 10;      /* uma unidade em y */
+const SPX_ISO_ALT = 41;     /* uma unidade em z */
+const SPX_PE_DIREITO = 2.9; /* altura do andar, em unidades */
+const SPX_CC_OX = 330;
+const SPX_CC_OY = 160;
+
+/** Distância entre um pavimento e o outro: o próprio pé-direito, e não um
+    número escolhido à parte. Assim as paredes de um andar encostam na laje do
+    de cima; soltas, o desenho lia como diagrama explodido. */
+function spx_cc_subida() { return SPX_PE_DIREITO * SPX_ISO_ALT; }
+
+/** Posição de um ponto do mundo na tela, com a origem no canto do lote. */
+function spx_iso_ponto($x, $y, $z, $ox, $oy) {
+  return [$ox + ($x - $y) * SPX_ISO_LX, $oy + ($x + $y) * SPX_ISO_LY - $z * SPX_ISO_ALT];
+}
+
+function spx_iso_p($x, $y, $z, $ox, $oy) {
+  $q = spx_iso_ponto($x, $y, $z, $ox, $oy);
+  return number_format($q[0], 1, '.', '') . ' ' . number_format($q[1], 1, '.', '');
+}
+
+/**
+ * Caixa isométrica: três faces visíveis. O tampo é o losango de cima; as duas
+ * laterais é que dão volume.
+ *
+ * O tipo vira classe e é o CSS que decide o traço: alvenaria cheia, vidro
+ * tracejado, equipamento com traço interrompido, bancada mais sólida que móvel
+ * solto. O prefixo cc-p- separa a peça da parede de fundo do pavimento, que
+ * também se chamaria cc-parede.
+ */
+function spx_iso_caixa($c, $ox, $oy) {
+  $x = $c['x']; $y = $c['y']; $w = $c['w']; $d = $c['d']; $h = $c['h'];
+  $t = isset($c['t']) ? $c['t'] : '';
+  $p = function ($px, $py, $pz) use ($ox, $oy) { return spx_iso_p($px, $py, $pz, $ox, $oy); };
+  $cls = $t ? ' class="cc-p-' . esc_attr($t) . '"' : '';
+  return '<g' . $cls . '>
+    <polygon class="cc-face cc-topo" points="' . $p($x, $y, $h) . ',' . $p($x + $w, $y, $h) . ',' . $p($x + $w, $y + $d, $h) . ',' . $p($x, $y + $d, $h) . '"/>
+    <polygon class="cc-face cc-esq" points="' . $p($x, $y + $d, $h) . ',' . $p($x + $w, $y + $d, $h) . ',' . $p($x + $w, $y + $d, 0) . ',' . $p($x, $y + $d, 0) . '"/>
+    <polygon class="cc-face cc-dir" points="' . $p($x + $w, $y, $h) . ',' . $p($x + $w, $y + $d, $h) . ',' . $p($x + $w, $y + $d, 0) . ',' . $p($x + $w, $y, 0) . '"/>
+  </g>';
+}
+
+/** Um pavimento: a laje, as duas paredes que sobraram do corte e o recheio. */
+function spx_iso_pavimento($andar, $ox, $oy) {
+  $L = 10;
+  $p = function ($px, $py, $pz) use ($ox, $oy) { return spx_iso_p($px, $py, $pz, $ox, $oy); };
+
+  /* Ordem de desenho é a única profundidade que o SVG tem. Com as peças
+     opacas, desenhar na ordem em que foram escritas fazia um armário do fundo
+     cobrir a mesa da frente. Nesta projeção, quem tem a soma x+y maior está
+     mais perto de quem olha: desenhar do menor para o maior põe cada peça no
+     lugar certo. O empate vai para a mais alta, que é a que se vê por cima. */
+  $ord = [];
+  foreach ($andar['pecas'] as $i => $c) {
+    $ord[] = ['c' => $c, 'i' => $i,
+              'z' => ($c['x'] + $c['w'] / 2) + ($c['y'] + $c['d'] / 2) + $c['h'] * 0.001];
+  }
+  usort($ord, function ($a, $b) {
+    if ($a['z'] === $b['z']) { return $a['i'] - $b['i']; }
+    return $a['z'] < $b['z'] ? -1 : 1;
+  });
+  $pecas = '';
+  foreach ($ord as $o) { $pecas .= spx_iso_caixa($o['c'], $ox, $oy) . "\n    "; }
+
+  $malha = '';
+  for ($k = 1; $k <= 9; $k++) {
+    $a = explode(' ', $p($k, 0, 0));   $b = explode(' ', $p($k, $L, 0));
+    $c = explode(' ', $p(0, $k, 0));   $e = explode(' ', $p($L, $k, 0));
+    $malha .= '<line x1="' . $a[0] . '" y1="' . $a[1] . '" x2="' . $b[0] . '" y2="' . $b[1] . '"/>'
+            . '<line x1="' . $c[0] . '" y1="' . $c[1] . '" x2="' . $e[0] . '" y2="' . $e[1] . '"/>' . "\n      ";
+  }
+
+  return '
+  <g class="cc-pav">
+    <polygon class="cc-laje" points="' . $p(0, 0, 0) . ',' . $p($L, 0, 0) . ',' . $p($L, $L, 0) . ',' . $p(0, $L, 0) . '"/>
+    <polygon class="cc-parede" points="' . $p(0, 0, 0) . ',' . $p($L, 0, 0) . ',' . $p($L, 0, SPX_PE_DIREITO) . ',' . $p(0, 0, SPX_PE_DIREITO) . '"/>
+    <polygon class="cc-parede cc-parede-esq" points="' . $p(0, 0, 0) . ',' . $p(0, $L, 0) . ',' . $p(0, $L, SPX_PE_DIREITO) . ',' . $p(0, 0, SPX_PE_DIREITO) . '"/>
+    <g class="cc-malha">
+      ' . $malha . '</g>
+    ' . $pecas . '</g>';
+}
+
+/** Cobertura: laje plana com platibanda e a casa de máquinas em cima. Plana e
+    não em duas águas: o que está lá dentro é escritório, loja, restaurante e
+    clínica, e telhado de casa contradiria o próprio conteúdo. */
+function spx_iso_cobertura($ox, $oy) {
+  $L = 10;
+  $p = function ($px, $py, $pz) use ($ox, $oy) { return spx_iso_p($px, $py, $pz, $ox, $oy); };
+  return '
+  <g class="cc-cob">
+    <polygon class="cc-laje" points="' . $p(0, 0, 0) . ',' . $p($L, 0, 0) . ',' . $p($L, $L, 0) . ',' . $p(0, $L, 0) . '"/>
+    <polygon class="cc-face cc-esq" points="' . $p(0, $L, .5) . ',' . $p($L, $L, .5) . ',' . $p($L, $L, 0) . ',' . $p(0, $L, 0) . '"/>
+    <polygon class="cc-face cc-dir" points="' . $p($L, 0, .5) . ',' . $p($L, $L, .5) . ',' . $p($L, $L, 0) . ',' . $p($L, 0, 0) . '"/>
+    ' . spx_iso_caixa(['x' => 3.4, 'y' => 3.4, 'w' => 3.2, 'd' => 3.2, 'h' => 1.5, 't' => 'equipa'], $ox, $oy) . '
+    ' . spx_iso_caixa(['x' => 7.4, 'y' => 1, 'w' => 1.6, 'd' => 1.6, 'h' => .9, 't' => 'equipa'], $ox, $oy) . '
+  </g>';
+}
+
+/** O prédio inteiro de um tipo de ambiente: três pavimentos empilhados, o
+    térreo na frente. A ordem de desenho importa — quem está atrás sai
+    primeiro, senão o de cima cobre o de baixo pela metade. */
+function spx_iso_predio($amb) {
+  $ox = SPX_CC_OX; $oy = SPX_CC_OY; $sub = spx_cc_subida();
+  $andares = '';
+  foreach ($amb['andares'] as $i => $a) {
+    $andares .= spx_iso_pavimento($a, $ox, $oy + $i * $sub) . "\n";
+  }
+  $id = esc_attr($amb['id']);
+  return '
+<svg class="cc-svg" viewBox="0 0 660 630" role="img"
+     aria-label="Corte isométrico de um ' . spx_esc(mb_strtolower($amb['nome'], 'UTF-8')) . ' em três pavimentos">
+  <defs>
+    <linearGradient id="cc-topo-' . $id . '" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="currentColor" stop-opacity=".22"/>
+      <stop offset="1" stop-color="currentColor" stop-opacity=".06"/>
+    </linearGradient>
+    <radialGradient id="cc-luz-' . $id . '" cx="50%" cy="34%" r="58%">
+      <stop offset="0" stop-color="currentColor" stop-opacity=".18"/>
+      <stop offset="1" stop-color="currentColor" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="330" cy="310" rx="300" ry="280" fill="url(#cc-luz-' . $id . ')"/>
+' . spx_iso_cobertura($ox, $oy - $sub) . '
+' . $andares . '
+</svg>';
+}
+
+/** Onde fica o alfinete de cada pavimento, nas coordenadas do próprio desenho. */
+function spx_cc_pino($k) {
+  return spx_iso_ponto(10.6, 3.2, 1.2, SPX_CC_OX, SPX_CC_OY + $k * spx_cc_subida());
+}
+
+/**
+ * A lista de tipos à esquerda e o prédio à direita. Abas de verdade: as setas
+ * do teclado andam pela lista e o leitor de tela anuncia qual ambiente abriu.
+ */
+function spx_casa_corte($ambientes) {
+  $servicos = spx('servicos');
+
+  /* a coluna existe só para segurar a lista grudada. Sem ela o navegador
+     deixa a lista descer até o fim do bloco inteiro, e não até o fim da linha
+     da grade: ela passava por cima dos tópicos */
+  $out = '<div class="cc" data-corte>' . "\n" . '  <div class="cc-col">' . "\n"
+       . '  <div class="cc-lista" role="tablist" aria-orientation="vertical" aria-label="Tipos de ambiente">' . "\n";
+
+  foreach ($ambientes as $i => $a) {
+    $ic = 'foco';
+    foreach ($servicos as $s) { if ($s['slug'] === $a['servico']) { $ic = $s['icone']; break; } }
+    $out .= '    <button class="cc-aba" type="button" role="tab" data-cc-aba="' . esc_attr($a['id']) . '"
+            id="cc-aba-' . esc_attr($a['id']) . '" aria-controls="cc-cena-' . esc_attr($a['id']) . '"
+            aria-selected="' . ($i === 0 ? 'true' : 'false') . '" tabindex="' . ($i === 0 ? '0' : '-1') . '">
+      <span class="cc-ico">' . spx_icone($ic) . '</span>
+      <span class="cc-rot"><b>' . spx_esc($a['nome']) . '</b><span>' . spx_esc($a['resumo']) . '</span></span>
+    </button>' . "\n";
+  }
+  /* fora da lista de propósito: dentro dela o link virava o último item da
+     tira que rola de lado no celular, e só aparecia para quem rolasse até o
+     fim. E uma tablist só deve conter abas: um link ali confunde o leitor de
+     tela, que anuncia cinco abas e uma delas não abre nada */
+  $out .= '  </div>' . "\n"
+        . '  <a class="cc-link" href="' . esc_url(home_url('/servicos')) . '">Ver todos os serviços ↗</a>' . "\n"
+        . '  </div>' . "\n\n  <div class=\"cc-palco\">\n";
+
+  foreach ($ambientes as $i => $a) {
+    $out .= '    <div class="cc-cena" id="cc-cena-' . esc_attr($a['id']) . '" role="tabpanel"
+         aria-labelledby="cc-aba-' . esc_attr($a['id']) . '" data-cc-cena="' . esc_attr($a['id']) . '"'
+         . ($i ? ' hidden' : '') . '>' . "\n" . spx_iso_predio($a) . "\n";
+
+    foreach ($a['andares'] as $k => $andar) {
+      /* o alfinete sai da geometria, não de uma porcentagem chutada: no canto
+         direito da laje, um pouco acima dela. Fixo em % da tela, ele saía de
+         cima do prédio assim que qualquer medida do desenho mudava */
+      list($ax, $ay) = spx_cc_pino($k);
+      $pos = '--px:' . number_format($ax / 660 * 100, 2, '.', '') . '%;'
+           . '--py:' . number_format($ay / 630 * 100, 2, '.', '') . '%';
+
+      /* A foto entra por data-fonte, e o JavaScript só a baixa quando a dica
+         abre. Com src direto seriam sete fotos baixadas em toda visita à
+         página para mostrar, no máximo, uma. */
+      $foto = '';
+      if (spx_falta($andar['foto'])) {
+        spx_anota('Ambiente "' . $andar['nome'] . '"',
+          'falta a foto de obra do pavimento "' . $andar['nome'] . '" — a dica abre só com o '
+          . 'texto até existir uma foto real desse tipo de ambiente');
+      } else {
+        $dm = spx_dim($andar['foto']);
+        $foto = '<img class="cc-foto" data-fonte="' . esc_url(spx_img($andar['foto'] . '-480.webp')) . '"
+             width="480" height="' . round(480 * $dm[1] / $dm[0]) . '"
+             alt="' . esc_attr($andar['legenda']) . '" loading="lazy" decoding="async">';
+      }
+
+      $id = esc_attr($a['id']) . '-' . $k;
+      $out .= '      <button class="cc-pino" type="button" data-cc-pino data-cc-andar="' . $k . '"
+              style="' . esc_attr($pos) . '" aria-expanded="false" aria-controls="cc-dica-' . $id . '">
+        <i aria-hidden="true"></i><span class="so-leitor">Dica sobre ' . spx_esc($andar['nome']) . '</span>
+      </button>
+      <div class="cc-dica" id="cc-dica-' . $id . '" role="region"
+           aria-labelledby="cc-tit-' . $id . '" style="' . esc_attr($pos) . '" hidden>
+        ' . $foto . '
+        <b id="cc-tit-' . $id . '">' . spx_esc($andar['nome']) . '</b>
+        <p>' . spx_esc($andar['dica']) . '</p>
+      </div>' . "\n";
+    }
+    $out .= '    </div>' . "\n";
+  }
+
+  /* O que cada pavimento tem de diferente, em tópicos. Fica sempre visível: a
+     dica do alfinete é o detalhe de uma área, isto é a comparação entre as
+     três — e comparação escondida atrás de clique ninguém faz. */
+  $out .= '  </div>' . "\n\n  <div class=\"cc-topicos\">\n";
+  foreach ($ambientes as $i => $a) {
+    $out .= '    <div class="cc-tpc" data-cc-topicos="' . esc_attr($a['id']) . '"' . ($i ? ' hidden' : '') . '>' . "\n";
+    foreach ($a['andares'] as $k => $andar) {
+      $out .= '      <div class="cc-tpc-col" data-cc-tpc-col="' . $k . '">
+        <p class="cc-tpc-cab"><span class="cc-tpc-n">' . str_pad(3 - $k, 2, '0', STR_PAD_LEFT) . '</span>'
+        . spx_esc($andar['nome']) . '</p>
+        <ul>' . spx_lista($andar['topicos']) . '</ul>
+      </div>' . "\n";
+    }
+    $out .= '    </div>' . "\n";
+  }
+  return $out . '  </div>' . "\n" . '</div>';
+}

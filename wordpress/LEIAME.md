@@ -6,27 +6,45 @@ tudo sem depender de nenhum plugin.
 
 ---
 
-## Instalar
+## Instalar na Hostinger
 
-**1. Contrate uma hospedagem com WordPress.** Qualquer uma que ofereça PHP 7.4
-ou mais novo serve.
+**1. Contrate o plano e instale o WordPress.** No hPanel, em **Sites → Criar
+ou migrar site**, escolha WordPress. Qualquer plano com PHP 7.4 ou mais novo
+serve. Se o plano incluir domínio, aponte para `spxengenharia.com.br` já aqui.
 
-**2. Envie a pasta do tema.** Copie `spx-tema` inteira para
-`wp-content/themes/` do seu site. Pelo painel: **Aparência → Temas → Adicionar
-novo → Enviar tema** (compacte a pasta em .zip antes).
+**2. Ligue as duas coisas que não podem ficar desligadas.** Antes de qualquer
+outra coisa, no hPanel:
 
-**3. Ative.** Em **Aparência → Temas**, ative "SPX Engenharia".
+- **Atualizações automáticas** do WordPress e dos plugins — em **WordPress →
+  Segurança** ou **Atualizações**, conforme a versão do painel.
+- **Backup automático** — em **Arquivos → Backups**.
 
-Na ativação o tema cria sozinho as dez páginas com os endereços certos, os oito
-serviços, define a home e ajusta os links permanentes. Você não precisa criar
+Não é zelo excessivo. Site em WordPress sem atualização é como sites começam
+a servir spam: em 12 ou 18 meses uma falha conhecida é explorada, o site passa
+a hospedar página de terceiro e o Google derruba o domínio inteiro. Os dois
+cliques agora evitam isso.
+
+**3. Envie a pasta do tema.** Compacte `spx-tema` em .zip e vá em **Aparência
+→ Temas → Adicionar novo → Enviar tema**. Se o .zip passar do limite de upload,
+use o **Gerenciador de arquivos** do hPanel e descompacte direto em
+`public_html/wp-content/themes/`.
+
+**4. Ative.** Em **Aparência → Temas**, ative "SPX Engenharia".
+
+**5. Crie o e-mail da empresa.** No hPanel, em **E-mails**, crie
+`contato@spxengenharia.com.br`. Esse endereço já está impresso em todas as
+páginas do site — enquanto ele não existir, quem escrever recebe erro.
+
+Na ativação o tema cria sozinho as nove páginas com os endereços certos, os
+oito serviços, define a home e ajusta os links permanentes. Você não precisa criar
 nada à mão — e não deve: um endereço digitado errado quebra o menu e a URL que
 o Google já conhece.
 
-**4. Confira os links permanentes.** Em **Configurações → Links permanentes**,
+**6. Confira os links permanentes.** Em **Configurações → Links permanentes**,
 deixe em "Nome do post" e salve uma vez. Isso é o que faz `/servicos/retrofit`
 funcionar em vez de `/?p=42`.
 
-**5. Ajuste o endereço do site.** Em **Configurações → Geral**, o "Endereço do
+**7. Ajuste o endereço do site.** Em **Configurações → Geral**, o "Endereço do
 site" precisa ser o domínio oficial, com `https://` e sem barra no fim. É de
 lá que sai a tag canônica de todas as páginas.
 
@@ -162,3 +180,25 @@ spx-tema/
 
 `inc/dados.php` é gerado a partir de `conteudo/dados.mjs`, na raiz do
 repositório. Não edite esse arquivo à mão: use o painel.
+
+---
+
+## Manter o tema em dia com o site
+
+O site estático e o tema mostram o mesmo conteúdo, e conteúdo escrito duas
+vezes vira conteúdo diferente na terceira. Depois de mexer no site, rode:
+
+```
+npm run site                    # regera o site estático
+node wordpress/sincroniza.mjs   # leva conteúdo, CSS, JavaScript e imagens ao tema
+```
+
+O sincronizador cuida da parte mecânica: reescreve `inc/dados.php`, copia a
+folha de estilo e o JavaScript já minificados, e traz as imagens novas. O que
+ele **não** faz é portar template: quando uma página muda de desenho, o arquivo
+correspondente em `spx-tema/paginas/` precisa ser mexido à mão.
+
+Uma armadilha que já custou caro: a home **não** leva classe `pag-*` no
+`<body>`. Existe uma regra `[class*="pag-"] .sec` que aperta o espaçamento das
+seções, feita para as páginas internas, que são densas. Com `pag-inicio` a home
+encolhia 1.127px e ficava com outro ritmo.

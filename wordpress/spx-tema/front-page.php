@@ -16,7 +16,11 @@ $e = spx('empresa');
 $spx = [
   'title'     => 'SPX Engenharia | Obras Corporativas, Retrofit e Varejo em São Paulo',
   'descricao' => 'A SPX Engenharia executa obras corporativas, comerciais, reformas e retrofit em São Paulo e região. Solicite uma avaliação da sua obra.',
-  'visual'    => 'pag-inicio',
+  /* A home NÃO leva classe pag-*: existe uma regra [class*="pag-"] .sec que
+     aperta o espaçamento das seções, feita para as páginas internas, que são
+     densas. A home respira mais porque cada bloco dela é uma peça inteira —
+     com pag-inicio ela encolhia 1.127px e ficava com outro ritmo. */
+  'visual'    => '',
   /* sem h1 no cabeçalho: a home tem o dela dentro do hero */
   'schema'    => array_filter([
     spx_schema_pessoa(),

@@ -52,7 +52,22 @@ add_action('after_setup_theme', 'spx_suporte');
 
 function spx_assets() {
   $dir = get_template_directory_uri();
-  wp_enqueue_style('spx', $dir . '/assets/css/spx.css', [], SPX_VERSAO);
+  /* A folha vai EMBUTIDA, como no site estático, e pelo mesmo motivo: como
+     arquivo à parte ela bloqueia a pintura e a página fica em branco esperando
+     um segundo pedido. Medido no Lighthouse com 4G lento, isso é a diferença
+     entre 96 e 100 de desempenho.
+     wp_register_style + wp_add_inline_style mantém o identificador 'spx' vivo
+     para quem depender dele, sem enfileirar o arquivo. */
+  wp_register_style('spx', false, [], SPX_VERSAO);
+  wp_enqueue_style('spx');
+  $folha = get_template_directory() . '/assets/css/spx.css';
+  if (is_readable($folha)) {
+    wp_add_inline_style('spx', file_get_contents($folha));
+  } else {
+    /* se o arquivo sumir, é melhor a página sair feia e funcionando do que sem
+       estilo nenhum e sem explicação */
+    wp_enqueue_style('spx-arquivo', $dir . '/assets/css/spx.css', [], SPX_VERSAO);
+  }
   wp_enqueue_script('spx', $dir . '/assets/js/spx.js', [], SPX_VERSAO, true);
   /* o JavaScript é o mesmo do site estático: só precisa saber onde moram as
      imagens, para onde mandar o formulário e qual o contato atual da empresa,

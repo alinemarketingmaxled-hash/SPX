@@ -31,9 +31,20 @@ const DIMENSOES = {
   'restaurante-salao':[720,1280], 'lavabo-terracota':[1200,1600],
 };
 /* as versões vêm do resumo do conteúdo dos arquivos, escrito por build.mjs */
-let VERSAO_CSS, VERSAO_JS;
+let VERSAO_CSS, VERSAO_JS, FOLHA;
 try {
   ({ css: VERSAO_CSS, js: VERSAO_JS } = JSON.parse(readFileSync('assets/versao.json', 'utf8')));
+  /* A folha vai EMBUTIDA no HTML, não como arquivo à parte. Medido no
+     Lighthouse com 4G lento: como pedido separado ela bloqueia a pintura e a
+     página fica em branco até 2308 ms — primeira pintura, LCP e primeira
+     mudança visual no mesmo instante — com Speed Index de 4,1 s. Embutida, o
+     navegador tem tudo no primeiro pedido: 2,7 s de Speed Index e a nota de
+     desempenho sobe de 96 para 99.
+     O custo é honesto: cada página carrega os ~19 KB comprimidos da folha em
+     vez de reaproveitar um arquivo em cache. Numa visita de duas ou três
+     páginas isso é alguns quilobytes a mais; a primeira impressão, que é o que
+     decide se a pessoa fica, ganha dois segundos. */
+  FOLHA = readFileSync('assets/css/spx.min.css', 'utf8');
 } catch {
   console.error('assets/versao.json não existe. Rode `node build.mjs` antes, ou `npm run site`.');
   process.exit(1);
@@ -348,7 +359,7 @@ function pagina({ url, arquivo, title, descricao, h1, trilha = [], corpo, schema
      print da página no lugar do ícone -->
 <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
 ${(fundo || preloadFoto) ? `<link rel="preload" as="image" href="/img/${fundo || preloadFoto}-640.webp"
-      imagesrcset="${larguras(fundo || preloadFoto)}" imagesizes="${TAM_TOPO}" fetchpriority="high">\n` : ''}<link rel="stylesheet" href="/assets/css/spx.min.css?v=${VERSAO_CSS}">
+      imagesrcset="${larguras(fundo || preloadFoto)}" imagesizes="${TAM_TOPO}" fetchpriority="high">\n` : ''}<style>${FOLHA}</style>
 <script>
 /* aplica o tema antes da pintura para não piscar */
 document.documentElement.setAttribute('data-tema','escuro');
@@ -1870,8 +1881,18 @@ for (const arquivo of ['index.html', '404.html']) {
                       `<meta name="ga-id" content="${esc(empresa.ga || '')}">`);
   /* carimba a versão dos assets também aqui, senão a home continua pedindo a
      folha antiga e o navegador de quem já visitou serve a que está em cache */
-  html = html.replace(/spx\.min\.css\?v=[a-z0-9]+/g, 'spx.min.css?v=' + VERSAO_CSS)
-             .replace(/spx\.min\.js\?v=[a-z0-9]+/g, 'spx.min.js?v=' + VERSAO_JS);
+  html = html.replace(/spx\.min\.js\?v=[a-z0-9]+/g, 'spx.min.js?v=' + VERSAO_JS);
+  /* A folha embutida entra entre marcadores, como o menu e o rodapé: o arquivo
+     escrito à mão continua legível, porque o bloco enorme fica delimitado e
+     rotulado como gerado. Na primeira vez o marcador ainda não existe e o que
+     é trocado é o <link> antigo. */
+  const folhaEmbutida = '<!--FOLHA-->\n<style>' + FOLHA + '</style>\n<!--/FOLHA-->';
+  if (html.includes('<!--FOLHA-->')) {
+    html = html.replace(/<!--FOLHA-->[\s\S]*?<!--\/FOLHA-->/, folhaEmbutida);
+  } else {
+    html = html.replace(/<link rel="stylesheet" href="\/assets\/css\/spx\.min\.css\?v=[a-z0-9]+">/,
+                        folhaEmbutida);
+  }
   /* A home leva Organization, Person e WebSite. Não leva FAQPage: as perguntas
      dela são montadas pelo JavaScript, e o Google exige que o que está no
      schema esteja visível na página. As perguntas em /duvidas são estáticas e

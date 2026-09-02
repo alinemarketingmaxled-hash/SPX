@@ -606,11 +606,28 @@ var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySel
   function formata(v, casas){
     return v.toLocaleString('pt-BR', {minimumFractionDigits:casas, maximumFractionDigits:casas});
   }
+  /* O HTML já chega do servidor com o número final. Animar um contador que já
+     está na tela significa APAGAR o valor certo e recontar do zero: no filme do
+     carregamento a página andava para trás — 42 mil m² às 1,7s viravam 34 mil às
+     2,3s e só voltavam a 42 mil às 2,9s. Isso empurrava o Speed Index para 4,1s
+     sem melhorar nada para quem lê.
+     Então a contagem passa a valer só para quem chega rolando: contador que já
+     estava visível antes do primeiro gesto fica com o valor que o servidor
+     mandou. O efeito continua existindo onde ele é de fato efeito. */
+  var rolou = false;
+  ['scroll','pointerdown','keydown','touchstart'].forEach(function(g){
+    addEventListener(g, function(){ rolou = true; }, {once:true, passive:true, capture:true});
+  });
+  function final(el){
+    var fim = parseFloat(el.dataset.conta);
+    var casas = (el.dataset.conta.split('.')[1] || '').length;
+    el.textContent = (el.dataset.prefixo || '') + formata(fim, casas) + (el.dataset.sufixo || '');
+  }
   function roda(el){
     var fim = parseFloat(el.dataset.conta);
     var casas = (el.dataset.conta.split('.')[1] || '').length;
     var pre = el.dataset.prefixo || '', pos = el.dataset.sufixo || '';
-    if(reduz){ el.textContent = pre + formata(fim, casas) + pos; return; }
+    if(reduz || !rolou){ final(el); return; }
     var dur = 1200, ini = null;
     function passo(t){
       if(ini === null) ini = t;
@@ -870,15 +887,41 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
   var meta = document.querySelector('meta[name="ga-id"]');
   var id = meta && meta.content.trim();
   if(!id || !/^G-[A-Z0-9]+$/i.test(id)) return;
-  var s = document.createElement('script');
-  s.async = true;
-  s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(id);
-  document.head.appendChild(s);
+
+  /* O dataLayer existe desde já: assim um clique no primeiro segundo entra na
+     fila e é enviado quando o gtag chegar, em vez de se perder. */
   window.dataLayer = window.dataLayer || [];
   function gtag(){ window.dataLayer.push(arguments); }
   window.gtag = gtag;
   gtag('js', new Date());
   gtag('config', id, {anonymize_ip: true});
+
+  /* O gtag.js são 166 KB de terceiro, dos quais o Lighthouse acusa 70 KB nunca
+     executados. Baixado junto com a página, ele disputa banda com a foto que
+     decide o LCP e ainda ocupa a thread principal — medir a visita não pode
+     custar a visita.
+     Então ele só entra quando a página já está pronta: no primeiro gesto de
+     quem está lendo, ou na primeira folga do navegador. O que vier antes. */
+  var pediu = false;
+  function carrega(){
+    if(pediu) return; pediu = true;
+    GESTOS.forEach(function(g){ removeEventListener(g, carrega, OUVE); });
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(id);
+    document.head.appendChild(s);
+  }
+  var GESTOS = ['pointerdown','keydown','touchstart','scroll','wheel'];
+  var OUVE = {once:true, passive:true, capture:true};
+  GESTOS.forEach(function(g){ addEventListener(g, carrega, OUVE); });
+  /* a folga: requestIdleCallback quando existe, com teto para não deixar de
+     medir quem abre e sai sem tocar em nada. O Safari não tem idle callback. */
+  function naFolga(){
+    if('requestIdleCallback' in window) requestIdleCallback(carrega, {timeout: 3800});
+    else setTimeout(carrega, 2600);
+  }
+  if(document.readyState === 'complete') naFolga();
+  else addEventListener('load', naFolga, {once:true});
 
   /* o que interessa medir num site de obra: quem pede visita técnica */
   var form = document.querySelector('#formObra');

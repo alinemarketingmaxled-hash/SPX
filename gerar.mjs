@@ -140,6 +140,7 @@ function rodape() {
   <div class="rod-grid" data-reveal>
     <div>
       <p style="max-width:34ch;font-size:15px">${esc(empresa.definicao)}</p>
+      <p class="rod-conceito">${esc(empresa.conceito)}</p>
       <div class="soc">${social.join('')}</div>
     </div>
     <div><h3>Serviços</h3><ul>${servicos.map((s) =>
@@ -189,7 +190,7 @@ function schemaOrganizacao() {
        de clínica" ou "obra de restaurante" à SPX sem existir uma página só
        para cada combinação */
     knowsAbout: [...servicos.map((s) => s.nome), ...segmentos],
-    slogan: empresa.proposta,
+    slogan: empresa.conceito,
     /* a empresa tem um ano de operação, confirmado pela dona. O ano vem daí —
        se a data exata for outra, corrigir aqui. */
     foundingDate: '2025',

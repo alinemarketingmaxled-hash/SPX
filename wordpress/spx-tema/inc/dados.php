@@ -83,6 +83,7 @@ function spx_dados_padrao() {
       'horario' => 'Segunda a sexta, das 8h às 18h',
       'definicao' => 'A SPX Engenharia é uma empresa de engenharia civil com base em São Paulo, que planeja, gerencia e executa obras corporativas e comerciais.',
       'proposta' => 'Engenharia, gestão e execução conduzidas pela mesma equipe, do levantamento à entrega.',
+      'conceito' => 'Excelência em cada detalhe',
     ],
     'responsavel' => [
       'nome' => SPX_FALTA,

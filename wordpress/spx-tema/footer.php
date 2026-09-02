@@ -27,6 +27,7 @@ $curto = !empty($GLOBALS['spx']['rodapeCurto']);
   <div class="rod-grid" data-reveal>
     <div>
       <p style="max-width:34ch;font-size:15px"><?php echo spx_esc($e['definicao']); ?></p>
+      <p class="rod-conceito"><?php echo spx_esc($e['conceito']); ?></p>
       <div class="soc">
 <?php
 /* A linha só afirma o que está confirmado: sem o endereço do perfil, o ícone

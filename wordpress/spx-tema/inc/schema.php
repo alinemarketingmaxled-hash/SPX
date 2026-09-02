@@ -90,7 +90,7 @@ function spx_schema_organizacao() {
        "reforma de clínica" ou "obra de restaurante" à SPX sem existir uma
        página só para cada combinação */
     'knowsAbout' => $conhece,
-    'slogan' => $e['proposta'],
+    'slogan' => $e['conceito'],
     'foundingDate' => '2025',
     'openingHours' => 'Mo-Fr 08:00-18:00',
     'hasOfferCatalog' => [

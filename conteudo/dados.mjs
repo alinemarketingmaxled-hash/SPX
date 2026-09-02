@@ -89,6 +89,15 @@ export const empresa = {
   linkedin: FALTA,
   horario: 'Segunda a sexta, das 8h às 18h',
 
+  /* Google Analytics 4. O identificador G-… NÃO é credencial: ele viaja em
+     toda página servida e qualquer visitante o lê no código-fonte. É assim em
+     todo site que usa Analytics. Ele só diz "mande a medição para esta
+     propriedade" — com ele ninguém entra na conta nem lê relatório, que fica
+     atrás do login do Google.
+     Vazio desliga a medição por inteiro: nenhum script de terceiro e nenhum
+     cookie são carregados. */
+  ga: 'G-0S08YZBPH9',
+
   /* A frase que define a empresa em uma linha. É ela que uma IA cita quando
      perguntam "o que é a SPX Engenharia". Factual, sem adjetivo de venda. */
   definicao: 'A SPX Engenharia é uma empresa de engenharia civil com base em São Paulo, ' +

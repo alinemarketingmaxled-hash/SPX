@@ -311,9 +311,9 @@ function pagina({ url, arquivo, title, descricao, h1, trilha = [], corpo, schema
 <meta property="og:url" content="${SITE}${url}">
 <meta name="description" content="${esc(descricao)}">
 <meta name="theme-color" content="#000000">
-<!-- Google Analytics: cole aqui o G-XXXXXXXXXX da sua propriedade.
+<!-- Google Analytics. O identificador sai de empresa.ga, em conteudo/dados.mjs.
      Vazio = nenhum script de terceiro e nenhum cookie são carregados. -->
-<meta name="ga-id" content="">
+<meta name="ga-id" content="${esc(empresa.ga || '')}">
 <meta property="og:type" content="website">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(descricao)}">
@@ -1864,6 +1864,10 @@ for (const arquivo of ['index.html', '404.html']) {
       '<meta property="og:image:height" content="630">\n' +
       `<meta property="og:image:alt" content="${esc(empresa.nome)} — obras corporativas e comerciais em São Paulo">`);
   }
+  /* o identificador do Analytics também sai daqui: escrito à mão em três
+     arquivos ele divergiria como os prazos divergiram */
+  html = html.replace(/<meta name="ga-id" content="[^"]*">/,
+                      `<meta name="ga-id" content="${esc(empresa.ga || '')}">`);
   /* carimba a versão dos assets também aqui, senão a home continua pedindo a
      folha antiga e o navegador de quem já visitou serve a que está em cache */
   html = html.replace(/spx\.min\.css\?v=[a-z0-9]+/g, 'spx.min.css?v=' + VERSAO_CSS)
@@ -1966,8 +1970,13 @@ ${secao('O que é coletado', `
   <p class="lead">Só o que você digita no formulário de visita técnica:</p>
   <ul class="marcada"><li>Nome</li><li>Empresa</li><li>E-mail</li><li>Telefone</li>
   <li>Tipo de obra, área aproximada e o contexto que você escrever</li></ul>
-  <p class="lead">O site não usa cookie de rastreamento por padrão. Se a medição de audiência
-  estiver ativada, ela é anônima e não identifica você individualmente.</p>`)}
+  ${falta(empresa.ga) ? `<p class="lead">O site não usa cookie de rastreamento.</p>`
+    : `<p class="lead">O site usa o Google Analytics para medir audiência. Ele grava um cookie
+  no seu navegador e registra as páginas que você visita, de que cidade veio o acesso, em que
+  aparelho e por qual caminho chegou. O endereço de IP é anonimizado antes de ser guardado, e a
+  SPX não consegue identificar você individualmente por esses dados.</p>
+  <p class="lead">Para não ser medido, use o bloqueador de anúncios do seu navegador, a navegação
+  anônima ou o complemento oficial de desativação do Google Analytics.</p>`}`)}
 
 ${secao('Para que serve', `<ul class="marcada">
   <li>Responder ao seu contato e agendar a visita técnica</li>
@@ -1978,7 +1987,9 @@ ${secao('Para que serve', `<ul class="marcada">
 
 ${secao('Com quem é compartilhado', `<p class="lead">Apenas com os prestadores necessários para
   o site funcionar: a hospedagem e o serviço de envio de e-mail. Nenhum deles usa esses dados
-  para finalidade própria.</p>`)}
+  para finalidade própria.</p>${falta(empresa.ga) ? '' : `
+  <p class="lead">A medição de audiência é feita pelo Google Analytics, operado pela Google, que
+  atua como operador dos dados de navegação e pode tratá-los fora do Brasil.</p>`}`)}
 
 ${secao('Por quanto tempo fica', `<p class="lead">Enquanto durar a negociação e pelo prazo em
   que a lei exigir a guarda de documento comercial e fiscal. Passado isso, os dados são

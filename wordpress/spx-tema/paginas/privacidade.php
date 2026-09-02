@@ -46,8 +46,14 @@ echo spx_secao('O que é coletado', '
   <p class="lead">Só o que você digita no formulário de visita técnica:</p>
   <ul class="marcada"><li>Nome</li><li>Empresa</li><li>E-mail</li><li>Telefone</li>
   <li>Tipo de obra, área aproximada e o contexto que você escrever</li></ul>
-  <p class="lead">O site não usa cookie de rastreamento por padrão. Se a medição de audiência
-  estiver ativada, ela é anônima e não identifica você individualmente.</p>');
+  ' . (spx_falta(spx('empresa.ga'))
+    ? '<p class="lead">O site não usa cookie de rastreamento.</p>'
+    : '<p class="lead">O site usa o Google Analytics para medir audiência. Ele grava um cookie
+  no seu navegador e registra as páginas que você visita, de que cidade veio o acesso, em que
+  aparelho e por qual caminho chegou. O endereço de IP é anonimizado antes de ser guardado, e a
+  SPX não consegue identificar você individualmente por esses dados.</p>
+  <p class="lead">Para não ser medido, use o bloqueador de anúncios do seu navegador, a navegação
+  anônima ou o complemento oficial de desativação do Google Analytics.</p>'));
 
 echo spx_secao('Para que serve', '<ul class="marcada">
   <li>Responder ao seu contato e agendar a visita técnica</li>
@@ -58,7 +64,9 @@ echo spx_secao('Para que serve', '<ul class="marcada">
 
 echo spx_secao('Com quem é compartilhado', '<p class="lead">Apenas com os prestadores necessários para
   o site funcionar: a hospedagem e o serviço de envio de e-mail. Nenhum deles usa esses dados
-  para finalidade própria.</p>');
+  para finalidade própria.</p>' . (spx_falta(spx('empresa.ga')) ? '' :
+  '<p class="lead">A medição de audiência é feita pelo Google Analytics, operado pela Google, que
+  atua como operador dos dados de navegação e pode tratá-los fora do Brasil.</p>'));
 
 echo spx_secao('Por quanto tempo fica', '<p class="lead">Enquanto durar a negociação e pelo prazo em
   que a lei exigir a guarda de documento comercial e fiscal. Passado isso, os dados são

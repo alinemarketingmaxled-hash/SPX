@@ -45,6 +45,11 @@ if (!$spx['noindex']) : ?>
 <?php endif; ?>
 <meta name="description" content="<?php echo esc_attr($spx['descricao']); ?>">
 <meta name="theme-color" content="#000000">
+<?php $spx_ga = spx('empresa.ga'); if (!spx_falta($spx_ga)) : ?>
+<?php /* o identificador G-… não é credencial: viaja em toda página servida.
+         Vazio desliga a medição — nenhum script de terceiro, nenhum cookie. */ ?>
+<meta name="ga-id" content="<?php echo esc_attr($spx_ga); ?>">
+<?php endif; ?>
 <?php if ($spx['noindex']) : ?>
 <meta name="robots" content="noindex">
 <?php endif; ?>

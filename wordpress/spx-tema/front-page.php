@@ -44,7 +44,6 @@ spx_cabecalho($spx);
 
   <div class="wrap hero-corpo">
     <div class="hero-top" data-reveal>
-      <p class="hero-conceito"><?php echo spx_esc(spx('empresa.conceito')); ?></p>
       <h1>Engenharia e execução de obras corporativas em São Paulo<em>Seu projeto. Nossa engenharia.</em></h1>
       <div>
         <p class="lead">Planejamento, gerenciamento, execução e entrega conduzidos por uma única equipe.<br>Faria Lima, Paulista, Jardins, Brooklin, Alphaville e demais polos da Grande São Paulo.</p>

@@ -305,8 +305,8 @@ b,strong{font-weight:600}
    logo abaixo: ela acompanha a letra em vez de escurecer a foto inteira. */
 .hero-veu{position:absolute;inset:0;z-index:1;pointer-events:none;
   background:
-    linear-gradient(90deg,rgba(0,0,0,.72) 0%,rgba(0,0,0,.28) 48%,rgba(0,0,0,.46) 100%),
-    linear-gradient(180deg,rgba(0,0,0,.52) 0%,rgba(0,0,0,.14) 26%,rgba(0,0,0,.24) 58%,rgba(0,0,0,.72) 100%)}
+    linear-gradient(90deg,rgba(0,0,0,.74) 0%,rgba(0,0,0,.66) 40%,rgba(0,0,0,.3) 58%,rgba(0,0,0,.1) 72%,rgba(0,0,0,.08) 100%),
+    linear-gradient(180deg,rgba(0,0,0,.34) 0%,rgba(0,0,0,.04) 26%,rgba(0,0,0,.1) 58%,rgba(0,0,0,.62) 100%)}
 /* Na tela grande o texto fica numa coluna e a foto aparece do lado direito,
    então o véu pode ser leve. No celular o texto cobre quase tudo: não sobra
    trecho escuro da foto para apoiar a leitura, e medindo no pixel sobre as
@@ -326,7 +326,7 @@ b,strong{font-weight:600}
    as quatro linhas sem escurecer a foto em volta, que é o ponto de ter alíviado
    o véu. Mesmo recurso usado nos fatos da /sobre. */
 .hero .lead,.hero-top p{text-shadow:0 1px 14px rgba(0,0,0,.9),0 1px 3px rgba(0,0,0,.75)}
-.hero-top .lead{background:rgba(0,0,0,.55);
+.hero-top .lead{background:rgba(0,0,0,.82);
   -webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);
   border-radius:12px;padding:var(--e3);width:fit-content}
 /* Sobre foto o texto carrega o próprio contraste, em vez de o véu carregar
@@ -338,18 +338,6 @@ b,strong{font-weight:600}
    para texto grande. Igualar ao branco do título apagaria a hierarquia. */
 .hero h1 em{font-style:normal;color:#DCE3E9;display:block}
 .hero .lead{color:var(--txt)}
-/* O conceito da casa, acima do título. Pequeno e espaçado de propósito: é
-   assinatura, não manchete — quem manda na primeira tela continua sendo o que
-   a SPX faz e onde. */
-/* o .hero-top é uma grade de duas colunas: sem atravessar as duas, o conceito
-   ocuparia a primeira célula e empurraria o título para a coluna da direita */
-.hero-conceito{grid-column:1 / -1;
-  margin:0 0 calc(var(--e2) * -1);font-family:var(--display);font-weight:600;
-  font-size:11.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--acc-2);
-  text-shadow:0 1px 10px rgba(0,0,0,.9),0 1px 3px rgba(0,0,0,.8)}
-.rod-conceito{margin:var(--e2) 0 0;font-family:var(--display);font-weight:600;
-  font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--acc-2)}
-@media (max-width:560px){ .hero-conceito{font-size:10.5px;letter-spacing:.2em} }
 .hero-acoes{display:flex;gap:12px;flex-wrap:wrap;margin-top:var(--e4)}
 /* o botão de contorno não tem fundo: sobre a parte clara de uma obra o rótulo
    dele media 2,5:1. Um apoio escuro translúcido resolve sem mudar o desenho e
@@ -960,6 +948,16 @@ body{--bg-pagina:var(--bg)}
     padding-top:calc(var(--nav-altura) + var(--e3));padding-bottom:var(--e4);
     margin-bottom:var(--e4)}
   .topo-interno.com-foto .topo-in{position:relative;z-index:2;width:100%}
+  /* No celular a foto passa para TRÁS do texto, e aí vale a mesma regra que
+     vale em /sobre: a norma só credita cor de fundo, não sombra de texto.
+     Medido no pixel, o lead sobre a fachada clara do restaurante dava 3,95:1
+     — abaixo dos 4,5 exigidos. Um apoio translúcido atrás do bloco resolve
+     sem ter de escurecer a obra inteira de novo. */
+  .topo-interno.com-foto:not(.foto-fundo) .topo-in{
+    background:rgba(0,0,0,.55);
+    -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+    border-radius:16px;padding-block:clamp(18px,4vw,26px);
+    border:1px solid rgba(255,255,255,.08)}
   /* o título ganha sombra própria: véu sozinho não garante leitura sobre
      qualquer foto, e as obras variam de claridade entre si */
   .topo-interno.com-foto h1,
@@ -979,8 +977,8 @@ body{--bg-pagina:var(--bg)}
      fechava em preto puro no último terço e a obra virava uma tarja no topo:
      aqui ele para em 0,88 e só emenda na cor da página nos últimos 4%. */
   .topo-foto .hero-veu{position:absolute;inset:0;background:
-    linear-gradient(180deg,rgba(0,0,0,.42) 0%,rgba(0,0,0,.06) 24%,
-      rgba(0,0,0,.4) 52%,rgba(0,0,0,.68) 72%,rgba(0,0,0,.88) 90%,
+    linear-gradient(180deg,rgba(0,0,0,.3) 0%,transparent 24%,
+      rgba(0,0,0,.26) 52%,rgba(0,0,0,.56) 72%,rgba(0,0,0,.84) 90%,
       var(--bg-pagina,#000) 100%)}
   /* Só no celular a foto fica ATRÁS do texto; na tela grande ela é painel ao
      lado. Com o véu mais leve, o lead em --txt-2 caiu para 2,98:1 sobre a
@@ -1127,7 +1125,19 @@ h2 em{font-style:normal;color:var(--acc-2)}
   min-height:clamp(420px,72vh,720px);
   padding-top:calc(var(--nav-altura) + var(--e5));padding-bottom:var(--e5);
   margin-bottom:var(--e5)}
+/* O texto ganha apoio próprio em vez de o véu escurecer a obra inteira. Nas
+   páginas de foto de fundo o título fica EM CIMA da foto, no meio dela: com
+   véu leve o suficiente para a obra aparecer, o h1 media 2,1:1 sobre a foto
+   mais clara. O apoio escurece o retângulo do texto e deixa a foto limpa em
+   volta — que é o ponto de ter foto de obra ali. */
 .foto-fundo .topo-in,.foto-fundo .topo-duplo{position:relative;z-index:2;width:100%}
+.foto-fundo .topo-in{background:rgba(0,0,0,.55);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  border-radius:18px;padding:clamp(20px,3vw,38px);
+  border:1px solid rgba(255,255,255,.08)}
+@media (max-width:560px){
+  .foto-fundo .topo-in{padding:clamp(18px,5vw,24px);border-radius:14px}
+}
 /* sombra própria no texto: o véu sozinho não garante leitura sobre qualquer
    obra, e a claridade das fotos varia bastante entre elas */
 .foto-fundo h1,.foto-fundo .migalhas,.foto-fundo .topo-lead,
@@ -1154,9 +1164,9 @@ h2 em{font-style:normal;color:var(--acc-2)}
    degradê o título caía em cima das persianas claras da sala de reunião e
    ficava ilegível na metade da largura. */
 .foto-fundo .topo-foto .hero-veu{position:absolute;inset:0;background:
-  radial-gradient(76% 66% at 50% 54%,rgba(0,0,0,.56) 0%,rgba(0,0,0,.3) 52%,transparent 82%),
-  linear-gradient(180deg,rgba(0,0,0,.54) 0%,rgba(0,0,0,.3) 20%,
-    rgba(0,0,0,.38) 50%,rgba(0,0,0,.66) 78%,rgba(0,0,0,.9) 93%,
+  radial-gradient(64% 58% at 42% 52%,rgba(0,0,0,.6) 0%,rgba(0,0,0,.34) 54%,transparent 84%),
+  linear-gradient(180deg,rgba(0,0,0,.34) 0%,rgba(0,0,0,.12) 20%,
+    rgba(0,0,0,.18) 50%,rgba(0,0,0,.5) 78%,rgba(0,0,0,.84) 93%,
     var(--bg-pagina,#000) 100%)}
 
 /* Sobre foto o texto sobe um degrau de claridade. Medido no pixel: o lead em

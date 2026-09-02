@@ -140,7 +140,6 @@ function rodape() {
   <div class="rod-grid" data-reveal>
     <div>
       <p style="max-width:34ch;font-size:15px">${esc(empresa.definicao)}</p>
-      <p class="rod-conceito">${esc(empresa.conceito)}</p>
       <div class="soc">${social.join('')}</div>
     </div>
     <div><h3>Serviços</h3><ul>${servicos.map((s) =>

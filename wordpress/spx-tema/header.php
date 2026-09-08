@@ -50,6 +50,10 @@ if (!$spx['noindex']) : ?>
          Vazio desliga a medição — nenhum script de terceiro, nenhum cookie. */ ?>
 <meta name="ga-id" content="<?php echo esc_attr($spx_ga); ?>">
 <?php endif; ?>
+<?php $spx_bing = spx('empresa.bing'); if (!spx_falta($spx_bing)) : ?>
+<?php /* Bing Webmaster Tools: prova de posse do domínio, não é credencial. */ ?>
+<meta name="msvalidate.01" content="<?php echo esc_attr($spx_bing); ?>">
+<?php endif; ?>
 <?php if ($spx['noindex']) : ?>
 <meta name="robots" content="noindex">
 <?php endif; ?>

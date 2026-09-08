@@ -325,6 +325,8 @@ function pagina({ url, arquivo, title, descricao, h1, trilha = [], corpo, schema
 <!-- Google Analytics. O identificador sai de empresa.ga, em conteudo/dados.mjs.
      Vazio = nenhum script de terceiro e nenhum cookie são carregados. -->
 <meta name="ga-id" content="${esc(empresa.ga || '')}">
+<!-- Bing Webmaster Tools: prova de posse do domínio. Sai de empresa.bing. -->
+${falta(empresa.bing) ? '' : `<meta name="msvalidate.01" content="${esc(empresa.bing)}">`}
 <meta property="og:type" content="website">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(descricao)}">
@@ -1879,6 +1881,13 @@ for (const arquivo of ['index.html', '404.html']) {
      arquivos ele divergiria como os prazos divergiram */
   html = html.replace(/<meta name="ga-id" content="[^"]*">/,
                       `<meta name="ga-id" content="${esc(empresa.ga || '')}">`);
+  /* a etiqueta do Bing acompanha: nas páginas escritas à mão ela entra logo
+     depois da do Analytics, e some sozinha se empresa.bing for esvaziado */
+  html = html.replace(/\n?<meta name="msvalidate\.01" content="[^"]*">/g, '');
+  if (!falta(empresa.bing)) {
+    html = html.replace(/(<meta name="ga-id" content="[^"]*">)/,
+                        `$1\n<meta name="msvalidate.01" content="${esc(empresa.bing)}">`);
+  }
   /* carimba a versão dos assets também aqui, senão a home continua pedindo a
      folha antiga e o navegador de quem já visitou serve a que está em cache */
   html = html.replace(/spx\.min\.js\?v=[a-z0-9]+/g, 'spx.min.js?v=' + VERSAO_JS);

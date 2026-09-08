@@ -98,6 +98,13 @@ export const empresa = {
      cookie são carregados. */
   ga: 'G-0S08YZBPH9',
 
+  /* Bing Webmaster Tools. Como o identificador do Analytics, este código não é
+     credencial: ele viaja em toda página servida e existe para ser lido. O que
+     ele prova é posse do DOMÍNIO — copiado para outro site não serve de nada,
+     porque o Bing confere se o código está no domínio que ele foi buscar.
+     Vazio não escreve a etiqueta. */
+  bing: 'A071CB64502D7C57240A5CB0E74F9243',
+
   /* A frase que define a empresa em uma linha. É ela que uma IA cita quando
      perguntam "o que é a SPX Engenharia". Factual, sem adjetivo de venda. */
   definicao: 'A SPX Engenharia é uma empresa de engenharia civil com base em São Paulo, ' +

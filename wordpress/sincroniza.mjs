@@ -54,7 +54,7 @@ function php(v, nivel = 2) {
 
 const BLOCOS = ['historia', 'segmentos', 'empresa', 'responsavel', 'numeros', 'processo',
                 'camadas', 'servicos', 'projetos', 'duvidas', 'acervo', 'temas',
-                'chamadas', 'regioes', 'ambientes', 'prazos'];
+                'chamadas', 'regioes', 'ambientes', 'prazos', 'descricoes'];
 
 const faltando = BLOCOS.filter((b) => !(b in dados));
 if (faltando.length) {

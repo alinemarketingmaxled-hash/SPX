@@ -718,6 +718,42 @@ export const duvidas = [
  * enquanto os projetos não forem confirmados, descrever a imagem é honesto e
  * afirmar autoria de um trabalho não é.
  */
+/**
+ * Texto alternativo de cada foto de obra — o que a imagem MOSTRA.
+ *
+ * Existe porque as fotos de obra entravam mudas (alt="") nas páginas de
+ * serviço e em /duvidas: 17 delas, medido no navegador. Foto muda não é lida
+ * por leitor de tela e não diz nada a buscador nenhum — e essas são fotos de
+ * conteúdo, não enfeite.
+ *
+ * O texto descreve o que está na imagem e nada além disso. Não diz de quem é a
+ * obra nem onde fica, porque a foto não prova isso e o site não afirma o que
+ * não foi confirmado. Também não repete a legenda visível ao lado, senão quem
+ * usa leitor de tela ouve a mesma frase duas vezes.
+ *
+ * Foto de enfeite continua com alt="" de propósito: é assim que se diz a um
+ * leitor de tela "pule esta, não há informação aqui". Vazio por descuido e
+ * vazio por decisão são a mesma coisa no código e opostos na prática — por
+ * isso as decorativas ficam dentro de contêiner aria-hidden.
+ */
+export const descricoes = {
+  'sala-reuniao-azul': 'Sala de reunião com parede de fundo em azul profundo, mesa oval, cadeiras estofadas e persiana horizontal ao longo da janela',
+  'recepcao-marmore': 'Recepção com balcão revestido em mármore, parede de acento em bordô e marcenaria de apoio',
+  'lounge-recepcao': 'Lounge de espera com balcão em pedra, poltronas e iluminação embutida no forro',
+  'estante-espinha-peixe': 'Escritório com estante sob medida ocupando a parede e piso de madeira em espinha de peixe',
+  'mesa-vista-sp': 'Sala de reunião com mesa comprida diante de janela envidraçada com vista para prédios de São Paulo',
+  'cozinha-marcenaria': 'Copa com marcenaria planejada, bancada e armários superiores',
+  'banheiro-marmore': 'Banheiro com bancada em mármore, painel ripado de madeira e espelho iluminado',
+  'lavabo-bordo': 'Lavabo com meia-parede em bordô, cuba de apoio e metais escovados',
+  'lavabo-azul': 'Lavabo revestido em azulejo tipo metrô azul, com cuba de apoio e espelho redondo',
+  'lavabo-terracota': 'Lavabo em tom terracota com porcelanato de piso ao chão e bancada suspensa',
+  'restaurante-fachada': 'Fachada de restaurante com letreiro iluminado e o salão visível através do vidro',
+  'restaurante-salao': 'Salão de restaurante com mesas postas, luminárias pendentes e balcão ao fundo',
+  'restaurante-cozinha': 'Cozinha de restaurante à vista, com equipamentos em aço inox e passagem de pratos',
+  'restaurante-pratos': 'Painel decorativo de pratos aplicado na parede do salão do restaurante',
+  'restaurante-bar': 'Bar do restaurante com bancada, banquetas altas e prateleira de garrafas iluminada',
+};
+
 export const acervo = [
   { foto: 'sala-reuniao-azul', etiqueta: 'Obra corporativa', titulo: 'Sala de reunião',
     linha: 'Parede em azul profundo',

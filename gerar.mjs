@@ -19,7 +19,7 @@ import { mkdirSync, writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { empresa, responsavel, numeros, processo, camadas, servicos, projetos,
          duvidas, temas, acervo, chamadas, regioes, historia, segmentos, ambientes,
-         prazos, falta } from './conteudo/dados.mjs';
+         prazos, descricoes, falta } from './conteudo/dados.mjs';
 
 const SITE = empresa.dominio.replace(/\/+$/, '');
 /* proporções das fotos usadas como fundo, para declarar width e height e o
@@ -464,7 +464,7 @@ const respostaDireta = (pergunta, resposta, fatos = [], ic = '', foto = null) =>
     </div>
     ${foto ? `<div class="rd-foto"><img src="/img/${foto}-640.webp" srcset="${larguras(foto)}"
       sizes="(max-width:900px) 92vw, 46vw" width="${dim(foto)[0]}" height="${dim(foto)[1]}"
-      alt="" loading="lazy" decoding="async"></div>` : ''}
+      alt="${descreve(foto)}" loading="lazy" decoding="async"></div>` : ''}
   </div>
 </section>`;
 
@@ -544,9 +544,19 @@ const viraBotao = (id, rotulo) => `<button class="btn btn-fio vira-solto" type="
    foto de topo adiada é o próprio LCP chegando atrasado. O `srcset` também é
    obrigatório aqui — antes havia `sizes` sem ele, e `sizes` sozinho não faz
    nada: o navegador baixava a de 640 até numa tela de 320. */
+/* Alt de foto de CONTEÚDO. Foto de enfeite não passa por aqui: ela fica com
+   alt="" dentro de contêiner aria-hidden, que é como se diz a um leitor de tela
+   "pule esta". Sem descrição o gerador avisa em vez de publicar a foto muda. */
+const descreve = (arq) => {
+  const d = descricoes[arq];
+  if (!d) anota('Imagens', `falta a descrição da foto "${arq}" em descricoes, ` +
+                           'e sem ela a imagem entra muda para leitor de tela e para buscador');
+  return esc(d || '');
+};
+
 const fotoCartao = (arq) => `<span class="vira-foto"><img src="/img/${arq}-640.webp"
         srcset="${larguras(arq)}" sizes="${TAM_TOPO}"
-        width="${dim(arq)[0]}" height="${dim(arq)[1]}" alt=""
+        width="${dim(arq)[0]}" height="${dim(arq)[1]}" alt="${descreve(arq)}"
         fetchpriority="high" decoding="async"></span>`;
 
 /* Cartão de chamada do tamanho de um cartão da grade. Nos modelos ele ocupa a

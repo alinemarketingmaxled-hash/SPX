@@ -27,7 +27,7 @@ function spx_resposta_direta($pergunta, $resposta, $fatos = [], $ic = '', $foto 
     $img = '<div class="rd-foto"><img src="' . esc_url(spx_img($foto . '-640.webp')) . '"
       srcset="' . esc_attr(spx_larguras($foto)) . '"
       sizes="(max-width:900px) 92vw, 46vw" width="' . $d[0] . '" height="' . $d[1] . '"
-      alt="" loading="lazy" decoding="async"></div>';
+      alt="' . esc_attr(spx_descreve($foto)) . '" loading="lazy" decoding="async"></div>';
   }
   return '
 <section class="sec wrap" data-reveal>
@@ -142,11 +142,19 @@ function spx_vira_botao($id, $rotulo) {
 
 /** A foto que preenche a frente do cartão da abertura. É a maior imagem acima
     da dobra nessas páginas, então entra com prioridade alta e sem lazy. */
+/* Alt de foto de CONTEÚDO, espelhando descreve() do gerador. Foto de enfeite
+   não passa por aqui: ela fica com alt="" dentro de contêiner aria-hidden, que
+   é como se diz a um leitor de tela "pule esta". */
+function spx_descreve($arq) {
+  $d = spx('descricoes.' . $arq);
+  return spx_falta($d) ? '' : $d;
+}
+
 function spx_foto_cartao($arq) {
   $d = spx_dim($arq);
   return '<span class="vira-foto"><img src="' . esc_url(spx_img($arq . '-640.webp')) . '"
         srcset="' . esc_attr(spx_larguras($arq)) . '" sizes="' . esc_attr(SPX_TAM_TOPO) . '"
-        width="' . $d[0] . '" height="' . $d[1] . '" alt=""
+        width="' . $d[0] . '" height="' . $d[1] . '" alt="' . esc_attr(spx_descreve($arq)) . '"
         fetchpriority="high" decoding="async"></span>';
 }
 

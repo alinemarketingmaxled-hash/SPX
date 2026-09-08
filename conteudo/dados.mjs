@@ -98,12 +98,16 @@ export const empresa = {
      cookie são carregados. */
   ga: 'G-0S08YZBPH9',
 
-  /* Bing Webmaster Tools. Como o identificador do Analytics, este código não é
-     credencial: ele viaja em toda página servida e existe para ser lido. O que
-     ele prova é posse do DOMÍNIO — copiado para outro site não serve de nada,
-     porque o Bing confere se o código está no domínio que ele foi buscar.
-     Vazio não escreve a etiqueta. */
-  bing: 'A071CB64502D7C57240A5CB0E74F9243',
+  /* Bing Webmaster Tools. Não é credencial: o código viaja em toda página
+     servida e existe para ser lido. O que ele prova é posse do DOMÍNIO, e é
+     por isso que ele está vazio aqui.
+     O código A071CB64…9243, que chegou primeiro, foi emitido para
+     www.maxledtec.com.br. O site é spxengenharia.com.br, e o Bing confere a
+     etiqueta no domínio que ele está verificando — em outro domínio o código
+     não vale nada. O certo sai de uma propriedade nova, criada no Bing para
+     spxengenharia.com.br, e é só colar aqui: a etiqueta volta sozinha nas 18
+     páginas e no tema. */
+  bing: FALTA,
 
   /* A frase que define a empresa em uma linha. É ela que uma IA cita quando
      perguntam "o que é a SPX Engenharia". Factual, sem adjetivo de venda. */

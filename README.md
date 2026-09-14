@@ -332,7 +332,7 @@ Sem isso o site funciona, mas cada contato exige o clique no WhatsApp.
    | Nome | Valor |
    | --- | --- |
    | `RESEND_API_KEY` | a chave gerada (`re_...`) |
-   | `CONTATO_PARA` | `contato@spxengenharia.com.br` |
+   | `CONTATO_PARA` | `contato@spxengenhria.com.br` |
    | `CONTATO_DE` | só depois de verificar o domínio no Resend |
 
 3. Faça um novo deploy (variável nova só vale a partir do próximo).

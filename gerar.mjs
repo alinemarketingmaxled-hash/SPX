@@ -1891,6 +1891,17 @@ for (const arquivo of ['index.html', '404.html']) {
      arquivos ele divergiria como os prazos divergiram */
   html = html.replace(/<meta name="ga-id" content="[^"]*">/,
                       `<meta name="ga-id" content="${esc(empresa.ga || '')}">`);
+  /* O ENDEREÇO DO SITE também sai daqui. Ele estava escrito à mão na home e
+     ficou para trás quando o domínio mudou: a home continuou dizendo ao Google
+     que o endereço oficial era o antigo, enquanto as outras 17 páginas já
+     apontavam para o novo. Canônico errado é dos erros mais caros de desfazer,
+     porque o buscador acredita nele. */
+  html = html.replace(/(<link rel="canonical" href="|<meta property="og:url" content=")https?:\/\/[^/"]+/g,
+                      `$1${SITE}`);
+  html = html.replace(/(<meta (?:property="og:image"|name="twitter:image") content=")https?:\/\/[^/"]+/g,
+                      `$1${SITE}`);
+  html = html.replace(/contato@[a-z0-9.-]+\.[a-z]{2,}(\.[a-z]{2})?/g, esc(empresa.email));
+
   /* a etiqueta do Bing acompanha: nas páginas escritas à mão ela entra logo
      depois da do Analytics, e some sozinha se empresa.bing for esvaziado */
   html = html.replace(/\n?<meta name="msvalidate\.01" content="[^"]*">/g, '');

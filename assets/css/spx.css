@@ -826,7 +826,7 @@ b,strong{font-weight:600}
 .grade-regioes li{font-family:var(--display);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
   color:var(--txt-2);border:1px solid var(--linha);border-radius:999px;padding:8px 14px}
 /* grid-template-columns explícito com mínimo zero: sem isso a trilha herda
-   o min-content das linhas — 'contato@spxengenharia.com.br' inteiro — e a
+   o min-content das linhas — 'contato@spxengenhria.com.br' inteiro — e a
    lista fica mais larga que a coluna em telas de 320px. */
 .canais{list-style:none;margin:var(--e3) 0 var(--e4);padding:0;display:grid;
   grid-template-columns:minmax(0,1fr);gap:1px;background:var(--linha)}

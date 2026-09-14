@@ -10,7 +10,7 @@ tudo sem depender de nenhum plugin.
 
 **1. Contrate o plano e instale o WordPress.** No hPanel, em **Sites → Criar
 ou migrar site**, escolha WordPress. Qualquer plano com PHP 7.4 ou mais novo
-serve. Se o plano incluir domínio, aponte para `spxengenharia.com.br` já aqui.
+serve. Se o plano incluir domínio, aponte para `spxengenhria.com.br` já aqui.
 
 **2. Ligue as duas coisas que não podem ficar desligadas.** Antes de qualquer
 outra coisa, no hPanel:
@@ -32,7 +32,7 @@ use o **Gerenciador de arquivos** do hPanel e descompacte direto em
 **4. Ative.** Em **Aparência → Temas**, ative "SPX Engenharia".
 
 **5. Crie o e-mail da empresa.** No hPanel, em **E-mails**, crie
-`contato@spxengenharia.com.br`. Esse endereço já está impresso em todas as
+`contato@spxengenhria.com.br`. Esse endereço já está impresso em todas as
 páginas do site — enquanto ele não existir, quem escrever recebe erro.
 
 Na ativação o tema cria sozinho as nove páginas com os endereços certos, os

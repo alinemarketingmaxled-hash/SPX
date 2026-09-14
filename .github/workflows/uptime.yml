@@ -20,7 +20,7 @@ permissions:
   issues: write
 
 env:
-  SITE: https://spxengenharia.com.br
+  SITE: https://spxengenhria.com.br
   TITULO: 'Site fora do ar'
 
 jobs:

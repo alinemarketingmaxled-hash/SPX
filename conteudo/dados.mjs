@@ -83,8 +83,8 @@ export const empresa = {
   endereco: FALTA,               // rua, número, bairro, CEP — ou FALTA se não atende no local
   telefone: '+55 11 95275-1874',
   whatsapp: '5511952751874',
-  email: 'contato@spxengenharia.com.br',
-  dominio: 'https://spxengenharia.com.br',
+  email: 'contato@spxengenhria.com.br',
+  dominio: 'https://spxengenhria.com.br',
   instagram: FALTA,              // endereço completo do perfil
   linkedin: FALTA,
   horario: 'Segunda a sexta, das 8h às 18h',
@@ -102,10 +102,10 @@ export const empresa = {
      servida e existe para ser lido. O que ele prova é posse do DOMÍNIO, e é
      por isso que ele está vazio aqui.
      O código A071CB64…9243, que chegou primeiro, foi emitido para
-     www.maxledtec.com.br. O site é spxengenharia.com.br, e o Bing confere a
+     www.maxledtec.com.br. O site é spxengenhria.com.br, e o Bing confere a
      etiqueta no domínio que ele está verificando — em outro domínio o código
      não vale nada. O certo sai de uma propriedade nova, criada no Bing para
-     spxengenharia.com.br, e é só colar aqui: a etiqueta volta sozinha nas 18
+     spxengenhria.com.br, e é só colar aqui: a etiqueta volta sozinha nas 18
      páginas e no tema. */
   bing: FALTA,
 

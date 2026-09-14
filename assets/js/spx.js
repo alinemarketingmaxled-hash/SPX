@@ -14,7 +14,7 @@ var IMG = (window.SPX_WP && window.SPX_WP.img) || '/img/';
    falha, os botões de WhatsApp e e-mail precisam apontar para o contato atual,
    e não para o que estava certo no dia em que este arquivo foi escrito */
 var ZAP   = (window.SPX_WP && window.SPX_WP.zap)   || '5511952751874';
-var EMAIL = (window.SPX_WP && window.SPX_WP.email) || 'contato@spxengenharia.com.br';
+var EMAIL = (window.SPX_WP && window.SPX_WP.email) || 'contato@spxengenhria.com.br';
 var ERRO  = (window.SPX_WP && window.SPX_WP.erro)  || '/api/erro';
 'use strict';
 

@@ -276,9 +276,11 @@ spx_cabecalho($spx);
           <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 12a8.5 8.5 0 1 1-4.2-7.3L21 3.5l-1.2 4.6A8.4 8.4 0 0 1 20.5 12Z"/><path d="M9 9.4c.5 2.2 2.4 4.1 4.6 4.6l1.1-1.2 1.8.8-.5 1.6c-3.4.5-7.2-3.3-6.7-6.7l1.6-.5.8 1.8z"/></svg></span>
           <span><b>WhatsApp</b><span>Retorno em até 2 horas úteis</span></span>
         </a>
-        <a class="canal" href="mailto:contato@spxengenharia.com.br">
+        <?php /* o endereço sai dos dados: escrito à mão aqui, ficou para trás na
+                 troca de domínio e passou a divulgar um e-mail que não existe */ ?>
+        <a class="canal" href="mailto:<?php echo esc_attr($e['email']); ?>">
           <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6 8.5-6"/></svg></span>
-          <span><b>contato@spxengenharia.com.br</b><span>Concorrências e documentação</span></span>
+          <span><b><?php echo esc_html($e['email']); ?></b><span>Concorrências e documentação</span></span>
         </a>
       </div>
     </div>

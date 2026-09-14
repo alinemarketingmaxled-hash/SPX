@@ -62,7 +62,12 @@ function spx_assets() {
   wp_enqueue_style('spx');
   $folha = get_template_directory() . '/assets/css/spx.css';
   if (is_readable($folha)) {
-    wp_add_inline_style('spx', file_get_contents($folha));
+    /* mesmo motivo do site estático: embutida, `url(fontes/…)` passa a ser
+       relativo à PÁGINA e não à folha. No WordPress o destino certo é a pasta
+       do tema. */
+    wp_add_inline_style('spx', str_replace('url(fontes/',
+      'url(' . get_template_directory_uri() . '/assets/css/fontes/',
+      file_get_contents($folha)));
   } else {
     /* se o arquivo sumir, é melhor a página sair feia e funcionando do que sem
        estilo nenhum e sem explicação */

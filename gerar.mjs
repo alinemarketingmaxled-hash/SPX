@@ -44,7 +44,15 @@ try {
      vez de reaproveitar um arquivo em cache. Numa visita de duas ou três
      páginas isso é alguns quilobytes a mais; a primeira impressão, que é o que
      decide se a pessoa fica, ganha dois segundos. */
-  FOLHA = readFileSync('assets/css/spx.min.css', 'utf8');
+  /* Os caminhos das fontes precisam virar absolutos ao embutir. Dentro da
+     folha, `url(fontes/x.woff2)` é relativo À FOLHA e resolve em
+     /assets/css/fontes/. Embutido no HTML, passa a ser relativo À PÁGINA: na
+     home virou /fontes/ e em /servicos/reformas virou /servicos/fontes/ —
+     nenhum dos dois existe. As cinco fontes davam 404, o site inteiro era
+     desenhado com a letra de sistema em vez da letra da marca, e ainda se
+     baixava a página de erro quatro vezes a cada visita. */
+  FOLHA = readFileSync('assets/css/spx.min.css', 'utf8')
+            .replace(/url\(fontes\//g, 'url(/assets/css/fontes/');
 } catch {
   console.error('assets/versao.json não existe. Rode `node build.mjs` antes, ou `npm run site`.');
   process.exit(1);
@@ -344,7 +352,13 @@ ${falta(empresa.bing) ? '' : `<meta name="msvalidate.01" content="${esc(empresa.
 <meta name="twitter:image" content="${SITE}/img/og.jpg">
 <meta name="geo.region" content="BR-SP">
 <meta name="geo.placename" content="São Paulo">
-<!-- As fontes moram dentro do CSS, então o navegador só descobria que
+<!-- A FOTO DO TOPO VEM PRIMEIRO. Ela é o elemento que decide o LCP, e o
+     navegador atende os pedidos mais ou menos na ordem em que os encontra:
+     com as quatro fontes declaradas antes, 48 KB de letra saíam na frente
+     dos 42 KB da foto. Medido no PageSpeed real: 380ms de atraso só para a
+     foto começar a baixar. -->
+${(fundo || preloadFoto) ? `<link rel="preload" as="image" href="/img/${fundo || preloadFoto}-640.webp"
+      imagesrcset="${larguras(fundo || preloadFoto)}" imagesizes="${TAM_TOPO}" fetchpriority="high">\n` : ''}<!-- As fontes moram dentro do CSS, então o navegador só descobria que
      precisava delas depois de baixar e ler a folha inteira: HTML → CSS →
      fonte, três idas em série, 620ms até a última chegar. Declaradas aqui,
      elas saem junto com o CSS em vez de esperar por ele. São as quatro que
@@ -360,8 +374,7 @@ ${falta(empresa.bing) ? '' : `<meta name="msvalidate.01" content="${esc(empresa.
 <!-- sem isto, quem salva o site na tela de início do iPhone recebe um
      print da página no lugar do ícone -->
 <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
-${(fundo || preloadFoto) ? `<link rel="preload" as="image" href="/img/${fundo || preloadFoto}-640.webp"
-      imagesrcset="${larguras(fundo || preloadFoto)}" imagesizes="${TAM_TOPO}" fetchpriority="high">\n` : ''}<style>${FOLHA}</style>
+<style>${FOLHA}</style>
 <script>
 /* aplica o tema antes da pintura para não piscar */
 document.documentElement.setAttribute('data-tema','escuro');

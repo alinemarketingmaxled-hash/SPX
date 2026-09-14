@@ -90,7 +90,21 @@ foreach (['chakra-petch-700', 'chakra-petch-600', 'barlow-400', 'chakra-petch-50
 echo spx_preload_foto($spx['fundo'] ? $spx['fundo'] : $spx['preloadFoto']);
 /* o tema é aplicado antes da pintura para a página não piscar clara */
 ?>
-<script>document.documentElement.setAttribute('data-tema','escuro');</script>
+<script>document.documentElement.setAttribute('data-tema','escuro');
+/* CONSENTIMENTO — primeiro de tudo na fila do Google, antes de qualquer
+   config, senão o pedido sai antes de saber o que pode ser medido. */
+window.dataLayer = window.dataLayer || [];
+function gtag(){ dataLayer.push(arguments); }
+window.gtag = gtag;
+gtag('consent', 'default', {
+  ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied',
+  analytics_storage: 'denied', wait_for_update: 600
+});
+try {
+  if (localStorage.getItem('spx-cookies') === 'sim') {
+    gtag('consent', 'update', { analytics_storage: 'granted' });
+  }
+} catch (e) {}</script>
 <script type="application/ld+json">
 <?php echo spx_json_ld($spx['schema'], $spx['trilha']); ?>
 </script>

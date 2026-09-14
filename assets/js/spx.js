@@ -879,6 +879,57 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
   });
 })();
 
+/* ---------------------------------------------- aviso de cookies */
+(function cookies(){
+  /* A faixa só existe para quem ainda não respondeu. Quem já respondeu não
+     vê nada — nem quem recusou, senão a recusa viraria uma pergunta repetida
+     a cada visita, que é a forma mais comum de cansar alguém até o "aceitar". */
+  var CHAVE = 'spx-cookies';
+  function lido(){ try { return localStorage.getItem(CHAVE); } catch(e){ return null; } }
+  function grava(v){ try { localStorage.setItem(CHAVE, v); } catch(e){} }
+
+  function responde(sim){
+    grava(sim ? 'sim' : 'nao');
+    if(window.gtag) window.gtag('consent', 'update',
+      { analytics_storage: sim ? 'granted' : 'denied' });
+    var f = $('#cookies');
+    if(f){ f.hidden = true; f.remove(); }
+  }
+  /* deixa a escolha acessível de novo a partir da política de privacidade:
+     consentimento que não pode ser retirado não é consentimento */
+  window.spxCookies = function(){ grava(''); mostra(); };
+
+  function mostra(){
+    if(document.getElementById('cookies')) return;
+    var f = document.createElement('div');
+    f.id = 'cookies';
+    f.className = 'cookies';
+    f.setAttribute('role', 'dialog');
+    f.setAttribute('aria-label', 'Aviso de cookies');
+    f.innerHTML =
+      '<p>Usamos um cookie do Google Analytics para saber quantas pessoas visitam o site e ' +
+      'quais páginas elas leem. Nada disso identifica você. ' +
+      '<a href="/privacidade">Como tratamos seus dados</a></p>' +
+      '<div class="cookies-acoes">' +
+        '<button type="button" class="btn" data-cookies="sim">Aceitar</button>' +
+        '<button type="button" class="btn btn-ghost" data-cookies="nao">Recusar</button>' +
+      '</div>';
+    document.body.appendChild(f);
+    $('[data-cookies="sim"]', f).addEventListener('click', function(){ responde(true); });
+    $('[data-cookies="nao"]', f).addEventListener('click', function(){ responde(false); });
+    /* o teclado entra na faixa: quem navega por Tab tem de conseguir responder */
+    requestAnimationFrame(function(){ f.classList.add('vis'); $('[data-cookies="sim"]', f).focus(); });
+  }
+
+  /* nada de faixa se não há o que medir */
+  var meta = document.querySelector('meta[name="ga-id"]');
+  if(!meta || !/^G-[A-Z0-9]+$/i.test(meta.content.trim())) return;
+  if(lido()) return;
+  /* depois da pintura: a faixa não pode disputar espaço com a primeira tela */
+  if(document.readyState === 'complete') setTimeout(mostra, 400);
+  else addEventListener('load', function(){ setTimeout(mostra, 400); }, {once:true});
+})();
+
 /* ---------------------------------------------- medição de audiência */
 (function analise(){
   /* O identificador fica numa <meta> nas páginas, vazio por padrão. Enquanto
@@ -888,10 +939,10 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
   var id = meta && meta.content.trim();
   if(!id || !/^G-[A-Z0-9]+$/i.test(id)) return;
 
-  /* O dataLayer existe desde já: assim um clique no primeiro segundo entra na
-     fila e é enviado quando o gtag chegar, em vez de se perder. */
+  /* O dataLayer e o estado de consentimento já foram criados no cabeçalho da
+     página, antes de tudo. Aqui só se acrescenta a configuração. */
   window.dataLayer = window.dataLayer || [];
-  function gtag(){ window.dataLayer.push(arguments); }
+  var gtag = window.gtag || function(){ window.dataLayer.push(arguments); };
   window.gtag = gtag;
   gtag('js', new Date());
   gtag('config', id, {anonymize_ip: true});

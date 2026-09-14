@@ -2796,3 +2796,41 @@ h2.com-risco::after{content:"";position:absolute;left:0;bottom:0;
   .faixa-dupla.pequena .fd-peca i,.ficha span,.pill i{font-size:11px}
   .ig-chips u,.fn-rot,.ig-lista i,.hub .lbl{line-height:1.35}
 }
+
+/* ============ aviso de cookies ============================================ */
+/* Fica FIXA no rodapé da tela e não no fluxo: entrando depois da pintura, se
+   ocupasse espaço no documento empurraria tudo para baixo e o pulo de layout
+   voltaria a zero — foi trabalho demais para perder numa faixa.
+   O z-index passa do botão do WhatsApp (120): enquanto a pergunta está na
+   tela, ela é a coisa a responder. */
+.cookies{position:fixed;z-index:130;
+  left:clamp(12px,2.2vw,26px);right:clamp(12px,2.2vw,26px);
+  bottom:calc(clamp(12px,2.2vw,26px) + env(safe-area-inset-bottom,0px));
+  max-width:640px;margin-inline:auto;
+  display:flex;flex-direction:column;gap:var(--e3);
+  padding:var(--e3) var(--e4);
+  background:rgba(9,13,17,.97);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  border:1px solid var(--linha-forte);border-radius:14px;
+  box-shadow:var(--sombra);
+  /* entra deslizando de baixo, sem mexer em nada que já está desenhado */
+  opacity:0;transform:translateY(14px);
+  transition:opacity var(--transicao),transform var(--transicao)}
+.cookies.vis{opacity:1;transform:none}
+.cookies p{margin:0;font-size:14px;line-height:1.6;color:var(--txt)}
+.cookies a{color:var(--acc-2);text-decoration:underline;text-underline-offset:3px}
+.cookies-acoes{display:flex;gap:var(--e2);flex-wrap:wrap}
+.cookies-acoes .btn{flex:1 1 auto;min-width:140px;min-height:44px;
+  display:inline-flex;align-items:center;justify-content:center;text-align:center}
+/* o botão do WhatsApp sobe enquanto a faixa está na tela, senão um cobre o
+   outro justamente no canto onde o polegar chega primeiro */
+.cookies ~ .zap{transform:translateY(-118px)}
+@media (max-width:560px){
+  .cookies{padding:var(--e3)}
+  .cookies p{font-size:13.5px}
+  .cookies ~ .zap{transform:translateY(-150px)}
+}
+@media (prefers-reduced-motion:reduce){
+  .cookies{transition:none;opacity:1;transform:none}
+  .cookies ~ .zap{transition:none}
+}

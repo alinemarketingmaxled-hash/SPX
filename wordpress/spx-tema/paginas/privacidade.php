@@ -52,8 +52,11 @@ echo spx_secao('O que é coletado', '
   no seu navegador e registra as páginas que você visita, de que cidade veio o acesso, em que
   aparelho e por qual caminho chegou. O endereço de IP é anonimizado antes de ser guardado, e a
   SPX não consegue identificar você individualmente por esses dados.</p>
-  <p class="lead">Para não ser medido, use o bloqueador de anúncios do seu navegador, a navegação
-  anônima ou o complemento oficial de desativação do Google Analytics.</p>'));
+  <p class="lead">Na primeira visita o site pergunta se você aceita essa medição, e nada é
+  medido antes da sua resposta. Recusando, o cookie não é gravado.</p>
+  <p class="lead">Você pode mudar de ideia quando quiser:
+  <button type="button" class="btn btn-ghost" onclick="window.spxCookies&amp;&amp;window.spxCookies()">Rever
+  minha escolha sobre cookies</button></p>'));
 
 echo spx_secao('Para que serve', '<ul class="marcada">
   <li>Responder ao seu contato e agendar a visita técnica</li>

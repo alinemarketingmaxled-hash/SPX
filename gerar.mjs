@@ -378,6 +378,23 @@ ${(fundo || preloadFoto) ? `<link rel="preload" as="image" href="/img/${fundo ||
 <script>
 /* aplica o tema antes da pintura para não piscar */
 document.documentElement.setAttribute('data-tema','escuro');
+/* CONSENTIMENTO — tem de ser a PRIMEIRA coisa na fila do Google, antes de
+   qualquer config, senão o pedido sai antes de saber o que pode medir.
+   Por isso mora aqui, e não no spx.js, que só roda no fim da página.
+   Tudo começa negado. Quem já respondeu antes tem a resposta restaurada na
+   mesma hora, para não ver a faixa de novo nem deixar de ser medido. */
+window.dataLayer = window.dataLayer || [];
+function gtag(){ dataLayer.push(arguments); }
+window.gtag = gtag;
+gtag('consent', 'default', {
+  ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied',
+  analytics_storage: 'denied', wait_for_update: 600
+});
+try {
+  if (localStorage.getItem('spx-cookies') === 'sim') {
+    gtag('consent', 'update', { analytics_storage: 'granted' });
+  }
+} catch (e) { /* navegação anônima bloqueia o armazenamento: segue negado */ }
 </script>
 <script type="application/ld+json">
 ${JSON.stringify({ '@context': 'https://schema.org', '@graph': grafo }, null, 1)}
@@ -1915,6 +1932,30 @@ for (const arquivo of ['index.html', '404.html']) {
                       `$1${SITE}`);
   html = html.replace(/contato@[a-z0-9.-]+\.[a-z]{2,}(\.[a-z]{2})?/g, esc(empresa.email));
 
+  /* O BLOCO DE CONSENTIMENTO também é costurado. Ele nasceu só no gerador, e
+     as páginas escritas à mão ficaram sem: a home mandava `config` ao Google
+     sem antes dizer o que podia ser medido — ou seja, a faixa de cookies
+     aparecia mas não valia nada justamente na página mais visitada. */
+  const consentimento = `window.dataLayer = window.dataLayer || [];
+function gtag(){ dataLayer.push(arguments); }
+window.gtag = gtag;
+gtag('consent', 'default', {
+  ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied',
+  analytics_storage: 'denied', wait_for_update: 600
+});
+try {
+  if (localStorage.getItem('spx-cookies') === 'sim') {
+    gtag('consent', 'update', { analytics_storage: 'granted' });
+  }
+} catch (e) { /* navegação anônima bloqueia o armazenamento: segue negado */ }`;
+  if (html.includes('<!--CONSENT-->')) {
+    html = html.replace(/<!--CONSENT-->[\s\S]*?<!--\/CONSENT-->/,
+                        '<!--CONSENT-->\n' + consentimento + '\n<!--/CONSENT-->');
+  } else {
+    html = html.replace(/(document\.documentElement\.setAttribute\('data-tema','escuro'\);)/,
+                        `$1\n<!--CONSENT-->\n${consentimento}\n<!--/CONSENT-->`);
+  }
+
   /* a etiqueta do Bing acompanha: nas páginas escritas à mão ela entra logo
      depois da do Analytics, e some sozinha se empresa.bing for esvaziado */
   html = html.replace(/\n?<meta name="msvalidate\.01" content="[^"]*">/g, '');
@@ -2039,8 +2080,11 @@ ${secao('O que é coletado', `
   no seu navegador e registra as páginas que você visita, de que cidade veio o acesso, em que
   aparelho e por qual caminho chegou. O endereço de IP é anonimizado antes de ser guardado, e a
   SPX não consegue identificar você individualmente por esses dados.</p>
-  <p class="lead">Para não ser medido, use o bloqueador de anúncios do seu navegador, a navegação
-  anônima ou o complemento oficial de desativação do Google Analytics.</p>`}`)}
+  <p class="lead">Na primeira visita o site pergunta se você aceita essa medição, e nada é
+  medido antes da sua resposta. Recusando, o cookie não é gravado.</p>
+  <p class="lead">Você pode mudar de ideia quando quiser:
+  <button type="button" class="btn btn-ghost" onclick="window.spxCookies&amp;&amp;window.spxCookies()">Rever
+  minha escolha sobre cookies</button></p>`}`)}
 
 ${secao('Para que serve', `<ul class="marcada">
   <li>Responder ao seu contato e agendar a visita técnica</li>

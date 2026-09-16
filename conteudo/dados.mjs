@@ -109,6 +109,14 @@ export const empresa = {
      páginas e no tema. */
   bing: FALTA,
 
+  /* Google Search Console. Como o do Bing, não é credencial: viaja em toda
+     página servida e só prova posse do DOMÍNIO — em outro site não vale nada.
+     O Google também aceita um arquivo solto na raiz, e o arquivo está lá; a
+     metatag é a garantia, porque a Vercel redireciona endereços terminados em
+     .html para a versão sem extensão e a verificação por arquivo pede o
+     endereço exato. Duas portas, e basta uma abrir. */
+  google: '28I2GXAT2VhkA2etMlSJet6zfigxzRKlCTs8Z88oORg',
+
   /* A frase que define a empresa em uma linha. É ela que uma IA cita quando
      perguntam "o que é a SPX Engenharia". Factual, sem adjetivo de venda. */
   definicao: 'A SPX Engenharia é uma empresa de engenharia civil com base em São Paulo, ' +

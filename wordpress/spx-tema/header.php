@@ -54,6 +54,10 @@ if (!$spx['noindex']) : ?>
 <?php /* Bing Webmaster Tools: prova de posse do domínio, não é credencial. */ ?>
 <meta name="msvalidate.01" content="<?php echo esc_attr($spx_bing); ?>">
 <?php endif; ?>
+<?php $spx_google = spx('empresa.google'); if (!spx_falta($spx_google)) : ?>
+<?php /* Google Search Console: prova de posse do domínio, não é credencial. */ ?>
+<meta name="google-site-verification" content="<?php echo esc_attr($spx_google); ?>">
+<?php endif; ?>
 <?php if ($spx['noindex']) : ?>
 <meta name="robots" content="noindex">
 <?php endif; ?>

@@ -335,6 +335,8 @@ function pagina({ url, arquivo, title, descricao, h1, trilha = [], corpo, schema
 <meta name="ga-id" content="${esc(empresa.ga || '')}">
 <!-- Bing Webmaster Tools: prova de posse do domínio. Sai de empresa.bing. -->
 ${falta(empresa.bing) ? '' : `<meta name="msvalidate.01" content="${esc(empresa.bing)}">`}
+<!-- Google Search Console: prova de posse do domínio. Sai de empresa.google. -->
+${falta(empresa.google) ? '' : `<meta name="google-site-verification" content="${esc(empresa.google)}">`}
 <meta property="og:type" content="website">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(descricao)}">
@@ -1968,6 +1970,11 @@ try {
   if (!falta(empresa.bing)) {
     html = html.replace(/(<meta name="ga-id" content="[^"]*">)/,
                         `$1\n<meta name="msvalidate.01" content="${esc(empresa.bing)}">`);
+  }
+  html = html.replace(/\n?<meta name="google-site-verification" content="[^"]*">/g, '');
+  if (!falta(empresa.google)) {
+    html = html.replace(/(<meta name="ga-id" content="[^"]*">)/,
+                        `$1\n<meta name="google-site-verification" content="${esc(empresa.google)}">`);
   }
   /* carimba a versão dos assets também aqui, senão a home continua pedindo a
      folha antiga e o navegador de quem já visitou serve a que está em cache */

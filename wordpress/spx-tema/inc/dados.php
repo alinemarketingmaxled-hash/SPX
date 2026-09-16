@@ -78,7 +78,7 @@ function spx_dados_padrao() {
       'whatsapp' => '5511952751874',
       'email' => 'contato@spxengenhria.com.br',
       'dominio' => 'https://www.spxengenhria.com.br',
-      'instagram' => SPX_FALTA,
+      'instagram' => 'https://www.instagram.com/spx.eng/',
       'linkedin' => SPX_FALTA,
       'horario' => 'Segunda a sexta, das 8h às 18h',
       'ga' => 'G-0S08YZBPH9',

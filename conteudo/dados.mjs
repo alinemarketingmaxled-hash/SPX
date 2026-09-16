@@ -92,7 +92,7 @@ export const empresa = {
      Trocar aqui alinha canônico, sitemap, dados estruturados e imagem social
      de uma vez. Se um dia o Vercel passar a publicar sem www, é esta linha. */
   dominio: 'https://www.spxengenhria.com.br',
-  instagram: FALTA,              // endereço completo do perfil
+  instagram: 'https://www.instagram.com/spx.eng/',
   linkedin: FALTA,
   horario: 'Segunda a sexta, das 8h às 18h',
 

@@ -84,7 +84,14 @@ export const empresa = {
   telefone: '+55 11 95275-1874',
   whatsapp: '5511952751874',
   email: 'contato@spxengenhria.com.br',
-  dominio: 'https://spxengenhria.com.br',
+  /* COM www, e não é gosto: é o endereço que está de fato no ar. O Vercel
+     publica www como produção e redireciona o domínio raiz para ele, e o fluxo
+     de dados do Analytics está registrado em www. O canônico daqui dizia o
+     contrário, ou seja, mandava o Google indexar um endereço que redireciona —
+     sinal conflitante, e quando os sinais brigam quem decide é o buscador.
+     Trocar aqui alinha canônico, sitemap, dados estruturados e imagem social
+     de uma vez. Se um dia o Vercel passar a publicar sem www, é esta linha. */
+  dominio: 'https://www.spxengenhria.com.br',
   instagram: FALTA,              // endereço completo do perfil
   linkedin: FALTA,
   horario: 'Segunda a sexta, das 8h às 18h',

@@ -77,7 +77,7 @@ function spx_dados_padrao() {
       'telefone' => '+55 11 95275-1874',
       'whatsapp' => '5511952751874',
       'email' => 'contato@spxengenhria.com.br',
-      'dominio' => 'https://spxengenhria.com.br',
+      'dominio' => 'https://www.spxengenhria.com.br',
       'instagram' => SPX_FALTA,
       'linkedin' => SPX_FALTA,
       'horario' => 'Segunda a sexta, das 8h às 18h',

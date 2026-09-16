@@ -47,7 +47,13 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/css/fontes/chakra-petch-600.woff2">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/css/fontes/barlow-400.woff2">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/css/fontes/chakra-petch-500.woff2">
-<link rel="icon" type="image/png" href="/img/favicon.png">
+<!-- Dois ícones de propósito. O .ico na raiz é o caminho que muitos robôs
+     pedem direto, sem ler o HTML, e leva 16 e 32 px em silhueta, que é o
+     que sobrevive no tamanho de uma aba. O .png de 192 é para o Google:
+     ele só aceita quadrado e MÚLTIPLO DE 48, e o ícone antigo tinha 128 —
+     por isso a busca mostrava um globo cinza no lugar da marca. -->
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="192x192" href="/img/favicon.png">
 <!-- sem isto, quem salva o site na tela de início do iPhone recebe um
      print da página no lugar do ícone -->
 <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">

@@ -370,7 +370,13 @@ ${(fundo || preloadFoto) ? `<link rel="preload" as="image" href="/img/${fundo ||
 <link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/css/fontes/chakra-petch-600.woff2">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/css/fontes/barlow-400.woff2">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/css/fontes/chakra-petch-500.woff2">
-<link rel="icon" type="image/png" href="/img/favicon.png">
+<!-- Dois ícones de propósito. O .ico na raiz é o caminho que muitos robôs
+     pedem direto, sem ler o HTML, e leva 16 e 32 px em silhueta, que é o
+     que sobrevive no tamanho de uma aba. O .png de 192 é para o Google:
+     ele só aceita quadrado e MÚLTIPLO DE 48, e o ícone antigo tinha 128 —
+     por isso a busca mostrava um globo cinza no lugar da marca. -->
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="192x192" href="/img/favicon.png">
 <!-- sem isto, quem salva o site na tela de início do iPhone recebe um
      print da página no lugar do ícone -->
 <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
@@ -1900,14 +1906,14 @@ for (const arquivo of ['index.html', '404.html']) {
   /* as páginas escritas à mão não passam por pagina(): as tags de ícone e as
      medidas da imagem social entram aqui, para não existirem duas listas */
   if (!html.includes('as="font"')) {
-    html = html.replace('<link rel="icon" type="image/png" href="/img/favicon.png">',
+    html = html.replace('<link rel="icon" href="/favicon.ico" sizes="any">',
       ['chakra-petch-700', 'chakra-petch-600', 'barlow-400', 'chakra-petch-500']
         .map((f) => `<link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/css/fontes/${f}.woff2">`)
-        .join('\n') + '\n<link rel="icon" type="image/png" href="/img/favicon.png">');
+        .join('\n') + '\n<link rel="icon" href="/favicon.ico" sizes="any">');
   }
   if (!html.includes('apple-touch-icon')) {
-    html = html.replace('<link rel="icon" type="image/png" href="/img/favicon.png">',
-      '<link rel="icon" type="image/png" href="/img/favicon.png">\n' +
+    html = html.replace('<link rel="icon" type="image/png" sizes="192x192" href="/img/favicon.png">',
+      '<link rel="icon" type="image/png" sizes="192x192" href="/img/favicon.png">\n' +
       '<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">');
   }
   if (!html.includes('og:image:width')) {

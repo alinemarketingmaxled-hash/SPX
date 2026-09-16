@@ -82,7 +82,11 @@ foreach (['chakra-petch-700', 'chakra-petch-600', 'barlow-400', 'chakra-petch-50
   echo '<link rel="preload" as="font" type="font/woff2" crossorigin href="'
      . esc_url(get_template_directory_uri() . '/assets/css/fontes/' . $f . '.woff2') . '">' . "\n";
 } ?>
-<link rel="icon" type="image/png" href="<?php echo esc_url(spx_img('favicon.png')); ?>">
+<?php /* O .ico na raiz é o caminho que muitos robôs pedem direto, sem ler o
+         HTML. O .png de 192 é para o Google, que só aceita ícone quadrado e
+         múltiplo de 48 — com 128 ele mostrava um globo cinza na busca. */ ?>
+<link rel="icon" href="<?php echo esc_url(home_url('/favicon.ico')); ?>" sizes="any">
+<link rel="icon" type="image/png" sizes="192x192" href="<?php echo esc_url(spx_img('favicon.png')); ?>">
 <?php /* sem isto, quem salva o site na tela de início do iPhone recebe um
          print da página no lugar do ícone */ ?>
 <link rel="apple-touch-icon" href="<?php echo esc_url(spx_img('apple-touch-icon.png')); ?>">

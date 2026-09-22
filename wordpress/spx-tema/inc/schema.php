@@ -159,13 +159,13 @@ function spx_schema_servico($s) {
 }
 
 /** Lista de perguntas e respostas. */
-function spx_schema_perguntas($pares) {
+function spx_schema_perguntas($pares, $extras = []) {
   $qs = [];
   foreach ($pares as $p) {
     $qs[] = ['@type' => 'Question', 'name' => $p[0],
              'acceptedAnswer' => ['@type' => 'Answer', 'text' => $p[1]]];
   }
-  return ['@type' => 'FAQPage', 'mainEntity' => $qs];
+  return array_merge(['@type' => 'FAQPage', 'mainEntity' => $qs], $extras);
 }
 
 /**

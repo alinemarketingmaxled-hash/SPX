@@ -266,10 +266,11 @@ const schemaServico = (s) => ({
       itemOffered: { '@type': 'Service', name: n } })) },
 });
 
-const schemaPerguntas = (pares) => ({
+const schemaPerguntas = (pares, extras = {}) => ({
   '@type': 'FAQPage',
   mainEntity: pares.map(([p, r]) => ({ '@type': 'Question', name: p,
     acceptedAnswer: { '@type': 'Answer', text: r } })),
+  ...extras,
 });
 
 /* HowTo: o Google e as IAs entendem "como a SPX conduz uma obra" como um
@@ -1790,8 +1791,15 @@ pagina({
     crítico, concorrência ou adequação de norma, envie o contexto completo.</p>
     <p class="topo-acoes">${viraBotao('cartao-spx', 'Ver o que a SPX faz')}</p>`,
   trilha: [{ nome: 'Início', url: '/' }, { nome: 'Dúvidas', url: '/duvidas' }],
-  schema: [schemaPerguntas(duvidas), { '@type': 'QAPage', speakable: FALADO,
-           about: { '@id': idEmpresa } }],
+  /* Só FAQPage. Havia também um QAPage aqui, e ele estava errado por dois
+     motivos. O primeiro o Google apontou: QAPage EXIGE mainEntity, e este não
+     tinha nenhum — declarava um tipo de página sem dizer qual é a pergunta
+     dela. O segundo é mais de fundo: QAPage descreve página onde o visitante
+     pergunta e a comunidade responde, como um fórum. /duvidas é o contrário —
+     as perguntas e as respostas são escritas pela SPX, e isso é FAQPage.
+     As propriedades que moravam no QAPage passam para o FAQPage, que também é
+     uma WebPage e as aceita. */
+  schema: [schemaPerguntas(duvidas, { speakable: FALADO, about: { '@id': idEmpresa } })],
   corpo: `
 <section class="sec wrap faq-central">
   <div class="faq-topo">
@@ -1835,8 +1843,13 @@ pagina({
     speakable: FALADO, about: { '@id': idEmpresa },
     mainEntity: { '@type': 'ItemList', name: 'Regiões atendidas',
       numberOfItems: Object.values(regioes).flat().length,
+      /* o `name` repete o do Place de propósito: assim a lista se lê sem
+         precisar descer no `item`, que é como vários leitores a consomem.
+         Não era erro sem ele — o Google não exige name em ListItem de lista
+         comum, só em trilha de navegação — mas custa nada e deixa o dado
+         legível por si. */
       itemListElement: Object.values(regioes).flat().map((n, i) => ({
-        '@type': 'ListItem', position: i + 1,
+        '@type': 'ListItem', position: i + 1, name: n,
         item: { '@type': 'Place', name: n, containedInPlace:
           { '@type': 'AdministrativeArea', name: 'São Paulo, SP' } } })) } }],
   corpo: `

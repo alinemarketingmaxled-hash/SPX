@@ -19,7 +19,9 @@ foreach ($regioes as $grupo) { foreach ($grupo as $n) { $todas[] = $n; } }
 
 $lista = [];
 foreach ($todas as $i => $n) {
-  $lista[] = ['@type' => 'ListItem', 'position' => $i + 1,
+  /* o `name` repete o do Place de propósito: a lista se lê sem descer no
+     `item`, que é como vários leitores a consomem */
+  $lista[] = ['@type' => 'ListItem', 'position' => $i + 1, 'name' => $n,
     'item' => ['@type' => 'Place', 'name' => $n,
       'containedInPlace' => ['@type' => 'AdministrativeArea', 'name' => 'São Paulo, SP']]];
 }

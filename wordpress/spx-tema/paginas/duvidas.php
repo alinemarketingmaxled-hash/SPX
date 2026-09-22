@@ -51,8 +51,12 @@ $spx = [
     <p class="topo-acoes">' . spx_vira_botao('cartao-spx', 'Ver o que a SPX faz') . '</p>',
   'trilha'    => [['nome' => 'Início', 'url' => '/'], ['nome' => 'Dúvidas', 'url' => '/duvidas']],
   'schema'    => [
-    spx_schema_perguntas($duvidas),
-    ['@type' => 'QAPage', 'speakable' => spx_falado(), 'about' => ['@id' => spx_id_empresa()]],
+    /* Só FAQPage. O QAPage que havia aqui EXIGE mainEntity e não tinha
+       nenhum — era o erro que o Google apontou. Além disso QAPage descreve
+       página onde o visitante pergunta e a comunidade responde; aqui quem
+       escreve pergunta e resposta é a SPX, e isso é FAQPage. As propriedades
+       do QAPage passam para ele, que também é uma WebPage. */
+    spx_schema_perguntas($duvidas, ['speakable' => spx_falado(), 'about' => ['@id' => spx_id_empresa()]]),
   ],
 ];
 spx_cabecalho($spx);

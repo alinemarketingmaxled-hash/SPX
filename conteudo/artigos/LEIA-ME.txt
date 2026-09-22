@@ -1,0 +1,47 @@
+COMO PUBLICAR UM ARTIGO
+=======================
+
+Crie um arquivo .md nesta pasta. O nome do arquivo vira o endereço:
+`prazo-de-obra.md` publica em /blog/prazo-de-obra.
+
+Escolha o nome com cuidado: endereço publicado que muda depois quebra o link
+de quem compartilhou.
+
+MODELO — copie daqui para baixo
+-------------------------------
+
+---
+titulo: O que decide o prazo de uma obra corporativa
+data: 2026-10-05
+resumo: Uma frase que aparece na lista e no Google. Até 160 letras.
+foto: sala-reuniao-azul
+---
+
+Primeiro parágrafo. Escreva normal, em linhas corridas.
+
+## Um assunto
+
+Outro parágrafo. Dá para usar **negrito** e *itálico*.
+
+- item de lista
+- outro item
+
+> Uma frase em destaque.
+
+[Um link](/contato) escreve-se assim.
+
+
+O QUE CADA CAMPO DO CABEÇALHO FAZ
+---------------------------------
+
+titulo   obrigatório. É o título da página e o que aparece no Google.
+data     obrigatório, no formato 2026-10-05 (ano-mês-dia).
+resumo   obrigatório. Aparece na lista e é a descrição no Google.
+foto     opcional. O NOME de uma foto da pasta img/, sem o tamanho e sem .webp
+         — por exemplo `sala-reuniao-azul`, e não `sala-reuniao-azul-640.webp`.
+
+Faltando título, data, resumo ou o texto, o artigo NÃO é publicado e o gerador
+avisa. Artigo pela metade no ar é pior do que artigo nenhum.
+
+A seção inteira só aparece no site quando existir pelo menos um artigo: sem
+nenhum, o menu não mostra "Artigos" e /blog não existe.

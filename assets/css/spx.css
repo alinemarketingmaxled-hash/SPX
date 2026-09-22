@@ -2834,3 +2834,85 @@ h2.com-risco::after{content:"";position:absolute;left:0;bottom:0;
   .cookies{transition:none;opacity:1;transform:none}
   .cookies ~ .zap{transition:none}
 }
+
+/* ============ blog ======================================================= */
+/* TEXTO CORRIDO TEM MEDIDA. A linha de leitura confortável tem entre 60 e 75
+   caracteres; ocupando os 1200px do wrap, o olho perde a linha ao voltar e a
+   pessoa relê sem perceber. Nas outras páginas isso não aparece porque o texto
+   é curto e mora dentro de grade; aqui ele é o conteúdo inteiro. */
+.artigo{max-width:68ch;margin-inline:auto;font-size:17px;line-height:1.75;color:var(--txt-2)}
+.artigo>*+*{margin-top:var(--e3)}
+.artigo p{margin:0}
+/* O título de seção do artigo é menor que o de página: dentro de um texto ele
+   organiza a leitura, não anuncia a página. No tamanho de display ele gritava
+   mais alto que o próprio artigo. */
+.artigo h2,.artigo h3{font-family:var(--display);color:var(--txt);
+  text-transform:uppercase;letter-spacing:.01em;line-height:1.15;
+  margin-top:var(--e6);margin-bottom:0}
+.artigo h2{font-size:clamp(21px,2.4vw,27px)}
+.artigo h3{font-size:clamp(17px,1.7vw,20px);color:var(--txt-2)}
+.artigo h2+*,.artigo h3+*{margin-top:var(--e2)}
+.artigo strong{color:var(--txt);font-weight:600}
+.artigo a{color:var(--acc-2);text-decoration:underline;text-underline-offset:3px;
+  text-decoration-thickness:1px}
+.artigo a:hover{color:var(--txt)}
+.artigo code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em;
+  background:var(--sup-2);border:1px solid var(--linha);border-radius:4px;padding:1px 5px}
+.artigo hr{border:0;border-top:1px solid var(--linha);margin-block:var(--e6)}
+
+.art-lista{padding-left:1.25em;margin-block:0}
+.art-lista li{margin-top:var(--e2)}
+.art-lista li::marker{color:var(--acc-2)}
+
+.art-citacao{margin:var(--e5) 0;padding:var(--e2) 0 var(--e2) var(--e4);
+  border-left:2px solid var(--acc);font-size:19px;line-height:1.6;color:var(--txt)}
+.art-citacao p{margin:0}
+
+.art-figura{margin:var(--e5) 0}
+.art-figura img{width:100%;height:auto;border-radius:var(--raio-g);border:1px solid var(--linha)}
+
+/* a data e o tempo de leitura: informação de apoio, não manchete */
+.art-meta{margin:0;font-family:var(--display);font-size:12.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--txt-3)}
+.art-meta-topo{margin-top:var(--e3)}
+
+/* ---- lista de artigos ---- */
+/* A foto do cartão tem proporção fixa. Sem ela, uma foto em pé ocupava a altura
+   de uma tela inteira e o cartão virava pôster: a lista deixava de ser lista. */
+.art-lista-cartoes{display:grid;gap:var(--e4);
+  grid-template-columns:repeat(auto-fill,minmax(290px,1fr))}
+.art-cartao{display:flex;flex-direction:column;overflow:hidden;
+  background:var(--sup);border:1px solid var(--linha);border-radius:var(--raio-g);
+  transition:border-color var(--transicao),transform var(--transicao)}
+.art-cartao:hover{border-color:var(--linha-forte);transform:translateY(-2px)}
+.art-cartao-foto{display:block;aspect-ratio:3/2;overflow:hidden;background:var(--sup-2)}
+.art-cartao-foto img{width:100%;height:100%;object-fit:cover;display:block}
+.art-cartao-txt{padding:var(--e3) var(--e4) var(--e4);
+  display:flex;flex-direction:column;gap:var(--e2)}
+.art-cartao h3{margin:0;font-size:clamp(17px,1.5vw,20px);line-height:1.25}
+.art-cartao h3 a{color:var(--txt);text-decoration:none}
+.art-cartao h3 a:hover{color:var(--acc-2)}
+/* o link do título cobre o cartão: alvo grande no celular, e um só destino */
+.art-cartao h3 a::after{content:"";position:absolute;inset:0}
+.art-cartao{position:relative}
+.art-cartao-txt p:last-child{margin:0;font-size:14.5px;line-height:1.6;color:var(--txt-2)}
+
+@media (max-width:560px){
+  .artigo{font-size:16.5px}
+  .art-citacao{font-size:17px;padding-left:var(--e3)}
+}
+
+/* O mais recente ocupa a largura toda, com a foto ao lado do texto. Abaixo de
+   900px vira o mesmo cartão vertical dos outros: lado a lado em tela estreita
+   espreme os dois. */
+.art-destaque{margin-bottom:var(--e4)}
+@media (min-width:900px){
+  .art-destaque{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);
+    align-items:center}
+  /* proporção travada: solta, a foto em pé esticava o cartão para quase 800px
+     de altura e o destaque virava pôster */
+  .art-destaque .art-cartao-foto{aspect-ratio:4/3}
+  .art-destaque .art-cartao-txt{justify-content:center;padding:var(--e5) var(--e5)}
+  .art-destaque h3{font-size:clamp(22px,2.3vw,30px)}
+  .art-destaque .art-cartao-txt p:last-child{font-size:16px}
+}

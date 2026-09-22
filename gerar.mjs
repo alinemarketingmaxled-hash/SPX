@@ -20,6 +20,8 @@ import { dirname } from 'node:path';
 import { empresa, responsavel, numeros, processo, camadas, servicos, projetos,
          duvidas, temas, acervo, chamadas, regioes, historia, segmentos, ambientes,
          prazos, descricoes, falta } from './conteudo/dados.mjs';
+import { lerArtigos, dataPorExtenso } from './conteudo/artigos.mjs';
+import { marcacao } from './conteudo/marcacao.mjs';
 
 const SITE = empresa.dominio.replace(/\/+$/, '');
 /* proporções das fotos usadas como fundo, para declarar width e height e o
@@ -88,11 +90,16 @@ const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&':'&amp;','<':'&lt;'
 const lista = (itens) => itens.map((i) => `<li>${esc(i)}</li>`).join('');
 
 /* ------------------------------------------------------------------ menu */
+/* Os artigos são lidos aqui em cima porque o MENU depende deles: sem nenhum
+   texto publicado, não existe item "Artigos" para clicar. */
+const { publicaveis: artigos, problemas: problemasArtigos } = lerArtigos();
+
 const MENU = [
   { url: '/servicos', nome: 'Serviços' },
   { url: '/obras', nome: 'Projetos' },
   { url: '/sobre', nome: 'Sobre' },
   { url: '/para-arquitetos', nome: 'Arquitetos' },
+  ...(artigos.length ? [{ url: '/blog', nome: 'Artigos' }] : []),
   { url: '/duvidas', nome: 'Dúvidas' },
 ];
 
@@ -172,7 +179,7 @@ function rodape() {
       <li><a href="/sobre">Sobre a SPX</a></li>
       <li><a href="/para-arquitetos">Para arquitetos</a></li>
       <li><a href="/duvidas">Dúvidas frequentes</a></li>
-      <li><a href="/contato">Contato</a></li></ul></div>
+      ${artigos.length ? '<li><a href="/blog">Artigos</a></li>\n      ' : ''}<li><a href="/contato">Contato</a></li></ul></div>
 
     <div class="wordmark" id="wordmark" aria-hidden="true">
       <img class="wm base" src="/img/logo-negativa.webp" width="723" height="304" alt="" loading="lazy" decoding="async">
@@ -2148,6 +2155,102 @@ ${secao('Mudanças nesta política', `<p class="lead">Se ela mudar, a versão no
   a partir da publicação nesta mesma página.</p>`)}`,
   visual: 'pag-privacidade',
 });
+
+/* ---------------------------------------------------------------- blog */
+/* O blog só existe quando há artigo. Página de lista vazia é pior que página
+   nenhuma: promete conteúdo, entrega nada, e o Google indexa a decepção.
+   Enquanto não houver o primeiro texto, /blog não é gerado, não entra no
+   sitemap e não aparece no menu — e o gerador avisa que está esperando. */
+problemasArtigos.forEach((x) => anota('Blog', x));
+
+if (!artigos.length) {
+  anota('Blog', 'nenhum artigo em conteudo/artigos/ — a seção fica fora do site ' +
+                'até o primeiro texto existir');
+} else {
+  const cartaoArtigo = (a, destaque = false) => `
+  <article class="art-cartao${destaque ? ' art-destaque' : ''}">
+    ${a.foto ? `<a class="art-cartao-foto" href="/blog/${a.slug}" tabindex="-1" aria-hidden="true">
+      <img src="/img/${a.foto}-640.webp" srcset="${larguras(a.foto)}"
+           sizes="(min-width:900px) 380px, 92vw"
+           width="${dim(a.foto)[0]}" height="${dim(a.foto)[1]}"
+           alt="" loading="lazy" decoding="async"></a>` : ''}
+    <div class="art-cartao-txt">
+      <p class="art-meta"><time datetime="${a.data}">${dataPorExtenso(a.data)}</time>
+        <span aria-hidden="true">·</span> ${a.minutos} min de leitura</p>
+      <h3><a href="/blog/${a.slug}">${esc(a.titulo)}</a></h3>
+      <p>${esc(a.resumo)}</p>
+    </div>
+  </article>`;
+
+  pagina({
+    url: '/blog', arquivo: 'blog.html',
+    title: `Artigos sobre obra corporativa | ${empresa.nome}`,
+    descricao: 'Artigos da SPX Engenharia sobre execução de obra corporativa e ' +
+      'comercial em São Paulo: o que decide prazo, custo e qualidade no canteiro.',
+    h1: 'Artigos', h1b: 'da obra para o texto',
+    lead: 'O que a gente aprende no canteiro, escrito por quem esteve lá. ' +
+      'Um texto por mês, sem receita pronta.',
+    trilha: [{ nome: 'Início', url: '/' }, { nome: 'Artigos', url: '/blog' }],
+    fundo: 'estante-espinha-peixe',
+    schema: [{
+      '@type': 'Blog', '@id': `${SITE}/blog#blog`,
+      name: `Artigos da ${empresa.nome}`, publisher: { '@id': idEmpresa },
+      blogPost: artigos.map((a) => ({ '@type': 'BlogPosting',
+        headline: a.titulo, datePublished: a.data, description: a.resumo,
+        url: `${SITE}/blog/${a.slug}` })),
+    }],
+    corpo: `
+<section class="sec wrap">
+  <!-- O mais recente vira destaque largo. Num blog de um texto por mês, a lista
+       passa meses com um ou dois itens: em grade, um cartão sozinho fica num
+       canto e a página parece quebrada. Em destaque ela parece o que é. -->
+  ${cartaoArtigo(artigos[0], true)}
+  ${artigos.length > 1
+    ? `<div class="art-lista-cartoes">${artigos.slice(1).map((a) => cartaoArtigo(a)).join('')}</div>`
+    : ''}
+</section>
+${chamada('O artigo responde em tese. A visita técnica responde na sua obra.')}`,
+  });
+
+  for (const a of artigos) {
+    const outros = artigos.filter((o) => o.slug !== a.slug).slice(0, 2);
+    pagina({
+      url: `/blog/${a.slug}`, arquivo: `blog/${a.slug}.html`,
+      title: `${a.titulo} | ${empresa.nome}`,
+      descricao: a.resumo,
+      h1: a.titulo,
+      trilha: [{ nome: 'Início', url: '/' }, { nome: 'Artigos', url: '/blog' },
+               { nome: a.titulo, url: `/blog/${a.slug}` }],
+      fundo: a.foto || 'estante-espinha-peixe',
+      preloadFoto: a.foto || null,
+      topoExtra: `<p class="art-meta art-meta-topo"><time datetime="${a.data}">${dataPorExtenso(a.data)}</time>
+        <span aria-hidden="true">·</span> ${a.minutos} min de leitura</p>`,
+      schema: [{
+        '@type': 'BlogPosting', '@id': `${SITE}/blog/${a.slug}#artigo`,
+        headline: a.titulo, description: a.resumo,
+        datePublished: a.data, dateModified: a.data,
+        /* o autor é a empresa enquanto o nome do engenheiro não estiver
+           confirmado: artigo assinado por ninguém não vale como autoridade, e
+           assinar com nome que não foi confirmado seria inventar */
+        author: { '@id': idEmpresa }, publisher: { '@id': idEmpresa },
+        isPartOf: { '@id': `${SITE}/blog#blog` },
+        ...(a.foto ? { image: `${SITE}/img/${a.foto}-960.webp` } : {}),
+        mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE}/blog/${a.slug}` },
+      }],
+      corpo: `
+<section class="sec wrap">
+  <article class="artigo">${marcacao(a.corpo)}</article>
+</section>
+${outros.length ? `
+<section class="sec wrap claro">
+  <h2 class="com-risco">Outros artigos</h2>
+  <div class="art-lista-cartoes">${outros.map(cartaoArtigo).join('')}</div>
+</section>` : ''}
+${chamada('Visita técnica no local, e o orçamento preliminar em ' +
+  prazos.orcamentoPreliminar + ' dias úteis.')}`,
+    });
+  }
+}
 
 /* ------------------------------------------------- sitemap, robots, llms */
 const todas = [

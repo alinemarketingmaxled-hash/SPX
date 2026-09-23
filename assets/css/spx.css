@@ -2841,8 +2841,11 @@ h2.com-risco::after{content:"";position:absolute;left:0;bottom:0;
    pessoa relê sem perceber. Nas outras páginas isso não aparece porque o texto
    é curto e mora dentro de grade; aqui ele é o conteúdo inteiro. */
 .artigo{max-width:68ch;margin-inline:auto;font-size:17px;line-height:1.75;color:var(--txt-2)}
+/* O espaço entre blocos vem de uma regra só, e o reset precisa ter a MESMA
+   força dela: `.artigo p{margin:0}` pesa mais que `.artigo>*+*` e zerava o
+   respiro de todo parágrafo — o texto inteiro saía num bloco só. */
+.artigo>*{margin:0}
 .artigo>*+*{margin-top:var(--e3)}
-.artigo p{margin:0}
 /* O título de seção do artigo é menor que o de página: dentro de um texto ele
    organiza a leitura, não anuncia a página. No tamanho de display ele gritava
    mais alto que o próprio artigo. */
@@ -2860,7 +2863,7 @@ h2.com-risco::after{content:"";position:absolute;left:0;bottom:0;
   background:var(--sup-2);border:1px solid var(--linha);border-radius:4px;padding:1px 5px}
 .artigo hr{border:0;border-top:1px solid var(--linha);margin-block:var(--e6)}
 
-.art-lista{padding-left:1.25em;margin-block:0}
+.art-lista{padding-left:1.25em}
 .art-lista li{margin-top:var(--e2)}
 .art-lista li::marker{color:var(--acc-2)}
 

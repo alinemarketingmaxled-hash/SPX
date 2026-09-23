@@ -71,6 +71,13 @@ const dim = (arq) => DIMENSOES[arq] || [1200, 1600];
 /* só as larguras que existem em disco: a geração pula largura >= a original */
 const larguras = (arq) => [480, 640, 768, 960].filter((w) => w < dim(arq)[0])
   .map((w) => `/img/${arq}-${w}.webp ${w}w`).join(', ');
+/* A maior variante que existe mesmo em disco. Nem toda foto chega a 960: a
+   original de `mesa-vista-sp` tem 960 de largura, então a geração pula essa
+   medida. Pedir `-960.webp` no schema dessas fotos daria 404 no Google. */
+const fotoGrande = (arq) => {
+  const w = [960, 768, 640, 480].find((n) => n < dim(arq)[0]);
+  return `/img/${arq}${w ? `-${w}` : ''}.webp`;
+};
 /* O cabeçalho interno mostra a foto inteira num painel à direita. Existiu
    antes um recorte horizontal (capa-*) para uma faixa larga e baixa; saiu
    junto com a faixa, porque cortava a obra a ponto de sobrar um fragmento.
@@ -2234,7 +2241,7 @@ ${chamada('O artigo responde em tese. A visita técnica responde na sua obra.')}
            assinar com nome que não foi confirmado seria inventar */
         author: { '@id': idEmpresa }, publisher: { '@id': idEmpresa },
         isPartOf: { '@id': `${SITE}/blog#blog` },
-        ...(a.foto ? { image: `${SITE}/img/${a.foto}-960.webp` } : {}),
+        ...(a.foto ? { image: `${SITE}${fotoGrande(a.foto)}` } : {}),
         mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE}/blog/${a.slug}` },
       }],
       corpo: `

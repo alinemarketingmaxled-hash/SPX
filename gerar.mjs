@@ -2174,8 +2174,10 @@ if (!artigos.length) {
   anota('Blog', 'nenhum artigo em conteudo/artigos/ — a seção fica fora do site ' +
                 'até o primeiro texto existir');
 } else {
-  const cartaoArtigo = (a, destaque = false) => `
-  <article class="art-cartao${destaque ? ' art-destaque' : ''}">
+  /* O cartão sobrevive só no rodapé do artigo, em "Outros artigos": ali o que
+     se quer é um atalho compacto, não uma segunda abertura de página. */
+  const cartaoArtigo = (a) => `
+  <article class="art-cartao">
     ${a.foto ? `<a class="art-cartao-foto" href="/blog/${a.slug}" tabindex="-1" aria-hidden="true">
       <img src="/img/${a.foto}-640.webp" srcset="${larguras(a.foto)}"
            sizes="(min-width:900px) 380px, 92vw"
@@ -2187,6 +2189,31 @@ if (!artigos.length) {
       <h3><a href="/blog/${a.slug}">${esc(a.titulo)}</a></h3>
       <p>${esc(a.resumo)}</p>
     </div>
+  </article>`;
+
+  /* A lista é uma sequência numerada, não uma grade: foto de um lado, texto do
+     outro, invertendo a cada item. Num blog de um texto por mês a grade nunca
+     enche — dois cartões num canto e o resto vazio. Em bloco largo, um artigo
+     só já ocupa a página inteira, e o número diz ao leitor onde ele está numa
+     lista que vai crescer. O número é decoração de ordem, não conteúdo: sai da
+     leitura de tela. */
+  const blocoArtigo = (a, i) => `
+  <article class="art-bloco">
+    <div class="art-bloco-txt">
+      <div class="art-bloco-cabeca">
+        <span class="art-bloco-num" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>
+        <p class="art-meta art-meta-bloco"><time datetime="${a.data}">${dataPorExtenso(a.data)}</time>
+          <span aria-hidden="true">·</span> ${a.minutos} min de leitura</p>
+      </div>
+      <h2><a href="/blog/${a.slug}">${esc(a.titulo)}</a></h2>
+      <p class="art-bloco-resumo">${esc(a.resumo)}</p>
+      <p class="art-bloco-mais"><a href="/blog/${a.slug}">Ler o artigo<span aria-hidden="true"> &rarr;</span></a></p>
+    </div>
+    ${a.foto ? `<a class="art-bloco-foto" href="/blog/${a.slug}" tabindex="-1" aria-hidden="true">
+      <img src="/img/${a.foto}-640.webp" srcset="${larguras(a.foto)}"
+           sizes="(min-width:860px) 44vw, 92vw"
+           width="${dim(a.foto)[0]}" height="${dim(a.foto)[1]}"
+           alt="" loading="lazy" decoding="async"></a>` : ''}
   </article>`;
 
   pagina({
@@ -2208,13 +2235,7 @@ if (!artigos.length) {
     }],
     corpo: `
 <section class="sec wrap">
-  <!-- O mais recente vira destaque largo. Num blog de um texto por mês, a lista
-       passa meses com um ou dois itens: em grade, um cartão sozinho fica num
-       canto e a página parece quebrada. Em destaque ela parece o que é. -->
-  ${cartaoArtigo(artigos[0], true)}
-  ${artigos.length > 1
-    ? `<div class="art-lista-cartoes">${artigos.slice(1).map((a) => cartaoArtigo(a)).join('')}</div>`
-    : ''}
+  <div class="art-blocos">${artigos.map(blocoArtigo).join('')}</div>
 </section>
 ${chamada('O artigo responde em tese. A visita técnica responde na sua obra.')}`,
   });

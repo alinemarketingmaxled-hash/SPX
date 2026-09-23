@@ -2905,17 +2905,70 @@ h2.com-risco::after{content:"";position:absolute;left:0;bottom:0;
   .art-citacao{font-size:17px;padding-left:var(--e3)}
 }
 
-/* O mais recente ocupa a largura toda, com a foto ao lado do texto. Abaixo de
-   900px vira o mesmo cartão vertical dos outros: lado a lado em tela estreita
-   espreme os dois. */
-.art-destaque{margin-bottom:var(--e4)}
-@media (min-width:900px){
-  .art-destaque{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);
-    align-items:center}
-  /* proporção travada: solta, a foto em pé esticava o cartão para quase 800px
-     de altura e o destaque virava pôster */
-  .art-destaque .art-cartao-foto{aspect-ratio:4/3}
-  .art-destaque .art-cartao-txt{justify-content:center;padding:var(--e5) var(--e5)}
-  .art-destaque h3{font-size:clamp(22px,2.3vw,30px)}
-  .art-destaque .art-cartao-txt p:last-child{font-size:16px}
+/* ---- a lista de artigos em blocos numerados ---- */
+/* Cada artigo ocupa uma faixa inteira: foto de um lado, texto do outro,
+   invertendo a cada item para o olho não cair sempre no mesmo canto. É o que
+   um blog de um texto por mês precisa — em grade, um artigo sozinho fica num
+   canto e a página parece quebrada; em faixa, ele é a página. */
+.art-blocos{display:grid;gap:var(--e8)}
+.art-bloco{display:grid;gap:var(--e4);align-items:center}
+
+.art-bloco-txt{display:flex;flex-direction:column;gap:var(--e3)}
+
+/* O número é a ordem da lista desenhada em tamanho de fachada, e a data se
+   apoia na linha de base dele. Sobrepor os dois — que era o desenho de
+   referência — deixava a data ilegível por cima do algarismo; lado a lado o
+   conjunto continua sendo um só, e dá para ler. */
+.art-bloco-cabeca{display:flex;align-items:baseline;flex-wrap:wrap;
+  gap:var(--e1) var(--e3)}
+.art-bloco-num{font-family:var(--display);font-weight:700;line-height:.76;
+  letter-spacing:-.03em;font-size:clamp(54px,7vw,102px);color:var(--linha-forte);
+  -webkit-user-select:none;user-select:none}
+
+/* o traço antes da data é o mesmo recurso do risco sob os títulos do site */
+.art-meta-bloco{display:flex;align-items:center;gap:var(--e2)}
+.art-meta-bloco::before{content:"";flex:none;width:28px;height:2px;
+  background:var(--acc-2)}
+
+.art-bloco h2{margin:0;font-size:clamp(25px,3.2vw,40px);line-height:1.1}
+.art-bloco h2 a{color:var(--txt);text-decoration:none;
+  transition:color var(--transicao)}
+.art-bloco h2 a:hover{color:var(--acc-2)}
+.art-bloco-resumo{margin:0;font-size:var(--t-lead);line-height:1.7;color:var(--txt-2);
+  max-width:52ch}
+.art-bloco-mais{margin:var(--e1) 0 0}
+.art-bloco-mais a{font-family:var(--display);font-size:12.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--txt);text-decoration:none;
+  display:inline-flex;align-items:center;gap:var(--e2);
+  padding-bottom:var(--e1);border-bottom:1px solid var(--linha-forte);
+  transition:color var(--transicao),border-color var(--transicao)}
+.art-bloco-mais a:hover{color:var(--acc-2);border-color:var(--acc-2)}
+
+.art-bloco-foto{display:block;overflow:hidden;border-radius:var(--raio-g);
+  border:1px solid var(--linha);background:var(--sup-2);box-shadow:var(--sombra-suave);
+  aspect-ratio:4/5}
+.art-bloco-foto img{width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.art-bloco:hover .art-bloco-foto img{transform:scale(1.03)}
+@media (prefers-reduced-motion:reduce){
+  .art-bloco-foto img,.art-bloco:hover .art-bloco-foto img{transition:none;transform:none}
+}
+
+@media (min-width:860px){
+  .art-bloco{grid-template-columns:minmax(0,1fr) minmax(0,.7fr);
+    gap:clamp(36px,5.5vw,88px)}
+  /* a cada dois, o lado troca: texto à direita e foto à esquerda */
+  .art-bloco:nth-child(even)>.art-bloco-txt{grid-column:2;grid-row:1}
+  .art-bloco:nth-child(even)>.art-bloco-foto{grid-column:1;grid-row:1}
+}
+/* No celular a foto vem primeiro: é ela que faz parar de rolar. E deitada, para
+   não empurrar o título para fora da tela. */
+@media (max-width:859px){
+  .art-bloco>.art-bloco-foto{order:-1}
+  .art-bloco-foto{aspect-ratio:4/3}
+}
+/* Em tela estreita a data não cabe ao lado do número e quebrava em duas linhas
+   tortas. Empilhada, o número vira marcador e a data começa limpa embaixo. */
+@media (max-width:600px){
+  .art-bloco-cabeca{flex-direction:column;align-items:flex-start;gap:var(--e2)}
 }

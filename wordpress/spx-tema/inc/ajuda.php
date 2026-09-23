@@ -124,6 +124,10 @@ function spx_srcset($lista) {
 
 /** As medidas do painel de foto do cabeçalho, iguais às do CSS. */
 const SPX_TAM_TOPO = '(min-width:1000px) min(44vw, 500px), 100vw';
+/* Em fundoCheio a foto não é painel: ela atravessa a tela inteira em qualquer
+   largura. Com a medida do painel, o navegador escolhia a variante de 640 e a
+   esticava por 1440px — a obra saía borrada no computador. */
+const SPX_TAM_TOPO_CHEIO = '100vw';
 
 /** A foto da página abre o rodízio, seguida de outras três da mesma família. */
 function spx_fotos($arq) {

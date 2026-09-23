@@ -86,6 +86,10 @@ const fotoGrande = (arq) => {
    fazem o navegador escolher a variante de 768 em vez da de 960 nas telas
    densas daquele tamanho. A de 960 pesa o dobro sem mostrar mais nitidez. */
 const TAM_TOPO = '(min-width:1000px) min(44vw, 500px), 100vw';
+/* Em fundoCheio a foto não é painel: ela atravessa a tela inteira em qualquer
+   largura. Com a medida do painel, o navegador escolhia a variante de 640 e a
+   esticava por 1440px de largura — a obra saía borrada no computador. */
+const TAM_TOPO_CHEIO = '100vw';
 /* a foto da página abre o rodízio, seguida de outras três da mesma família */
 const fotos = (arq) => {
   const todas = Object.keys(DIMENSOES);
@@ -375,7 +379,7 @@ ${falta(empresa.google) ? '' : `<meta name="google-site-verification" content="$
      dos 42 KB da foto. Medido no PageSpeed real: 380ms de atraso só para a
      foto começar a baixar. -->
 ${(fundo || preloadFoto) ? `<link rel="preload" as="image" href="/img/${fundo || preloadFoto}-640.webp"
-      imagesrcset="${larguras(fundo || preloadFoto)}" imagesizes="${TAM_TOPO}" fetchpriority="high">\n` : ''}<!-- As fontes moram dentro do CSS, então o navegador só descobria que
+      imagesrcset="${larguras(fundo || preloadFoto)}" imagesizes="${fundoCheio ? TAM_TOPO_CHEIO : TAM_TOPO}" fetchpriority="high">\n` : ''}<!-- As fontes moram dentro do CSS, então o navegador só descobria que
      precisava delas depois de baixar e ler a folha inteira: HTML → CSS →
      fonte, três idas em série, 620ms até a última chegar. Declaradas aqui,
      elas saem junto com o CSS em vez de esperar por ele. São as quatro que
@@ -441,7 +445,7 @@ ${ladoTopo ? `  <div class="topo-lado">${ladoTopo}</div>
 ${fundo ? `  <div class="topo-foto" aria-hidden="true">
     <div class="hero-fundo" id="heroFundo" data-fotos="${fotos(fundo).join(',')}">
       <img class="ativa" src="/img/${fundo}-640.webp"
-           srcset="${larguras(fundo)}" sizes="${TAM_TOPO}"
+           srcset="${larguras(fundo)}" sizes="${fundoCheio ? TAM_TOPO_CHEIO : TAM_TOPO}"
            width="${dim(fundo)[0]}" height="${dim(fundo)[1]}" alt=""
            fetchpriority="high" decoding="async">
     </div>
@@ -2225,7 +2229,10 @@ if (!artigos.length) {
     lead: 'O que a gente aprende no canteiro, escrito por quem esteve lá. ' +
       'Um texto por mês, sem receita pronta.',
     trilha: [{ nome: 'Início', url: '/' }, { nome: 'Artigos', url: '/blog' }],
-    fundo: 'estante-espinha-peixe',
+    /* A foto abre a primeira tela inteira, com o texto assentado em cima —
+       o mesmo cabeçalho de /sobre e /para-arquitetos, e o que o celular já
+       fazia em todas as páginas. */
+    fundo: 'estante-espinha-peixe', fundoCheio: true,
     schema: [{
       '@type': 'Blog', '@id': `${SITE}/blog#blog`,
       name: `Artigos da ${empresa.nome}`, publisher: { '@id': idEmpresa },
@@ -2249,7 +2256,7 @@ ${chamada('O artigo responde em tese. A visita técnica responde na sua obra.')}
       h1: a.titulo,
       trilha: [{ nome: 'Início', url: '/' }, { nome: 'Artigos', url: '/blog' },
                { nome: a.titulo, url: `/blog/${a.slug}` }],
-      fundo: a.foto || 'estante-espinha-peixe',
+      fundo: a.foto || 'estante-espinha-peixe', fundoCheio: true,
       preloadFoto: a.foto || null,
       topoExtra: `<p class="art-meta art-meta-topo"><time datetime="${a.data}">${dataPorExtenso(a.data)}</time>
         <span aria-hidden="true">·</span> ${a.minutos} min de leitura</p>`,

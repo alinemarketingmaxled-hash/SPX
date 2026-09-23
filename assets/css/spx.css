@@ -1141,7 +1141,7 @@ h2 em{font-style:normal;color:var(--acc-2)}
 /* sombra própria no texto: o véu sozinho não garante leitura sobre qualquer
    obra, e a claridade das fotos varia bastante entre elas */
 .foto-fundo h1,.foto-fundo .migalhas,.foto-fundo .topo-lead,
-.foto-fundo .topo-pergunta,.foto-fundo .fatos li{
+.foto-fundo .topo-pergunta,.foto-fundo .fatos li,.foto-fundo .art-meta-topo{
   text-shadow:0 2px 16px rgba(0,0,0,.9),0 1px 3px rgba(0,0,0,.8),0 0 6px rgba(0,0,0,.75)}
 /* especificidade acima de `.topo-interno.com-foto h1` e da regra de min-width
    que limita o título a 45% da largura: aquele teto existe para deixar espaço
@@ -1176,6 +1176,10 @@ h2 em{font-style:normal;color:var(--acc-2)}
    resolve sem esconder a foto. */
 .foto-fundo .topo-lead{color:var(--txt)}
 .foto-fundo .fatos li{color:var(--txt)}
+/* A data do artigo é o texto mais apagado do cabeçalho (--txt-3) e sobre a
+   obra ela media 4,53:1 — passa, mas por um fio, e a próxima foto pode ser
+   mais clara que esta. Sobe um degrau pelo mesmo motivo que o lead subiu. */
+.foto-fundo .art-meta-topo{color:var(--txt-2)}
 /* Os fatos ficam na parte de baixo do cabeçalho, onde o véu é mais leve, e em
    branco ainda mediam 3,8:1 sobre a obra mais clara. A norma não credita
    sombra de texto — só a cor do fundo conta. Um apoio próprio resolve os três

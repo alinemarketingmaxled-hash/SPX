@@ -155,8 +155,9 @@ function spx_cabecalho($spx = []) {
 }
 
 /** Só as larguras de tela usadas nos <link rel=preload> do cabeçalho. */
-function spx_preload_foto($fundo) {
+function spx_preload_foto($fundo, $cheio = false) {
   if (!$fundo) { return ''; }
+  $medidas = $cheio ? SPX_TAM_TOPO_CHEIO : SPX_TAM_TOPO;
   return '<link rel="preload" as="image" href="' . esc_url(spx_img($fundo . '-640.webp')) . '"
-      imagesrcset="' . esc_attr(spx_larguras($fundo)) . '" imagesizes="' . esc_attr(SPX_TAM_TOPO) . '" fetchpriority="high">';
+      imagesrcset="' . esc_attr(spx_larguras($fundo)) . '" imagesizes="' . esc_attr($medidas) . '" fetchpriority="high">';
 }

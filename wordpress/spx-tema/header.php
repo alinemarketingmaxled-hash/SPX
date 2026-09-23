@@ -95,7 +95,7 @@ foreach (['chakra-petch-700', 'chakra-petch-600', 'barlow-400', 'chakra-petch-50
          print da página no lugar do ícone */ ?>
 <link rel="apple-touch-icon" href="<?php echo esc_url(spx_img('apple-touch-icon.png')); ?>">
 <?php
-echo spx_preload_foto($spx['fundo'] ? $spx['fundo'] : $spx['preloadFoto']);
+echo spx_preload_foto($spx['fundo'] ? $spx['fundo'] : $spx['preloadFoto'], $spx['fundoCheio']);
 /* o tema é aplicado antes da pintura para a página não piscar clara */
 ?>
 <script>document.documentElement.setAttribute('data-tema','escuro');
@@ -185,7 +185,7 @@ if (is_front_page()) { require get_template_directory() . '/inc/home-topo.php'; 
 <?php if ($spx['fundo']) : ?>  <div class="topo-foto" aria-hidden="true">
     <div class="hero-fundo" id="heroFundo" data-fotos="<?php echo esc_attr(implode(',', array_map(function ($f) { return spx_img($f); }, spx_fotos($spx['fundo'])))); ?>">
       <img class="ativa" src="<?php echo esc_url(spx_img($spx['fundo'] . '-640.webp')); ?>"
-           srcset="<?php echo esc_attr(spx_larguras($spx['fundo'])); ?>" sizes="<?php echo esc_attr(SPX_TAM_TOPO); ?>"
+           srcset="<?php echo esc_attr(spx_larguras($spx['fundo'])); ?>" sizes="<?php echo esc_attr($spx['fundoCheio'] ? SPX_TAM_TOPO_CHEIO : SPX_TAM_TOPO); ?>"
            width="<?php echo spx_dim($spx['fundo'])[0]; ?>" height="<?php echo spx_dim($spx['fundo'])[1]; ?>" alt=""
            fetchpriority="high" decoding="async">
     </div>

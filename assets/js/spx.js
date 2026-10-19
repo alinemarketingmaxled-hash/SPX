@@ -1482,6 +1482,94 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
 })();
 
 
+/* ---------------------------------------------- conta de prazo de compra */
+(function prazoCompra(){
+  /* Os números são de quem lê: a data da frente de serviço e o prazo que o
+     fornecedor deu. Nada sai do navegador — nem para o localStorage, nem para
+     cá. É conta de papel feita na tela. */
+  var MES = ['janeiro','fevereiro','março','abril','maio','junho','julho',
+             'agosto','setembro','outubro','novembro','dezembro'];
+  var SEM = ['domingo','segunda-feira','terça-feira','quarta-feira',
+             'quinta-feira','sexta-feira','sábado'];
+
+  function hoje(){ var d = new Date(); return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+  /* data local, nunca UTC: new Date('2026-11-03') cai no dia 2 no horário de
+     Brasília, e a conta inteira sai um dia atrasada */
+  function daCaixa(v){
+    var p = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v || '');
+    return p ? new Date(+p[1], +p[2] - 1, +p[3]) : null;
+  }
+  function util(d){ var s = d.getDay(); return s !== 0 && s !== 6; }
+  function recua(d, n, soUteis){
+    var r = new Date(d.getTime()), i = 0;
+    while(i < n){
+      r.setDate(r.getDate() - 1);
+      if(!soUteis || util(r)) i++;
+    }
+    return r;
+  }
+  function porExtenso(d){
+    return SEM[d.getDay()] + ', ' + d.getDate() + ' de ' + MES[d.getMonth()] +
+           ' de ' + d.getFullYear();
+  }
+  /* dias úteis entre duas datas, sem contar o dia de partida */
+  function uteisEntre(a, b){
+    var n = 0, r = new Date(a.getTime());
+    while(r < b){ r.setDate(r.getDate() + 1); if(util(r)) n++; }
+    return n;
+  }
+  function plural(n, um, muitos){ return n + ' ' + (n === 1 ? um : muitos); }
+
+  $$('[data-prazo]').forEach(function(caixa){
+    var fData  = $('[data-prazo-data]', caixa);
+    var fDias  = $('[data-prazo-dias]', caixa);
+    var fTipo  = $('[data-prazo-tipo]', caixa);
+    var fFolga = $('[data-prazo-folga]', caixa);
+    var saida  = $('[data-prazo-saida]', caixa);
+    if(!fData || !fDias || !saida) return;
+
+    caixa.removeAttribute('hidden');   /* só existe se houver JS para calcular */
+
+    function conta(){
+      var alvo = daCaixa(fData.value);
+      var dias = parseInt(fDias.value, 10);
+      var folga = parseInt(fFolga && fFolga.value, 10);
+      if(isNaN(folga) || folga < 0) folga = 0;
+      saida.removeAttribute('data-estado');
+
+      if(!alvo || isNaN(dias) || dias < 1){
+        saida.textContent = 'Preencha os dois campos acima.';
+        return;
+      }
+      var entrega = recua(alvo, dias, fTipo && fTipo.value === 'uteis');
+      var limite  = recua(entrega, folga, true);
+      var h = hoje();
+
+      if(limite <= h){
+        var atras = uteisEntre(limite, h);
+        saida.setAttribute('data-estado', 'tarde');
+        saida.innerHTML = 'O limite para pedir era <strong>' + porExtenso(limite) +
+          '</strong>' + (atras ? ' — passou há ' + plural(atras, 'dia útil', 'dias úteis') : ', que é hoje') +
+          '. Para manter a data da frente de serviço, o caminho agora é renegociar o prazo ' +
+          'com o fornecedor ou remarcar a frente.';
+        return;
+      }
+      var faltam = uteisEntre(h, limite);
+      saida.setAttribute('data-estado', faltam <= 5 ? 'aperto' : 'folga');
+      saida.innerHTML = 'Pedido fechado até <strong>' + porExtenso(limite) + '</strong>. ' +
+        'Faltam ' + plural(faltam, 'dia útil', 'dias úteis') +
+        (faltam <= 5 ? ' — é esta semana.' : '.');
+    }
+
+    [fData, fDias, fTipo, fFolga].forEach(function(c){
+      if(!c) return;
+      c.addEventListener('input', conta);
+      c.addEventListener('change', conta);
+    });
+    conta();
+  });
+})();
+
 /* ---------------------------------------------- lista para marcar */
 (function checklist(){
   /* O estado não sai da tela de quem lê: nada vai para o localStorage nem

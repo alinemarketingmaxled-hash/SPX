@@ -2261,7 +2261,25 @@ ${chamada('O artigo responde em tese. A visita técnica responde na sua obra.')}
     /* marcacao() devolve o HTML e deixa aqui o que o gerador precisa saber do
        texto: hoje, as perguntas de um bloco :::perguntas. */
     const coleta = {};
-    const corpoHTML = marcacao(a.corpo, coleta);
+    /* A foto do artigo passa pela mesma máquina das outras do site: as
+       variantes que existem em disco, as medidas reais e a descrição que mora
+       em dados.mjs. Escrever <img> à mão no texto perderia as três — e a
+       descrição é o que um leitor de tela tem da obra. */
+    const fotoDoArtigo = (arq, legenda) => {
+      if (!DIMENSOES[arq]) {
+        anota('Blog', `${a.slug}: a foto "${arq}" não existe em DIMENSOES — ` +
+              'o bloco :::foto ficou fora do artigo');
+        return '';
+      }
+      return `<figure class="art-figura">
+    <img src="/img/${arq}-640.webp" srcset="${larguras(arq)}"
+         sizes="(min-width:860px) 68ch, 92vw"
+         width="${dim(arq)[0]}" height="${dim(arq)[1]}"
+         alt="${descreve(arq)}" loading="lazy" decoding="async">
+    ${legenda ? `<figcaption>${esc(legenda)}</figcaption>` : ''}
+  </figure>`;
+    };
+    const corpoHTML = marcacao(a.corpo, coleta, { foto: fotoDoArtigo });
     if (a.titulo.length > 60) {
       anota('Blog', `${a.slug}: o título tem ${a.titulo.length} caracteres e o ` +
             'Google corta por volta de 60 — vale encurtar');

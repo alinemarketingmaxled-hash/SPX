@@ -48,17 +48,32 @@ Um cronograma corporativo vai muito além de definir datas. Ele considera fatore
 
 Em escritórios, clínicas, agências bancárias e instalações comerciais, é comum que a obra aconteça com a operação em funcionamento. O cronograma precisa ser compatível com a rotina do cliente, não o contrário.
 
+:::foto recepcao-marmore
+Recepção executada pela SPX Engenharia. O ambiente que o cliente usa todo dia é o que o cronograma precisa respeitar.
+:::
+
 ### Dependências entre atividades
 
-Algumas etapas dependem obrigatoriamente da conclusão de outras:
+Algumas etapas dependem obrigatoriamente da conclusão de outras. A ordem não é preferência de quem executa — é física:
 
-- não é possível instalar forros antes de concluir as infraestruturas;
-- não é possível montar mobiliário antes de finalizar os acabamentos;
-- não é possível energizar sistemas antes de validar as instalações elétricas.
+:::fluxo
+- Infraestrutura elétrica, hidráulica e de climatização
+- Forro
+- Acabamento
+- Mobiliário
+- Energização e testes
+:::
+
+Cada caixa só começa quando a anterior fecha. Não se instala forro antes de concluir a infraestrutura que passa por dentro dele, não se monta mobiliário antes do acabamento e não se energiza sistema antes de validar a instalação elétrica. Antecipar uma dessas etapas não ganha tempo: gera desmontagem.
 
 ### Prazo dos fornecedores
 
 Vidro especial, marcenaria corporativa, sistema de climatização e cabeamento estruturado têm prazos próprios de fabricação e entrega. Quem monta o cronograma sem olhar para eles monta um cronograma que não existe.
+
+A conta é simples e quase ninguém faz antes de precisar: a data em que o material tem de estar na obra, menos o prazo do fornecedor, é o dia em que o pedido já tinha de estar fechado.
+
+:::prazo
+:::
 
 ### Restrições operacionais
 
@@ -98,6 +113,10 @@ Outro fator que influencia diretamente o resultado é o planejamento de suprimen
 - **como controlar** — inspeção, entrega e verificação de qualidade.
 
 Essa etapa reduz desperdício e melhora a previsibilidade financeira do projeto.
+
+:::foto cozinha-marcenaria
+Copa com marcenaria planejada, executada pela SPX Engenharia. Marcenaria corporativa tem prazo de fabricação próprio: é o tipo de item que precisa estar comprado muito antes de a frente de serviço chegar nele.
+:::
 
 ## Sua obra está pronta para começar?
 

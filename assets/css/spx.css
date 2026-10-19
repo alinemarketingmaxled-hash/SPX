@@ -2917,6 +2917,76 @@ h2.com-risco::after{content:"";position:absolute;left:0;bottom:0;
 .art-pergunta h3{margin:0 0 var(--e2);color:var(--txt)}
 .art-pergunta p{margin:0}
 
+/* ---- foto dentro do artigo ---- */
+/* Quase toda foto da SPX é em pé: a obra se fotografa de pé. Na largura do
+   artigo, uma de 1200x1600 abriria com mais de mil pixels de altura e o leitor
+   rolaria uma tela inteira de foto no meio da frase. O teto corta pelo centro
+   em vez de empurrar o texto para longe. */
+.art-figura img{width:100%;height:auto;max-height:66vh;object-fit:cover;
+  object-position:center;display:block;border-radius:var(--raio-g);
+  border:1px solid var(--linha)}
+.art-figura figcaption{margin-top:var(--e2);font-size:14px;line-height:1.55;
+  color:var(--txt-3);border-left:2px solid var(--acc);padding-left:var(--e2)}
+
+/* ---- sequência de etapas ---- */
+/* Etapa que depende da anterior, empilhada e ligada por uma linha. A primeira
+   versão corria na horizontal com setas entre as caixas: na largura do artigo
+   as cinco não cabiam, o flex quebrava em duas fileiras e a seta do primeiro
+   item da segunda fileira apontava para a margem. Em pé não há o que quebrar,
+   e a leitura de cima para baixo é a mesma do cronograma.
+   É uma lista ordenada de verdade: quem usa leitor de tela ouve "1 de 5".
+   O nome leva o prefixo do artigo porque `.fluxo` já era o diagrama de quatro
+   colunas de /servicos/projetos — reaproveitar o nome quebrava os dois. */
+.art-fluxo{list-style:none;margin:var(--e5) 0;padding:0;display:grid;gap:var(--e3);
+  counter-reset:fx}
+.art-fluxo-passo{position:relative;padding:3px 0 3px calc(var(--e5) + 4px);
+  min-height:30px;font-size:16px;line-height:1.45;color:var(--txt)}
+.art-fluxo-passo::before{counter-increment:fx;content:counter(fx);
+  position:absolute;left:0;top:0;width:30px;height:30px;border-radius:50%;
+  display:grid;place-items:center;
+  font-family:var(--display);font-size:12.5px;color:var(--acc-2);
+  border:1px solid var(--linha-forte);background:var(--sup)}
+/* a linha que liga um número ao seguinte */
+.art-fluxo-passo:not(:last-child)::after{content:"";position:absolute;
+  left:15px;top:30px;bottom:calc(-1 * var(--e3));width:1px;
+  background:var(--linha-forte)}
+
+/* ---- conta de prazo de compra ---- */
+.prazo{margin:var(--e5) 0;padding:clamp(20px,3vw,32px);
+  border:1px solid var(--linha);border-radius:var(--raio-g);background:var(--sup)}
+.prazo[hidden]{display:none}
+.prazo-tit{margin:0 0 var(--e2) !important;font-family:var(--display);
+  text-transform:uppercase;letter-spacing:.01em;line-height:1.15;
+  font-size:clamp(17px,1.7vw,20px);color:var(--txt)}
+.prazo-ajuda{margin:0 0 var(--e4);font-size:15px;line-height:1.6;color:var(--txt-2)}
+.prazo-campos{display:grid;gap:var(--e3)}
+@media (min-width:760px){ .prazo-campos{grid-template-columns:repeat(3,1fr);gap:var(--e4)} }
+.prazo-campo{display:flex;flex-direction:column;gap:var(--e1);margin:0}
+.prazo-campo label{font-family:var(--display);font-size:11.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--acc-2)}
+.prazo-dupla{display:flex;align-items:center;gap:var(--e2)}
+.prazo-unidade{font-size:14px;color:var(--txt-2);white-space:nowrap}
+.prazo input,.prazo select{font:inherit;font-size:16px;color:var(--txt);
+  background:var(--sup-2);border:1px solid var(--linha-forte);border-radius:var(--raio);
+  padding:10px 12px;min-width:0;width:100%}
+.prazo-dupla input{flex:none;max-width:7ch}
+/* o seletor acompanha o texto da opção: travado em 100% dentro da coluna de
+   um terço, "dias úteis" saía cortado em "dias útei" */
+.prazo-dupla select{flex:1 1 auto;width:auto;min-width:0;padding-right:30px}
+.prazo input:focus-visible,.prazo select:focus-visible{border-color:var(--acc-2)}
+/* o calendário nativo é preto sobre preto no tema escuro sem isto */
+.prazo input[type=date]{color-scheme:dark}
+
+.prazo-saida{margin:var(--e4) 0 0 !important;padding-top:var(--e3);
+  border-top:1px solid var(--linha);font-size:16px;line-height:1.6;color:var(--txt-2)}
+.prazo-saida strong{color:var(--txt)}
+.prazo-saida[data-estado="tarde"]{color:var(--txt)}
+.prazo-saida[data-estado="tarde"] strong{color:#F0A8A0}
+.prazo-saida[data-estado="aperto"] strong{color:#E8C57A}
+.prazo-saida[data-estado="folga"] strong{color:var(--acc-2)}
+.prazo-nota{margin:var(--e2) 0 0 !important;font-size:13.5px;line-height:1.5;
+  color:var(--txt-3)}
+
 /* ---- lista para marcar ---- */
 /* A pessoa percorre a lista e vê quanto falta. O estado mora só na tela dela:
    nada é gravado, nada é enviado. Uma lista de preparação de obra diz o que a
@@ -3031,7 +3101,7 @@ h2.com-risco::after{content:"";position:absolute;left:0;bottom:0;
   body::before,body::after{display:none !important}
   .nav,.navpill,.rodape,.rod-fim,.rodape-gaveta,.zap,.cookies,.topo-foto,
   .cta-faixa,.migalhas,.art-meta-topo,.barra-progresso,.beamwrap,.brumas,
-  .chk-imprimir,.art-lista-cartoes{display:none !important}
+  .chk-imprimir,.art-lista-cartoes,.prazo{display:none !important}
 
   .topo-interno{min-height:0 !important;padding:0 0 var(--e4) !important;
     margin:0 !important;overflow:visible !important}
@@ -3055,6 +3125,14 @@ h2.com-risco::after{content:"";position:absolute;left:0;bottom:0;
 
   .chk{background:#fff !important;border:1px solid #999 !important;
     break-inside:avoid;padding:14px}
+  .art-fluxo-passo{break-inside:avoid}
+  .art-fluxo-passo::before{border-color:#666 !important;background:#fff !important;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .art-fluxo-passo:not(:last-child)::after{background:#999 !important;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .art-figura{break-inside:avoid}
+  .art-figura img{border-color:#bbb !important}
+  .art-figura figcaption{border-left-color:#999 !important}
   .chk-barra{display:none !important}
   /* A impressora descarta cor de fundo por padrão — sem `print-color-adjust`
      o quadradinho marcado saía igual ao vazio, e a lista impressa não dizia

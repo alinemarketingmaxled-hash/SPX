@@ -99,13 +99,70 @@ function perguntas(linhas, coleta) {
   </div>`;
 }
 
+/* Sequência de etapas que dependem uma da outra. É uma lista ordenada de
+   verdade — quem usa leitor de tela ouve "1 de 4", que é exatamente a
+   informação do desenho. As setas são forma em CSS, sem texto: seta que o
+   leitor de tela lê em voz alta no meio da frase atrapalha mais que ajuda. */
+function fluxo(linhas) {
+  const passos = linhas
+    .map((l) => (l.match(/^\s*[-*+]\s+(.*)$/) || [])[1])
+    .filter(Boolean);
+  if (passos.length < 2) return '';
+  return `<ol class="art-fluxo">
+    ${passos.map((t) => `<li class="art-fluxo-passo"><span>${linha(t)}</span></li>`).join('\n    ')}
+  </ol>`;
+}
+
+/* A conta de quando pedir o material. Nasce escondida e o spx.js revela: sem
+   JavaScript ela não calcula nada, e formulário que não responde é pior que
+   formulário nenhum. Os números são de quem lê — nada sai do navegador. */
+function prazo() {
+  return `<div class="prazo" data-prazo hidden>
+    <h3 class="prazo-tit">Até quando dá para pedir?</h3>
+    <p class="prazo-ajuda">A data em que o material precisa estar na obra, menos o prazo
+      que o fornecedor deu. O que sobra é o seu limite para fechar o pedido.</p>
+    <div class="prazo-campos">
+      <p class="prazo-campo">
+        <label for="prazo-data">O material precisa estar na obra em</label>
+        <input id="prazo-data" type="date" data-prazo-data>
+      </p>
+      <p class="prazo-campo">
+        <label for="prazo-dias">Prazo do fornecedor</label>
+        <span class="prazo-dupla">
+          <input id="prazo-dias" type="number" min="1" max="365" step="1" inputmode="numeric"
+                 placeholder="30" data-prazo-dias>
+          <select aria-label="Contagem do prazo do fornecedor" data-prazo-tipo>
+            <option value="uteis">dias úteis</option>
+            <option value="corridos">dias corridos</option>
+          </select>
+        </span>
+      </p>
+      <p class="prazo-campo">
+        <label for="prazo-folga">Folga que você quer ter</label>
+        <span class="prazo-dupla">
+          <input id="prazo-folga" type="number" min="0" max="90" step="1" inputmode="numeric"
+                 value="5" data-prazo-folga>
+          <span class="prazo-unidade">dias úteis</span>
+        </span>
+      </p>
+    </div>
+    <p class="prazo-saida" role="status" data-prazo-saida>Preencha os dois campos acima.</p>
+    <p class="prazo-nota">A conta pula sábado e domingo. Feriado não — confira o calendário
+      da obra antes de fechar a data.</p>
+  </div>`;
+}
+
 /**
  * Markdown → HTML.
  *
  * `coleta` é preenchido com o que o gerador precisa saber do texto além do
  * HTML — hoje só as perguntas, para a marcação de FAQ.
+ *
+ * `pecas` traz o que depende do site e não cabe aqui: `pecas.foto(arq, legenda)`
+ * desenha uma foto com as medidas e a descrição que moram no gerador. Sem ele,
+ * o bloco :::foto não rende nada — este arquivo não sabe o que é uma obra.
  */
-export function marcacao(texto, coleta = {}) {
+export function marcacao(texto, coleta = {}, pecas = {}) {
   const linhas = String(texto).replace(/\r\n?/g, '\n').split('\n');
   const saida = [];
   let i = 0;
@@ -126,13 +183,19 @@ export function marcacao(texto, coleta = {}) {
 
     if (!l.trim()) { i++; continue; }
 
-    const cerca = l.match(/^:::(checklist|perguntas)\s*$/);
+    const cerca = l.match(/^:::(checklist|perguntas|fluxo|prazo|foto)(?:\s+(\S+))?\s*$/);
     if (cerca) {
       const dentro = [];
       i++;
       while (i < linhas.length && !/^:::\s*$/.test(linhas[i])) { dentro.push(linhas[i]); i++; }
       i++;                                     /* a linha que fecha a cerca */
-      saida.push(cerca[1] === 'checklist' ? checklist(dentro) : perguntas(dentro, coleta));
+      const legenda = dentro.join(' ').trim();
+      saida.push(
+        cerca[1] === 'checklist' ? checklist(dentro)
+        : cerca[1] === 'perguntas' ? perguntas(dentro, coleta)
+        : cerca[1] === 'fluxo' ? fluxo(dentro)
+        : cerca[1] === 'prazo' ? prazo()
+        : pecas.foto ? pecas.foto(cerca[2] || '', legenda) : '');
       continue;
     }
 

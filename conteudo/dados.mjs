@@ -83,7 +83,10 @@ export const empresa = {
   endereco: FALTA,               // rua, número, bairro, CEP — ou FALTA se não atende no local
   telefone: '+55 11 95275-1874',
   whatsapp: '5511952751874',
-  email: 'contato@spxengenhria.com.br',
+  /* O e-mail mora num domínio DIFERENTE do site, e isso é de propósito: o
+     site está em spxengenhria.com.br e a caixa, em spxeng.com.br. Quem mexer
+     aqui depois: não "corrija" um pelo outro. */
+  email: 'contato@spxeng.com.br',
   /* COM www, e não é gosto: é o endereço que está de fato no ar. O Vercel
      publica www como produção e redireciona o domínio raiz para ele, e o fluxo
      de dados do Analytics está registrado em www. O canônico daqui dizia o

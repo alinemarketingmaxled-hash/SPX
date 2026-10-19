@@ -76,7 +76,7 @@ function spx_dados_padrao() {
       'endereco' => SPX_FALTA,
       'telefone' => '+55 11 95275-1874',
       'whatsapp' => '5511952751874',
-      'email' => 'contato@spxengenhria.com.br',
+      'email' => 'contato@spxeng.com.br',
       'dominio' => 'https://www.spxengenhria.com.br',
       'instagram' => 'https://www.instagram.com/spx.eng/',
       'linkedin' => SPX_FALTA,

@@ -32,7 +32,7 @@ use o **Gerenciador de arquivos** do hPanel e descompacte direto em
 **4. Ative.** Em **Aparência → Temas**, ative "SPX Engenharia".
 
 **5. Crie o e-mail da empresa.** No hPanel, em **E-mails**, crie
-`contato@spxengenhria.com.br`. Esse endereço já está impresso em todas as
+`contato@spxeng.com.br`. Esse endereço já está impresso em todas as
 páginas do site — enquanto ele não existir, quem escrever recebe erro.
 
 Na ativação o tema cria sozinho as nove páginas com os endereços certos, os

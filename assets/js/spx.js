@@ -1481,4 +1481,39 @@ $$('[data-ano]').forEach(function(el){ el.textContent = new Date().getFullYear()
   });
 })();
 
+
+/* ---------------------------------------------- lista para marcar */
+(function checklist(){
+  /* O estado não sai da tela de quem lê: nada vai para o localStorage nem
+     para o servidor. Uma lista de preparação de obra diz o que a empresa
+     ainda NÃO contratou — é informação dela, não nossa. Recarregou, zerou. */
+  Array.prototype.forEach.call(document.querySelectorAll('[data-checklist]'), function(caixa){
+    var itens = caixa.querySelectorAll('.chk-item input');
+    var barra = $('.chk-barra', caixa);
+    var conta = $('.chk-conta', caixa);
+    var total = itens.length;
+    if(!total || !barra || !conta) return;
+
+    function placar(){
+      var n = caixa.querySelectorAll('.chk-item input:checked').length;
+      barra.value = n;
+      conta.textContent = n + ' de ' + total + ' itens'
+        + (n === total ? ' — pronta para começar' : '');
+    }
+    Array.prototype.forEach.call(itens, function(i){
+      i.addEventListener('change', placar);
+    });
+    placar();
+
+    /* o botão de imprimir só nasce se houver JS para ele: botão que não faz
+       nada é pior do que botão nenhum */
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'btn chk-imprimir';
+    b.textContent = 'Imprimir a lista';
+    b.addEventListener('click', function(){ window.print(); });
+    $('.chk-placar', caixa).appendChild(b);
+  });
+})();
+
 })();

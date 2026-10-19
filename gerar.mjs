@@ -2247,11 +2247,28 @@ if (!artigos.length) {
 ${chamada('O artigo responde em tese. A visita técnica responde na sua obra.')}`,
   });
 
+  /* O Google corta o título por volta de 60 caracteres. Num artigo o que vale
+     é a frase, não a assinatura: o nome da empresa só entra se couber inteiro
+     depois dela. Fora o título, a marca já aparece na migalha, no cabeçalho e
+     na marcação de dados. */
+  const tituloDaAba = (t) => {
+    const comMarca = `${t} | ${empresa.nome}`;
+    return comMarca.length <= 60 ? comMarca : t;
+  };
+
   for (const a of artigos) {
     const outros = artigos.filter((o) => o.slug !== a.slug).slice(0, 2);
+    /* marcacao() devolve o HTML e deixa aqui o que o gerador precisa saber do
+       texto: hoje, as perguntas de um bloco :::perguntas. */
+    const coleta = {};
+    const corpoHTML = marcacao(a.corpo, coleta);
+    if (a.titulo.length > 60) {
+      anota('Blog', `${a.slug}: o título tem ${a.titulo.length} caracteres e o ` +
+            'Google corta por volta de 60 — vale encurtar');
+    }
     pagina({
       url: `/blog/${a.slug}`, arquivo: `blog/${a.slug}.html`,
-      title: `${a.titulo} | ${empresa.nome}`,
+      title: tituloDaAba(a.titulo),
       descricao: a.resumo,
       h1: a.titulo,
       trilha: [{ nome: 'Início', url: '/' }, { nome: 'Artigos', url: '/blog' },
@@ -2271,10 +2288,18 @@ ${chamada('O artigo responde em tese. A visita técnica responde na sua obra.')}
         isPartOf: { '@id': `${SITE}/blog#blog` },
         ...(a.foto ? { image: `${SITE}${fotoGrande(a.foto)}` } : {}),
         mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE}/blog/${a.slug}` },
-      }],
+      },
+      /* As perguntas do fim do artigo também são dados. O Google hoje só mostra
+         resultado rico de FAQ para site de governo e de saúde, então isto não
+         vira caixinha na busca — mas continua sendo o que um assistente lê para
+         responder citando a SPX. */
+      ...(coleta.perguntas?.length
+        ? [schemaPerguntas(coleta.perguntas,
+            { '@id': `${SITE}/blog/${a.slug}#perguntas`, about: { '@id': idEmpresa } })]
+        : [])],
       corpo: `
 <section class="sec wrap">
-  <article class="artigo">${marcacao(a.corpo)}</article>
+  <article class="artigo">${corpoHTML}</article>
 </section>
 ${outros.length ? `
 <section class="sec wrap claro">

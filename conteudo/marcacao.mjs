@@ -46,8 +46,66 @@ function linha(t) {
   return s.replace(/\u0000(\d+)\u0000/g, (_, i) => guardados[i]);
 }
 
-/** Markdown → HTML. */
-export function marcacao(texto) {
+/* ------------------------------------------------------- blocos cercados */
+/* Um artigo às vezes precisa de mais que parágrafo: uma lista que a pessoa
+   marca, um bloco de perguntas. A tentação é colar o HTML pronto dentro do
+   texto — e é exatamente o que este tradutor existe para impedir. Em vez
+   disso, o .md descreve o CONTEÚDO numa cerca e o gerador desenha a peça.
+   Nada que venha do texto vira tag; tudo continua escapado. */
+
+/* Lista para marcar, com placar. O comportamento mora no spx.js, como o resto
+   do site: nenhum onclick no meio do texto. */
+function checklist(linhas) {
+  const grupos = [];
+  for (const l of linhas) {
+    const g = l.match(/^#\s+(.*)$/);
+    if (g) { grupos.push({ nome: g[1], itens: [] }); continue; }
+    const it = l.match(/^\s*[-*+]\s+(.*)$/);
+    if (it && grupos.length) grupos[grupos.length - 1].itens.push(it[1]);
+  }
+  const total = grupos.reduce((n, g) => n + g.itens.length, 0);
+  if (!total) return '';
+  const corpo = grupos.map((g) => `<fieldset class="chk-grupo">
+      <legend>${linha(g.nome)}</legend>
+      ${g.itens.map((t) =>
+        `<label class="chk-item"><input type="checkbox"><span>${linha(t)}</span></label>`).join('\n      ')}
+    </fieldset>`).join('\n    ');
+  return `<div class="chk" data-checklist data-total="${total}">
+    ${corpo}
+    <div class="chk-placar">
+      <progress class="chk-barra" max="${total}" value="0"></progress>
+      <p class="chk-conta" role="status">0 de ${total} itens</p>
+    </div>
+  </div>`;
+}
+
+/* Perguntas e respostas dentro do artigo. Além de virar texto na página, elas
+   saem daqui numa lista para o gerador marcar como FAQPage. */
+function perguntas(linhas, coleta) {
+  const pares = [];
+  for (const l of linhas) {
+    const p = l.match(/^#\s+(.*)$/);
+    if (p) { pares.push([p[1], []]); continue; }
+    if (l.trim() && pares.length) pares[pares.length - 1][1].push(l.trim());
+  }
+  const prontos = pares.map(([p, r]) => [p, r.join(' ')]).filter(([, r]) => r);
+  if (!prontos.length) return '';
+  coleta.perguntas = (coleta.perguntas || []).concat(prontos);
+  return `<div class="art-perguntas">
+    ${prontos.map(([p, r]) => `<div class="art-pergunta">
+      <h3 id="${ancora(p)}">${linha(p)}</h3>
+      <p>${linha(r)}</p>
+    </div>`).join('\n    ')}
+  </div>`;
+}
+
+/**
+ * Markdown → HTML.
+ *
+ * `coleta` é preenchido com o que o gerador precisa saber do texto além do
+ * HTML — hoje só as perguntas, para a marcação de FAQ.
+ */
+export function marcacao(texto, coleta = {}) {
   const linhas = String(texto).replace(/\r\n?/g, '\n').split('\n');
   const saida = [];
   let i = 0;
@@ -67,6 +125,16 @@ export function marcacao(texto) {
     const l = linhas[i];
 
     if (!l.trim()) { i++; continue; }
+
+    const cerca = l.match(/^:::(checklist|perguntas)\s*$/);
+    if (cerca) {
+      const dentro = [];
+      i++;
+      while (i < linhas.length && !/^:::\s*$/.test(linhas[i])) { dentro.push(linhas[i]); i++; }
+      i++;                                     /* a linha que fecha a cerca */
+      saida.push(cerca[1] === 'checklist' ? checklist(dentro) : perguntas(dentro, coleta));
+      continue;
+    }
 
     const titulo = l.match(/^(#{2,4})\s+(.*)$/);
     if (titulo) {
@@ -92,7 +160,7 @@ export function marcacao(texto) {
     /* parágrafo: junta até a linha em branco */
     const partes = [];
     while (i < linhas.length && linhas[i].trim()
-           && !/^(#{2,4}\s|\s*>|\s*[-*+]\s|\s*\d+[.)]\s|\s*(---|\*\*\*|___)\s*$)/.test(linhas[i])) {
+           && !/^(#{2,4}\s|:::|\s*>|\s*[-*+]\s|\s*\d+[.)]\s|\s*(---|\*\*\*|___)\s*$)/.test(linhas[i])) {
       partes.push(linhas[i].trim()); i++;
     }
     const corpo = linha(partes.join(' '));

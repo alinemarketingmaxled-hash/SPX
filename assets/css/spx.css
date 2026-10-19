@@ -2909,6 +2909,48 @@ h2.com-risco::after{content:"";position:absolute;left:0;bottom:0;
   .art-citacao{font-size:17px;padding-left:var(--e3)}
 }
 
+/* ---- perguntas dentro do artigo ---- */
+/* O h3 do artigo abre com --e6 em cima, que é o respiro entre seções. Dentro
+   de uma sequência de perguntas isso afasta cada resposta da pergunta
+   seguinte a ponto de parecerem blocos soltos. Aqui o par anda junto. */
+.art-perguntas{display:flex;flex-direction:column;gap:var(--e4)}
+.art-pergunta h3{margin:0 0 var(--e2);color:var(--txt)}
+.art-pergunta p{margin:0}
+
+/* ---- lista para marcar ---- */
+/* A pessoa percorre a lista e vê quanto falta. O estado mora só na tela dela:
+   nada é gravado, nada é enviado. Uma lista de preparação de obra diz o que a
+   empresa ainda não contratou — não é informação para sair daqui. */
+.chk{margin:var(--e5) 0;padding:clamp(20px,3vw,32px);
+  border:1px solid var(--linha);border-radius:var(--raio-g);background:var(--sup)}
+.chk-grupo{border:0;margin:0;padding:0;min-width:0}
+.chk-grupo+.chk-grupo{margin-top:var(--e4)}
+.chk-grupo legend{padding:0;font-family:var(--display);font-size:12.5px;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--acc-2);
+  margin-bottom:var(--e2)}
+.chk-item{display:flex;align-items:flex-start;gap:var(--e2);
+  padding:var(--e1) 0;font-size:16px;line-height:1.5;color:var(--txt-2);
+  cursor:pointer}
+.chk-item input{flex:none;width:17px;height:17px;margin:4px 0 0;
+  accent-color:var(--acc-2);cursor:pointer}
+.chk-item:hover span{color:var(--txt)}
+.chk-item:has(input:checked) span{color:var(--txt-3);
+  text-decoration:line-through;text-decoration-color:var(--acc)}
+
+.chk-placar{margin-top:var(--e4);padding-top:var(--e3);
+  border-top:1px solid var(--linha)}
+.chk-barra{display:block;width:100%;height:6px;border:0;border-radius:3px;
+  -webkit-appearance:none;appearance:none;background:var(--sup-2);overflow:hidden}
+.chk-barra::-webkit-progress-bar{background:var(--sup-2)}
+.chk-barra::-webkit-progress-value{background:var(--acc-2);
+  transition:width var(--transicao)}
+.chk-barra::-moz-progress-bar{background:var(--acc-2)}
+.chk-conta{margin:var(--e2) 0 0;font-family:var(--display);font-size:12.5px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--txt-2)}
+@media (prefers-reduced-motion:reduce){
+  .chk-barra::-webkit-progress-value{transition:none}
+}
+
 /* ---- a lista de artigos em blocos numerados ---- */
 /* Cada artigo ocupa uma faixa inteira: foto de um lado, texto do outro,
    invertendo a cada item para o olho não cair sempre no mesmo canto. É o que
@@ -2975,4 +3017,54 @@ h2.com-risco::after{content:"";position:absolute;left:0;bottom:0;
    tortas. Empilhada, o número vira marcador e a data começa limpa embaixo. */
 @media (max-width:600px){
   .art-bloco-cabeca{flex-direction:column;align-items:flex-start;gap:var(--e2)}
+}
+
+
+/* -------------------------------------------------- 20. IMPRESSÃO */
+/* Um artigo de obra é lido na tela e levado para a reunião. Sem isto o papel
+   sai preto — o site é escuro e a impressora obedece. Aqui ele vira documento.
+   A cor precisa ser imposta no descendente, não só no bloco: `strong` e `a`
+   têm cor PRÓPRIA no tema escuro (quase branco e azul claro) e sobre papel
+   branco sumiam — o negrito, que é o que a pessoa mais procura ao reler. */
+@media print{
+  html,body{background:#fff !important;color:#111 !important}
+  body::before,body::after{display:none !important}
+  .nav,.navpill,.rodape,.rod-fim,.rodape-gaveta,.zap,.cookies,.topo-foto,
+  .cta-faixa,.migalhas,.art-meta-topo,.barra-progresso,.beamwrap,.brumas,
+  .chk-imprimir,.art-lista-cartoes{display:none !important}
+
+  .topo-interno{min-height:0 !important;padding:0 0 var(--e4) !important;
+    margin:0 !important;overflow:visible !important}
+  .topo-in{background:none !important;border:0 !important;padding:0 !important;
+    -webkit-backdrop-filter:none !important;backdrop-filter:none !important}
+  .sec{padding:0 !important}
+  .wrap{max-width:none !important;padding:0 !important}
+
+  /* Cor e sombra podem cair em tudo. FUNDO não: `.artigo *` com
+     `background:none !important` acertava também a caixa de marcar, e o item
+     marcado saía idêntico ao vazio — a lista impressa não dizia mais nada.
+     Os dois fundos escuros que existem dentro do artigo são tratados um a um
+     logo abaixo. */
+  .topo-in,.topo-in *,.artigo,.artigo *{
+    color:#111 !important;text-shadow:none !important}
+  .artigo code{background:#f1f1f1 !important;border-color:#bbb !important}
+  .artigo{max-width:none;font-size:11.5pt;line-height:1.5}
+  .artigo a{text-decoration:underline}
+  .art-lista li::marker{color:#555 !important}
+  .art-citacao{border-left:2px solid #999 !important}
+
+  .chk{background:#fff !important;border:1px solid #999 !important;
+    break-inside:avoid;padding:14px}
+  .chk-barra{display:none !important}
+  /* A impressora descarta cor de fundo por padrão — sem `print-color-adjust`
+     o quadradinho marcado saía igual ao vazio, e a lista impressa não dizia
+     mais nada. E o risco sobre o texto sai: no papel, quem informa é a marca
+     na caixa; risco mais caixa vazia é contradição. */
+  .chk-item input{-webkit-appearance:none;appearance:none;
+    width:13px;height:13px;border:1px solid #333;border-radius:2px;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .chk-item input:checked{background:#333 !important;box-shadow:inset 0 0 0 2px #fff}
+  .chk-item:has(input:checked) span{text-decoration:none !important}
+  .art-pergunta,.chk-grupo{break-inside:avoid}
+  h2,h3{break-after:avoid}
 }
